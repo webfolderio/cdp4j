@@ -76,6 +76,7 @@ public class Launcher {
         String os = getProperty("os.name")
                         .toLowerCase(ENGLISH);
         boolean windows = os.startsWith("windows");
+        boolean osx = os.startsWith("mac");
         if (windows) {
             try {
                 for (String path : getChromeWinPaths()) {
@@ -95,6 +96,18 @@ public class Launcher {
             } catch (Throwable e) {
                 // ignore
             }
+        } else if(osx) {
+            try {
+                for (String path : getChromeOsxPaths()) {
+                    final File chrome = new File(path);
+                    if (chrome.exists() && chrome.canExecute()) {
+                        return chrome.toString();
+                    }
+                }
+                throw new CdpException("Unable to find chrome");
+            } catch (Throwable e) {
+              // ignore
+            }
         } else {
             return getChromeBinary();
         }
@@ -106,6 +119,13 @@ public class Launcher {
                 "%localappdata%\\Google\\Chrome SxS\\Application\\chrome.exe", // Chrome Canary
                 "%programfiles%\\Google\\Chrome\\Application\\chrome.exe",     // Chrome Stable 64-bit
                 "%programfiles(x86)%\\Google\\Chrome\\Application\\chrome.exe" // Chrome Stable 32-bit
+        );
+    }
+
+    protected List<String> getChromeOsxPaths() {
+        return asList(
+                "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary", // Chrome Canary
+                "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"                // Chrome Stable
         );
     }
 
