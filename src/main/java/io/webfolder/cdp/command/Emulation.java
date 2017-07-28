@@ -162,15 +162,25 @@ public interface Emulation {
     void setDefaultBackgroundColorOverride(@Optional RGBA color);
 
     /**
-     * Overrides the values of device screen dimensions (window.screen.width, window.screen.height, window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media query results).
-     * 
-     * @param width Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
-     * @param height Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
-     * @param deviceScaleFactor Overriding device scale factor value. 0 disables the override.
-     * @param mobile Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text autosizing and more.
-     */
+	 * Overrides the values of device screen dimensions (window.screen.width,
+	 * window.screen.height, window.innerWidth, window.innerHeight, and
+	 * "device-width"/"device-height"-related CSS media query results).
+	 * 
+	 * @param width
+	 *            Overriding width value in pixels (minimum 0, maximum
+	 *            10000000). 0 disables the override.
+	 * @param height
+	 *            Overriding height value in pixels (minimum 0, maximum
+	 *            10000000). 0 disables the override.
+	 * @param deviceScaleFactor
+	 *            Overriding device scale factor value. 0 disables the override.
+	 * @param mobile
+	 *            Whether to emulate mobile device. This includes viewport meta
+	 *            tag, overlay scrollbars, text autosizing and more.
+	 * @param fitWindow
+	 */
     void setDeviceMetricsOverride(Integer width, Integer height, Double deviceScaleFactor,
-            Boolean mobile);
+			Boolean mobile, Boolean fitWindow);
 
     /**
      * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position unavailable.
