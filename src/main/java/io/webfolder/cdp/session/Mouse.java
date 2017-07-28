@@ -23,17 +23,20 @@
 package io.webfolder.cdp.session;
 
 import static io.webfolder.cdp.type.constant.MouseButtonType.Left;
+import static io.webfolder.cdp.type.constant.MouseEventType.MouseMoved;
 import static io.webfolder.cdp.type.constant.MouseEventType.MousePressed;
 import static io.webfolder.cdp.type.constant.MouseEventType.MouseReleased;
-import static java.lang.Math.floor;
 import static java.lang.String.format;
 
 import java.util.List;
+import java.util.Map;
 
 import io.webfolder.cdp.command.DOM;
 import io.webfolder.cdp.command.Input;
 import io.webfolder.cdp.exception.ElementNotFoundException;
 import io.webfolder.cdp.type.dom.BoxModel;
+import io.webfolder.cdp.type.runtime.CallFunctionOnResult;
+import io.webfolder.cdp.type.runtime.RemoteObject;
 
 /**
  * Interface representing basic mouse operations.
@@ -66,31 +69,49 @@ public interface Mouse {
      * 
      * @return this
      */
-    default Session click(final String selector, final Object ...args) {
-        getThis().logEntry("click", format(selector, args));
-        DOM dom = getThis().getCommand().getDOM();
-        Integer nodeId = getThis().getNodeId(format(selector, args));
-        if (nodeId == null || Constant.EMPTY_NODE_ID.equals(nodeId)) {
-            throw new ElementNotFoundException(format(selector, args));
-        }
-        BoxModel boxModel = dom.getBoxModel(nodeId);
-        if (boxModel == null) {
-            return getThis();
-        }
-        List<Double> content = boxModel.getContent();
-        if (content == null           ||
-                    content.isEmpty() ||
-                    content.size() < 2) {
-            return getThis();
-        }
-        int left = (int) floor(content.get(0));
-        int  top = (int) floor(content.get(1));
-        int clickCount = 1;
-        Input input = getThis().getCommand().getInput();
-        input.dispatchMouseEvent(MousePressed, left, top, null, null, Left, clickCount);
-        input.dispatchMouseEvent(MouseReleased, left, top, null, null, Left, clickCount);
-        return getThis();
-    }
+
+	@SuppressWarnings("unchecked")
+	default Session click(final String selector, final Object... args) {
+		getThis().logEntry("click", format(selector, args));
+		DOM dom = getThis().getCommand().getDOM();
+		Integer nodeId = getThis().getNodeId(format(selector, args));
+		if (nodeId == null || Constant.EMPTY_NODE_ID.equals(nodeId)) {
+			throw new ElementNotFoundException(format(selector, args));
+		}
+		BoxModel boxModel = dom.getBoxModel(nodeId);
+		if (boxModel == null) {
+			return getThis();
+		}
+		Integer nullInt = null;
+		String objectId = getThis().getObjectId(nullInt, format(selector, args));
+		// We are forced to do it this way because of
+		// https://bugs.chromium.org/p/chromium/issues/detail?id=498538
+		String getClientRectJs = getThis().getResourceAsString("/get_client_rect.js");
+		CallFunctionOnResult getClientRectResult = getThis().getCommand().getRuntime().callFunctionOn(objectId,
+				getClientRectJs, null, null, Boolean.TRUE, null, null, null);
+		RemoteObject getClientRects = getClientRectResult.getResult();
+
+		Map<String, Object> clientRectObject = (Map<String, Object>) getClientRects.getValue();
+		int length = ((Double) clientRectObject.get("length")).intValue();
+
+		if (length < 0)
+			return getThis();
+
+		Map<String, Double> firstItem = (Map<String, Double>) clientRectObject.get("0");
+		List<Double> content = boxModel.getContent();
+		if (content == null || content.isEmpty() || content.size() < 2) {
+			return getThis();
+		}
+		int left = ((Double) (firstItem.get("left") + (firstItem.get("right") - firstItem.get("left")) / 2)).intValue();
+		int top = ((Double) (firstItem.get("top") + (firstItem.get("bottom") - firstItem.get("top")) / 2)).intValue();
+		int clickCount = 1;
+		Input input = getThis().getCommand().getInput();
+		input.dispatchMouseEvent(MouseMoved, left, top, null, null, Left, clickCount);
+		input.dispatchMouseEvent(MousePressed, left, top, null, null, Left, clickCount);
+		input.dispatchMouseEvent(MouseReleased, left, top, null, null, Left, clickCount);
+		return getThis();
+	}
+
 
     Session getThis();
 }

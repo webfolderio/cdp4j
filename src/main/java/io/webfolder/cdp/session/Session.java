@@ -39,6 +39,12 @@ import static java.lang.reflect.Proxy.newProxyInstance;
 import static java.util.Locale.ENGLISH;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -350,7 +356,7 @@ public class Session implements AutoCloseable,
         GetLayoutMetricsResult metrics = page.getLayoutMetrics();
         Rect cs = metrics.getContentSize();
         Emulation emulation = getThis().getCommand().getEmulation();
-        emulation.setDeviceMetricsOverride(cs.getWidth().intValue(), cs.getHeight().intValue(), 1D, false);
+		emulation.setDeviceMetricsOverride(cs.getWidth().intValue(), cs.getHeight().intValue(), 1D, false, true);
         byte[] data = page.captureScreenshot(Png, null, true);        
         emulation.clearDeviceMetricsOverride();
         emulation.resetPageScaleFactor();
@@ -549,4 +555,87 @@ public class Session implements AutoCloseable,
         }
         return false;
     }
+
+	@SuppressWarnings("unchecked")
+	public boolean emulateDevice(final String deviceName, Boolean fitWindow) {
+
+		try {
+		final Map<String, Object> emulationMap = jsonToMap();
+		
+
+		final List<Map<String, Object>> result = (List<Map<String, Object>>) emulationMap.get("extensions");
+		for (final Map<String, ?> extension : result) {
+			final Map<String, Object> device = (Map<String, Object>) extension.get("device");
+			final String dName = (String) device.get("title");
+			if (dName.equals(deviceName)) {
+
+				final Emulation emulation = getCommand().getEmulation();
+
+				final Map<String, Double> widthHeightMap = (Map<String, Double>) ((Map<String, ?>) device.get("screen")).get("vertical");
+				final Double deviceScaleFactor = (Double) ((Map<String, ?>) device.get("screen")).get("device-pixel-ratio");
+				final Integer width = widthHeightMap.get("width").intValue();
+				final Integer height = widthHeightMap.get("height").intValue();
+				final boolean mobile = ((List<String>) device.get("capabilities")).contains("mobile");
+				final String userAgent = (String) device.get("user-agent");
+				getCommand().getNetwork().setUserAgentOverride(userAgent);
+				emulation.setVisibleSize(width, height);
+					emulation.setDeviceMetricsOverride(width, height, deviceScaleFactor, mobile, fitWindow);
+				emulation.setPageScaleFactor(deviceScaleFactor);
+				emulation.setTouchEmulationEnabled(false);
+
+					return true;
+			}
+		}
+		}
+		catch(IOException e) {
+			log.error("Error emulating device", e);
+		}
+		log.warning("Could not find mobile device {}", deviceName);
+		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> jsonToMap() throws IOException {
+		Gson gson = new Gson();
+		try (InputStream moduleStream = Session.class.getResourceAsStream("/module.json");
+				InputStreamReader reader = new InputStreamReader(moduleStream)) {
+
+			return gson.fromJson(reader, Map.class);
+		}
+
+	}
+
+	/**
+	 * Reads all bytes from an input stream and writes them to an output stream.
+	 */
+	// buffer size used for reading and writing
+	private static final int BUFFER_SIZE = 8192;
+
+	private long copy(InputStream source, OutputStream sink) throws IOException {
+		long nread = 0L;
+		byte[] buf = new byte[BUFFER_SIZE];
+		int n;
+		while ((n = source.read(buf)) > 0) {
+			sink.write(buf, 0, n);
+			nread += n;
+		}
+		return nread;
+	}
+
+	String getResourceAsString(String path) {
+		try {
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					InputStream moduleStream = Session.class.getResourceAsStream(path);) {
+				copy(moduleStream, bos);
+				bos.flush();
+				return bos.toString(Charset.defaultCharset().name());
+			}
+
+
+		} catch (IOException e) {
+			log.error("Could not load CallFunctionScript", e);
+			throw new RuntimeException(e);
+		}
+
+	}
 }
