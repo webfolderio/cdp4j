@@ -25,6 +25,7 @@ import io.webfolder.cdp.command.CSS;
 import io.webfolder.cdp.command.CacheStorage;
 import io.webfolder.cdp.command.DOM;
 import io.webfolder.cdp.command.DOMDebugger;
+import io.webfolder.cdp.command.DOMSnapshot;
 import io.webfolder.cdp.command.DOMStorage;
 import io.webfolder.cdp.command.Database;
 import io.webfolder.cdp.command.DeviceOrientation;
@@ -97,6 +98,10 @@ public class Command {
 
     public DOMDebugger getDOMDebugger() {
         return getProxy(DOMDebugger.class);
+    }
+
+    public DOMSnapshot getDomSnapshot() {
+        return getProxy(DOMSnapshot.class);
     }
 
     public DOMStorage getDOMStorage() {
