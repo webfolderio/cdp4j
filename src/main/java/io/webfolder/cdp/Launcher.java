@@ -51,7 +51,7 @@ public class Launcher extends AbstractLauncher {
     private static class NullProcessManager extends ProcessManager {
 
         @Override
-        void setProcess(CdpProcess process) {
+        public void setProcess(CdpProcess process) {
         }
 
         @Override

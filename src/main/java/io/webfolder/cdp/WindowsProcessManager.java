@@ -26,7 +26,7 @@ public class WindowsProcessManager extends ProcessManager {
     private String cdp4jId;
 
     @Override
-    void setProcess(CdpProcess process) {
+    public void setProcess(CdpProcess process) {
         WinProcess winProcess = new WinProcess(process.getProcess());
         pid = winProcess.getPid();
         cdp4jId = winProcess.getEnvironmentVariables().get("CDP4J_ID");
