@@ -32,7 +32,7 @@ public class DefaultProcessManager extends ProcessManager {
     private String command;
 
     @Override
-    void setProcess(CdpProcess process) {
+    public void setProcess(CdpProcess process) {
         ProcessHandle handle = process.getProcess().toHandle();
         Info info = handle.info();
         startTime = info.startInstant().get();

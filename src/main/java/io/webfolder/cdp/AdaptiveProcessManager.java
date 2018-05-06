@@ -48,7 +48,7 @@ public class AdaptiveProcessManager extends ProcessManager {
     }
 
     @Override
-    void setProcess(CdpProcess process) {
+    public void setProcess(CdpProcess process) {
         processManager.setProcess(process);
     }
 
