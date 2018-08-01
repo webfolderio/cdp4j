@@ -42,6 +42,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.neovisionaries.ws.client.WebSocket;
@@ -74,6 +75,8 @@ public class SessionFactory implements AutoCloseable {
     private final WebSocketFactory factory;
 
     private final Gson gson;
+
+    private final ObjectMapper jackson;
 
     private final LoggerFactory loggerFactory;
 
@@ -174,6 +177,7 @@ public class SessionFactory implements AutoCloseable {
         this.gson              = new GsonBuilder()
                                     .disableHtmlEscaping()
                                     .create();
+        this.jackson           = new ObjectMapper();
         this.factory.setConnectionTimeout(this.connectionTimeout);
         if (ThreadPoolExecutor.class.isAssignableFrom(threadPool.getClass())) {
             ((ThreadPoolExecutor) threadPool).setKeepAliveTime(5, SECONDS);
@@ -269,7 +273,8 @@ public class SessionFactory implements AutoCloseable {
         Map<Integer, WSContext> contexts = new ConcurrentHashMap<>();
         List<EventListener> listeners = new CopyOnWriteArrayList<>();
 
-        Session session = new Session(gson, sessionId,
+        Session session = new Session(jackson,
+                                        gson, sessionId,
                                         targetId, browserContextId,
                                         webSocket, contexts,
                                         this, listeners,
@@ -332,7 +337,8 @@ public class SessionFactory implements AutoCloseable {
             }
             webSocket.setAutoFlush(true);
 
-            browserSession = new Session(gson, webSocketDebuggerUrl,
+            browserSession = new Session(jackson,
+                                        gson, webSocketDebuggerUrl,
                                         webSocketDebuggerUrl, null,
                                         webSocket, contexts,
                                         this, listeners,

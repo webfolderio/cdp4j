@@ -30,6 +30,9 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -46,6 +49,8 @@ class SessionInvocationHandler implements InvocationHandler {
     private final AtomicInteger counter = new AtomicInteger(0);
 
     private final Gson gson;
+
+    private final ObjectMapper jackson;
 
     private final WebSocket webSocket;
 
@@ -66,6 +71,7 @@ class SessionInvocationHandler implements InvocationHandler {
     private final int timeout;
 
     SessionInvocationHandler(
+                    final ObjectMapper jackson,
                     final Gson gson,
                     final WebSocket webSocket,
                     final Map<Integer, WSContext> contexts,
@@ -75,6 +81,7 @@ class SessionInvocationHandler implements InvocationHandler {
                     final String sessionId,
                     final String targetId,
                     final int webSocketReadTimeout) {
+        this.jackson        = jackson;
         this.gson           = gson;
         this.webSocket      = webSocket;
         this.contexts       = contexts;
@@ -129,7 +136,7 @@ class SessionInvocationHandler implements InvocationHandler {
         map.put("method", format("%s.%s", domain, command));
         map.put("params", params);
 
-        String json = gson.toJson(map);
+        String json = jackson.writeValueAsString(map);
 
         log.debug(json);
 

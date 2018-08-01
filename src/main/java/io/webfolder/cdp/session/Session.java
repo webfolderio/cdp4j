@@ -46,6 +46,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.neovisionaries.ws.client.WebSocket;
 
@@ -104,6 +105,8 @@ public class Session implements AutoCloseable,
 
     private final Gson gson;
 
+    private final ObjectMapper jackson;
+
     private final String targetId;
 
     private final boolean browserSession;
@@ -126,6 +129,7 @@ public class Session implements AutoCloseable,
                                                     withInitial(() -> { return TRUE; });
 
     Session(
+            final ObjectMapper jackson,
             final Gson gson,
             final String sessionId,
             final String targetId,
@@ -141,6 +145,7 @@ public class Session implements AutoCloseable,
         this.sessionId = sessionId;
         this.browserContextId = browserContextId;
         this.invocationHandler = new SessionInvocationHandler(
+                                                        jackson,
                                                         gson,
                                                         webSocket,
                                                         contextList,
@@ -157,6 +162,7 @@ public class Session implements AutoCloseable,
         this.log              = loggerFactory.getLogger("cdp4j.session");
         this.logFlow          = loggerFactory.getLogger("cdp4j.flow");
         this.gson             = gson;
+        this.jackson          = jackson;
         this.browserSession   = browserSession;
         this.majorVersion     = majorVersion;
         this.command          = new Command(this);
