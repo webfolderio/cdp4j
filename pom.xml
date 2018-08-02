@@ -256,6 +256,11 @@
    <version>1.9.5</version>
    <scope>test</scope>
   </dependency>
+  <dependency>
+   <groupId>org.apache.commons</groupId>
+   <artifactId>commons-compress</artifactId>
+   <version>1.17</version>
+  </dependency>
  </dependencies>
  <properties>
   <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
