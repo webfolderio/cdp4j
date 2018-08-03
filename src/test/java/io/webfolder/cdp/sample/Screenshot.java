@@ -32,11 +32,10 @@ import io.webfolder.cdp.session.SessionFactory;
 public class Screenshot {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Launcher launcher = new Launcher();
-
         Path file = createTempFile("screenshot", ".png");
 
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             session.navigateAndWait("https://news.ycombinator.com");
             // activate the tab/session before capturing the screenshot

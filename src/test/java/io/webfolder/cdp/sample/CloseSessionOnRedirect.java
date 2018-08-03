@@ -31,9 +31,8 @@ public class CloseSessionOnRedirect {
     private static boolean terminateSession;
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
             Network network = session.getCommand().getNetwork();
@@ -60,7 +59,7 @@ public class CloseSessionOnRedirect {
                 }
             });
 
-            session.navigateAndWait("https://httpbin.org/redirect-to?url=https://webfolder.io?cdp4j");
+            session.getCommand().getPage().navigate("https://httpbin.org/redirect-to?url=https://webfolder.io?cdp4j");
 
             if ( ! terminateSession ) {
                 session.waitDocumentReady();

@@ -39,7 +39,7 @@ class WSContext {
         this.jsonRequest = jsonRequest;
     }
 
-    void await(final int timeout) {
+    public void await(final int timeout) {
         try {
             latch.await(timeout, MILLISECONDS);
         } catch (InterruptedException e) {
@@ -47,7 +47,7 @@ class WSContext {
         }
     }
 
-    void setData(final JsonResponse data) {
+    public void setData(final JsonResponse data) {
         this.data = data;
         latch.countDown();
     }
@@ -60,12 +60,12 @@ class WSContext {
         return jsonRequest;
     }
 
-    void setError(CommandException error) {
+    public void setError(CommandException error) {
         this.error = error;
         latch.countDown();
     }
 
-    CommandException getError() {
+    public CommandException getError() {
         return error;
     }
 }

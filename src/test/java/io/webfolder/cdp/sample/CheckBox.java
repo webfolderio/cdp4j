@@ -26,11 +26,10 @@ import io.webfolder.cdp.session.SessionFactory;
 public class CheckBox {
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-
         URL url = CheckBox.class.getResource("/checkbox.html");
 
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
             session.navigateAndWait(url.toString());

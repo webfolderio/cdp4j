@@ -15,9 +15,8 @@ import io.webfolder.cdp.session.SessionFactory;
 public class Readability {
 
     public static void main(String[] args) throws Exception {
-        Launcher launcher = new Launcher(CdpLoggerType.Null);
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher(CdpLoggerType.Null);
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
             Page page = session.getCommand().getPage();
@@ -31,8 +30,6 @@ public class Readability {
    
             String content = (String) session.evaluate("new Readability(window.document).parse().content");
             System.out.println(content);            
-        } finally {
-            launcher.kill();
         }
     }
 }

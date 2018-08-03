@@ -1,17 +1,17 @@
 /**
  * cdp4j - Chrome DevTools Protocol for Java
  * Copyright © 2017, 2018 WebFolder OÜ (support@webfolder.io)
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -166,11 +166,7 @@ class SessionInvocationHandler implements InvocationHandler {
         JsonNode result = data.getResult();
 
         if (result == null || !result.isObject()) {
-            throw new CdpException("invalid result");
-        }
-
-        if (result.isNull()) {
-            return null;
+            throw new CdpException("Invalid json to parse");
         }
 
         Type genericReturnType = method.getGenericReturnType();
@@ -179,18 +175,29 @@ class SessionInvocationHandler implements InvocationHandler {
             result = result.get(returns);
 
         if (result.isValueNode()) {
-            if (String.class.equals(retType))
-                return result.asText();
-
-            if (Boolean.class.equals(retType))
-                return result.asBoolean() ? Boolean.TRUE : Boolean.FALSE;
-
-            if (Integer.class.equals(retType))
-                return result.asInt();
-
-            if (Double.class.equals(retType))
-                return result.asDouble();
+            //Convert simple types here - numbers, text, base64, boolean
+            return convertJsonValueToType(result, retType, genericReturnType);
         }
+
+        return jackson
+                .readValue(
+                        jackson.treeAsTokens(result),
+                        jackson.getTypeFactory().constructType(genericReturnType)
+                );
+    }
+
+    private Object convertJsonValueToType(JsonNode result, Class<?> retType, Type genericReturnType) throws JsonProcessingException {
+        if (String.class.equals(retType))
+            return result.asText();
+
+        if (Boolean.class.equals(retType))
+            return result.asBoolean() ? Boolean.TRUE : Boolean.FALSE;
+
+        if (Integer.class.equals(retType))
+            return result.asInt();
+
+        if (Double.class.equals(retType))
+            return result.asDouble();
 
         if (byte[].class.equals(genericReturnType)) {
             String encoded = result.asText();
@@ -199,14 +206,6 @@ class SessionInvocationHandler implements InvocationHandler {
             }
 
             return getDecoder().decode(encoded);
-        }
-
-        if (List.class.equals(retType)) {
-            return jackson
-                    .readValue(
-                            jackson.treeAsTokens(result),
-                            jackson.getTypeFactory().constructType(genericReturnType)
-                    );
         }
 
         return jackson.treeToValue(result, retType);

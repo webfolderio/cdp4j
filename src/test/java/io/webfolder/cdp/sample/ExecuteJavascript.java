@@ -23,13 +23,13 @@ import io.webfolder.cdp.session.SessionFactory;
 
 public class ExecuteJavascript {
 
-    public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+    public static void main(String[] args) throws InterruptedException {
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
             session.waitDocumentReady();
+            Thread.sleep(100);
             Integer result = (Integer) session.evaluate("var foo = function() { return 2 + 2; }; foo();");
             System.out.println(result);
 

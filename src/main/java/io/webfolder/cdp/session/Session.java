@@ -325,7 +325,7 @@ public class Session implements AutoCloseable,
 
     /**
      * @param url URL for the navigation
-     * @deprecated It's extremely unsafe to use this method - next commands may crash due to
+     * @deprecated  It's extremely unsafe to use this method - next commands may crash due to
      * execution context is not ready yet. Use {@link #navigateAndWait(String)}
      */
     public Session navigate(final String url) {
@@ -629,7 +629,7 @@ public class Session implements AutoCloseable,
         return true;
     }
 
-    void dispose() {
+    public void dispose() {
         proxies.clear();
         listeners.clear();
         invocationHandler.dispose();
@@ -646,28 +646,28 @@ public class Session implements AutoCloseable,
         return jackson;
     }
 
-    void terminate(String message) {
+    public void terminate(String message) {
         if ( terminateListener != null ) {
             terminateListener.onTerminate(new TerminateEvent(message));
             terminateListener = null;
         }
     }
 
-    void info(
+    public void info(
             final String message,
             final Object ...args) {
         log.info(message, args);
     }
 
-    void error(final String message, final Object ...args) {
+    public void error(final String message, final Object ...args) {
         log.error(message, args);
     }
 
-    void logEntry(final String method) {
+    public void logEntry(final String method) {
         logEntry(method, null);
     }
 
-    void logEntry(
+    public void logEntry(
             final String method,
             final String args) {
         if ( ! ENABLE_ENTRY_EXIT_LOG.get() ) {
@@ -682,13 +682,13 @@ public class Session implements AutoCloseable,
         });
     }
 
-    void logExit(
+    public void logExit(
             final String method,
             final Object retValue) {
         logExit(method, null, retValue);
     }
 
-    void logExit(
+    public void logExit(
             final String method,
             final String args,
             final Object retValue) {
@@ -721,11 +721,11 @@ public class Session implements AutoCloseable,
         return proxy;
     }
 
-    void disableFlowLog() {
+    public void disableFlowLog() {
         ENABLE_ENTRY_EXIT_LOG.set(FALSE);
     }
 
-    void enableFlowLog() {
+    public void enableFlowLog() {
         ENABLE_ENTRY_EXIT_LOG.set(TRUE);
     }
 
@@ -733,7 +733,7 @@ public class Session implements AutoCloseable,
         return invocationHandler.getContext(id);
     }
 
-    boolean isPrimitive(Class<?> klass) {
+    public boolean isPrimitive(Class<?> klass) {
         if (String.class.equals(klass)) {
             return true;
         } else if (boolean.class.equals(klass) || Boolean.class.equals(klass)) {

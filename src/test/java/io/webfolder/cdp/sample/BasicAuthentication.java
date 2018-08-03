@@ -39,10 +39,8 @@ public class BasicAuthentication {
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
-
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
             Network network = session.getCommand().getNetwork();

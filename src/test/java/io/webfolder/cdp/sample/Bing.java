@@ -26,9 +26,8 @@ import io.webfolder.cdp.session.SessionFactory;
 public class Bing {
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             session
                 .navigateAndWait("https://www.bing.com")

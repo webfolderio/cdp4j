@@ -30,9 +30,8 @@ import io.webfolder.cdp.session.SessionFactory;
 public class DownloadFile {
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             session.navigateAndWait("https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html");
             session.getCommand().getNetwork().enable();

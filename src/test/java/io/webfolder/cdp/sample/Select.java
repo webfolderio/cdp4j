@@ -30,9 +30,8 @@ public class Select {
     public static void main(String[] args) {
         URL url = Select.class.getResource("/select.html");
 
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             session.navigateAndWait(url.toString());
             int selectedIndex = session.getSelectedIndex("select");

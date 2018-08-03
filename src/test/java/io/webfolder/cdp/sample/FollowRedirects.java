@@ -31,9 +31,8 @@ import io.webfolder.cdp.type.network.RequestPattern;
 public class FollowRedirects {
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
             Network network = session.getCommand().getNetwork();

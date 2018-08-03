@@ -24,9 +24,8 @@ import io.webfolder.cdp.session.SessionFactory;
 public class HelloWorld {
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             session.navigateAndWait("https://webfolder.io?cdp4j");
             String content = session.getContent();

@@ -94,7 +94,7 @@ class WSAdapter extends WebSocketAdapter {
         onMessage(data, true);
     }
 
-    void onMessage(final String data, boolean async) throws Exception {
+    public void onMessage(final String data, boolean async) throws Exception {
         Runnable runnable = () -> {
             log.debug(data);
             try {
@@ -158,7 +158,7 @@ class WSAdapter extends WebSocketAdapter {
         }
     }
 
-    Map<String, Events> listEvents() {
+    private Map<String, Events> listEvents() {
         Map<String, Events> map = new HashMap<>();
         for (Events next : Events.values()) {
             map.put(next.domain + "." + next.name, next);
@@ -166,7 +166,7 @@ class WSAdapter extends WebSocketAdapter {
         return unmodifiableMap(map);
     }
 
-    void setSession(final Session session) {
+    public void setSession(final Session session) {
         this.session = session;
     }
 }

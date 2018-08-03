@@ -38,13 +38,11 @@ import java.util.stream.Collectors;
 
 import static java.io.File.pathSeparator;
 import static java.lang.Integer.compare;
-import static java.lang.Integer.parseInt;
 import static java.lang.Math.round;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.lang.System.getProperty;
 import static java.lang.Thread.sleep;
-import static java.nio.file.Files.*;
 import static java.nio.file.Paths.get;
 import static java.util.Locale.ENGLISH;
 
@@ -150,10 +148,10 @@ public class ChromiumDownloader implements Downloader {
             long contentLength = conn.getHeaderFieldLong("x-goog-stored-content-length", 0);
             String fileName = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")) + "-r" + version.getRevision() + ".zip";
             Path archive = get(getProperty("java.io.tmpdir")).resolve(fileName);
-            if ( exists(archive) && contentLength != size(archive) ) {
-                delete(archive);
+            if ( Files.exists(archive) && contentLength != Files.size(archive) ) {
+                Files.delete(archive);
             }
-            if ( ! exists(archive) ) {
+            if ( ! Files.exists(archive) ) {
                 logger.info("Downloading Chromium [revision=" + version.getRevision() + "] 0%");
                 u = new URL(url);
                 if ( conn.getResponseCode() != 200 ) {
@@ -166,7 +164,7 @@ public class ChromiumDownloader implements Downloader {
                 AtomicBoolean halt = new AtomicBoolean(false);
                 Runnable progress = () -> {
                     try {
-                        long fileSize = size(archive);
+                        long fileSize = Files.size(archive);
                         logger.info("Downloading Chromium [revision={}] {}%",
                                 version.getRevision(), round((fileSize * 100L) / contentLength));
                     } catch (IOException e) {
@@ -191,7 +189,7 @@ public class ChromiumDownloader implements Downloader {
                     thread.setName("cdp4j");
                     thread.setDaemon(true);
                     thread.start();
-                    copy(conn.getInputStream(), archive);
+                    Files.copy(conn.getInputStream(), archive);
                 } finally {
                     if ( thread != null ) {
                         progress.run();
@@ -200,13 +198,14 @@ public class ChromiumDownloader implements Downloader {
                 }
             }
             logger.info("Extracting to: " + destinationRoot.toString());
-            if (exists(archive)) {
-                createDirectories(destinationRoot);
+            if (Files.exists(archive)) {
+                Files.createDirectories(destinationRoot);
                 ZipUtils.unpack(archive.toFile(), destinationRoot.toFile());
             }
         } catch (IOException e) {
             throw new CdpException(e);
         }
+
         return executable;
     }
 
@@ -216,10 +215,10 @@ public class ChromiumDownloader implements Downloader {
             return Collections.emptyList();
         }
         try {
-            List<ChromiumVersion> list = list(chromiumRootPath)
-                                            .filter(p -> isDirectory(p))
+            List<ChromiumVersion> list = Files.list(chromiumRootPath)
+                                            .filter(p -> Files.isDirectory(p))
                                             .filter(p -> p.getFileName().toString().startsWith("chromium-"))
-                                            .map(p -> new ChromiumVersion(parseInt(p.getFileName().toString().split("-")[1])))
+                                            .map(p -> new ChromiumVersion(Integer.parseInt(p.getFileName().toString().split("-")[1])))
                                         .collect(Collectors.toList());
             list.sort((o1, o2) -> compare(o2.getRevision(), o1.getRevision()));
             return list;

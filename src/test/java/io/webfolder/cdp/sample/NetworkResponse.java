@@ -35,12 +35,11 @@ import io.webfolder.cdp.type.page.ResourceType;
 public class NetworkResponse {
 
     public static void main(String[] args) {
-        
-        Launcher launcher = new Launcher();
 
         Set<String> finished = new HashSet<>();
 
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             session.getCommand().getNetwork().enable();
             session.addEventListener((e, d) -> {

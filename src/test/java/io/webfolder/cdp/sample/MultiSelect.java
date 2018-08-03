@@ -31,9 +31,8 @@ public class MultiSelect {
     public static void main(String[] args) {
         URL url = MultiSelect.class.getResource("/multi-select.html");
 
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             session.navigateAndWait(url.toString());
 

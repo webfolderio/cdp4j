@@ -257,7 +257,7 @@ public class SessionFactory implements AutoCloseable {
         return connect(targetId, null);
     }
 
-    Session connect(String targetId, String browserContextId) {
+    public Session connect(String targetId, String browserContextId) {
         Session bs = getBrowserSession();
 
         if (browserContextId == null) {
@@ -359,7 +359,7 @@ public class SessionFactory implements AutoCloseable {
         return browserSession;
     }
 
-    void close(Session session) {
+    public void close(Session session) {
         if (browserSession.isConnected()) {
             int version = getMajorVersion();
             if (version >= 68) {
@@ -512,7 +512,7 @@ public class SessionFactory implements AutoCloseable {
         }
     }
 
-    ExecutorService getThreadPool() {
+    public ExecutorService getThreadPool() {
         return threadPool;
     }
 

@@ -17,8 +17,6 @@
  */
 package io.webfolder.cdp.sample;
 
-import static java.lang.String.format;
-
 import java.net.URL;
 import java.util.List;
 
@@ -34,12 +32,10 @@ import io.webfolder.cdp.type.profiler.ScriptCoverage;
 public class CodeCoverage {
 
     public static void main(String[] args) {
-
         URL url = CodeCoverage.class.getResource("/code-coverage.html");
 
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             Command command = session.getCommand();
             Profiler profiler = command.getProfiler();
@@ -72,7 +68,7 @@ public class CodeCoverage {
                         continue;
                     }
                     for (CoverageRange range : functionCoverage.getRanges()) {
-                        System.out.println(format(" %-46s %-11d %d",
+                        System.out.println(String.format(" %-46s %-11d %d",
                                         libName + "/" + functionCoverage.getFunctionName(),
                                         range.getStartOffset(),
                                         range.getEndOffset()));

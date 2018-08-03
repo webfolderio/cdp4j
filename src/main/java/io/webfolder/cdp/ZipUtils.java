@@ -81,6 +81,12 @@ public class ZipUtils {
             }
 
         zf.close();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static Set<PosixFilePermission> modeToPosixPermissions(final int mode) {

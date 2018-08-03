@@ -54,7 +54,7 @@ public class AdaptiveProcessManager extends ProcessManager {
         } else if (LINUX) {
             processManager = new LinuxProcessManager();
         } else if (MAC) {
-            processManager = new MacOsProcessManager();            
+            processManager = new MacOsProcessManager();
         } else {
             throw new CdpException(OS + " is not supported by AdaptiveProcessManager");
         }

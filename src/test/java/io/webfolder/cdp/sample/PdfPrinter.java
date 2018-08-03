@@ -76,7 +76,6 @@ public class PdfPrinter implements AutoCloseable {
 
     public void init() {
         launcher = new Launcher();
-        launcher.setProcessManager(new AdaptiveProcessManager());
 
         factory = launcher.launch(arguments);
 
@@ -167,7 +166,7 @@ public class PdfPrinter implements AutoCloseable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
-            manager.close();   
+            manager.close();
         }
     }
 }

@@ -29,10 +29,8 @@ public class IncognitoBrowsing {
     // Requires Headless Chrome
     // https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-        launcher.setProcessManager(new AdaptiveProcessManager());
-
-        try (SessionFactory factory = launcher.launch(asList("--headless", "--disable-gpu"))) {
+        try (Launcher launcher = new Launcher();
+                SessionFactory factory = launcher.launch(asList("--headless", "--disable-gpu"))) {
 
             String firstContext = null;
 

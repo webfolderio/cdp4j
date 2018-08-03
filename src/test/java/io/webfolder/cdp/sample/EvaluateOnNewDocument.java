@@ -29,9 +29,8 @@ public class EvaluateOnNewDocument {
     public static void main(String[] args) {
         URL url = Select.class.getResource("/inject-script.html");
 
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch();
+        try (Launcher launcher = new Launcher();
+                            SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
             Page page = session.getCommand().getPage();
