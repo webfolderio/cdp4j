@@ -17,6 +17,9 @@
  */
 package io.webfolder.cdp.event.network;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
@@ -24,9 +27,6 @@ import io.webfolder.cdp.type.network.AuthChallenge;
 import io.webfolder.cdp.type.network.ErrorReason;
 import io.webfolder.cdp.type.network.Request;
 import io.webfolder.cdp.type.page.ResourceType;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Details of an intercepted HTTP request, which must be either allowed, blocked, modified or

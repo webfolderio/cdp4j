@@ -18,7 +18,6 @@
 package io.webfolder.cdp.type.network;
 
 import io.webfolder.cdp.type.security.SecurityState;
-
 import java.util.HashMap;
 import java.util.Map;
 

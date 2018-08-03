@@ -1,17 +1,17 @@
 /**
  * cdp4j - Chrome DevTools Protocol for Java
  * Copyright © 2017, 2018 WebFolder OÜ (support@webfolder.io)
- * <p>
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * <p>
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -92,16 +92,16 @@ abstract class AbstractLauncher implements AutoCloseable {
         if (chromeExecutablePath == null || chromeExecutablePath.trim().isEmpty()) {
             throw new CdpException("chrome not found");
         }
-        if (!launched) {
+        if ( ! launched ) {
             List<String> list = getCommonParameters(chromeExecutablePath, arguments);
             internalLaunch(list, arguments);
             launched = true;
         }
 
-        int retryCount = 0;
+        int     retryCount = 0;
         boolean connected;
 
-        while (!(connected = factory.ping()) && retryCount < 50) {
+        while ( ! ( connected = factory.ping() ) && retryCount < 50 ) {
             try {
                 sleep(100);
             } catch (InterruptedException e) {
@@ -110,7 +110,7 @@ abstract class AbstractLauncher implements AutoCloseable {
             retryCount += 1;
         }
 
-        if (!connected) {
+        if ( ! connected ) {
             throw new CdpException("Unable to connect to the browser");
         }
 
@@ -133,7 +133,7 @@ abstract class AbstractLauncher implements AutoCloseable {
             kill();
         } catch (Exception ignored) {
         }
-        
+
         launched = false;
     }
 }

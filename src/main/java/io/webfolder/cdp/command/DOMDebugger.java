@@ -23,7 +23,6 @@ import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.domdebugger.DOMBreakpointType;
 import io.webfolder.cdp.type.domdebugger.EventListener;
-
 import java.util.List;
 
 /**

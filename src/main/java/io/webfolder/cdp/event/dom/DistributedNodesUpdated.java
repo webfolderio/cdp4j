@@ -17,13 +17,13 @@
  */
 package io.webfolder.cdp.event.dom;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.dom.BackendNode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Called when distrubution is changed

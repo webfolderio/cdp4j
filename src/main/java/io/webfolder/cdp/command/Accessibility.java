@@ -22,7 +22,6 @@ import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.accessibility.AXNode;
-
 import java.util.List;
 
 @Experimental

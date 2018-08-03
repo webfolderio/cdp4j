@@ -17,12 +17,12 @@
  */
 package io.webfolder.cdp.event.layertree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.layertree.Layer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Domain("LayerTree")
 @EventName("layerTreeDidChange")

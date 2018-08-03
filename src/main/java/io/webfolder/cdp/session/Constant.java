@@ -17,9 +17,9 @@
  */
 package io.webfolder.cdp.session;
 
-import java.util.List;
-
 import static java.util.Arrays.asList;
+
+import java.util.List;
 
 public interface Constant {
 

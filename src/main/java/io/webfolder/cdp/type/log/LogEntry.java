@@ -21,7 +21,6 @@ import io.webfolder.cdp.type.constant.LogEntrySeverity;
 import io.webfolder.cdp.type.constant.LogEntrySource;
 import io.webfolder.cdp.type.runtime.RemoteObject;
 import io.webfolder.cdp.type.runtime.StackTrace;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -23,7 +23,6 @@ import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.dom.Rect;
 import io.webfolder.cdp.type.layertree.PictureTile;
-
 import java.util.List;
 
 @Experimental

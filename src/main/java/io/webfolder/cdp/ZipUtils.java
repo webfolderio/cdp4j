@@ -34,14 +34,14 @@ public class ZipUtils {
 
         Map<File, String> symLinks = new HashMap<>();
 
-        Iterator<ZipArchiveEntry> iterator = zf.getEntries().asIterator();
+        Enumeration<ZipArchiveEntry> iterator = zf.getEntries();
 
         //Top directory name we are going to ignore
-        String parentDirectory = iterator.next().getName();
+        String parentDirectory = iterator.nextElement().getName();
 
         //Iterate files & folders
-        while (iterator.hasNext()) {
-            ZipArchiveEntry entry = iterator.next();
+        while (iterator.hasMoreElements()) {
+            ZipArchiveEntry entry = iterator.nextElement();
             String name = entry.getName().substring(parentDirectory.length());
             File outputFile = new File(destFolder, name);
 

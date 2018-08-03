@@ -20,7 +20,6 @@ package io.webfolder.cdp.type.runtime;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.constant.ObjectSubtypeHint;
 import io.webfolder.cdp.type.constant.ObjectType;
-
 import java.util.ArrayList;
 import java.util.List;
 

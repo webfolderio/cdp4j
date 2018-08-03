@@ -21,7 +21,6 @@ import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.database.ExecuteSQLResult;
-
 import java.util.List;
 
 @Experimental

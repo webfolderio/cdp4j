@@ -17,15 +17,15 @@
  */
 package io.webfolder.cdp.event.debugger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.constant.PauseReason;
 import io.webfolder.cdp.type.debugger.CallFrame;
 import io.webfolder.cdp.type.runtime.StackTrace;
 import io.webfolder.cdp.type.runtime.StackTraceId;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria

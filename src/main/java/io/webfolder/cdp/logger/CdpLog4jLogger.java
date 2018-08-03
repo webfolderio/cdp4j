@@ -17,11 +17,11 @@
  */
 package io.webfolder.cdp.logger;
 
-import org.apache.log4j.Logger;
-
 import static io.webfolder.cdp.logger.MessageFormatter.arrayFormat;
 import static org.apache.log4j.Level.ERROR;
 import static org.apache.log4j.Level.WARN;
+
+import org.apache.log4j.Logger;
 
 public class CdpLog4jLogger implements CdpLogger {
 

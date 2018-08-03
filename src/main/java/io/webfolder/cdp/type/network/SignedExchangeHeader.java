@@ -18,7 +18,6 @@
 package io.webfolder.cdp.type.network;
 
 import io.webfolder.cdp.annotation.Experimental;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +25,7 @@ import java.util.Map;
 
 /**
  * Information about a signed exchange header
- * https://wicg
- * github
- * io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl
- * html#cbor-representation
+ * https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#cbor-representation
  */
 @Experimental
 public class SignedExchangeHeader {

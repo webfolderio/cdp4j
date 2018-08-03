@@ -23,7 +23,6 @@ import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.type.dom.RGBA;
 import io.webfolder.cdp.type.overlay.HighlightConfig;
 import io.webfolder.cdp.type.overlay.InspectMode;
-
 import java.util.List;
 
 /**
