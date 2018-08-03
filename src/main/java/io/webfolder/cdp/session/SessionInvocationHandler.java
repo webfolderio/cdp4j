@@ -156,26 +156,27 @@ class SessionInvocationHandler implements InvocationHandler {
         String returns = method.isAnnotationPresent(Returns.class) ?
                 method.getAnnotation(Returns.class).value() : null;
 
+        if (data == null)
+            return null;
+
         return jsonToObject(method, retType, data, returns);
     }
 
     private Object jsonToObject(Method method, Class<?> retType, JsonResponse data, String returns) throws IOException {
-        if (data == null)
-            return null;
-
         JsonNode result = data.getResult();
 
         if (result == null || !result.isObject()) {
             throw new CdpException("invalid result");
         }
 
+        if (result.isNull()) {
+            return null;
+        }
+
         Type genericReturnType = method.getGenericReturnType();
 
         if (returns != null)
             result = result.get(returns);
-
-        if (result.isNull())
-            return null;
 
         if (result.isValueNode()) {
             if (String.class.equals(retType))
@@ -195,9 +196,9 @@ class SessionInvocationHandler implements InvocationHandler {
             String encoded = result.asText();
             if (encoded == null || encoded.trim().isEmpty()) {
                 return null;
-            } else {
-                return getDecoder().decode(encoded);
             }
+
+            return getDecoder().decode(encoded);
         }
 
         if (List.class.equals(retType)) {

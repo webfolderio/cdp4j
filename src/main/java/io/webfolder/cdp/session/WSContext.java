@@ -52,7 +52,7 @@ class WSContext {
         latch.countDown();
     }
 
-    JsonResponse getData() {
+    public JsonResponse getData() {
         return data;
     }
 

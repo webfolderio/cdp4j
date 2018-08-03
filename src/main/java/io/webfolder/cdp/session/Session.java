@@ -340,7 +340,7 @@ public class Session implements AutoCloseable,
     }
 
     public Session navigateAndWait(final String url) {
-        return navigateAndWait(url, WaitUntil.Load);
+        return navigateAndWait(url, Load);
     }
 
     public Session navigateAndWait(final String url, WaitUntil condition) {
@@ -642,7 +642,7 @@ public class Session implements AutoCloseable,
         }
     }
 
-    ObjectMapper getJackson() {
+    public ObjectMapper getJackson() {
         return jackson;
     }
 
