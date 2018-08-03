@@ -52,7 +52,9 @@ public class ZipUtils {
                     outputFile.getParentFile().mkdirs();
                 }
 
-                IOUtils.copy(zf.getInputStream(entry), new FileOutputStream(outputFile));
+                try (FileOutputStream outStream = new FileOutputStream(outputFile)) {
+                    IOUtils.copy(zf.getInputStream(entry), outStream);
+                }
             }
 
             // Set permission
@@ -78,6 +80,7 @@ public class ZipUtils {
             } catch (Exception ignored) {
             }
 
+        zf.close();
     }
 
     private static Set<PosixFilePermission> modeToPosixPermissions(final int mode) {
