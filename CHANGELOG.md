@@ -1,6 +1,10 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
+### 3.0.5 - August 31, 2018
+
+* Fixed NullPointerException
+
 ### 3.0.4 - July 31, 2018
 
 * Added Added a new Constructor to Launcher class

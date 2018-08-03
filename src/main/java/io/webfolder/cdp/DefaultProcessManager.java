@@ -25,11 +25,11 @@ import static java.lang.ProcessHandle.of;
 
 public class DefaultProcessManager extends ProcessManager {
 
-    private long pid;
+    protected long pid;
 
-    private Instant startTime;
+    protected Instant startTime;
 
-    private String command;
+    protected String command;
 
     @Override
     void setProcess(CdpProcess process) {
@@ -56,11 +56,16 @@ public class DefaultProcessManager extends ProcessManager {
                             (command==null || (info.command().isPresent() && info.command().get().equals(command)))
             ) {
                 handle.descendants().forEach(ph -> {
-                    if (ph.isAlive()) {
-                        ph.destroy();
+                    try {
+                        if (ph.isAlive()) {
+                            ph.destroyForcibly();
+                        }
+                    } catch (Exception ignored) {
+
                     }
                 });
-                return handle.destroy();
+
+                return handle.destroyForcibly();
             }
         }
         return false;

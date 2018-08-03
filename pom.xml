@@ -3,7 +3,7 @@
  <modelVersion>4.0.0</modelVersion>
  <groupId>io.webfolder</groupId>
  <artifactId>cdp4j</artifactId>
- <version>3.0.5-SNAPSHOT</version>
+ <version>3.0.6-SNAPSHOT</version>
  <name>cdp4j</name>
  <licenses>
   <license>
@@ -99,10 +99,6 @@
       <relocation>
        <pattern>com.neovisionaries.ws.client</pattern>
        <shadedPattern>io.webfolder.cdp.internal.ws</shadedPattern>
-      </relocation>
-      <relocation>
-       <pattern>org.jvnet.winp</pattern>
-       <shadedPattern>io.webfolder.cdp.internal.winp</shadedPattern>
       </relocation>
      </relocations>
     </configuration>
@@ -208,7 +204,8 @@
   <dependency>
    <groupId>org.jvnet.winp</groupId>
    <artifactId>winp</artifactId>
-   <version>1.26</version>
+   <version>1.27</version>
+   <scope>provided</scope>
   </dependency>
   <dependency>
    <groupId>com.squareup</groupId>
