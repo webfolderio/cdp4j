@@ -17,6 +17,25 @@
  */
 package io.webfolder.cdp;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.webfolder.cdp.exception.CdpException;
+import io.webfolder.cdp.logger.CdpLogger;
+import io.webfolder.cdp.logger.CdpLoggerFactory;
+import io.webfolder.cdp.logger.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+
 import static java.io.File.pathSeparator;
 import static java.lang.Integer.compare;
 import static java.lang.Integer.parseInt;
@@ -25,47 +44,9 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.lang.System.getProperty;
 import static java.lang.Thread.sleep;
-import static java.nio.file.FileSystems.newFileSystem;
-import static java.nio.file.FileVisitResult.CONTINUE;
-import static java.nio.file.Files.copy;
-import static java.nio.file.Files.createDirectories;
-import static java.nio.file.Files.delete;
-import static java.nio.file.Files.exists;
-import static java.nio.file.Files.getPosixFilePermissions;
-import static java.nio.file.Files.isDirectory;
-import static java.nio.file.Files.isExecutable;
-import static java.nio.file.Files.list;
-import static java.nio.file.Files.setPosixFilePermissions;
-import static java.nio.file.Files.size;
-import static java.nio.file.Files.walkFileTree;
+import static java.nio.file.Files.*;
 import static java.nio.file.Paths.get;
-import static java.nio.file.attribute.PosixFilePermission.GROUP_EXECUTE;
-import static java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE;
 import static java.util.Locale.ENGLISH;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.PosixFilePermission;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
-
-import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.logger.CdpLogger;
-import io.webfolder.cdp.logger.CdpLoggerFactory;
-import io.webfolder.cdp.logger.LoggerFactory;
 
 public class ChromiumDownloader implements Downloader {
 
@@ -79,46 +60,11 @@ public class ChromiumDownloader implements Downloader {
 
     private static final String DOWNLOAD_HOST = "https://storage.googleapis.com/chromium-browser-snapshots";
 
-    private static final int TIMEOUT          = 10 * 1000; // 10 seconds
+    private static final String VERSION_URL   = "https://raw.githubusercontent.com/GoogleChrome/puppeteer/master/package.json";
+
+    private static final int TIMEOUT = 10 * 1000; // 10 seconds
 
     private final CdpLogger logger;
-
-    private static class ZipVisitor extends SimpleFileVisitor<Path> {
-
-        private final Path sourceRoot;
-
-        private final Path destinationRoot;
-
-        public ZipVisitor(Path sourceRoot, Path destinationRoot) {
-            this.sourceRoot = sourceRoot;
-            this.destinationRoot = destinationRoot;
-        }
-
-        @Override
-        public FileVisitResult preVisitDirectory(Path sourceDirectory, BasicFileAttributes attrs) throws IOException {
-            if (sourceRoot.equals(sourceDirectory)) {
-                return CONTINUE;
-            }
-            if (sourceDirectory.getNameCount() == 1) {
-                return CONTINUE;
-            }
-            String sourcePath = sourceDirectory.subpath(1, sourceDirectory.getNameCount()).toString();
-            Path destinationDirectory = destinationRoot.resolve(sourcePath);
-            createDirectories(destinationDirectory);
-            return CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult visitFile(Path sourceFile, BasicFileAttributes attrs) throws IOException {
-            String sourcePath = sourceFile.subpath(1, sourceFile.getNameCount()).toString();
-            Path destinationFile = destinationRoot.resolve(sourcePath);
-            if (exists(destinationFile)) {
-                delete(destinationFile);
-            }
-            copy(sourceFile, destinationFile);
-            return CONTINUE;
-        }
-    }
 
     public ChromiumDownloader() {
         this(new CdpLoggerFactory());
@@ -134,36 +80,26 @@ public class ChromiumDownloader implements Downloader {
     }
 
     public static ChromiumVersion getLatestVersion() {
-        String url = DOWNLOAD_HOST;
-
-        if ( WINDOWS ) {
-            url += "/Win_x64/LAST_CHANGE";
-        } else if ( LINUX ) {
-            url += "/Linux_x64/LAST_CHANGE";
-        } else if ( MAC ) {
-            url += "/Mac/LAST_CHANGE";
-        } else {
-            throw new CdpException("Unsupported OS found - " + OS);
-        }
-
         try {
-            URL u = new URL(url);
+            URL u = new URL(VERSION_URL);
 
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(TIMEOUT);
             conn.setReadTimeout(TIMEOUT);
 
-            if ( conn.getResponseCode() != 200 ) {
+            if (conn.getResponseCode() != 200) {
                 throw new CdpException(conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
 
-            String result = null;
-            try (Scanner s = new Scanner(conn.getInputStream())) {
-                s.useDelimiter("\\A");
-                result = s.hasNext() ? s.next() : "";
-            }
-            return new ChromiumVersion(Integer.parseInt(result));
+            Scanner s = new Scanner(conn.getInputStream()).useDelimiter("\\A");
+            String replyString = s.hasNext() ? s.next() : "";
+
+            JsonObject json = (new Gson()).fromJson(replyString, JsonObject.class);
+
+            int version = json.getAsJsonObject("puppeteer").getAsJsonPrimitive("chromium_revision").getAsInt();
+
+            return new ChromiumVersion(version);
         } catch (IOException e) {
             throw new CdpException(e);
         }
@@ -266,29 +202,7 @@ public class ChromiumDownloader implements Downloader {
             logger.info("Extracting to: " + destinationRoot.toString());
             if (exists(archive)) {
                 createDirectories(destinationRoot);
-                try (FileSystem fileSystem = newFileSystem(archive, null)) {
-                    Iterator<Path> iter = fileSystem.getRootDirectories().iterator();
-                    if (iter.hasNext()) {
-                        Path sourceRoot = iter.next();
-                        walkFileTree(sourceRoot, new ZipVisitor(sourceRoot, destinationRoot));
-                    }
-                }
-            }
-
-            if (exists(executable) && isExecutable(executable)) {
-                throw new CdpException("Chromium executable not found: " + executable.toString());
-            }
-
-            if ( ! WINDOWS ) {
-                Set<PosixFilePermission> permissions = getPosixFilePermissions(executable);
-                if ( ! permissions.contains(OWNER_EXECUTE)) {
-                    permissions.add(OWNER_EXECUTE);
-                    setPosixFilePermissions(executable, permissions);
-                }
-                if ( ! permissions.contains(GROUP_EXECUTE) ) {
-                    permissions.add(GROUP_EXECUTE);
-                    setPosixFilePermissions(executable, permissions);
-                }
+                ZipUtils.unpack(archive.toFile(), destinationRoot.toFile());
             }
         } catch (IOException e) {
             throw new CdpException(e);
