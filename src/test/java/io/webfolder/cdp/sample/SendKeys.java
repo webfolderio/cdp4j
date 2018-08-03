@@ -29,8 +29,7 @@ public class SendKeys {
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
             session.getCommand().getNetwork().enable();
-            session.navigate("https://google.com");
-            session.waitDocumentReady();
+            session.navigateAndWait("https://google.com");
             session.sendKeys("webfolder.io");
             session.sendEnter();
             session.wait(2000);

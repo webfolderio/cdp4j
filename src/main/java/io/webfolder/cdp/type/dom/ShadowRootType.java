@@ -17,21 +17,17 @@
  */
 package io.webfolder.cdp.type.dom;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Shadow root type
  */
 public enum ShadowRootType {
-    @SerializedName("user-agent")
     UserAgent("user-agent"),
-
-    @SerializedName("open")
     Open("open"),
-
-    @SerializedName("closed")
     Closed("closed");
 
+    @JsonValue
     public final String value;
 
     ShadowRootType(String value) {

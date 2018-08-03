@@ -28,7 +28,7 @@ public class Logging {
 
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
-            session.navigate("about:blank");
+            session.navigateAndWait("about:blank");
             session.waitDocumentReady();
 
             // logs javascript messages

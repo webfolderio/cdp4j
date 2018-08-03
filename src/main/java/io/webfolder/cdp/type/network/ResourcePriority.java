@@ -17,27 +17,19 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Loading priority of a resource request
  */
 public enum ResourcePriority {
-    @SerializedName("VeryLow")
     VeryLow("VeryLow"),
-
-    @SerializedName("Low")
     Low("Low"),
-
-    @SerializedName("Medium")
     Medium("Medium"),
-
-    @SerializedName("High")
     High("High"),
-
-    @SerializedName("VeryHigh")
     VeryHigh("VeryHigh");
 
+    @JsonValue
     public final String value;
 
     ResourcePriority(String value) {

@@ -20,6 +20,7 @@ package io.webfolder.cdp.event.dom;
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -17,24 +17,16 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum InitiatorType {
-    @SerializedName("parser")
     Parser("parser"),
-
-    @SerializedName("script")
     Script("script"),
-
-    @SerializedName("preload")
     Preload("preload"),
-
-    @SerializedName("SignedExchange")
     SignedExchange("SignedExchange"),
-
-    @SerializedName("other")
     Other("other");
 
+    @JsonValue
     public final String value;
 
     InitiatorType(String value) {

@@ -17,31 +17,23 @@
  */
 package io.webfolder.cdp.session;
 
-import static io.webfolder.cdp.session.Constant.DOM_PROPERTIES;
-import static io.webfolder.cdp.session.Constant.EMPTY_ARGS;
-import static io.webfolder.cdp.session.Constant.EMPTY_NODE_ID;
+import io.webfolder.cdp.command.DOM;
+import io.webfolder.cdp.command.Runtime;
+import io.webfolder.cdp.exception.CdpException;
+import io.webfolder.cdp.exception.ElementNotFoundException;
+import io.webfolder.cdp.type.dom.Node;
+import io.webfolder.cdp.type.runtime.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static io.webfolder.cdp.session.Constant.*;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.Collections.emptyList;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.webfolder.cdp.command.DOM;
-import io.webfolder.cdp.command.Runtime;
-import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.exception.ElementNotFoundException;
-import io.webfolder.cdp.type.dom.Node;
-import io.webfolder.cdp.type.runtime.CallArgument;
-import io.webfolder.cdp.type.runtime.CallFunctionOnResult;
-import io.webfolder.cdp.type.runtime.EvaluateResult;
-import io.webfolder.cdp.type.runtime.ExceptionDetails;
-import io.webfolder.cdp.type.runtime.GetPropertiesResult;
-import io.webfolder.cdp.type.runtime.PropertyDescriptor;
-import io.webfolder.cdp.type.runtime.RemoteObject;
 
 public interface Selector {
 
@@ -50,7 +42,6 @@ public interface Selector {
      * otherwise, returns <code>false</code>.
      * 
      * @param selector css or xpath selector
-     * @param args format string
      * 
      * @return <code>true</code> if the element selected by the specified selector
      */
@@ -145,9 +136,9 @@ public interface Selector {
      */
     default void setProperty(
             final String selector,
-            final String propetyName,
+            final String propertyName,
             final Object value) {
-        setProperty(selector, propetyName, value, EMPTY_ARGS);
+        setProperty(selector, propertyName, value, EMPTY_ARGS);
     }
 
     /**
@@ -231,9 +222,9 @@ public interface Selector {
 
     /**
      * Gets the property value of the matched element
-     * 
-     * @param selector css or xpath selector
-     * @param propertyName property name
+     *
+     * @param objectId Id of the object
+     * @param name property name
      * 
      * @return property value
      */
@@ -475,12 +466,9 @@ public interface Selector {
 
     default Session releaseObject(final String objectId) {
         if (objectId != null) {
-            try {
-                getThis().getCommand().getRuntime().releaseObject(objectId);
-            } catch (CdpException e) {
-                throw e;
-            }
+            getThis().getCommand().getRuntime().releaseObject(objectId);
         }
+
         return getThis();
     }
 

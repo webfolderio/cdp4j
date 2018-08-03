@@ -18,6 +18,7 @@
 package io.webfolder.cdp.type.domsnapshot;
 
 import io.webfolder.cdp.type.dom.Rect;
+
 import java.util.ArrayList;
 import java.util.List;
 

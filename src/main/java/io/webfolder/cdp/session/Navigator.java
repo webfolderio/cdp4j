@@ -17,20 +17,21 @@
  */
 package io.webfolder.cdp.session;
 
-import static java.lang.Boolean.TRUE;
-import static java.lang.String.valueOf;
-import static java.util.Collections.emptyMap;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import io.webfolder.cdp.command.DOM;
 import io.webfolder.cdp.command.Network;
 import io.webfolder.cdp.command.Page;
 import io.webfolder.cdp.type.page.GetNavigationHistoryResult;
 import io.webfolder.cdp.type.page.NavigationEntry;
 import io.webfolder.cdp.type.runtime.RemoteObject;
+
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static java.lang.Boolean.TRUE;
+import static java.lang.String.valueOf;
+import static java.util.Collections.emptyMap;
 
 public interface Navigator {
 
@@ -154,7 +155,12 @@ public interface Navigator {
         if (json == null || json.trim().isEmpty()) {
             return emptyMap();
         }
-        List<List<Object>> params = getThis().getGson().fromJson(json, List.class);
+        List<List<Object>> params = null;
+        try {
+            params = getThis().getJackson().readValue(json, List.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Map<String, Object> map = new LinkedHashMap<>(params.size());
         for (List<Object> param : params) {
             if (param.size() == 0) {

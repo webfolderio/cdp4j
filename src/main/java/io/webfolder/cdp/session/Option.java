@@ -17,10 +17,6 @@
  */
 package io.webfolder.cdp.session;
 
-import java.util.List;
-
-import com.google.gson.reflect.TypeToken;
-
 /**
  * The HTML &lt;option&gt; element is used to define an item contained in a &lt;select&gt;,
  * an &lt;optgroup&gt;, or a &lt;datalist&gt; element.
@@ -36,8 +32,6 @@ public class Option {
     private String text;
 
     private String group;
-
-    static TypeToken<List<Option>> TYPE_TOKEN = new TypeToken<List<Option>>() { };
 
     public Integer getIndex() {
         return index;

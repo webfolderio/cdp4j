@@ -19,6 +19,7 @@ package io.webfolder.cdp.type.network;
 
 import io.webfolder.cdp.type.constant.ReferrerPolicy;
 import io.webfolder.cdp.type.security.MixedContentType;
+
 import java.util.HashMap;
 import java.util.Map;
 

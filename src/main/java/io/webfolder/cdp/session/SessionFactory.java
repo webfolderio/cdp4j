@@ -1,31 +1,40 @@
 /**
  * cdp4j - Chrome DevTools Protocol for Java
  * Copyright © 2017, 2018 WebFolder OÜ (support@webfolder.io)
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package io.webfolder.cdp.session;
 
-import static io.webfolder.cdp.event.Events.RuntimeExecutionContextCreated;
-import static io.webfolder.cdp.event.Events.RuntimeExecutionContextDestroyed;
-import static io.webfolder.cdp.logger.CdpLoggerType.Slf4j;
-import static java.lang.Boolean.TRUE;
-import static java.lang.String.format;
-import static java.lang.Thread.sleep;
-import static java.util.Locale.ENGLISH;
-import static java.util.concurrent.Executors.newCachedThreadPool;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketException;
+import com.neovisionaries.ws.client.WebSocketFactory;
+import com.neovisionaries.ws.client.ZeroMasker;
+import io.webfolder.cdp.command.Target;
+import io.webfolder.cdp.event.runtime.ExecutionContextCreated;
+import io.webfolder.cdp.event.runtime.ExecutionContextDestroyed;
+import io.webfolder.cdp.exception.CdpException;
+import io.webfolder.cdp.listener.EventListener;
+import io.webfolder.cdp.logger.CdpLoggerFactory;
+import io.webfolder.cdp.logger.CdpLoggerType;
+import io.webfolder.cdp.logger.LoggerFactory;
+import io.webfolder.cdp.type.target.TargetInfo;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,24 +51,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.neovisionaries.ws.client.WebSocket;
-import com.neovisionaries.ws.client.WebSocketException;
-import com.neovisionaries.ws.client.WebSocketFactory;
-import com.neovisionaries.ws.client.ZeroMasker;
+import static io.webfolder.cdp.event.Events.RuntimeExecutionContextCreated;
+import static io.webfolder.cdp.event.Events.RuntimeExecutionContextDestroyed;
+import static io.webfolder.cdp.logger.CdpLoggerType.Slf4j;
+import static java.lang.Boolean.TRUE;
+import static java.lang.String.format;
+import static java.lang.Thread.sleep;
+import static java.util.Locale.ENGLISH;
+import static java.util.concurrent.Executors.newCachedThreadPool;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
-import io.webfolder.cdp.command.Target;
-import io.webfolder.cdp.event.runtime.ExecutionContextCreated;
-import io.webfolder.cdp.event.runtime.ExecutionContextDestroyed;
-import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.listener.EventListener;
-import io.webfolder.cdp.logger.CdpLoggerFactory;
-import io.webfolder.cdp.logger.CdpLoggerType;
-import io.webfolder.cdp.logger.LoggerFactory;
-import io.webfolder.cdp.type.target.TargetInfo;
 
+/**
+ * SessionFactory is actually an instance of launched browser.
+ * It may have multiple tabs and browser contexts, but it's a single browser process.
+ */
 public class SessionFactory implements AutoCloseable {
 
     public final static String DEFAULT_HOST = "localhost";
@@ -73,8 +79,6 @@ public class SessionFactory implements AutoCloseable {
     private final int connectionTimeout;
 
     private final WebSocketFactory factory;
-
-    private final Gson gson;
 
     private final ObjectMapper jackson;
 
@@ -109,6 +113,8 @@ public class SessionFactory implements AutoCloseable {
     private volatile int webSocketReadTimeout = DEFAULT_WS_READ_TIMEOUT;
 
     private volatile int majorVersion;
+
+    private boolean closeBrowserOnFactoryClose = false;
 
     public SessionFactory() {
         this(DEFAULT_HOST,
@@ -151,10 +157,10 @@ public class SessionFactory implements AutoCloseable {
     }
 
     public SessionFactory(
-                final String host,
-                final int port,
-                final CdpLoggerType loggerType,
-                final ExecutorService threadPool) {
+            final String host,
+            final int port,
+            final CdpLoggerType loggerType,
+            final ExecutorService threadPool) {
         this(host,
                 port,
                 DEFAULT_CONNECTION_TIMEOUT,
@@ -163,21 +169,22 @@ public class SessionFactory implements AutoCloseable {
     }
 
     public SessionFactory(
-                    final String host,
-                    final int port,
-                    final int connectionTimeout,
-                    final CdpLoggerType loggerType,
-                    final ExecutorService threadPool) {
-        this.host              = host;
-        this.port              = port;
+            final String host,
+            final int port,
+            final int connectionTimeout,
+            final CdpLoggerType loggerType,
+            final ExecutorService threadPool) {
+        this.host = host;
+        this.port = port;
         this.connectionTimeout = connectionTimeout;
-        this.factory           = new WebSocketFactory();
-        this.loggerFactory     = createLoggerFactory(loggerType);
-        this.threadPool        = threadPool;
-        this.gson              = new GsonBuilder()
-                                    .disableHtmlEscaping()
-                                    .create();
-        this.jackson           = new ObjectMapper();
+        this.factory = new WebSocketFactory();
+        this.loggerFactory = createLoggerFactory(loggerType);
+        this.threadPool = threadPool;
+        this.jackson = new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE)
+                .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         this.factory.setConnectionTimeout(this.connectionTimeout);
         if (ThreadPoolExecutor.class.isAssignableFrom(threadPool.getClass())) {
             ((ThreadPoolExecutor) threadPool).setKeepAliveTime(5, SECONDS);
@@ -197,14 +204,14 @@ public class SessionFactory implements AutoCloseable {
     }
 
     public Session create(String browserContextId) {
-        boolean initialized = browserSession == null ? false : true;
+        boolean initialized = browserSession != null;
 
         Session browserSession = getBrowserSession();
         Target target = browserSession.getCommand().getTarget();
 
         TabInfo tab = null;
 
-        if ( ! initialized ) {
+        if (!initialized) {
             for (int i = 0; i < 500 && tabs.isEmpty(); i++) {
                 try {
                     sleep(10);
@@ -212,18 +219,18 @@ public class SessionFactory implements AutoCloseable {
                     throw new CdpException(e);
                 }
             }
-            if ( ! tabs.isEmpty() ) {
+            if (!tabs.isEmpty()) {
                 tab = tabs.remove(0);
             }
         }
 
         if (tab == null) {
             String targetId = target.createTarget("about:blank",
-                                                    DEFAULT_SCREEN_WIDTH,
-                                                    DEFAULT_SCREEN_HEIGHT,
-                                                    browserContextId, false);            
+                    DEFAULT_SCREEN_WIDTH,
+                    DEFAULT_SCREEN_HEIGHT,
+                    browserContextId, false);
             boolean found = false;
-            for (int i = 0; i < 500 && ! found; i++) {
+            for (int i = 0; i < 500 && !found; i++) {
                 for (TabInfo info : tabs) {
                     if (info.getTargetId().equals(targetId)) {
                         found = true;
@@ -231,7 +238,7 @@ public class SessionFactory implements AutoCloseable {
                         break;
                     }
                 }
-                if ( ! found ) {
+                if (!found) {
                     try {
                         sleep(10);
                     } catch (InterruptedException e) {
@@ -273,16 +280,16 @@ public class SessionFactory implements AutoCloseable {
         Map<Integer, WSContext> contexts = new ConcurrentHashMap<>();
         List<EventListener> listeners = new CopyOnWriteArrayList<>();
 
-        Session session = new Session(jackson,
-                                        gson, sessionId,
-                                        targetId, browserContextId,
-                                        webSocket, contexts,
-                                        this, listeners,
-                                        loggerFactory, false,
-                                        browserSession, getMajorVersion());
-        WSAdapter wsAdapter = new WSAdapter(gson, contexts,
-                                                listeners, threadPool,
-                                                loggerFactory.getLogger("cdp4j.ws.response"));
+        Session session = new Session(jackson, sessionId,
+                targetId, browserContextId,
+                webSocket, contexts,
+                this, listeners,
+                loggerFactory, false,
+                browserSession, getMajorVersion());
+
+        WSAdapter wsAdapter = new WSAdapter(jackson, contexts,
+                listeners, threadPool,
+                loggerFactory.getLogger("cdp4j.ws.response"));
         wsAdapter.setSession(session);
         wsAdapters.put(sessionId, wsAdapter);
         sessions.put(sessionId, session);
@@ -297,8 +304,8 @@ public class SessionFactory implements AutoCloseable {
                 }
             } else if (RuntimeExecutionContextDestroyed.equals(event)) {
                 ExecutionContextDestroyed ecd = (ExecutionContextDestroyed) value;
-                if ( ecd.getExecutionContextId() != null &&
-                        ecd.getExecutionContextId().equals(session.getExecutionContextId()) ) {
+                if (ecd.getExecutionContextId() != null &&
+                        ecd.getExecutionContextId().equals(session.getExecutionContextId())) {
                     session.setExecutionContextId(null);
                 }
             }
@@ -309,7 +316,7 @@ public class SessionFactory implements AutoCloseable {
         command.getInspector().enable();
         command.getPage().enable();
         command.getPage().setLifecycleEventsEnabled(true);
- 
+
         return session;
     }
 
@@ -326,9 +333,9 @@ public class SessionFactory implements AutoCloseable {
             }
             Map<Integer, WSContext> contexts = new ConcurrentHashMap<>();
             List<EventListener> listeners = new CopyOnWriteArrayList<>();
-            WSAdapter adapter = new WSAdapter(gson, contexts,
-                                        listeners, threadPool,
-                                        loggerFactory.getLogger("cdp4j.ws.response"));
+            WSAdapter adapter = new WSAdapter(jackson, contexts,
+                    listeners, threadPool,
+                    loggerFactory.getLogger("cdp4j.ws.response"));
             webSocket.addListener(adapter);
             try {
                 webSocket.connect();
@@ -337,13 +344,12 @@ public class SessionFactory implements AutoCloseable {
             }
             webSocket.setAutoFlush(true);
 
-            browserSession = new Session(jackson,
-                                        gson, webSocketDebuggerUrl,
-                                        webSocketDebuggerUrl, null,
-                                        webSocket, contexts,
-                                        this, listeners,
-                                        loggerFactory, true,
-                                        null, 0);
+            browserSession = new Session(jackson, webSocketDebuggerUrl,
+                    webSocketDebuggerUrl, null,
+                    webSocket, contexts,
+                    this, listeners,
+                    loggerFactory, true,
+                    null, 0);
             adapter.setSession(browserSession);
             browserSession.addEventListener(new TargetListener(sessions, wsAdapters, tabs));
             Target target = browserSession.getCommand().getTarget();
@@ -358,14 +364,14 @@ public class SessionFactory implements AutoCloseable {
             int version = getMajorVersion();
             if (version >= 68) {
                 session
-                    .getCommand()
-                    .getPage()
-                    .close();
+                        .getCommand()
+                        .getPage()
+                        .close();
             } else {
                 browserSession
-                    .getCommand()
-                    .getTarget()
-                    .closeTarget(session.getTargetId());
+                        .getCommand()
+                        .getTarget()
+                        .closeTarget(session.getTargetId());
             }
         }
         session.dispose();
@@ -376,11 +382,11 @@ public class SessionFactory implements AutoCloseable {
     private int getMajorVersion() {
         if (majorVersion == 0) {
             String[] product = browserSession
-                                        .getCommand()
-                                        .getBrowser()
-                                        .getVersion()
-                                        .getProduct()
-                                        .split("/");
+                    .getCommand()
+                    .getBrowser()
+                    .getVersion()
+                    .getProduct()
+                    .split("/");
             if (product.length == 2) {
                 String[] version = product[1].split("\\.");
                 if (version.length > 2) {
@@ -396,8 +402,10 @@ public class SessionFactory implements AutoCloseable {
         if (closed) {
             return;
         }
+        if (closeBrowserOnFactoryClose)
+            browserSession.getCommand().getBrowser().close();
         closed = true;
-        if ( browserSession != null ) {
+        if (browserSession != null) {
             browserSession.dispose();
         }
         sessions.clear();
@@ -416,38 +424,38 @@ public class SessionFactory implements AutoCloseable {
                 break;
             }
         }
-        if ( session != null ) {
-                browserSession
-                        .getCommand()
-                        .getTarget()
-                        .activateTarget(session.getTargetId());
+        if (session != null) {
+            browserSession
+                    .getCommand()
+                    .getTarget()
+                    .activateTarget(session.getTargetId());
         }
     }
 
     public boolean isHeadless() {
         if (headless == null) {
             headless = getBrowserSession()
-                            .getCommand()
-                            .getBrowser()
-                            .getVersion()
-                            .getProduct()
-                            .toLowerCase(ENGLISH)
-                            .contains("headless");
+                    .getCommand()
+                    .getBrowser()
+                    .getVersion()
+                    .getProduct()
+                    .toLowerCase(ENGLISH)
+                    .contains("headless");
         }
         return headless.booleanValue();
     }
 
     private Map<String, Object> getVersion() {
-        String sessions = format("http://%s:%d/json/version", host, port);
-        URL    url      = null;
-        Reader reader   = null;
+        String versionUrl = format("http://%s:%d/json/version", host, port);
+        Reader reader = null;
         try {
-            url = new URL(sessions);
+            URL url = new URL(versionUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(connectionTimeout);
             reader = new InputStreamReader(conn.getInputStream());
             @SuppressWarnings("unchecked")
-            Map<String, Object> map = gson.fromJson(reader, Map.class);
+            Map<String, Object> map = jackson.readValue(reader, Map.class);
+
             return map;
         } catch (ConnectException e) {
             throw new CdpException(format("Unable to connect [%s:%d]", host, port));
@@ -466,8 +474,8 @@ public class SessionFactory implements AutoCloseable {
 
     public boolean ping() {
         String sessions = format("http://%s:%d/json/version",
-                                        host,
-                                        port);
+                host,
+                port);
         try {
             URL url = new URL(sessions);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -475,13 +483,11 @@ public class SessionFactory implements AutoCloseable {
             conn.setConnectTimeout(timeout);
             conn.setReadTimeout(timeout);
             try (Reader reader = new InputStreamReader(conn.getInputStream())) {
-                while ( reader.read() != -1 ) {
+                while (reader.read() != -1) {
                     // no op
                 }
             }
             return conn.getResponseCode() == 200;
-        } catch (ConnectException e) {
-            return false;
         } catch (IOException e) {
             return false;
         }
@@ -489,9 +495,9 @@ public class SessionFactory implements AutoCloseable {
 
     public String createBrowserContext() {
         String browserContextId = getBrowserSession()
-                                    .getCommand()
-                                    .getTarget()
-                                    .createBrowserContext();
+                .getCommand()
+                .getTarget()
+                .createBrowserContext();
         contexts.add(browserContextId);
         return browserContextId;
     }
@@ -526,6 +532,15 @@ public class SessionFactory implements AutoCloseable {
 
     public void setWebSocketReadTimeout(int webSocketReadTimeout) {
         this.webSocketReadTimeout = webSocketReadTimeout;
+    }
+
+    public boolean isCloseBrowserOnFactoryClose() {
+        return closeBrowserOnFactoryClose;
+    }
+
+    public SessionFactory setCloseBrowserOnFactoryClose(boolean closeBrowserOnFactoryClose) {
+        this.closeBrowserOnFactoryClose = closeBrowserOnFactoryClose;
+        return this;
     }
 
     @Override

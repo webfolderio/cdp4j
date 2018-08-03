@@ -1,25 +1,35 @@
 /**
  * cdp4j - Chrome DevTools Protocol for Java
  * Copyright © 2017, 2018 WebFolder OÜ (support@webfolder.io)
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package io.webfolder.cdp.session;
 
-import static java.lang.String.format;
-import static java.util.Base64.getDecoder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.neovisionaries.ws.client.WebSocket;
+import io.webfolder.cdp.annotation.Domain;
+import io.webfolder.cdp.annotation.Returns;
+import io.webfolder.cdp.exception.CdpException;
+import io.webfolder.cdp.exception.ConnectionLostException;
+import io.webfolder.cdp.json.JsonRequest;
+import io.webfolder.cdp.json.JsonResponse;
+import io.webfolder.cdp.logger.CdpLogger;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -30,25 +40,12 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.neovisionaries.ws.client.WebSocket;
-
-import io.webfolder.cdp.annotation.Domain;
-import io.webfolder.cdp.annotation.Returns;
-import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.logger.CdpLogger;
+import static java.lang.String.format;
+import static java.util.Base64.getDecoder;
 
 class SessionInvocationHandler implements InvocationHandler {
 
     private final AtomicInteger counter = new AtomicInteger(0);
-
-    private final Gson gson;
 
     private final ObjectMapper jackson;
 
@@ -71,36 +68,34 @@ class SessionInvocationHandler implements InvocationHandler {
     private final int timeout;
 
     SessionInvocationHandler(
-                    final ObjectMapper jackson,
-                    final Gson gson,
-                    final WebSocket webSocket,
-                    final Map<Integer, WSContext> contexts,
-                    final Session session,
-                    final CdpLogger log,
-                    final boolean browserSession,
-                    final String sessionId,
-                    final String targetId,
-                    final int webSocketReadTimeout) {
-        this.jackson        = jackson;
-        this.gson           = gson;
-        this.webSocket      = webSocket;
-        this.contexts       = contexts;
-        this.session        = session;
-        this.log            = log;
+            final ObjectMapper jackson,
+            final WebSocket webSocket,
+            final Map<Integer, WSContext> contexts,
+            final Session session,
+            final CdpLogger log,
+            final boolean browserSession,
+            final String sessionId,
+            final String targetId,
+            final int webSocketReadTimeout) {
+        this.jackson = jackson;
+        this.webSocket = webSocket;
+        this.contexts = contexts;
+        this.session = session;
+        this.log = log;
         this.browserSession = browserSession;
-        this.sessionId      = sessionId;
-        this.targetId       = targetId;
-        this.timeout        = webSocketReadTimeout;
+        this.sessionId = sessionId;
+        this.targetId = targetId;
+        this.timeout = webSocketReadTimeout;
     }
 
     @Override
     public Object invoke(
-                final Object proxy,
-                final Method method,
-                final Object[] args) throws Throwable {
+            final Object proxy,
+            final Method method,
+            final Object[] args) throws Throwable {
 
         final Class<?> klass = method.getDeclaringClass();
-        final String  domain = klass.getAnnotation(Domain.class).value();
+        final String domain = klass.getAnnotation(Domain.class).value();
         final String command = method.getName();
 
         final boolean hasArgs = args != null && args.length > 0;
@@ -119,31 +114,16 @@ class SessionInvocationHandler implements InvocationHandler {
             enabledDomains.remove(domain);
         }
 
-        Map<String, Object> params = new HashMap<>(hasArgs ? args.length : 0);
-
-        if (hasArgs) {
-            int argIndex = 0;
-            Parameter[] parameters = method.getParameters();
-            for (Object argValue : args) {
-                String argName = parameters[argIndex++].getName();
-                params.put(argName, argValue);
-            }
-        }
-
         int id = counter.incrementAndGet();
-        Map<String, Object> map = new HashMap<>(3);
-        map.put("id"    , id);
-        map.put("method", format("%s.%s", domain, command));
-        map.put("params", params);
 
-        String json = jackson.writeValueAsString(map);
+        String json = buildRequestJson(method, args, domain, command, hasArgs, id);
 
         log.debug(json);
 
-        WSContext context = null;
+        WSContext context;
 
         if (session.isConnected()) {
-            context = new WSContext();
+            context = new WSContext(json);
             contexts.put(id, context);
             if (browserSession) {
                 webSocket.sendText(json);
@@ -154,10 +134,10 @@ class SessionInvocationHandler implements InvocationHandler {
             }
             context.await(timeout);
         } else {
-            throw new CdpException("WebSocket connection is not alive. id: " + id);
+            throw new ConnectionLostException("WebSocket connection is not alive. id: " + id);
         }
 
-        if ( context.getError() != null ) {
+        if (context.getError() != null) {
             throw context.getError();
         }
 
@@ -171,67 +151,85 @@ class SessionInvocationHandler implements InvocationHandler {
             return null;
         }
 
-        JsonElement data = context.getData();
+        JsonResponse data = context.getData();
 
         String returns = method.isAnnotationPresent(Returns.class) ?
-                    method.getAnnotation(Returns.class).value() : null;
+                method.getAnnotation(Returns.class).value() : null;
 
-        if (data == null) {
+        return jsonToObject(method, retType, data, returns);
+    }
+
+    private Object jsonToObject(Method method, Class<?> retType, JsonResponse data, String returns) throws IOException {
+        if (data == null)
             return null;
+
+        JsonNode result = data.getResult();
+
+        if (result == null || !result.isObject()) {
+            throw new CdpException("invalid result");
         }
 
-        if ( ! data.isJsonObject() ) {
-            throw new CdpException("invalid response");
-        }
-
-        JsonObject object = data.getAsJsonObject();
-        JsonElement result = object.get("result");
-
-        if ( result == null || ! result.isJsonObject() ) {
-            throw new CdpException("invalid result");   
-        }
-
-        JsonObject resultObject = result.getAsJsonObject();
-
-        Object ret = null;
         Type genericReturnType = method.getGenericReturnType();
 
-        if (returns != null) {
+        if (returns != null)
+            result = result.get(returns);
 
-            JsonElement jsonElement = resultObject.get(returns);
+        if (result.isNull())
+            return null;
 
-            if ( jsonElement != null && jsonElement.isJsonPrimitive() ) {
-                if (String.class.equals(retType)) {
-                    return resultObject.get(returns).getAsString();
-                } else if (Boolean.class.equals(retType)) {
-                    return resultObject.get(returns).getAsBoolean() ? Boolean.TRUE : Boolean.FALSE;
-                } else if (Integer.class.equals(retType)) {
-                    return resultObject.get(returns).getAsInt();
-                } else if (Double.class.equals(retType)) {
-                    return resultObject.get(returns).getAsDouble();
-                }
-            }
+        if (result.isValueNode()) {
+            if (String.class.equals(retType))
+                return result.asText();
 
-            if (jsonElement != null && byte[].class.equals(genericReturnType)) {
-                String encoded = gson.fromJson(jsonElement, String.class);
-                if (encoded == null || encoded.trim().isEmpty()) {
-                    return null;
-                } else {
-                    return getDecoder().decode(encoded);
-                }
-            }
+            if (Boolean.class.equals(retType))
+                return result.asBoolean() ? Boolean.TRUE : Boolean.FALSE;
 
-            if (List.class.equals(retType)) {
-                JsonArray jsonArray = jsonElement.getAsJsonArray();
-                ret = gson.fromJson(jsonArray, genericReturnType);
-            } else {
-                ret = gson.fromJson(jsonElement, genericReturnType);
-            }
-        } else {
-            ret = gson.fromJson(resultObject, genericReturnType);
+            if (Integer.class.equals(retType))
+                return result.asInt();
+
+            if (Double.class.equals(retType))
+                return result.asDouble();
         }
 
-        return ret;
+        if (byte[].class.equals(genericReturnType)) {
+            String encoded = result.asText();
+            if (encoded == null || encoded.trim().isEmpty()) {
+                return null;
+            } else {
+                return getDecoder().decode(encoded);
+            }
+        }
+
+        if (List.class.equals(retType)) {
+            return jackson
+                    .readValue(
+                            jackson.treeAsTokens(result),
+                            jackson.getTypeFactory().constructType(genericReturnType)
+                    );
+        }
+
+        return jackson.treeToValue(result, retType);
+    }
+
+    private String buildRequestJson(Method method, Object[] args, String domain, String command, boolean hasArgs, int id) throws JsonProcessingException {
+        Map<String, JsonNode> paramsJson = new HashMap<>(hasArgs ? args.length : 0);
+
+        if (hasArgs) {
+            int argIndex = 0;
+            Parameter[] parameters = method.getParameters();
+            for (Object argValue : args) {
+                String argName = parameters[argIndex++].getName();
+                paramsJson.put(argName, jackson.valueToTree(argValue));
+            }
+        }
+
+        JsonRequest request = new JsonRequest(
+                id,
+                format("%s.%s", domain, command),
+                paramsJson
+        );
+
+        return jackson.writeValueAsString(request);
     }
 
     void dispose() {

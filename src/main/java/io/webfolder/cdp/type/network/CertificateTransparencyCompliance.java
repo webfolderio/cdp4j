@@ -17,21 +17,17 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Whether the request complied with Certificate Transparency policy
  */
 public enum CertificateTransparencyCompliance {
-    @SerializedName("unknown")
     Unknown("unknown"),
-
-    @SerializedName("not-compliant")
     NotCompliant("not-compliant"),
-
-    @SerializedName("compliant")
     Compliant("compliant");
 
+    @JsonValue
     public final String value;
 
     CertificateTransparencyCompliance(String value) {

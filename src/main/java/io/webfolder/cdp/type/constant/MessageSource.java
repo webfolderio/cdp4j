@@ -17,42 +17,22 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum MessageSource {
-    @SerializedName("xml")
     Xml("xml"),
-
-    @SerializedName("javascript")
     Javascript("javascript"),
-
-    @SerializedName("network")
     Network("network"),
-
-    @SerializedName("console-api")
     ConsoleApi("console-api"),
-
-    @SerializedName("storage")
     Storage("storage"),
-
-    @SerializedName("appcache")
     Appcache("appcache"),
-
-    @SerializedName("rendering")
     Rendering("rendering"),
-
-    @SerializedName("security")
     Security("security"),
-
-    @SerializedName("other")
     Other("other"),
-
-    @SerializedName("deprecation")
     Deprecation("deprecation"),
-
-    @SerializedName("worker")
     Worker("worker");
 
+    @JsonValue
     public final String value;
 
     MessageSource(String value) {

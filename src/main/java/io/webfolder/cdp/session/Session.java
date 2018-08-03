@@ -17,39 +17,8 @@
  */
 package io.webfolder.cdp.session;
 
-import static com.neovisionaries.ws.client.WebSocketCloseCode.NORMAL;
-import static io.webfolder.cdp.event.Events.LogEntryAdded;
-import static io.webfolder.cdp.event.Events.NetworkResponseReceived;
-import static io.webfolder.cdp.event.Events.PageLifecycleEvent;
-import static io.webfolder.cdp.event.Events.RuntimeConsoleAPICalled;
-import static io.webfolder.cdp.session.WaitUntil.DomReady;
-import static io.webfolder.cdp.session.WaitUntil.Load;
-import static io.webfolder.cdp.type.constant.ImageFormat.Png;
-import static io.webfolder.cdp.type.page.ResourceType.Document;
-import static io.webfolder.cdp.type.page.ResourceType.XHR;
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
-import static java.lang.Math.floor;
-import static java.lang.String.format;
-import static java.lang.String.valueOf;
-import static java.lang.ThreadLocal.withInitial;
-import static java.lang.reflect.Proxy.newProxyInstance;
-import static java.util.Locale.ENGLISH;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Predicate;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.neovisionaries.ws.client.WebSocket;
-
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.command.CSS;
@@ -60,8 +29,8 @@ import io.webfolder.cdp.event.network.ResponseReceived;
 import io.webfolder.cdp.event.page.LifecycleEvent;
 import io.webfolder.cdp.event.runtime.ConsoleAPICalled;
 import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.exception.LoadTimeoutException;
 import io.webfolder.cdp.exception.DestinationUnreachableException;
+import io.webfolder.cdp.exception.LoadTimeoutException;
 import io.webfolder.cdp.listener.EventListener;
 import io.webfolder.cdp.listener.TerminateEvent;
 import io.webfolder.cdp.listener.TerminateListener;
@@ -76,6 +45,32 @@ import io.webfolder.cdp.type.page.GetLayoutMetricsResult;
 import io.webfolder.cdp.type.page.NavigateResult;
 import io.webfolder.cdp.type.page.Viewport;
 import io.webfolder.cdp.type.runtime.RemoteObject;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Predicate;
+
+import static com.neovisionaries.ws.client.WebSocketCloseCode.NORMAL;
+import static io.webfolder.cdp.event.Events.*;
+import static io.webfolder.cdp.session.WaitUntil.DomReady;
+import static io.webfolder.cdp.session.WaitUntil.Load;
+import static io.webfolder.cdp.type.constant.ImageFormat.Png;
+import static io.webfolder.cdp.type.page.ResourceType.Document;
+import static io.webfolder.cdp.type.page.ResourceType.XHR;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static java.lang.Math.floor;
+import static java.lang.String.format;
+import static java.lang.String.valueOf;
+import static java.lang.ThreadLocal.withInitial;
+import static java.lang.reflect.Proxy.newProxyInstance;
+import static java.util.Locale.ENGLISH;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class Session implements AutoCloseable,
                                 Selector     ,
@@ -93,7 +88,7 @@ public class Session implements AutoCloseable,
 
     private final SessionInvocationHandler invocationHandler;
 
-    private final SessionFactory sesessionFactory;
+    private final SessionFactory sessionFactory;
 
     private final String sessionId;
 
@@ -102,8 +97,6 @@ public class Session implements AutoCloseable,
     private final CdpLogger log;
 
     private final CdpLogger logFlow;
-
-    private final Gson gson;
 
     private final ObjectMapper jackson;
 
@@ -126,11 +119,10 @@ public class Session implements AutoCloseable,
     private final int majorVersion;
 
     private static final ThreadLocal<Boolean> ENABLE_ENTRY_EXIT_LOG = 
-                                                    withInitial(() -> { return TRUE; });
+                                                    withInitial(() -> TRUE);
 
     Session(
             final ObjectMapper jackson,
-            final Gson gson,
             final String sessionId,
             final String targetId,
             final String browserContextId,
@@ -146,7 +138,6 @@ public class Session implements AutoCloseable,
         this.browserContextId = browserContextId;
         this.invocationHandler = new SessionInvocationHandler(
                                                         jackson,
-                                                        gson,
                                                         webSocket,
                                                         contextList,
                                                         session == null ? this : session,
@@ -156,12 +147,11 @@ public class Session implements AutoCloseable,
                                                         targetId,
                                                         sessionFactory.getWebSocketReadTimeout());
         this.targetId         = targetId; 
-        this.sesessionFactory = sessionFactory;
+        this.sessionFactory = sessionFactory;
         this.listeners   = eventListeners;
         this.webSocket        = webSocket;
         this.log              = loggerFactory.getLogger("cdp4j.session");
         this.logFlow          = loggerFactory.getLogger("cdp4j.flow");
-        this.gson             = gson;
         this.jackson          = jackson;
         this.browserSession   = browserSession;
         this.majorVersion     = majorVersion;
@@ -180,7 +170,7 @@ public class Session implements AutoCloseable,
         logEntry("close");
         if (isConnected()) {
             try {
-                sesessionFactory.close(this);
+                sessionFactory.close(this);
             } finally {
                 terminate("closed");
                 connected.set(false);
@@ -199,20 +189,27 @@ public class Session implements AutoCloseable,
      */
     public void activate() {
         logEntry("activate");
-        sesessionFactory.activate(sessionId);
+        sessionFactory.activate(sessionId);
     }
 
     /**
-     * Use {@link Session#getListenerManager()}
+     * Use {@link WebSocket#getListenerManager()}
      */
     public void addEventListener(EventListener eventListener) {
         listeners.add(eventListener);
     }
 
     /**
-     * Use {@link Session#getListenerManager()}
+     * @deprecated, replaced {@link Session#removeEventListener(EventListener)}
      */
     public void removeEventEventListener(EventListener eventListener) {
+        removeEventListener(eventListener);
+    }
+
+    /**
+     * Use {@link WebSocket#getListenerManager()}
+     */
+    public void removeEventListener(EventListener eventListener) {
         if (eventListener != null) {
             listeners.remove(eventListener);
         }
@@ -258,7 +255,7 @@ public class Session implements AutoCloseable,
                 }
             };
             addEventListener(loadListener);
-            sesessionFactory.getThreadPool().execute(() -> {
+            sessionFactory.getThreadPool().execute(() -> {
                 try {
                     waitUntil(s -> ! isConnected() || s.isDomReady() || ready.get(), timeout, false);
                 } finally {
@@ -276,7 +273,7 @@ public class Session implements AutoCloseable,
             } catch (InterruptedException e) {
                 throw new LoadTimeoutException(e);
             } finally {
-                removeEventEventListener(loadListener);
+                removeEventListener(loadListener);
             }
             long elapsed = System.currentTimeMillis() - start;
             if ( elapsed > timeout && isConnected() && ! isDomReady() ) {
@@ -326,6 +323,11 @@ public class Session implements AutoCloseable,
         return false;
     }
 
+    /**
+     * @param url URL for the navigation
+     * @deprecated It's extremely unsafe to use this method - next commands may crash due to
+     * execution context is not ready yet. Use {@link #navigateAndWait(String)}
+     */
     public Session navigate(final String url) {
         logEntry("navigate", url);
         NavigateResult navigate = command.getPage().navigate(url);
@@ -335,6 +337,10 @@ public class Session implements AutoCloseable,
         	throw new DestinationUnreachableException(url);
         }
         return this;
+    }
+
+    public Session navigateAndWait(final String url) {
+        return navigateAndWait(url, WaitUntil.Load);
     }
 
     public Session navigateAndWait(final String url, WaitUntil condition) {
@@ -378,7 +384,7 @@ public class Session implements AutoCloseable,
         } catch (InterruptedException e) {
             throw new LoadTimeoutException(e);
         } finally {
-            removeEventEventListener(loadListener);
+            removeEventListener(loadListener);
         }
 
         long elapsedTime = System.currentTimeMillis() - start;
@@ -636,8 +642,8 @@ public class Session implements AutoCloseable,
         }
     }
 
-    Gson getGson() {
-        return gson;
+    ObjectMapper getJackson() {
+        return jackson;
     }
 
     void terminate(String message) {

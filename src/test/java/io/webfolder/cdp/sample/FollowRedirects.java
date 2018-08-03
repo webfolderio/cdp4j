@@ -71,7 +71,7 @@ public class FollowRedirects {
                 }
             });
 
-            session.navigate("https://httpbin.org/redirect-to?url=https://webfolder.io?cdp4j");
+            session.navigateAndWait("https://httpbin.org/redirect-to?url=https://webfolder.io?cdp4j");
             session.waitDocumentReady();
 
             System.out.println(session.evaluate("document.location.href"));

@@ -17,15 +17,13 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Platform {
-    @SerializedName("mobile")
     Mobile("mobile"),
-
-    @SerializedName("desktop")
     Desktop("desktop");
 
+    @JsonValue
     public final String value;
 
     Platform(String value) {

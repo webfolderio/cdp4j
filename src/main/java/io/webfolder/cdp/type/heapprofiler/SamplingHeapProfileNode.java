@@ -18,6 +18,7 @@
 package io.webfolder.cdp.type.heapprofiler;
 
 import io.webfolder.cdp.type.runtime.CallFrame;
+
 import java.util.ArrayList;
 import java.util.List;
 

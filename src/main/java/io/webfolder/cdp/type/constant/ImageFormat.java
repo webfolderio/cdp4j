@@ -17,15 +17,13 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ImageFormat {
-    @SerializedName("jpeg")
     Jpeg("jpeg"),
-
-    @SerializedName("png")
     Png("png");
 
+    @JsonValue
     public final String value;
 
     ImageFormat(String value) {

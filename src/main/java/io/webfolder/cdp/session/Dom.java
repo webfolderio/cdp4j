@@ -17,7 +17,21 @@
  */
 package io.webfolder.cdp.session;
 
-import static io.webfolder.cdp.session.Option.TYPE_TOKEN;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.webfolder.cdp.command.DOM;
+import io.webfolder.cdp.exception.ElementNotFoundException;
+import io.webfolder.cdp.type.dom.BoxModel;
+import io.webfolder.cdp.type.runtime.CallFunctionOnResult;
+import io.webfolder.cdp.type.runtime.ExceptionDetails;
+import io.webfolder.cdp.type.runtime.PropertyDescriptor;
+import io.webfolder.cdp.type.runtime.RemoteObject;
+import io.webfolder.cdp.type.util.Point;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.function.Function;
+
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.lang.Math.floor;
@@ -27,26 +41,6 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.stream.Collectors.toList;
-
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import com.google.gson.Gson;
-
-import io.webfolder.cdp.command.DOM;
-import io.webfolder.cdp.exception.ElementNotFoundException;
-import io.webfolder.cdp.type.dom.BoxModel;
-import io.webfolder.cdp.type.runtime.CallFunctionOnResult;
-import io.webfolder.cdp.type.runtime.ExceptionDetails;
-import io.webfolder.cdp.type.runtime.PropertyDescriptor;
-import io.webfolder.cdp.type.runtime.RemoteObject;
-import io.webfolder.cdp.type.util.Point;
 
 /**
  * Provides the interfaces for the Document Object Model (DOM).
@@ -207,13 +201,14 @@ public interface Dom {
         if (objectId == null) {
             throw new ElementNotFoundException(format(selector, args));
         }
-        Double selectedIndex = (Double) getThis().getPropertyByObjectId(objectId, "selectedIndex");
+        Integer selectedIndex = (Integer) getThis().getPropertyByObjectId(objectId, "selectedIndex");
         getThis().releaseObject(objectId);
         if (selectedIndex == null) {
-            selectedIndex = -1D;
+            selectedIndex = -1;
         }
-        getThis().logExit("getSelectedIndex", format(selector, args), selectedIndex.intValue());
-        return selectedIndex.intValue();
+        getThis().logExit("getSelectedIndex", format(selector, args), selectedIndex);
+
+        return selectedIndex;
     }
 
     /**
@@ -274,7 +269,7 @@ public interface Dom {
      * The list of options for a &lt;select&gt; element consists of all the option element children of the select element,
      * and all the &lt;option&gt; element children of all the &lt;optgroup&gt; element children of the &lt;select&gt; element.
      * 
-     * @param css selector
+     * @param selector css
      * 
      * @return list of HTML &lt;option&gt; elements (in document order).
      */
@@ -286,7 +281,7 @@ public interface Dom {
      * The list of options for a &lt;select&gt; element consists of all the option element children of the select element,
      * and all the &lt;option&gt; element children of all the &lt;optgroup&gt; element children of the &lt;select&gt; element.
      * 
-     * @param css selector
+     * @param selector css
      * @param args format string
      * 
      * @return list of HTML &lt;option&gt; elements (in document order).
@@ -300,10 +295,10 @@ public interface Dom {
         }
         PropertyDescriptor pd = getThis().getPropertyDescriptor(objectId, "options");
         if ( pd != null && pd.getValue() != null ) {
-            Double length = (Double) getThis().getPropertyByObjectId(pd.getValue().getObjectId(), "length");
+            Integer length = (Integer) getThis().getPropertyByObjectId(pd.getValue().getObjectId(), "length");
             List<Option> list = emptyList();
             if (length != null) {
-                if (length.intValue() <= 0) {
+                if (length <= 0) {
                     getThis().releaseObject(objectId);
                 } else {
                     CallFunctionOnResult result = getThis().getCommand().getRuntime().callFunctionOn(
@@ -317,8 +312,12 @@ public interface Dom {
                     if (result != null && result.getResult() != null) {
                         String json = (String) result.getResult().getValue();
                         getThis().releaseObject(result.getResult().getObjectId());
-                        Gson gson = getThis().getGson();
-                        list = gson.fromJson(json, TYPE_TOKEN.getType());
+                        ObjectMapper jackson = getThis().getJackson();
+                        try {
+                            list = jackson.readValue(json, jackson.getTypeFactory().constructCollectionType(List.class,Option.class));
+                        } catch (IOException e) {
+                            getThis().error("Unable to parse select options", e);
+                        }
                     }
                 }
             }
@@ -392,13 +391,13 @@ public interface Dom {
         PropertyDescriptor pd = getThis().getPropertyDescriptor(objectId, "options");
         if (pd != null) {
             if (pd.getValue() != null) {
-                Double length = (Double) getThis().getPropertyByObjectId(pd.getValue().getObjectId(), "length");
+                Integer length = (Integer) getThis().getPropertyByObjectId(pd.getValue().getObjectId(), "length");
                 if (length != null) {
-                    if (length.intValue() <= 0) {
+                    if (length <= 0) {
                         getThis().releaseObject(objectId);
                     } else {
                         for (Integer index : indexes) {
-                            if (index > length.intValue() || index < 0) {
+                            if (index > length || index < 0) {
                                 getThis().error("invalid index value [{}]", index.intValue());
                                 continue;
                             }

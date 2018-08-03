@@ -17,21 +17,15 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TouchEventType {
-    @SerializedName("touchStart")
     TouchStart("touchStart"),
-
-    @SerializedName("touchEnd")
     TouchEnd("touchEnd"),
-
-    @SerializedName("touchMove")
     TouchMove("touchMove"),
-
-    @SerializedName("touchCancel")
     TouchCancel("touchCancel");
 
+    @JsonValue
     public final String value;
 
     TouchEventType(String value) {

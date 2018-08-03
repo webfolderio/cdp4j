@@ -17,18 +17,14 @@
  */
 package io.webfolder.cdp.type.input;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum GestureSourceType {
-    @SerializedName("default")
     Default("default"),
-
-    @SerializedName("touch")
     Touch("touch"),
-
-    @SerializedName("mouse")
     Mouse("mouse");
 
+    @JsonValue
     public final String value;
 
     GestureSourceType(String value) {

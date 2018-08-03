@@ -34,8 +34,7 @@ public class Select {
 
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
-            session.navigate(url.toString());
-            session.waitDocumentReady();
+            session.navigateAndWait(url.toString());
             int selectedIndex = session.getSelectedIndex("select");
             System.out.println("Selected  index : " + selectedIndex);
             System.out.println("options         : " + session.getOptions("select"));
@@ -44,7 +43,7 @@ public class Select {
             session.wait(2000);
             selectedIndex = session.getSelectedIndex("select");
             System.out.println("Selected  index : " + selectedIndex);
-            Optional<Option> selected = session.getOptions("select").stream().filter(o -> o.isSelected()).findFirst();
+            Optional<Option> selected = session.getOptions("select").stream().filter(Option::isSelected).findFirst();
             System.out.println("Selected        : " + selected.get().getText());
         }
 

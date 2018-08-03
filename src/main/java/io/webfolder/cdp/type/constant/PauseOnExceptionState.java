@@ -17,18 +17,14 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum PauseOnExceptionState {
-    @SerializedName("none")
     None("none"),
-
-    @SerializedName("uncaught")
     Uncaught("uncaught"),
-
-    @SerializedName("all")
     All("all");
 
+    @JsonValue
     public final String value;
 
     PauseOnExceptionState(String value) {

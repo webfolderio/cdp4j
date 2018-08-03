@@ -17,18 +17,14 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum DownloadBehavior {
-    @SerializedName("deny")
     Deny("deny"),
-
-    @SerializedName("allow")
     Allow("allow"),
-
-    @SerializedName("default")
     Default("default");
 
+    @JsonValue
     public final String value;
 
     DownloadBehavior(String value) {

@@ -88,7 +88,7 @@ public class PdfPrinter implements AutoCloseable {
             public void run() {
                 if ( factory != null ) {
                     int     retryCount = 0;
-                    boolean connected  = factory.ping();
+                    boolean connected;
                     while ( ! ( connected = factory.ping() ) && retryCount < 50 ) {
                         try {
                             sleep(100);
@@ -147,9 +147,8 @@ public class PdfPrinter implements AutoCloseable {
 
                 @Override
                 public void accept(Session s) {
-                    s.navigate(next);
+                    s.navigateAndWait(next);
                     try {
-                        s.waitDocumentReady();
                         byte[] content = s.getCommand().getPage().printToPDF();
                         if ( content != null ) {
                             System.out.println("PDF size: " + content.length + " (" + next + ")");

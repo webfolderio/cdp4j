@@ -17,7 +17,7 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Stages of the interception to begin intercepting
@@ -26,12 +26,10 @@ import com.google.gson.annotations.SerializedName;
  * Response will intercept after the response is received
  */
 public enum InterceptionStage {
-    @SerializedName("Request")
     Request("Request"),
-
-    @SerializedName("HeadersReceived")
     HeadersReceived("HeadersReceived");
 
+    @JsonValue
     public final String value;
 
     InterceptionStage(String value) {

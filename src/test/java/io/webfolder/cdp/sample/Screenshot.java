@@ -38,8 +38,7 @@ public class Screenshot {
 
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
-            session.navigate("https://news.ycombinator.com");
-            session.waitDocumentReady();
+            session.navigateAndWait("https://news.ycombinator.com");
             // activate the tab/session before capturing the screenshot
             session.activate();
             byte[] data = session.captureScreenshot();

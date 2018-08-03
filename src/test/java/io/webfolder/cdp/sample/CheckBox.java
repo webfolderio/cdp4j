@@ -33,8 +33,7 @@ public class CheckBox {
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
-            session.navigate(url.toString());
-            session.waitDocumentReady();
+            session.navigateAndWait(url.toString());
             System.out.println("Checked: " + session.isChecked("input[name='red']"));
             session.setChecked("input[name='red']", true);
             System.out.println("Checked: " + session.isChecked("input[name='red']"));

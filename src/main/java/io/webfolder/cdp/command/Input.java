@@ -26,6 +26,7 @@ import io.webfolder.cdp.type.constant.MouseEventType;
 import io.webfolder.cdp.type.constant.TouchEventType;
 import io.webfolder.cdp.type.input.GestureSourceType;
 import io.webfolder.cdp.type.input.TouchPoint;
+
 import java.util.List;
 
 @Domain("Input")

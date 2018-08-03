@@ -20,19 +20,8 @@ package io.webfolder.cdp.command;
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Returns;
-import io.webfolder.cdp.type.css.CSSComputedStyleProperty;
-import io.webfolder.cdp.type.css.CSSMedia;
-import io.webfolder.cdp.type.css.CSSRule;
-import io.webfolder.cdp.type.css.CSSStyle;
-import io.webfolder.cdp.type.css.GetBackgroundColorsResult;
-import io.webfolder.cdp.type.css.GetInlineStylesForNodeResult;
-import io.webfolder.cdp.type.css.GetMatchedStylesForNodeResult;
-import io.webfolder.cdp.type.css.PlatformFontUsage;
-import io.webfolder.cdp.type.css.RuleUsage;
-import io.webfolder.cdp.type.css.SelectorList;
-import io.webfolder.cdp.type.css.SourceRange;
-import io.webfolder.cdp.type.css.StyleDeclarationEdit;
-import io.webfolder.cdp.type.css.Value;
+import io.webfolder.cdp.type.css.*;
+
 import java.util.List;
 
 /**

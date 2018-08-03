@@ -28,17 +28,8 @@ import io.webfolder.cdp.type.constant.TargetLifecycleState;
 import io.webfolder.cdp.type.debugger.SearchMatch;
 import io.webfolder.cdp.type.emulation.ScreenOrientation;
 import io.webfolder.cdp.type.network.Cookie;
-import io.webfolder.cdp.type.page.FontFamilies;
-import io.webfolder.cdp.type.page.FontSizes;
-import io.webfolder.cdp.type.page.FrameResourceTree;
-import io.webfolder.cdp.type.page.FrameTree;
-import io.webfolder.cdp.type.page.GetAppManifestResult;
-import io.webfolder.cdp.type.page.GetLayoutMetricsResult;
-import io.webfolder.cdp.type.page.GetNavigationHistoryResult;
-import io.webfolder.cdp.type.page.GetResourceContentResult;
-import io.webfolder.cdp.type.page.NavigateResult;
-import io.webfolder.cdp.type.page.TransitionType;
-import io.webfolder.cdp.type.page.Viewport;
+import io.webfolder.cdp.type.page.*;
+
 import java.util.List;
 
 /**

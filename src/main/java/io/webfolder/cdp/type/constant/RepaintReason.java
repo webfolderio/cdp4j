@@ -17,18 +17,14 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum RepaintReason {
-    @SerializedName("RepaintsOnScroll")
     RepaintsOnScroll("RepaintsOnScroll"),
-
-    @SerializedName("TouchEventHandler")
     TouchEventHandler("TouchEventHandler"),
-
-    @SerializedName("WheelEventHandler")
     WheelEventHandler("WheelEventHandler");
 
+    @JsonValue
     public final String value;
 
     RepaintReason(String value) {

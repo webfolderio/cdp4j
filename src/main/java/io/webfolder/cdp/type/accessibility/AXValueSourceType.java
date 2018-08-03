@@ -17,30 +17,20 @@
  */
 package io.webfolder.cdp.type.accessibility;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Enum of possible property sources
  */
 public enum AXValueSourceType {
-    @SerializedName("attribute")
     Attribute("attribute"),
-
-    @SerializedName("implicit")
     Implicit("implicit"),
-
-    @SerializedName("style")
     Style("style"),
-
-    @SerializedName("contents")
     Contents("contents"),
-
-    @SerializedName("placeholder")
     Placeholder("placeholder"),
-
-    @SerializedName("relatedElement")
     RelatedElement("relatedElement");
 
+    @JsonValue
     public final String value;
 
     AXValueSourceType(String value) {

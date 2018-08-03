@@ -17,22 +17,27 @@
  */
 package io.webfolder.cdp.session;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import io.webfolder.cdp.exception.CdpException;
+import io.webfolder.cdp.exception.CommandException;
+import io.webfolder.cdp.json.JsonResponse;
 
 import java.util.concurrent.CountDownLatch;
 
-import com.google.gson.JsonElement;
-
-import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.exception.CommandException;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 class WSContext {
 
+    private String jsonRequest;
+
     private CountDownLatch latch = new CountDownLatch(1);
 
-    private JsonElement data;
+    private JsonResponse data;
 
     private CommandException error;
+
+    public WSContext(String jsonRequest) {
+        this.jsonRequest = jsonRequest;
+    }
 
     void await(final int timeout) {
         try {
@@ -42,13 +47,17 @@ class WSContext {
         }
     }
 
-    void setData(final JsonElement data) {
+    void setData(final JsonResponse data) {
         this.data = data;
         latch.countDown();
     }
 
-    JsonElement getData() {
+    JsonResponse getData() {
         return data;
+    }
+
+    public String getJsonRequest() {
+        return jsonRequest;
     }
 
     void setError(CommandException error) {

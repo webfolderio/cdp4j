@@ -17,7 +17,7 @@
  */
 package io.webfolder.cdp.type.security;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * The action to take when a certificate error occurs
@@ -25,12 +25,10 @@ import com.google.gson.annotations.SerializedName;
  * request and cancel will cancel the request
  */
 public enum CertificateErrorAction {
-    @SerializedName("continue")
     Continue("continue"),
-
-    @SerializedName("cancel")
     Cancel("cancel");
 
+    @JsonValue
     public final String value;
 
     CertificateErrorAction(String value) {

@@ -25,6 +25,7 @@ import io.webfolder.cdp.type.constant.TransferMode;
 import io.webfolder.cdp.type.tracing.RequestMemoryDumpResult;
 import io.webfolder.cdp.type.tracing.StreamCompression;
 import io.webfolder.cdp.type.tracing.TraceConfig;
+
 import java.util.List;
 
 @Experimental

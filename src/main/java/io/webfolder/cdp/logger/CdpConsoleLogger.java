@@ -17,10 +17,8 @@
  */
 package io.webfolder.cdp.logger;
 
-import static io.webfolder.cdp.logger.CdpLogLevel.Debug;
+import static io.webfolder.cdp.logger.CdpLogLevel.*;
 import static io.webfolder.cdp.logger.CdpLogLevel.Error;
-import static io.webfolder.cdp.logger.CdpLogLevel.Info;
-import static io.webfolder.cdp.logger.CdpLogLevel.Warn;
 import static io.webfolder.cdp.logger.MessageFormatter.arrayFormat;
 
 public class CdpConsoleLogger implements CdpLogger {

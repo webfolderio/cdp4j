@@ -22,6 +22,7 @@ import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.type.domsnapshot.CaptureSnapshotResult;
 import io.webfolder.cdp.type.domsnapshot.GetSnapshotResult;
+
 import java.util.List;
 
 /**

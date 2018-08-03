@@ -17,21 +17,15 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum MouseEventType {
-    @SerializedName("mousePressed")
     MousePressed("mousePressed"),
-
-    @SerializedName("mouseReleased")
     MouseReleased("mouseReleased"),
-
-    @SerializedName("mouseMoved")
     MouseMoved("mouseMoved"),
-
-    @SerializedName("mouseWheel")
     MouseWheel("mouseWheel");
 
+    @JsonValue
     public final String value;
 
     MouseEventType(String value) {

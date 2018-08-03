@@ -17,7 +17,7 @@
  */
 package io.webfolder.cdp.type.emulation;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * advance: If the scheduler runs out of immediate work, the virtual time base may fast forward to
@@ -26,15 +26,11 @@ import com.google.gson.annotations.SerializedName;
  * resource fetches
  */
 public enum VirtualTimePolicy {
-    @SerializedName("advance")
     Advance("advance"),
-
-    @SerializedName("pause")
     Pause("pause"),
-
-    @SerializedName("pauseIfNetworkFetchesPending")
     PauseIfNetworkFetchesPending("pauseIfNetworkFetchesPending");
 
+    @JsonValue
     public final String value;
 
     VirtualTimePolicy(String value) {

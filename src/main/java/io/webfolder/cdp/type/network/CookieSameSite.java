@@ -17,7 +17,7 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Represents the cookie's 'SameSite' status:
@@ -26,12 +26,10 @@ import com.google.gson.annotations.SerializedName;
  * org/html/draft-west-first-party-cookies
  */
 public enum CookieSameSite {
-    @SerializedName("Strict")
     Strict("Strict"),
-
-    @SerializedName("Lax")
     Lax("Lax");
 
+    @JsonValue
     public final String value;
 
     CookieSameSite(String value) {

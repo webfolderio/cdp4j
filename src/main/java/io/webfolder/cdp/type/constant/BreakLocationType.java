@@ -17,18 +17,14 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum BreakLocationType {
-    @SerializedName("debuggerStatement")
     DebuggerStatement("debuggerStatement"),
-
-    @SerializedName("call")
     Call("call"),
-
-    @SerializedName("return")
     Return("return");
 
+    @JsonValue
     public final String value;
 
     BreakLocationType(String value) {

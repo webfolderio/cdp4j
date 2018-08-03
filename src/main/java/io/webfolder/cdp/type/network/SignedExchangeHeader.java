@@ -18,6 +18,7 @@
 package io.webfolder.cdp.type.network;
 
 import io.webfolder.cdp.annotation.Experimental;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -17,21 +17,15 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum LogEntrySeverity {
-    @SerializedName("verbose")
     Verbose("verbose"),
-
-    @SerializedName("info")
     Info("info"),
-
-    @SerializedName("warning")
     Warning("warning"),
-
-    @SerializedName("error")
     Error("error");
 
+    @JsonValue
     public final String value;
 
     LogEntrySeverity(String value) {

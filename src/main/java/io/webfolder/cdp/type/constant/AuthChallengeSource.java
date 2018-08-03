@@ -17,15 +17,13 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum AuthChallengeSource {
-    @SerializedName("Server")
     Server("Server"),
-
-    @SerializedName("Proxy")
     Proxy("Proxy");
 
+    @JsonValue
     public final String value;
 
     AuthChallengeSource(String value) {

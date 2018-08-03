@@ -17,16 +17,16 @@
  */
 package io.webfolder.cdp;
 
-import static java.lang.Class.forName;
-import static java.lang.String.valueOf;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import io.webfolder.cdp.exception.CdpException;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import io.webfolder.cdp.exception.CdpException;
+import static java.lang.Class.forName;
+import static java.lang.String.valueOf;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class MacOsProcessManager extends ProcessManager {
 

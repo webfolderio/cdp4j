@@ -20,6 +20,7 @@ package io.webfolder.cdp.type.domsnapshot;
 import io.webfolder.cdp.type.dom.PseudoType;
 import io.webfolder.cdp.type.dom.ShadowRootType;
 import io.webfolder.cdp.type.domdebugger.EventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 

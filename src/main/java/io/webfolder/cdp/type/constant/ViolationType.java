@@ -17,30 +17,18 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ViolationType {
-    @SerializedName("longTask")
     LongTask("longTask"),
-
-    @SerializedName("longLayout")
     LongLayout("longLayout"),
-
-    @SerializedName("blockedEvent")
     BlockedEvent("blockedEvent"),
-
-    @SerializedName("blockedParser")
     BlockedParser("blockedParser"),
-
-    @SerializedName("discouragedAPIUse")
     DiscouragedAPIUse("discouragedAPIUse"),
-
-    @SerializedName("handler")
     Handler("handler"),
-
-    @SerializedName("recurringHandler")
     RecurringHandler("recurringHandler");
 
+    @JsonValue
     public final String value;
 
     ViolationType(String value) {

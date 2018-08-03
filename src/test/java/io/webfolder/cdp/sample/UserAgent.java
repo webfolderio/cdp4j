@@ -17,9 +17,10 @@
  */
 package io.webfolder.cdp.sample;
 
+import java.io.IOException;
 import java.util.Map;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.webfolder.cdp.Launcher;
 import io.webfolder.cdp.session.Session;
@@ -28,19 +29,18 @@ import io.webfolder.cdp.session.SessionFactory;
 public class UserAgent {
 
     @SuppressWarnings("rawtypes")
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Launcher launcher = new Launcher();
 
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
             session.setUserAgent("My Browser");
-            session.navigate("https://httpbin.org/headers");
-            session.waitDocumentReady();
+            session.navigateAndWait("https://httpbin.org/headers");
             String response = (String) session.evaluate("document.body.textContent");
 
-            Gson gson = new Gson();
-            Map json = gson.fromJson(response, Map.class);
+            ObjectMapper jackson = new ObjectMapper();
+            Map json = jackson.readValue(response, Map.class);
             Map headers = (Map) json.get("headers");
 
             System.out.println(headers.get("User-Agent"));

@@ -33,12 +33,9 @@ public class WaitUntil {
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
 
-            session.navigate(url.toString());
-            session.waitDocumentReady();
+            session.navigateAndWait(url.toString());
 
-            boolean succeed = session.waitUntil(s -> {
-                return s.matches("#time");
-            }, 10 * 1000);
+            boolean succeed = session.waitUntil(s -> s.matches("#time"), 10 * 1000);
             if (succeed) {
                 String time = session.getText("#time");
                 System.out.println(time);

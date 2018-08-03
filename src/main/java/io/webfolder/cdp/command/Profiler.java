@@ -24,6 +24,7 @@ import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.profiler.Profile;
 import io.webfolder.cdp.type.profiler.ScriptCoverage;
 import io.webfolder.cdp.type.profiler.ScriptTypeProfile;
+
 import java.util.List;
 
 @Domain("Profiler")

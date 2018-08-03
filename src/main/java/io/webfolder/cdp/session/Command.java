@@ -17,41 +17,8 @@
  */
 package io.webfolder.cdp.session;
 
-import io.webfolder.cdp.command.Accessibility;
-import io.webfolder.cdp.command.Animation;
-import io.webfolder.cdp.command.ApplicationCache;
-import io.webfolder.cdp.command.Browser;
-import io.webfolder.cdp.command.CSS;
-import io.webfolder.cdp.command.CacheStorage;
-import io.webfolder.cdp.command.DOM;
-import io.webfolder.cdp.command.DOMDebugger;
-import io.webfolder.cdp.command.DOMSnapshot;
-import io.webfolder.cdp.command.DOMStorage;
-import io.webfolder.cdp.command.Database;
-import io.webfolder.cdp.command.Debugger;
-import io.webfolder.cdp.command.DeviceOrientation;
-import io.webfolder.cdp.command.Emulation;
-import io.webfolder.cdp.command.HeapProfiler;
-import io.webfolder.cdp.command.IO;
-import io.webfolder.cdp.command.IndexedDB;
-import io.webfolder.cdp.command.Input;
-import io.webfolder.cdp.command.Inspector;
-import io.webfolder.cdp.command.LayerTree;
-import io.webfolder.cdp.command.Log;
-import io.webfolder.cdp.command.Memory;
-import io.webfolder.cdp.command.Network;
-import io.webfolder.cdp.command.Overlay;
-import io.webfolder.cdp.command.Page;
-import io.webfolder.cdp.command.Profiler;
+import io.webfolder.cdp.command.*;
 import io.webfolder.cdp.command.Runtime;
-import io.webfolder.cdp.command.Schema;
-import io.webfolder.cdp.command.Security;
-import io.webfolder.cdp.command.ServiceWorker;
-import io.webfolder.cdp.command.Storage;
-import io.webfolder.cdp.command.SystemInfo;
-import io.webfolder.cdp.command.Target;
-import io.webfolder.cdp.command.Tethering;
-import io.webfolder.cdp.command.Tracing;
 
 @SuppressWarnings("deprecation")
 public class Command {

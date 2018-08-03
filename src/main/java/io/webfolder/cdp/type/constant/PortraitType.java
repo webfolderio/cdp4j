@@ -17,21 +17,15 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum PortraitType {
-    @SerializedName("portraitPrimary")
     PortraitPrimary("portraitPrimary"),
-
-    @SerializedName("portraitSecondary")
     PortraitSecondary("portraitSecondary"),
-
-    @SerializedName("landscapePrimary")
     LandscapePrimary("landscapePrimary"),
-
-    @SerializedName("landscapeSecondary")
     LandscapeSecondary("landscapeSecondary");
 
+    @JsonValue
     public final String value;
 
     PortraitType(String value) {

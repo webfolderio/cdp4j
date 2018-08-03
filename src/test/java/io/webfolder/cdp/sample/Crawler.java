@@ -178,7 +178,7 @@ public class Crawler {
                 }
             });
 
-            session.navigate(url);
+            session.navigateAndWait(url);
             session.waitDocumentReady(pageLoadTimeout);
 
             for (String requestId : new ArrayList<>(finishedResources)) {
@@ -215,7 +215,7 @@ public class Crawler {
 
         SessionFactory factory = launcher.launch();
         Session dummySession = factory.create();
-        dummySession.navigate("about:blank");
+        dummySession.navigateAndWait("about:blank");
 
         List<String> urls = emptyList();
 

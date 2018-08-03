@@ -22,15 +22,8 @@ import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.debugger.SearchMatch;
-import io.webfolder.cdp.type.network.AuthChallengeResponse;
-import io.webfolder.cdp.type.network.ConnectionType;
-import io.webfolder.cdp.type.network.Cookie;
-import io.webfolder.cdp.type.network.CookieParam;
-import io.webfolder.cdp.type.network.CookieSameSite;
-import io.webfolder.cdp.type.network.ErrorReason;
-import io.webfolder.cdp.type.network.GetResponseBodyForInterceptionResult;
-import io.webfolder.cdp.type.network.GetResponseBodyResult;
-import io.webfolder.cdp.type.network.RequestPattern;
+import io.webfolder.cdp.type.network.*;
+
 import java.util.List;
 import java.util.Map;
 

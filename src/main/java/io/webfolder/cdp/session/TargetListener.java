@@ -17,9 +17,6 @@
  */
 package io.webfolder.cdp.session;
 
-import java.util.List;
-import java.util.Map;
-
 import io.webfolder.cdp.event.Events;
 import io.webfolder.cdp.event.target.DetachedFromTarget;
 import io.webfolder.cdp.event.target.ReceivedMessageFromTarget;
@@ -28,6 +25,9 @@ import io.webfolder.cdp.event.target.TargetDestroyed;
 import io.webfolder.cdp.exception.CdpException;
 import io.webfolder.cdp.listener.EventListener;
 import io.webfolder.cdp.type.target.TargetInfo;
+
+import java.util.List;
+import java.util.Map;
 
 class TargetListener implements EventListener {
 

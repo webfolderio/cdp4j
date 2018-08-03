@@ -17,15 +17,15 @@
  */
 package io.webfolder.cdp;
 
-import static java.lang.Class.forName;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import io.webfolder.cdp.exception.CdpException;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
-import io.webfolder.cdp.exception.CdpException;
+import static java.lang.Class.forName;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class LinuxProcessManager extends ProcessManager {
 

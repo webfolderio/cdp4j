@@ -17,27 +17,17 @@
  */
 package io.webfolder.cdp.type.serviceworker;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ServiceWorkerVersionStatus {
-    @SerializedName("new")
     New("new"),
-
-    @SerializedName("installing")
     Installing("installing"),
-
-    @SerializedName("installed")
     Installed("installed"),
-
-    @SerializedName("activating")
     Activating("activating"),
-
-    @SerializedName("activated")
     Activated("activated"),
-
-    @SerializedName("redundant")
     Redundant("redundant");
 
+    @JsonValue
     public final String value;
 
     ServiceWorkerVersionStatus(String value) {

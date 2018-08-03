@@ -17,21 +17,17 @@
  */
 package io.webfolder.cdp.type.domdebugger;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * DOM breakpoint type
  */
 public enum DOMBreakpointType {
-    @SerializedName("subtree-modified")
     SubtreeModified("subtree-modified"),
-
-    @SerializedName("attribute-modified")
     AttributeModified("attribute-modified"),
-
-    @SerializedName("node-removed")
     NodeRemoved("node-removed");
 
+    @JsonValue
     public final String value;
 
     DOMBreakpointType(String value) {

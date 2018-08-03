@@ -21,15 +21,8 @@ import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
-import io.webfolder.cdp.type.runtime.AwaitPromiseResult;
-import io.webfolder.cdp.type.runtime.CallArgument;
-import io.webfolder.cdp.type.runtime.CallFunctionOnResult;
-import io.webfolder.cdp.type.runtime.CompileScriptResult;
-import io.webfolder.cdp.type.runtime.EvaluateResult;
-import io.webfolder.cdp.type.runtime.GetHeapUsageResult;
-import io.webfolder.cdp.type.runtime.GetPropertiesResult;
-import io.webfolder.cdp.type.runtime.RemoteObject;
-import io.webfolder.cdp.type.runtime.RunScriptResult;
+import io.webfolder.cdp.type.runtime.*;
+
 import java.util.List;
 
 /**

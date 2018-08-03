@@ -17,15 +17,13 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TargetLifecycleState {
-    @SerializedName("frozen")
     Frozen("frozen"),
-
-    @SerializedName("active")
     Active("active");
 
+    @JsonValue
     public final String value;
 
     TargetLifecycleState(String value) {

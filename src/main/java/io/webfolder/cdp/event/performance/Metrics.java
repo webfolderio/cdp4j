@@ -17,12 +17,12 @@
  */
 package io.webfolder.cdp.event.performance;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.performance.Metric;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Current values of the metrics

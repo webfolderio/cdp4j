@@ -17,7 +17,7 @@
  */
 package io.webfolder.cdp.type.security;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * A description of mixed content (HTTP resources on HTTPS pages), as defined by
@@ -26,15 +26,11 @@ import com.google.gson.annotations.SerializedName;
  * org/TR/mixed-content/#categories
  */
 public enum MixedContentType {
-    @SerializedName("blockable")
     Blockable("blockable"),
-
-    @SerializedName("optionally-blockable")
     OptionallyBlockable("optionally-blockable"),
-
-    @SerializedName("none")
     None("none");
 
+    @JsonValue
     public final String value;
 
     MixedContentType(String value) {

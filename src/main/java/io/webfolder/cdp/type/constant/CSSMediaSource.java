@@ -17,21 +17,15 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum CSSMediaSource {
-    @SerializedName("mediaRule")
     MediaRule("mediaRule"),
-
-    @SerializedName("importRule")
     ImportRule("importRule"),
-
-    @SerializedName("linkedSheet")
     LinkedSheet("linkedSheet"),
-
-    @SerializedName("inlineSheet")
     InlineSheet("inlineSheet");
 
+    @JsonValue
     public final String value;
 
     CSSMediaSource(String value) {

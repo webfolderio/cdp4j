@@ -25,6 +25,7 @@ import io.webfolder.cdp.type.browser.Bounds;
 import io.webfolder.cdp.type.browser.GetVersionResult;
 import io.webfolder.cdp.type.browser.GetWindowForTargetResult;
 import io.webfolder.cdp.type.browser.Histogram;
+
 import java.util.List;
 
 /**

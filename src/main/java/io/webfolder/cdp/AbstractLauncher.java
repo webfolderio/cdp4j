@@ -1,33 +1,33 @@
 /**
  * cdp4j - Chrome DevTools Protocol for Java
  * Copyright © 2017, 2018 WebFolder OÜ (support@webfolder.io)
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package io.webfolder.cdp;
 
-import static java.lang.String.format;
-import static java.lang.Thread.sleep;
-import static java.util.Collections.emptyList;
+import io.webfolder.cdp.exception.CdpException;
+import io.webfolder.cdp.session.SessionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.session.SessionFactory;
+import static java.lang.String.format;
+import static java.lang.Thread.sleep;
+import static java.util.Collections.emptyList;
 
-abstract class AbstractLauncher {
+abstract class AbstractLauncher implements AutoCloseable {
 
     protected final SessionFactory factory;
 
@@ -92,16 +92,16 @@ abstract class AbstractLauncher {
         if (chromeExecutablePath == null || chromeExecutablePath.trim().isEmpty()) {
             throw new CdpException("chrome not found");
         }
-        if ( ! launched ) {
+        if (!launched) {
             List<String> list = getCommonParameters(chromeExecutablePath, arguments);
             internalLaunch(list, arguments);
             launched = true;
         }
 
-        int     retryCount = 0;
-        boolean connected  = factory.ping();
+        int retryCount = 0;
+        boolean connected;
 
-        while ( ! ( connected = factory.ping() ) && retryCount < 50 ) {
+        while (!(connected = factory.ping()) && retryCount < 50) {
             try {
                 sleep(100);
             } catch (InterruptedException e) {
@@ -110,7 +110,7 @@ abstract class AbstractLauncher {
             retryCount += 1;
         }
 
-        if ( ! connected ) {
+        if (!connected) {
             throw new CdpException("Unable to connect to the browser");
         }
 
@@ -120,4 +120,20 @@ abstract class AbstractLauncher {
     protected abstract void internalLaunch(List<String> list, List<String> params);
 
     public abstract void kill();
+
+    @Override
+    public void close() {
+        if (factory != null)
+            try {
+                factory.close();
+            } catch (Exception ignored) {
+            }
+
+        try {
+            kill();
+        } catch (Exception ignored) {
+        }
+        
+        launched = false;
+    }
 }

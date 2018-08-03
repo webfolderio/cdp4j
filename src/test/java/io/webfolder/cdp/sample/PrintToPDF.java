@@ -46,8 +46,7 @@ public class PrintToPDF {
             String context = factory.createBrowserContext();
             try (Session session = factory.create(context)) {
 
-                session.navigate("https://webfolder.io/cdp4j.html");
-                session.waitDocumentReady();
+                session.navigateAndWait("https://webfolder.io/cdp4j.html");
 
                 byte[] content = session
                                     .getCommand()

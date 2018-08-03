@@ -17,18 +17,14 @@
  */
 package io.webfolder.cdp.type.overlay;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum InspectMode {
-    @SerializedName("searchForNode")
     SearchForNode("searchForNode"),
-
-    @SerializedName("searchForUAShadowDOM")
     SearchForUAShadowDOM("searchForUAShadowDOM"),
-
-    @SerializedName("none")
     None("none");
 
+    @JsonValue
     public final String value;
 
     InspectMode(String value) {

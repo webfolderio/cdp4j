@@ -1,21 +1,33 @@
 /**
  * cdp4j - Chrome DevTools Protocol for Java
  * Copyright © 2017, 2018 WebFolder OÜ (support@webfolder.io)
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package io.webfolder.cdp;
+
+import io.webfolder.cdp.exception.CdpException;
+import io.webfolder.cdp.logger.CdpLoggerType;
+import io.webfolder.cdp.session.SessionFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Scanner;
 
 import static io.webfolder.cdp.session.SessionFactory.DEFAULT_HOST;
 import static java.lang.Long.toHexString;
@@ -27,17 +39,6 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Locale.ENGLISH;
 import static java.util.concurrent.ThreadLocalRandom.current;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Scanner;
-
-import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.logger.CdpLoggerType;
-import io.webfolder.cdp.session.SessionFactory;
 
 public class Launcher extends AbstractLauncher {
 
@@ -54,7 +55,7 @@ public class Launcher extends AbstractLauncher {
     }
 
     public Launcher() {
-        this(new SessionFactory());
+        this(getFreePort(0));
     }
 
     public Launcher(int port) {
@@ -78,8 +79,7 @@ public class Launcher extends AbstractLauncher {
 
     @Override
     public String findChrome() {
-        String chromeExecutablePath = null;
-        chromeExecutablePath = getCustomChromeBinary();
+        String chromeExecutablePath = getCustomChromeBinary();
         if (chromeExecutablePath == null && WINDOWS) {
             chromeExecutablePath = findChromeWinPath();
         }
@@ -194,6 +194,18 @@ public class Launcher extends AbstractLauncher {
 
     public ProcessManager getProcessManager() {
         return processManager;
+    }
+
+    private static int getFreePort(int retry) {
+        int portNumber = (int) (Math.random() * 40000 + 5000);
+        try (ServerSocket socket = new ServerSocket(portNumber)) {
+            return socket.getLocalPort();
+        } catch (IOException e) {
+            if (retry > 10)
+                throw new CdpException("Unable to find free port to use for browser");
+
+            return getFreePort(retry + 1);
+        }
     }
 
     @Override

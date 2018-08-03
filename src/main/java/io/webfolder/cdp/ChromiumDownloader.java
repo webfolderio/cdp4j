@@ -17,8 +17,8 @@
  */
 package io.webfolder.cdp;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.webfolder.cdp.exception.CdpException;
 import io.webfolder.cdp.logger.CdpLogger;
 import io.webfolder.cdp.logger.CdpLoggerFactory;
@@ -95,9 +95,9 @@ public class ChromiumDownloader implements Downloader {
             Scanner s = new Scanner(conn.getInputStream()).useDelimiter("\\A");
             String replyString = s.hasNext() ? s.next() : "";
 
-            JsonObject json = (new Gson()).fromJson(replyString, JsonObject.class);
+            JsonNode json = (new ObjectMapper()).readTree(replyString);
 
-            int version = json.getAsJsonObject("puppeteer").getAsJsonPrimitive("chromium_revision").getAsInt();
+            int version = json.get("puppeteer").get("chromium_revision").asInt();
 
             return new ChromiumVersion(version);
         } catch (IOException e) {

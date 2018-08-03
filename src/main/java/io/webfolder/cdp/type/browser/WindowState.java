@@ -17,24 +17,18 @@
  */
 package io.webfolder.cdp.type.browser;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * The state of the browser window
  */
 public enum WindowState {
-    @SerializedName("normal")
     Normal("normal"),
-
-    @SerializedName("minimized")
     Minimized("minimized"),
-
-    @SerializedName("maximized")
     Maximized("maximized"),
-
-    @SerializedName("fullscreen")
     Fullscreen("fullscreen");
 
+    @JsonValue
     public final String value;
 
     WindowState(String value) {

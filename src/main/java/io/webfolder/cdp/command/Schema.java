@@ -19,6 +19,7 @@ package io.webfolder.cdp.command;
 
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Returns;
+
 import java.util.List;
 
 /**

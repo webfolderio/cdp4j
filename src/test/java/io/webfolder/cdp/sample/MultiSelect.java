@@ -22,6 +22,7 @@ import static java.util.Arrays.asList;
 import java.net.URL;
 
 import io.webfolder.cdp.Launcher;
+import io.webfolder.cdp.session.Option;
 import io.webfolder.cdp.session.Session;
 import io.webfolder.cdp.session.SessionFactory;
 
@@ -34,11 +35,10 @@ public class MultiSelect {
 
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
-            session.navigate(url.toString());
-            session.waitDocumentReady();
+            session.navigateAndWait(url.toString());
 
             System.out.println("Selected options:");
-            session.getOptions("select").stream().forEach(o -> {
+            session.getOptions("select").forEach(o -> {
                 if (o.isSelected()) {
                     System.out.println(o);
                 }
@@ -48,19 +48,19 @@ public class MultiSelect {
             session.clearOptions("select");
 
             System.out.println("Selected Option count: " +
-            session.getOptions("select").stream().filter(o -> o.isSelected()).count());
+            session.getOptions("select").stream().filter(Option::isSelected).count());
 
             session.wait(1000);
             session.setSelectedOptions("select", asList(0, 1, 2));
             System.out.println("Selected options:");
-            session.getOptions("select").stream().forEach(o -> {
+            session.getOptions("select").forEach(o -> {
                 if (o.isSelected()) {
                     System.out.println(o);
                 }
             });
 
             System.out.println("Selected Option count: " +
-            session.getOptions("select").stream().filter(o -> o.isSelected()).count());
+            session.getOptions("select").stream().filter(Option::isSelected).count());
 
             session.wait(1000);
         }

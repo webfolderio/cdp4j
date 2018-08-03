@@ -142,11 +142,10 @@ Usage Examples
 ### Print text content with cdp4j
 
 ```java
-Launcher launcher = new Launcher();
-try (SessionFactory factory = launcher.launch();
+try (Launcher launcher = new Launcher();
+                    SessionFactory factory = launcher.launch();
                     Session session = factory.create()) {
-    session.navigate("https://webfolder.io");
-    session.waitDocumentReady();
+    session.navigateAndWait("https://webfolder.io");
     String content = (String) session.getProperty("//body", "outerText");
     System.out.println(content);
 }
@@ -155,12 +154,11 @@ try (SessionFactory factory = launcher.launch();
 ### Full page screen capture with cdp4j
 
 ```java
-Launcher launcher = new Launcher();
 Path file = createTempFile("screenshot", ".png");
-try (SessionFactory factory = launcher.launch();
+try (Launcher launcher = new Launcher();
+                    SessionFactory factory = launcher.launch();
                     Session session = factory.create()) {
-    session.navigate("https://news.ycombinator.com");
-    session.waitDocumentReady();
+    session.navigateAndWait("https://news.ycombinator.com");
     // activate the tab/session before capturing the screenshot
     session.activate();
     byte[] data = session.captureScreenshot();
@@ -174,13 +172,12 @@ if (isDesktopSupported()) {
 ### Print to PDF with cdp4j
 
 ```java
-Launcher launcher = new Launcher();
 Path file = createTempFile("webfolder-linux-setup", ".pdf");
-try (SessionFactory factory = launcher.launch(asList("--headless", "--disable-gpu"))) {
+try (Launcher launcher = new Launcher();
+                    SessionFactory factory = launcher.launch(asList("--headless", "--disable-gpu"))) {
     String context = factory.createBrowserContext();
     try (Session session = factory.create(context)) {
-        session.navigate("https://webfolder.io?cdp4j");
-        session.waitDocumentReady();
+        session.navigateAndWait("https://webfolder.io?cdp4j");
         session.wait(1000);
         byte[] content = session
                             .getCommand()

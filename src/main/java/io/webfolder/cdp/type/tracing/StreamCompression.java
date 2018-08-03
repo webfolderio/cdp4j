@@ -17,18 +17,16 @@
  */
 package io.webfolder.cdp.type.tracing;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Compression type to use for traces returned via streams
  */
 public enum StreamCompression {
-    @SerializedName("none")
     None("none"),
-
-    @SerializedName("gzip")
     Gzip("gzip");
 
+    @JsonValue
     public final String value;
 
     StreamCompression(String value) {

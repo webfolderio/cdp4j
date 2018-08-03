@@ -17,15 +17,13 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TargetCallFrames {
-    @SerializedName("any")
     Any("any"),
-
-    @SerializedName("current")
     Current("current");
 
+    @JsonValue
     public final String value;
 
     TargetCallFrames(String value) {

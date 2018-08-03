@@ -47,10 +47,12 @@ public class SnapshotTest {
 
         String url = get("src/test/resources/snapshot.html").toAbsolutePath().toUri().toString();
 
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch(path); Session session = factory.create()) {
-            session.navigate(url);
+        try (
+                Launcher launcher = new Launcher();
+                SessionFactory factory = launcher.launch(path);
+                Session session = factory.create()
+        ) {
+            session.navigateAndWait(url);
             DOMSnapshot snapshot = session.getCommand().getDOMSnapshot();
             snapshot.enable();
             CaptureSnapshotResult result = snapshot.captureSnapshot(Collections.emptyList());

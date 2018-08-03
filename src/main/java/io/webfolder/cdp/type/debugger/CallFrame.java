@@ -17,8 +17,8 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import com.google.gson.annotations.SerializedName;
 import io.webfolder.cdp.type.runtime.RemoteObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +38,6 @@ public class CallFrame {
     private String url;
 
     private List<Scope> scopeChain = new ArrayList<>();
-
-    @SerializedName("this")
     private RemoteObject that;
 
     private RemoteObject returnValue;

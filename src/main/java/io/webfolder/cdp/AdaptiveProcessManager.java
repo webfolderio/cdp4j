@@ -17,11 +17,11 @@
  */
 package io.webfolder.cdp;
 
+import io.webfolder.cdp.exception.CdpException;
+
 import static java.io.File.pathSeparator;
 import static java.lang.System.getProperty;
 import static java.util.Locale.ENGLISH;
-
-import io.webfolder.cdp.exception.CdpException;
 
 public class AdaptiveProcessManager extends ProcessManager {
 

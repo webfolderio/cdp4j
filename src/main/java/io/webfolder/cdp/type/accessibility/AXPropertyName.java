@@ -17,7 +17,7 @@
  */
 package io.webfolder.cdp.type.accessibility;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Values of AXProperty name: from 'busy' to 'roledescription' - states which apply to every AX
@@ -27,111 +27,43 @@ import com.google.gson.annotations.SerializedName;
  * elements other than parent/child/sibling
  */
 public enum AXPropertyName {
-    @SerializedName("busy")
     Busy("busy"),
-
-    @SerializedName("disabled")
     Disabled("disabled"),
-
-    @SerializedName("hidden")
     Hidden("hidden"),
-
-    @SerializedName("hiddenRoot")
     HiddenRoot("hiddenRoot"),
-
-    @SerializedName("invalid")
     Invalid("invalid"),
-
-    @SerializedName("keyshortcuts")
     Keyshortcuts("keyshortcuts"),
-
-    @SerializedName("roledescription")
     Roledescription("roledescription"),
-
-    @SerializedName("live")
     Live("live"),
-
-    @SerializedName("atomic")
     Atomic("atomic"),
-
-    @SerializedName("relevant")
     Relevant("relevant"),
-
-    @SerializedName("root")
     Root("root"),
-
-    @SerializedName("autocomplete")
     Autocomplete("autocomplete"),
-
-    @SerializedName("hasPopup")
     HasPopup("hasPopup"),
-
-    @SerializedName("level")
     Level("level"),
-
-    @SerializedName("multiselectable")
     Multiselectable("multiselectable"),
-
-    @SerializedName("orientation")
     Orientation("orientation"),
-
-    @SerializedName("multiline")
     Multiline("multiline"),
-
-    @SerializedName("readonly")
     Readonly("readonly"),
-
-    @SerializedName("required")
     Required("required"),
-
-    @SerializedName("valuemin")
     Valuemin("valuemin"),
-
-    @SerializedName("valuemax")
     Valuemax("valuemax"),
-
-    @SerializedName("valuetext")
     Valuetext("valuetext"),
-
-    @SerializedName("checked")
     Checked("checked"),
-
-    @SerializedName("expanded")
     Expanded("expanded"),
-
-    @SerializedName("modal")
     Modal("modal"),
-
-    @SerializedName("pressed")
     Pressed("pressed"),
-
-    @SerializedName("selected")
     Selected("selected"),
-
-    @SerializedName("activedescendant")
     Activedescendant("activedescendant"),
-
-    @SerializedName("controls")
     Controls("controls"),
-
-    @SerializedName("describedby")
     Describedby("describedby"),
-
-    @SerializedName("details")
     Details("details"),
-
-    @SerializedName("errormessage")
     Errormessage("errormessage"),
-
-    @SerializedName("flowto")
     Flowto("flowto"),
-
-    @SerializedName("labelledby")
     Labelledby("labelledby"),
-
-    @SerializedName("owns")
     Owns("owns");
 
+    @JsonValue
     public final String value;
 
     AXPropertyName(String value) {

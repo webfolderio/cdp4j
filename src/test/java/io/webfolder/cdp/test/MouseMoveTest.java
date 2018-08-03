@@ -44,11 +44,13 @@ public class MouseMoveTest {
 
 		String uri = get("src/test/resources/mouse-move.html").toAbsolutePath().toUri().toString();
 
-		Launcher launcher = new Launcher();
-
-		try (SessionFactory factory = launcher.launch(path); Session session = factory.create()) {
+		try (
+				Launcher launcher = new Launcher();
+				SessionFactory factory = launcher.launch(path);
+				Session session = factory.create()
+		) {
 			session.enableConsoleLog();
-			session.navigate(uri);
+			session.navigateAndWait(uri);
 			session.move(20, 20);
 			session.move(21, 21);
 			session.move(22, 22);

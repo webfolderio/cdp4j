@@ -19,6 +19,7 @@ package io.webfolder.cdp.event.page;
 
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
+
 import java.util.List;
 
 /**

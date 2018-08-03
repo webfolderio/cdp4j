@@ -17,14 +17,12 @@
  */
 package io.webfolder.cdp.session;
 
-import static io.webfolder.cdp.type.constant.MouseButtonType.Left;
-import static io.webfolder.cdp.type.constant.MouseEventType.MouseMoved;
-import static io.webfolder.cdp.type.constant.MouseEventType.MousePressed;
-import static io.webfolder.cdp.type.constant.MouseEventType.MouseReleased;
-import static java.lang.String.format;
-
 import io.webfolder.cdp.command.Input;
 import io.webfolder.cdp.type.util.Point;
+
+import static io.webfolder.cdp.type.constant.MouseButtonType.Left;
+import static io.webfolder.cdp.type.constant.MouseEventType.*;
+import static java.lang.String.format;
 
 /**
  * Interface representing basic mouse operations.

@@ -30,7 +30,7 @@ public class ExecuteJavascript {
                             Session session = factory.create()) {
 
             session.waitDocumentReady();
-            Double result = (Double) session.evaluate("var foo = function() { return 2 + 2; }; foo();");
+            Integer result = (Integer) session.evaluate("var foo = function() { return 2 + 2; }; foo();");
             System.out.println(result);
 
             session.evaluate("var bar = {}; bar.myFunc = function(s1, s2) { return s1 + ' ' + s2; }");

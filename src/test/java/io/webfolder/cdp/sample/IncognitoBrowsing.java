@@ -38,7 +38,7 @@ public class IncognitoBrowsing {
 
             try (Session firstSession = factory.create()) {
                 firstContext = firstSession.getBrowserContextId();
-                firstSession.navigate("https://httpbin.org/cookies/set?SESSION_ID=1");
+                firstSession.navigateAndWait("https://httpbin.org/cookies/set?SESSION_ID=1");
                 firstSession.waitDocumentReady();
                 String session1Content = (String) firstSession.evaluate("window.document.body.textContent");
                 System.err.println(session1Content);
@@ -47,7 +47,7 @@ public class IncognitoBrowsing {
             // firstSession & anotherSession share same SESSSION_ID value
 
             try (Session anotherSession = factory.create(firstContext)) {
-                anotherSession.navigate("https://httpbin.org/cookies");
+                anotherSession.navigateAndWait("https://httpbin.org/cookies");
                 anotherSession.waitDocumentReady();
                 String anotherSessionContent = (String) anotherSession.evaluate("window.document.body.textContent");
                 System.err.println(anotherSessionContent);
@@ -55,7 +55,7 @@ public class IncognitoBrowsing {
 
             String  secondContext = factory.createBrowserContext();
             try (Session secondSession = factory.create(secondContext)) {
-                secondSession.navigate("https://httpbin.org/cookies");
+                secondSession.navigateAndWait("https://httpbin.org/cookies");
                 secondSession.waitDocumentReady();
                 String session2Content = (String) secondSession.evaluate("window.document.body.textContent");
                 System.err.println(session2Content); 

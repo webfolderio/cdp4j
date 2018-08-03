@@ -17,27 +17,19 @@
  */
 package io.webfolder.cdp.type.security;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * The security level of a page or resource
  */
 public enum SecurityState {
-    @SerializedName("unknown")
     Unknown("unknown"),
-
-    @SerializedName("neutral")
     Neutral("neutral"),
-
-    @SerializedName("insecure")
     Insecure("insecure"),
-
-    @SerializedName("secure")
     Secure("secure"),
-
-    @SerializedName("info")
     Info("info");
 
+    @JsonValue
     public final String value;
 
     SecurityState(String value) {

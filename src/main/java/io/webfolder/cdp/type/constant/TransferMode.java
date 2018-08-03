@@ -17,15 +17,13 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TransferMode {
-    @SerializedName("ReportEvents")
     ReportEvents("ReportEvents"),
-
-    @SerializedName("ReturnAsStream")
     ReturnAsStream("ReturnAsStream");
 
+    @JsonValue
     public final String value;
 
     TransferMode(String value) {

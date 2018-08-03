@@ -17,14 +17,14 @@
  */
 package io.webfolder.cdp.event.security;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.security.InsecureContentStatus;
 import io.webfolder.cdp.type.security.SecurityState;
 import io.webfolder.cdp.type.security.SecurityStateExplanation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The security state of the page changed

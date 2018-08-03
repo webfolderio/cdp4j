@@ -20,9 +20,10 @@ package io.webfolder.cdp.sample;
 import static io.webfolder.cdp.event.Events.NetworkRequestIntercepted;
 import static java.util.Arrays.asList;
 
+import java.io.IOException;
 import java.util.Map;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.webfolder.cdp.Launcher;
 import io.webfolder.cdp.command.Network;
@@ -37,7 +38,7 @@ import io.webfolder.cdp.type.page.ResourceType;
 public class BasicAuthentication {
 
     @SuppressWarnings("unchecked")
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Launcher launcher = new Launcher();
 
@@ -74,12 +75,12 @@ public class BasicAuthentication {
                 }
             });
 
-            session.navigate("https://httpbin.org/basic-auth/user/password");
+            session.navigateAndWait("https://httpbin.org/basic-auth/user/password");
             session.wait(1000);
 
             String content = (String) session.evaluate("window.document.body.textContent");
             System.out.println(content);
-            Map<String, Object> map = new Gson().fromJson(content, Map.class);
+            Map<String, Object> map = new ObjectMapper().readValue(content, Map.class);
             Object authenticated = map.get("authenticated");
             Object user = map.get("user");
 

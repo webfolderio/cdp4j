@@ -17,18 +17,16 @@
  */
 package io.webfolder.cdp.type.memory;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Memory pressure level
  */
 public enum PressureLevel {
-    @SerializedName("moderate")
     Moderate("moderate"),
-
-    @SerializedName("critical")
     Critical("critical");
 
+    @JsonValue
     public final String value;
 
     PressureLevel(String value) {

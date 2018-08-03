@@ -17,21 +17,15 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum KeyEventType {
-    @SerializedName("keyDown")
     KeyDown("keyDown"),
-
-    @SerializedName("keyUp")
     KeyUp("keyUp"),
-
-    @SerializedName("rawKeyDown")
     RawKeyDown("rawKeyDown"),
-
-    @SerializedName("char")
     Char("char");
 
+    @JsonValue
     public final String value;
 
     KeyEventType(String value) {

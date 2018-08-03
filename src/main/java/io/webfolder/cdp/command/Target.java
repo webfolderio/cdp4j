@@ -23,6 +23,7 @@ import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.target.RemoteLocation;
 import io.webfolder.cdp.type.target.TargetInfo;
+
 import java.util.List;
 
 /**

@@ -44,8 +44,7 @@ public class CodeCoverage {
             Command command = session.getCommand();
             Profiler profiler = command.getProfiler();
             
-            session.navigate(url.toString());
-            session.waitDocumentReady();
+            session.navigateAndWait(url.toString());
 
             profiler.enable();
 

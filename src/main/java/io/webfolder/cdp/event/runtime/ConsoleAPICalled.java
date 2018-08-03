@@ -17,14 +17,14 @@
  */
 package io.webfolder.cdp.event.runtime;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.constant.ConsoleApiCallType;
 import io.webfolder.cdp.type.runtime.RemoteObject;
 import io.webfolder.cdp.type.runtime.StackTrace;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Issued when console API was called

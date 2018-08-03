@@ -17,36 +17,22 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * The reason why request was blocked
  */
 public enum BlockedReason {
-    @SerializedName("other")
     Other("other"),
-
-    @SerializedName("csp")
     Csp("csp"),
-
-    @SerializedName("mixed-content")
     MixedContent("mixed-content"),
-
-    @SerializedName("origin")
     Origin("origin"),
-
-    @SerializedName("inspector")
     Inspector("inspector"),
-
-    @SerializedName("subresource-filter")
     SubresourceFilter("subresource-filter"),
-
-    @SerializedName("content-type")
     ContentType("content-type"),
-
-    @SerializedName("collapsed-by-client")
     CollapsedByClient("collapsed-by-client");
 
+    @JsonValue
     public final String value;
 
     BlockedReason(String value) {

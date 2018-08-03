@@ -17,18 +17,14 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum AnimationType {
-    @SerializedName("CSSTransition")
     CSSTransition("CSSTransition"),
-
-    @SerializedName("CSSAnimation")
     CSSAnimation("CSSAnimation"),
-
-    @SerializedName("WebAnimation")
     WebAnimation("WebAnimation");
 
+    @JsonValue
     public final String value;
 
     AnimationType(String value) {

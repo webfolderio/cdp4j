@@ -34,8 +34,7 @@ public class DownloadFile {
 
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
-            session.navigate("https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html");
-            session.waitDocumentReady();
+            session.navigateAndWait("https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html");
             session.getCommand().getNetwork().enable();
             Page page = session.getCommand().getPage();
             Path downloadPath = Paths.get(".").toAbsolutePath();

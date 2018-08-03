@@ -60,7 +60,7 @@ public class CloseSessionOnRedirect {
                 }
             });
 
-            session.navigate("https://httpbin.org/redirect-to?url=https://webfolder.io?cdp4j");
+            session.navigateAndWait("https://httpbin.org/redirect-to?url=https://webfolder.io?cdp4j");
 
             if ( ! terminateSession ) {
                 session.waitDocumentReady();

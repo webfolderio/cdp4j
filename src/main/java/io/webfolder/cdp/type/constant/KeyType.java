@@ -17,21 +17,15 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum KeyType {
-    @SerializedName("number")
     Number("number"),
-
-    @SerializedName("string")
     String("string"),
-
-    @SerializedName("date")
     Date("date"),
-
-    @SerializedName("array")
     Array("array");
 
+    @JsonValue
     public final String value;
 
     KeyType(String value) {

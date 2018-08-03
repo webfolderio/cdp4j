@@ -43,7 +43,7 @@ public class EvaluateOnNewDocument {
 
             session.enableConsoleLog();
 
-            session.navigate(url.toString());
+            session.navigateAndWait(url.toString());
 
             session.wait(500);
         }

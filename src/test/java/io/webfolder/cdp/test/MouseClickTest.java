@@ -26,9 +26,11 @@ public class MouseClickTest {
 
         String uri = get("src/test/resources/mouse-click.html").toAbsolutePath().toUri().toString();
 
-        Launcher launcher = new Launcher();
-
-        try (SessionFactory factory = launcher.launch(path); Session session = factory.create()) {
+        try (
+                Launcher launcher = new Launcher();
+                SessionFactory factory = launcher.launch(path);
+                Session session = factory.create()
+        ) {
             session.navigateAndWait(uri, WaitUntil.DomContentLoad);
             session.click("#mybutton");
             Boolean clicked = session.getVariable("clicked", Boolean.class);

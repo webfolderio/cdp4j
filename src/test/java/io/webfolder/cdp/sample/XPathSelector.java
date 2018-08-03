@@ -28,9 +28,7 @@ public class XPathSelector {
 
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
-            session
-                .navigate("https://webfolder.io")
-                .waitDocumentReady();
+            session.navigateAndWait("https://webfolder.io");
 
             String title = session.getText("/html/head/title");
 

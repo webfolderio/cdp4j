@@ -28,8 +28,7 @@ public class HelloWorld {
 
         try (SessionFactory factory = launcher.launch();
                             Session session = factory.create()) {
-            session.navigate("https://webfolder.io?cdp4j");
-            session.waitDocumentReady();
+            session.navigateAndWait("https://webfolder.io?cdp4j");
             String content = session.getContent();
             System.out.println(content);
         }

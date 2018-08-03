@@ -17,24 +17,18 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Javascript dialog type
  */
 public enum DialogType {
-    @SerializedName("alert")
     Alert("alert"),
-
-    @SerializedName("confirm")
     Confirm("confirm"),
-
-    @SerializedName("prompt")
     Prompt("prompt"),
-
-    @SerializedName("beforeunload")
     Beforeunload("beforeunload");
 
+    @JsonValue
     public final String value;
 
     DialogType(String value) {

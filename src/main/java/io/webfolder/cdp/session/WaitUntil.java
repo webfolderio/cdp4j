@@ -17,6 +17,8 @@
  */
 package io.webfolder.cdp.session;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum WaitUntil {
 	Load("load"), DomContentLoad("DOMContentLoaded"),
 	/**
@@ -30,6 +32,7 @@ public enum WaitUntil {
 	 */
 	NetworkAlmostIdle("networkAlmostIdle"), DomReady("DomReady");
 
+	@JsonValue
 	public String value;
 
 	private WaitUntil(String value) {

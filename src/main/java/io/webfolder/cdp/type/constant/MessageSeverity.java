@@ -17,24 +17,16 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum MessageSeverity {
-    @SerializedName("log")
     Log("log"),
-
-    @SerializedName("warning")
     Warning("warning"),
-
-    @SerializedName("error")
     Error("error"),
-
-    @SerializedName("debug")
     Debug("debug"),
-
-    @SerializedName("info")
     Info("info");
 
+    @JsonValue
     public final String value;
 
     MessageSeverity(String value) {

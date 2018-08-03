@@ -18,6 +18,7 @@
 package io.webfolder.cdp.type.browser;
 
 import io.webfolder.cdp.annotation.Experimental;
+
 import java.util.ArrayList;
 import java.util.List;
 

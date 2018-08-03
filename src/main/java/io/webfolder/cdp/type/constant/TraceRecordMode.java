@@ -17,21 +17,15 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TraceRecordMode {
-    @SerializedName("recordUntilFull")
     RecordUntilFull("recordUntilFull"),
-
-    @SerializedName("recordContinuously")
     RecordContinuously("recordContinuously"),
-
-    @SerializedName("recordAsMuchAsPossible")
     RecordAsMuchAsPossible("recordAsMuchAsPossible"),
-
-    @SerializedName("echoToConsole")
     EchoToConsole("echoToConsole");
 
+    @JsonValue
     public final String value;
 
     TraceRecordMode(String value) {

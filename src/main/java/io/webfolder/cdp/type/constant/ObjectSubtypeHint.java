@@ -17,45 +17,26 @@
  */
 package io.webfolder.cdp.type.constant;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ObjectSubtypeHint {
-    @SerializedName("array")
     Array("array"),
-
-    @SerializedName("null")
     Null("null"),
-
-    @SerializedName("node")
     Node("node"),
-
-    @SerializedName("regexp")
     Regexp("regexp"),
-
-    @SerializedName("date")
     Date("date"),
-
-    @SerializedName("map")
     Map("map"),
-
-    @SerializedName("set")
     Set("set"),
-
-    @SerializedName("weakmap")
     Weakmap("weakmap"),
-
-    @SerializedName("weakset")
     Weakset("weakset"),
-
-    @SerializedName("iterator")
     Iterator("iterator"),
-
-    @SerializedName("generator")
     Generator("generator"),
+    Error("error"),
+    Proxy("proxy"),
+    Promise("promise"),
+    TypedArray("typedarray");
 
-    @SerializedName("error")
-    Error("error");
-
+    @JsonValue
     public final String value;
 
     ObjectSubtypeHint(String value) {
