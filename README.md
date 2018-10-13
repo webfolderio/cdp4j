@@ -99,6 +99,9 @@ Headless Mode
 -------------
 cdp4j can be run in "headless" mode using with [Headless Chrome](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md).
 
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebfolderio%2Fcdp4j.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebfolderio%2Fcdp4j?ref=badge_large)
+
 ### Install Chrome on Debian/Ubuntu
 
 ```bash
@@ -237,5 +240,6 @@ Getting Help
 --------------------------------------------------------------------------------------------
 
 ![WebFolder](https://raw.githubusercontent.com/webfolderio/cdp4j/master/images/logo.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebfolderio%2Fcdp4j.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebfolderio%2Fcdp4j?ref=badge_shield)
 
 You can support cdp4j development by **buying** support package. Please [contact us](https://webfolder.io/support.html) for support packages & pricing.
