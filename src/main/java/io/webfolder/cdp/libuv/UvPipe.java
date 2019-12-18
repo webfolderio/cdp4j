@@ -2,6 +2,7 @@ package io.webfolder.cdp.libuv;
 
 import static io.webfolder.cdp.libuv.Libuv.CDP4J_UV_SUCCESS;
 import static io.webfolder.cdp.libuv.Libuv.uv_pipe_init;
+import static io.webfolder.cdp.libuv.Libuv.uv_stream_set_blocking;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static org.graalvm.nativeimage.UnmanagedMemory.free;
 import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
@@ -26,6 +27,7 @@ class UvPipe {
             debug("<- UvPipe.init(): false");
             return false;
         }
+        uv_stream_set_blocking(pipe, 1);
         debug("<- UvPipe.init(): true");
         return true;
     }

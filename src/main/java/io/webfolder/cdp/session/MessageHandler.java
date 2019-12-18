@@ -103,6 +103,7 @@ public final class MessageHandler {
                 // Process event response
                 JsonElement method = object.get("method");
                 if ( method == null || ! method.isJsonPrimitive() ) {
+                    return;
                 }
                 String eventName = method.getAsString();
                 Events event = events.get(eventName);

@@ -137,7 +137,6 @@ public interface Navigator {
         RemoteObject remoteObject = dom.resolveNode(nodeId, null, null, getThis().getExecutionContextId());
         String pathname = (String) getThis().getPropertyByObjectId(remoteObject.getObjectId(), "location.pathname");
         getThis().releaseObject(remoteObject.getObjectId());
-        System.out.println(pathname);
         return pathname;
     }
 

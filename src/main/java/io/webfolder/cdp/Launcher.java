@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp;
 
+
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
@@ -26,6 +27,7 @@ import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Locale.ENGLISH;
 import static java.util.concurrent.ThreadLocalRandom.current;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,15 +35,21 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
+import io.webfolder.cdp.channel.LibuvChannelFactory;
+import io.webfolder.cdp.channel.LibuvPipeConnection;
 import io.webfolder.cdp.channel.WebSocketConnection;
 import io.webfolder.cdp.exception.CdpException;
+import io.webfolder.cdp.libuv.UvLoop;
+import io.webfolder.cdp.libuv.UvProcess;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class Launcher {
@@ -191,7 +199,11 @@ public class Launcher {
 
     public SessionFactory launch() {
         List<String> arguments = getCommonParameters(findChrome(), options.arguments());
-        arguments.add("--remote-debugging-port=0");
+        if (arguments.contains("--remote-debugging-pipe")) {
+            arguments.remove("--remote-debugging-port=0");
+        } else {
+            arguments.add("--remote-debugging-port=0");            
+        }
 
         if (options.userDataDir() == null) {
             Path remoteProfileData = get(getProperty("java.io.tmpdir")).resolve("remote-profile");
@@ -204,6 +216,75 @@ public class Launcher {
             arguments.add("--headless");
         }
 
+        boolean libuv = channelFactory instanceof LibuvChannelFactory;
+
+        SessionFactory factory = null;
+        if (libuv) {
+            factory = launchLibuv(arguments);
+        } else {
+            factory = launchWebSocket(arguments);
+        }
+
+        return factory;
+    }
+
+    private SessionFactory launchLibuv(List<String> arguments) {
+        UvLoop loop = new UvLoop();
+        if (!loop.init()) {
+            throw new CdpException("UvLoop.init() is failed"); 
+        }
+        UvProcess process = loop.createProcess();
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        AtomicBoolean spawned = new AtomicBoolean(false);
+
+        ArrayList<String> argsSpawn = new ArrayList<String>(arguments);
+        String exe = argsSpawn.remove(0);
+        argsSpawn.add(0, Paths.get(exe).getFileName().toString());
+        argsSpawn.add("about:blank");
+        argsSpawn.add("--enable-logging");
+        argsSpawn.add("--v=1");
+
+        SessionFactory[] factory = new SessionFactory[] { null };
+
+        loop.start(() -> {
+            if (process.spawn(exe.toString(),
+                    argsSpawn.toArray(new String[0]), true, true)) {
+                spawned.set(true);
+                LibuvPipeConnection connection = new LibuvPipeConnection(loop, process);
+                factory[0] = new SessionFactory(options, channelFactory, connection, false);
+            }
+            latch.countDown();
+        });
+
+        try {
+            latch.await(5, SECONDS);
+        } catch (InterruptedException e) {
+            throw new CdpException("UvLoop.spawn() timeout");
+        } finally {
+            if ( ! spawned.get() ) {
+                if ( loop != null ) {
+                    loop.stop();
+                }
+                if ( process != null ) {
+                    process.dispose();
+                }
+            }
+        }
+
+        if ( ! spawned.get() ) {
+            throw new CdpException("UvPorcess.spawn() is failed");
+        }
+
+        factory[0].connect();
+
+        System.out.println(factory[0]);
+        
+        return factory[0];
+    }
+
+    private SessionFactory launchWebSocket(List<String> arguments) {
         Connection connection = null;
         ProcessBuilder builder = new ProcessBuilder(arguments);
 
@@ -218,7 +299,7 @@ public class Launcher {
                     if (line.isEmpty()) {
                         continue;
                     }
-                    if (line.toLowerCase(Locale.ENGLISH).startsWith("devtools listening on")) {
+                    if (line.toLowerCase(ENGLISH).startsWith("devtools listening on")) {
                         int start = line.indexOf("ws://");
                         connection = new WebSocketConnection(line.substring(start, line.length()));
                         break;

@@ -19,7 +19,6 @@
 package io.webfolder.cdp;
 
 import static io.webfolder.cdp.logger.CdpLoggerType.Null;
-import static io.webfolder.cdp.session.ConnectionType.NvWebSocket;
 import static io.webfolder.cdp.session.WaitingStrategy.Semaphore;
 import static java.lang.Boolean.TRUE;
 import static java.util.Collections.emptyList;
@@ -32,7 +31,6 @@ import java.util.concurrent.ExecutorService;
 
 import io.webfolder.cdp.logger.CdpConsoleLogggerLevel;
 import io.webfolder.cdp.logger.CdpLoggerType;
-import io.webfolder.cdp.session.ConnectionType;
 import io.webfolder.cdp.session.WaitingStrategy;
 
 public class Options {
@@ -63,11 +61,7 @@ public class Options {
 
     private Integer screenHeight;
 
-    private ConnectionType connectionType;
-
     private CdpConsoleLogggerLevel consoleLoggerLevel;
-
-    private Boolean closeWebSocketClient;
 
     private Boolean shutdownThreadPoolOnClose;
 
@@ -101,6 +95,11 @@ public class Options {
             return this;
         }
 
+        public Builder processManager(ProcessManager processManager) {
+            options.processManager = processManager;
+            return this;
+        }
+        
         public Builder eventHandlerThreadPool(ExecutorService eventHandlerThreadPool) {
             options.eventHandlerThreadPool = eventHandlerThreadPool;
             return this;
@@ -120,12 +119,6 @@ public class Options {
             options.headless = headless;
             return this;
         }
-
-        public Builder connectionType(ConnectionType connectionType) {
-            options.connectionType = connectionType;
-            return this;
-        }
-
 
         public Builder consoleLoggerLevel(CdpConsoleLogggerLevel consoleLoggerLevel) {
             options.consoleLoggerLevel = consoleLoggerLevel;
@@ -171,9 +164,6 @@ public class Options {
             }
             if (options.screenWidth == null) {
                 options.screenWidth = DEFAULT_SCREEN_WIDTH;
-            }
-            if (options.connectionType == null) {
-                options.connectionType = NvWebSocket;
             }
             if (options.shutdownThreadPoolOnClose == null) {
                 options.shutdownThreadPoolOnClose = TRUE;
@@ -233,16 +223,8 @@ public class Options {
         return screenHeight;
     }
 
-    public ConnectionType connectionType() {
-        return connectionType;
-    }
-
     public CdpConsoleLogggerLevel consoleLoggerLevel() {
         return consoleLoggerLevel;
-    }
-
-    public boolean closeWebSocketClient() {
-        return closeWebSocketClient.booleanValue();
     }
 
     public boolean shutdownThreadPoolOnClose() {

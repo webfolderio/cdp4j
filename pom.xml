@@ -359,9 +359,9 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>com.oracle.substratevm</groupId>
+            <groupId>org.graalvm.nativeimage</groupId>
             <artifactId>native-image-maven-plugin</artifactId>
-            <version>19.2.0.1</version>
+            <version>19.3.0</version>
             <executions>
               <execution>
                 <goals>
@@ -371,8 +371,9 @@
               </execution>
             </executions>
             <configuration>
-              <mainClass>io.webfolder.cdp.HelloGraalVm</mainClass>
+              <mainClass>io.webfolder.cdp.libuv.Libuv</mainClass>
               <imageName>cdp4j-graalvm</imageName>
+              <buildArgs>-H:+ReportExceptionStackTraces</buildArgs>
             </configuration>
           </plugin>
           <plugin>
@@ -397,11 +398,11 @@
         </plugins>
       </build>
         <dependencies>
-          <dependency>
-            <groupId>com.neovisionaries</groupId>
-            <artifactId>nv-websocket-client</artifactId>
-            <version>2.9</version>
-          </dependency>
+	    <dependency>
+	      <groupId>com.google.code.gson</groupId>
+	      <artifactId>gson</artifactId>
+	      <version>2.8.6</version>
+	    </dependency>
           <dependency>
             <groupId>com.vimeo.stag</groupId>
             <artifactId>stag-library</artifactId>

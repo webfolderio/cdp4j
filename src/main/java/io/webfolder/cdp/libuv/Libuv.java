@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.libuv;
 
+import static java.util.Arrays.asList;
 import static java.io.File.pathSeparator;
 import static java.io.File.separator;
 import static java.lang.String.format;
@@ -25,15 +26,15 @@ import static java.lang.System.getProperty;
 import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import org.graalvm.nativeimage.IsolateThread;
-import org.graalvm.nativeimage.UnmanagedMemory;
 import org.graalvm.nativeimage.c.CContext;
 import org.graalvm.nativeimage.c.constant.CConstant;
 import org.graalvm.nativeimage.c.function.CEntryPoint;
@@ -42,13 +43,20 @@ import org.graalvm.nativeimage.c.function.CLibrary;
 import org.graalvm.nativeimage.c.struct.CField;
 import org.graalvm.nativeimage.c.struct.CFieldAddress;
 import org.graalvm.nativeimage.c.struct.CStruct;
-import org.graalvm.nativeimage.c.struct.SizeOf;
 import org.graalvm.nativeimage.c.type.CCharPointer;
 import org.graalvm.nativeimage.c.type.CCharPointerPointer;
 import org.graalvm.nativeimage.c.type.CTypeConversion;
 import org.graalvm.word.PointerBase;
-import org.graalvm.word.UnsignedWord;
-import org.graalvm.word.WordFactory;
+
+import io.webfolder.cdp.CustomTypeAdapter;
+import io.webfolder.cdp.Launcher;
+import io.webfolder.cdp.LibuvProcessManager;
+import io.webfolder.cdp.Options;
+import io.webfolder.cdp.channel.LibuvChannelFactory;
+import io.webfolder.cdp.channel.LibuvPipeConnection;
+import io.webfolder.cdp.logger.CdpLoggerType;
+import io.webfolder.cdp.session.Session;
+import io.webfolder.cdp.session.SessionFactory;
 
 @CContext(Libuv.UDirectives.class)
 @CLibrary("cdp4j")
@@ -250,11 +258,6 @@ class Libuv {
     @CStruct(value = "uv_write_s", addStructKeyword = true)
     interface write_request extends PointerBase {
 
-        @CField("data")
-        PointerBase data();
-
-        @CField("data")
-        void data(PointerBase data);
     }
 
     @CStruct(value = "context_write", addStructKeyword = true)
@@ -265,11 +268,17 @@ class Libuv {
         @CField("pipe")
         pipe pipe();
 
-        @CField("buf")
-        void buf(buf buf);
+        @CField("data")
+        void data(CCharPointer data);
 
-        @CField("buf")
-        buf buf();
+        @CField("data")
+        CCharPointer data();
+
+        @CField("len")
+        void len(int len);
+
+        @CField("len")
+        int len();
     }
 
     @CFunction
@@ -288,10 +297,13 @@ class Libuv {
     static native int uv_process_kill(process process, int signum);
 
     @CFunction
-    static native int uv_write(write_request req, pipe handle, buf buf, UnsignedWord nbufs, PointerBase cb);
+    static native int uv_write(write_request req, pipe handle, buf buf, int nbufs, PointerBase cb);
 
     @CFunction
     static native CCharPointer uv_err_name(int err);
+
+    @CFunction
+    static native int uv_stream_set_blocking(pipe pipe, int blocking);
 
     // ------------------------------------------------------------------------
     // cdp4j native methods
@@ -308,30 +320,12 @@ class Libuv {
 
     @CEntryPoint(name = "cdp4j_on_read_callback_java")
     static void cdp4j_on_read_callback_java(IsolateThread thread, CCharPointer data, int len) {
-        String str = CTypeConversion.toJavaString(data);
-        System.out.println(str);
-    }
-
-    @CEntryPoint(name = "cdp4j_on_write_callback_java")
-    static void cdp4j_on_write_callback_java(IsolateThread thread, write_request request, int status) {
-        context_write context = (context_write) request.data();
-        UnmanagedMemory.free(context.buf().base());
-        UnmanagedMemory.free(context.buf());
-        UnmanagedMemory.free(context);
-        UnmanagedMemory.free(request);
-    }
-
-    @CEntryPoint(name = "cdp4j_on_async_callback")
-    static void cdp4j_on_async_callback(IsolateThread thread, async handle, PointerBase callback) {
-        System.out.println("on_async_callback");
-        
-        context_write write = (context_write) handle.data();
-
-        write_request request = malloc(SizeOf.get(write_request.class));
-        request.data(write);
-
-        uv_write(request, write.pipe(), write.buf(), WordFactory.unsigned(1), callback);
-        UnmanagedMemory.free(handle);
+        if (data.isNonNull()) {
+            ByteBuffer buffer = CTypeConversion.asByteBuffer(data, len);
+            byte[] response = new byte[buffer.remaining()];
+            buffer.get(response);
+            LibuvPipeConnection.getPipeConnection().onResponse(response);
+        }
     }
 
     @CConstant
@@ -362,9 +356,6 @@ class Libuv {
     static final native int UV_WRITABLE_PIPE();
 
     @CConstant
-    static final native int UV_OVERLAPPED_PIPE();
-
-    @CConstant
     static final native int UV_RUN_DEFAULT();
 
     @CConstant
@@ -373,45 +364,19 @@ class Libuv {
     @CConstant
     static final native int CDP4J_UV_SUCCESS();
 
-    public static void main(String[] args) throws Exception {
-        UvLoop loop = new UvLoop();
-        if (loop.init()) {
+    public static void main(String[] args) throws IOException {
+        LibuvChannelFactory factory = new LibuvChannelFactory();
+        Options options = Options.builder()
+                                 .arguments(asList("--remote-debugging-pipe"))
+                                 .useCustomTypeAdapter(CustomTypeAdapter.Generated)
+                                 .loggerType(CdpLoggerType.Console)
+                                 .processManager(new LibuvProcessManager())
+                                 .build();
 
-            UvProcess process = loop.createProcess();
-            
-            CountDownLatch latch = new CountDownLatch(1);
-            
-            loop.start(new Runnable() {
-
-                @Override
-                public void run() {
-                    process.spawn("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", new String[] {
-                                  "chrome.exe",
-                                  "--remote-debugging-pipe",
-                                  "--user-data-dir=C:\\test"
-                                  }, true, true);
-                    latch.countDown();
-                }
-            });
-
-            latch.await();
-            
-            Thread.sleep(1000);
-
-            String MESSAGE_SEPERATOR = Character.toString('\0');
-
-            if ( process != null ) {
-                for (int i = 0; i < Integer.parseInt(args[1]); i++) {
-                    String message = "{\"id\":" + String.valueOf(i) + ",\"method\":\"Target.getTargets\"}" + MESSAGE_SEPERATOR;
-                    process.writeAsync(message.getBytes());
-                    Thread.sleep(Integer.parseInt(args[0]));
-                }
-            }
-
-            System.in.read();
-            
-            process.kill();
-            loop.stop();
-        }
+        Launcher launcher = new Launcher(options, factory);
+        SessionFactory sessionFactory = launcher.launch();
+        Session create = sessionFactory.create();
+        create.navigate("https://webfolder.io");
+        System.in.read();
     }
 }

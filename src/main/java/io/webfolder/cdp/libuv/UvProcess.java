@@ -15,6 +15,7 @@ import static io.webfolder.cdp.libuv.Libuv.cdp4j_start_read;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_write_pipe;
 import static io.webfolder.cdp.libuv.Libuv.uv_process_kill;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
+import static org.graalvm.nativeimage.UnmanagedMemory.calloc;
 import static org.graalvm.nativeimage.UnmanagedMemory.free;
 import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
 import static org.graalvm.nativeimage.c.struct.SizeOf.get;
@@ -22,7 +23,6 @@ import static org.graalvm.nativeimage.c.type.CTypeConversion.toCString;
 import static org.graalvm.nativeimage.c.type.CTypeConversion.toJavaString;
 import static org.graalvm.word.WordFactory.nullPointer;
 
-import org.graalvm.nativeimage.PinnedObject;
 import org.graalvm.nativeimage.StackValue;
 import org.graalvm.nativeimage.c.struct.SizeOf;
 import org.graalvm.nativeimage.c.type.CCharPointer;
@@ -30,14 +30,12 @@ import org.graalvm.nativeimage.c.type.CCharPointerPointer;
 import org.graalvm.nativeimage.c.type.CTypeConversion.CCharPointerHolder;
 
 import io.webfolder.cdp.libuv.Libuv.async;
-import io.webfolder.cdp.libuv.Libuv.buf;
 import io.webfolder.cdp.libuv.Libuv.context_write;
 import io.webfolder.cdp.libuv.Libuv.process;
 import io.webfolder.cdp.libuv.Libuv.process_options;
 import io.webfolder.cdp.libuv.Libuv.stdio_container;
-import io.webfolder.cdp.libuv.Libuv.write_request;
 
-class UvProcess {
+public class UvProcess {
 
     private final UvLoop loop;
 
@@ -55,17 +53,17 @@ class UvProcess {
 
     private int argsLength;
 
-    UvProcess(UvLoop loop) {
+    public UvProcess(UvLoop loop) {
         debug("-> UvProcess()");
         this.loop = loop;
         process = malloc(get(process.class));
         debug("<- UvProcess()");
     }
 
-    boolean spawn(String   exe,
-                  String[] arguments,
-                  boolean  redirectOut,
-                  boolean  redirectErr) {
+    public boolean spawn(String   exe,
+                         String[] arguments,
+                         boolean  redirectOut,
+                         boolean  redirectErr) {
         debug("-> UvProcess.spawn()");
 
         inPipe = loop.createPipe();
@@ -88,6 +86,13 @@ class UvProcess {
         container.addressOf(2).flags(redirectErr ? UV_INHERIT_FD() : UV_IGNORE()); // stderr
         container.addressOf(3).flags(UV_CREATE_PIPE() | UV_WRITABLE_PIPE() | UV_READABLE_PIPE()); // fd(3)
         container.addressOf(4).flags(UV_CREATE_PIPE() | UV_READABLE_PIPE() | UV_WRITABLE_PIPE()); // fd(4)
+
+        if (redirectOut) {
+            container.addressOf(1).data().fd(1);
+        }
+        if (redirectErr) {
+            container.addressOf(2).data().fd(2);
+        }
 
         container.addressOf(3).data().stream(inPipe.getPeer());
         container.addressOf(4).data().stream(outPipe.getPeer());
@@ -142,7 +147,8 @@ class UvProcess {
         free(args);
 
         if ( ret != CDP4J_UV_SUCCESS() ) {
-            debug("<- UvProcess.spawn()[cdp4j_spawn_process()]: false, " + toJavaString(Libuv.uv_err_name(ret)));
+            debug("<- UvProcess.spawn()[cdp4j_spawn_process()]: false, " +
+                        toJavaString(Libuv.uv_err_name(ret)));
             return false;
         }
 
@@ -167,33 +173,25 @@ class UvProcess {
         free(process);
     }
 
-    void writeAsync(byte[] payload) {
+    public void writeAsync(byte[] payload) {
         int ret = CDP4J_UV_SUCCESS() - 1;
         context_write context = nullPointer();
         async async = nullPointer();
-        PinnedObject.create(payload);
         try {
             context = malloc(SizeOf.get(context_write.class));
             context.pipe(inPipe.getPeer());
 
-            buf buf = malloc(SizeOf.get(buf.class));
-
-            int len = payload.length;
-            CCharPointer data = malloc(SizeOf.get(CCharPointer.class) * (len));
-            for (int i = 0; i < len; i++) {
+            int len = payload.length + 1;
+            CCharPointer data = calloc(SizeOf.get(CCharPointer.class) * (len));
+            for (int i = 0; i < len - 1; i++) {
                 data.write(i, payload[i]);
             }
 
-            buf.base(data);
-            buf.len(len);
-            
-            context.buf(buf);
+            context.len(len);
+            context.data(data);
 
             async = malloc(SizeOf.get(async.class));
             async.data(context);
-
-            write_request request = malloc(SizeOf.get(write_request.class));
-            request.data(context);
 
             ret = cdp4j_write_pipe(getLoop().getPeer(),
                                        async,
@@ -201,11 +199,11 @@ class UvProcess {
         } finally {
             if ( ret != CDP4J_UV_SUCCESS() ) {
                 if (context.isNonNull()) {
-                    if (context.buf().isNonNull()) {
-                        if (context.buf().base().isNonNull()) {
-                            free(context.buf().base());
-                        }
-                        free(context.buf());
+                    if (context.data().isNonNull()) {
+                        /*if (context.data().base().isNonNull()) {
+                            free(context.data().base());
+                        }*/
+                        free(context.data());
                     }
                     free(context);
                 }
@@ -218,5 +216,11 @@ class UvProcess {
 
     UvLoop getLoop() {
         return loop;
+    }
+
+    public void dispose() {
+        if ( process != nullPointer() ) {
+            free(process);
+        }
     }
 }

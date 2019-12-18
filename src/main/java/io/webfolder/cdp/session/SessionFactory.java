@@ -64,9 +64,9 @@ public class SessionFactory implements AutoCloseable {
 
     private final List<String> browserContexts = new CopyOnWriteArrayList<>();
 
-    private final String browserTargetId;
-
     private final Channel channel;
+
+    private volatile String browserTargetId;
 
     private volatile Session browserSession;
 
@@ -79,6 +79,10 @@ public class SessionFactory implements AutoCloseable {
     private TypeAdapterFactory typeAdapterFactory;
 
     public SessionFactory(Options options, ChannelFactory channelFactory, Connection connection) {
+        this(options, channelFactory, connection, true);
+    }
+
+    public SessionFactory(Options options, ChannelFactory channelFactory, Connection connection, boolean init) {
         this.options            = options;
         this.loggerFactory      = createLoggerFactory(options.loggerType());
         this.typeAdapterFactory = options.useCustomTypeAdapter() != null ? createTypeAdapterFactory(options.useCustomTypeAdapter()) : null;
@@ -93,8 +97,18 @@ public class SessionFactory implements AutoCloseable {
                                                     options.workerThreadPool(), options.eventHandlerThreadPool(),
                                                     loggerFactory.getLogger("cdp4j.ws.response", options.consoleLoggerLevel()));
         channel = channelFactory.createChannel(connection, this, handler);
-        channel.connect();
-        this.browserTargetId = initBrowserSession();
+        if (init) {
+            connect();
+        }
+    }
+
+    public void connect() {
+        if (browserTargetId == null) {
+            channel.connect();
+            browserTargetId = initBrowserSession();
+        } else {
+            throw new IllegalStateException();
+        }
     }
 
     private TypeAdapterFactory createTypeAdapterFactory(CustomTypeAdapter adapter) {

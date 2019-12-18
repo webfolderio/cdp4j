@@ -16,21 +16,25 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.session;
+package io.webfolder.cdp.channel;
 
-public enum ConnectionType {
-    /**
-     * Use nv-websocket-client
-     * 
-     * @see <a href="https://github.com/TakahikoKawasaki/nv-websocket-client">nv-websocket-client</a>
-     */
-    NvWebSocket,
-    /**
-     * Use java.net.http.WebSocket implementation
-     * 
-     * @see <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/WebSocket.html">WebSocket</a>
-     * 
-     * Requires Java 11+
-     */
-    JreWebSocket
+import io.webfolder.cdp.session.MessageHandler;
+import io.webfolder.cdp.session.SessionFactory;
+
+public class LibuvChannelFactory implements ChannelFactory, AutoCloseable {
+
+    @Override
+    public Channel createChannel(Connection     connection,
+                                 SessionFactory factory,
+                                 MessageHandler handler) {
+        LibuvPipeConnection pipeConnection = (LibuvPipeConnection) connection;
+        pipeConnection.setMessageHandler(handler);
+        LibuvPipeConnection.setPipeConnection(pipeConnection);
+        return new LibuvChannel(pipeConnection.getProcess());
+    }
+
+    @Override
+    public void close() throws Exception {
+        // no op
+    }
 }

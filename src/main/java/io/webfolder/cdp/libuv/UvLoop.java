@@ -23,13 +23,13 @@ public class UvLoop {
 
     private static int counter;
 
-    UvLoop() {
+    public UvLoop() {
         debug("-> UvLoop()");
         this.loop = malloc(get(loop.class));
         debug("<- UvLoop()");
     }
 
-    boolean init() {
+    public boolean init() {
         debug("-> UvLoop.init()");
         if ( uv_loop_init(getPeer()) != CDP4J_UV_SUCCESS() ) {
             debug("<- UvLoop.init(): false");
@@ -50,7 +50,7 @@ public class UvLoop {
         return null;
     }
 
-    UvProcess createProcess() {
+    public UvProcess createProcess() {
         debug("-> UvProcess.createProcess()");
         UvProcess process = new UvProcess(this);
         debug("<- UvProcess.createProcess()");
@@ -61,7 +61,7 @@ public class UvLoop {
         return loop;
     }
 
-    void start(Runnable runnable) {
+    public void start(Runnable runnable) {
         Thread thread = new Thread(new Runnable() {
 
             @Override
@@ -76,7 +76,7 @@ public class UvLoop {
         thread.start();
     }
 
-    void stop() {
+    public void stop() {
         uv_stop(loop);
         free(loop);
     }

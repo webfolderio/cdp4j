@@ -11,17 +11,20 @@ static void on_response(uv_stream_t* stream, ssize_t nread, const uv_buf_t* buf)
 }
 
 static void on_async_write(uv_write_t* req, int status) {
-  context_write* context = (context_write*) req->data;
-  void* thread = context->pipe->data;
-  cdp4j_on_write_callback_java(thread, req, status);
+  if (req) {
+    free(req);
+  }
 }
 
 static void async_write(uv_async_t* handle) {
   context_write* context = (context_write*) handle->data;
-  // uv_write_t *req = (uv_write_t*) context->write_request;
-  // int ret = uv_write(req, (uv_stream_t*) context->pipe, context->buf, 1, on_async_write);
   void* thread = context->pipe->data;
-  cdp4j_on_async_callback(thread, handle, on_async_write);
+  uv_write_t *request = (uv_write_t*) malloc(sizeof(uv_write_t));
+  uv_buf_t buf = uv_buf_init(context->data, context->len);
+  uv_write(request, (uv_stream_t*) context->pipe, &buf, 1, on_async_write);
+  if (context->data) {
+    free(context->data);
+  }
 }
 
 int cdp4j_spawn_process(uv_loop_t* loop, uv_process_t* handle, uv_process_options_t* options) {
