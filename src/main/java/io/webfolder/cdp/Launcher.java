@@ -279,8 +279,6 @@ public class Launcher {
 
         factory[0].connect();
 
-        System.out.println(factory[0]);
-        
         return factory[0];
     }
 

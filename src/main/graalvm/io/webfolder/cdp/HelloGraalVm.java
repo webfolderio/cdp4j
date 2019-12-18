@@ -18,28 +18,31 @@
  */
 package io.webfolder.cdp;
 
-import io.webfolder.cdp.channel.NvWebSocketFactory;
-import io.webfolder.cdp.logger.CdpLoggerType;
+import static io.webfolder.cdp.CustomTypeAdapter.Generated;
+import static io.webfolder.cdp.logger.CdpLoggerType.Console;
+import static java.util.Arrays.asList;
+
+import java.io.IOException;
+
+import io.webfolder.cdp.channel.LibuvChannelFactory;
 import io.webfolder.cdp.session.Session;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class HelloGraalVm {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        LibuvChannelFactory libuvFactory = new LibuvChannelFactory();
         Options options = Options.builder()
-                                .useCustomTypeAdapter(CustomTypeAdapter.Generated)
-                                .loggerType(CdpLoggerType.Console)
-                            .build();
-
-        Launcher launcher = new Launcher(options, new NvWebSocketFactory());
-
-        try (SessionFactory factory = launcher.launch(); Session session = factory.create()) {
-            session.navigate("https://webfolder.io?cdp4j");
-            session.waitDocumentReady();
-            String content = session.getContent();
-            System.out.println(content);
-        } finally {
-            launcher.kill();
+                                 .arguments(asList("--remote-debugging-pipe"))
+                                 .useCustomTypeAdapter(Generated)
+                                 .loggerType(Console)
+                                 .processManager(new LibuvProcessManager())
+                                 .build();
+        Launcher launcher = new Launcher(options, libuvFactory);
+        try (SessionFactory factory = launcher.launch()) {
+            Session session = factory.create();
+            session.navigate("https://webfolder.io");
+            session.wait(1000);
         }
     }
 }

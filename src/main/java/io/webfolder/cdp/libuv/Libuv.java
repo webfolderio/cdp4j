@@ -18,7 +18,6 @@
  */
 package io.webfolder.cdp.libuv;
 
-import static java.util.Arrays.asList;
 import static java.io.File.pathSeparator;
 import static java.io.File.separator;
 import static java.lang.String.format;
@@ -27,11 +26,9 @@ import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.graalvm.nativeimage.IsolateThread;
@@ -48,15 +45,7 @@ import org.graalvm.nativeimage.c.type.CCharPointerPointer;
 import org.graalvm.nativeimage.c.type.CTypeConversion;
 import org.graalvm.word.PointerBase;
 
-import io.webfolder.cdp.CustomTypeAdapter;
-import io.webfolder.cdp.Launcher;
-import io.webfolder.cdp.LibuvProcessManager;
-import io.webfolder.cdp.Options;
-import io.webfolder.cdp.channel.LibuvChannelFactory;
 import io.webfolder.cdp.channel.LibuvPipeConnection;
-import io.webfolder.cdp.logger.CdpLoggerType;
-import io.webfolder.cdp.session.Session;
-import io.webfolder.cdp.session.SessionFactory;
 
 @CContext(Libuv.UDirectives.class)
 @CLibrary("cdp4j")
@@ -120,13 +109,20 @@ class Libuv {
 
         @Override
         public List<String> getHeaderFiles() {
-            return asList("<uv.h>", "<cdp4j-libuv.h>");
+            return asList("<uv.h>",
+                          "<cdp4j-libuv.h>");
         }
 
         @Override
         public List<String> getLibraries() {
             if (WINDOWS) {
-                return asList("libuv", "iphlpapi", "psapi", "userenv", "ws2_32", "wsock32", "user32");
+                return asList("libuv",
+                              "iphlpapi",
+                              "psapi",
+                              "userenv",
+                              "ws2_32",
+                              "wsock32",
+                              "user32");
             } else {
                 return emptyList();
             }
@@ -363,20 +359,4 @@ class Libuv {
 
     @CConstant
     static final native int CDP4J_UV_SUCCESS();
-
-    public static void main(String[] args) throws IOException {
-        LibuvChannelFactory factory = new LibuvChannelFactory();
-        Options options = Options.builder()
-                                 .arguments(asList("--remote-debugging-pipe"))
-                                 .useCustomTypeAdapter(CustomTypeAdapter.Generated)
-                                 .loggerType(CdpLoggerType.Console)
-                                 .processManager(new LibuvProcessManager())
-                                 .build();
-
-        Launcher launcher = new Launcher(options, factory);
-        SessionFactory sessionFactory = launcher.launch();
-        Session create = sessionFactory.create();
-        create.navigate("https://webfolder.io");
-        System.in.read();
-    }
 }

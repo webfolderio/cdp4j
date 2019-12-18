@@ -305,57 +305,7 @@
       </build>
     </profile>
     <profile>
-      <id>community</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.1.2</version>
-            <configuration>
-              <archive>
-                <index>true</index>
-                <manifestEntries>
-                  <Implementation-Title>cdp4j</Implementation-Title>
-                  <Implementation-Version>4.0.1</Implementation-Version>
-                  <Automatic-Module-Name>io.webfolder.cdp4j</Automatic-Module-Name>
-                </manifestEntries>
-              </archive>
-              <excludes>
-                <exclude>io/webfolder/cdp/graal/**</exclude>
-                <exclude>io/webfolder/cdp/channel/Async**</exclude>
-                <exclude>io/webfolder/cdp/channel/Jetty**</exclude>
-                <exclude>io/webfolder/cdp/channel/Nv**</exclude>
-                <exclude>io/webfolder/cdp/channel/Standard**</exclude>
-                <exclude>io/webfolder/cdp/channel/TooTallNate**</exclude>
-                <exclude>io/webfolder/cdp/channel/Undertow**</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.0.0</version>
-          <executions>
-            <execution>
-              <phase>generate-sources</phase>
-              <goals>
-                <goal>add-source</goal>
-              </goals>
-              <configuration>
-                <sources>
-                    <source>${project.basedir}/src/main/java11</source>
-                    <source>${project.basedir}/src/main/community</source>
-                </sources>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>graalvm8</id>
+      <id>graalvm</id>
       <build>
         <plugins>
           <plugin>
@@ -371,7 +321,7 @@
               </execution>
             </executions>
             <configuration>
-              <mainClass>io.webfolder.cdp.libuv.Libuv</mainClass>
+              <mainClass>io.webfolder.cdp.HelloGraalVm</mainClass>
               <imageName>cdp4j-graalvm</imageName>
               <buildArgs>-H:+ReportExceptionStackTraces</buildArgs>
             </configuration>
@@ -389,7 +339,7 @@
                 <configuration>
                   <sources>
                     <source>${project.build.directory}/generated-sources/annotations</source>
-                    <source>${project.basedir}/src/main/graalvm8</source>
+                    <source>${project.basedir}/src/main/graalvm</source>
                   </sources>
                 </configuration>
               </execution>

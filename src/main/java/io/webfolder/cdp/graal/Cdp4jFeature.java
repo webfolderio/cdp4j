@@ -16,6 +16,18 @@ import com.oracle.svm.core.annotate.TargetClass;
 
 import io.webfolder.cdp.LibuvProcessManager;
 import io.webfolder.cdp.ProcessManager;
+import io.webfolder.cdp.logger.CdpConsoleLogger;
+import io.webfolder.cdp.logger.CdpConsoleLogggerLevel;
+import io.webfolder.cdp.logger.CdpLogger;
+
+@TargetClass(value = io.webfolder.cdp.logger.CdpLoggerFactory.class)
+final class Target_io_webfolder_cdp_logger_CdpLoggerFactory {
+
+    @Substitute
+    public CdpLogger getLogger(String name, CdpConsoleLogggerLevel loggerLevel) {
+        return new CdpConsoleLogger(loggerLevel);
+    }
+}
 
 @TargetClass(className = "io.webfolder.cdp.session.CdpTypeAdapterFactory")
 final class Target_io_webfolder_cdp_session_CdpTypeAdapterFactory {
@@ -40,7 +52,7 @@ public final class Cdp4jFeature implements Feature {
 
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
-        
+        // no op
     }
 }
 
