@@ -22,9 +22,8 @@ static void async_write(uv_async_t* handle) {
   uv_write_t *request = (uv_write_t*) malloc(sizeof(uv_write_t));
   uv_buf_t buf = uv_buf_init(context->data, context->len);
   uv_write(request, (uv_stream_t*) context->pipe, &buf, 1, on_async_write);
-  if (context->data) {
-    free(context->data);
-  }
+  free(handle);
+  cdp4j_on_write_callback_java(thread, context);
 }
 
 int cdp4j_spawn_process(uv_loop_t* loop, uv_process_t* handle, uv_process_options_t* options) {

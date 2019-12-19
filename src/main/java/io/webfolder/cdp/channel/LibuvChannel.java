@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.channel;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import io.webfolder.cdp.libuv.UvProcess;
 
 public class LibuvChannel implements Channel {
@@ -41,7 +39,7 @@ public class LibuvChannel implements Channel {
 
     @Override
     public void sendText(String message) {
-        process.writeAsync(message.getBytes(UTF_8));
+        process.writeAsync(message);
     }
 
     @Override

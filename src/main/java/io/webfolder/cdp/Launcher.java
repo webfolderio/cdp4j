@@ -18,7 +18,7 @@
  */
 package io.webfolder.cdp;
 
-
+import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
@@ -243,14 +243,17 @@ public class Launcher {
         String exe = argsSpawn.remove(0);
         argsSpawn.add(0, Paths.get(exe).getFileName().toString());
         argsSpawn.add("about:blank");
-        argsSpawn.add("--enable-logging");
-        argsSpawn.add("--v=1");
+
+        if (debug) {
+        	argsSpawn.add("--enable-logging");
+        	argsSpawn.add("--v=1");
+        }
 
         SessionFactory[] factory = new SessionFactory[] { null };
 
         loop.start(() -> {
             if (process.spawn(exe.toString(),
-                    argsSpawn.toArray(new String[0]), true, true)) {
+                    argsSpawn.toArray(new String[0]), debug, debug)) {
                 spawned.set(true);
                 LibuvPipeConnection connection = new LibuvPipeConnection(loop, process);
                 factory[0] = new SessionFactory(options, channelFactory, connection, false);

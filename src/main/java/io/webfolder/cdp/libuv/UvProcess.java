@@ -13,6 +13,7 @@ import static io.webfolder.cdp.libuv.Libuv.WINDOWS;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_spawn_process;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_start_read;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_write_pipe;
+import static io.webfolder.cdp.libuv.Libuv.objectHandles;
 import static io.webfolder.cdp.libuv.Libuv.uv_process_kill;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static org.graalvm.nativeimage.UnmanagedMemory.free;
@@ -22,9 +23,9 @@ import static org.graalvm.nativeimage.c.type.CTypeConversion.toCString;
 import static org.graalvm.nativeimage.c.type.CTypeConversion.toJavaString;
 import static org.graalvm.word.WordFactory.nullPointer;
 
+import org.graalvm.nativeimage.ObjectHandle;
 import org.graalvm.nativeimage.StackValue;
 import org.graalvm.nativeimage.c.struct.SizeOf;
-import org.graalvm.nativeimage.c.type.CCharPointer;
 import org.graalvm.nativeimage.c.type.CCharPointerPointer;
 import org.graalvm.nativeimage.c.type.CTypeConversion.CCharPointerHolder;
 
@@ -176,7 +177,7 @@ public class UvProcess {
         return ret == CDP4J_UV_SUCCESS();
     }
 
-    public void writeAsync(byte[] payload) {
+    public void writeAsync(String payload) {
         int ret = CDP4J_UV_SUCCESS() - 1;
         context_write context = nullPointer();
         async async = nullPointer();
@@ -184,15 +185,11 @@ public class UvProcess {
             context = malloc(SizeOf.get(context_write.class));
             context.pipe(inPipe.getPeer());
 
-            int len = payload.length + 1;
-            CCharPointer data = malloc(SizeOf.get(CCharPointer.class) * (len));
-            for (int i = 0; i < len - 1; i++) {
-                data.write(i, payload[i]);
-            }
-            data.write(len - 1, (byte) 0);
-
-            context.len(len);
-            context.data(data);
+            CCharPointerHolder cstring = toCString(payload);
+            ObjectHandle pinnedPayload = objectHandles.create(cstring);
+            context.len(payload.length() + 1);
+            context.data(cstring.get());
+            context.pinned_payload(pinnedPayload);
 
             async = malloc(SizeOf.get(async.class));
             async.data(context);
@@ -204,7 +201,11 @@ public class UvProcess {
             if ( ret != CDP4J_UV_SUCCESS() ) {
                 if (context.isNonNull()) {
                     if (context.data().isNonNull()) {
-                        free(context.data());
+                    	CCharPointerHolder cstring = objectHandles.get(context.pinned_payload());
+                    	if ( cstring != null ) {
+                    		cstring.close();
+                    	}
+                    	objectHandles.destroy(context.pinned_payload());
                     }
                     free(context);
                 }

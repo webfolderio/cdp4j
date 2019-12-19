@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.libuv;
 
+import static io.webfolder.cdp.channel.LibuvPipeConnection.getPipeConnection;
 import static java.io.File.pathSeparator;
 import static java.io.File.separator;
 import static java.lang.String.format;
@@ -26,12 +27,13 @@ import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
-import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.graalvm.nativeimage.IsolateThread;
+import org.graalvm.nativeimage.ObjectHandle;
+import org.graalvm.nativeimage.ObjectHandles;
 import org.graalvm.nativeimage.c.CContext;
 import org.graalvm.nativeimage.c.constant.CConstant;
 import org.graalvm.nativeimage.c.function.CEntryPoint;
@@ -42,16 +44,16 @@ import org.graalvm.nativeimage.c.struct.CFieldAddress;
 import org.graalvm.nativeimage.c.struct.CStruct;
 import org.graalvm.nativeimage.c.type.CCharPointer;
 import org.graalvm.nativeimage.c.type.CCharPointerPointer;
-import org.graalvm.nativeimage.c.type.CTypeConversion;
+import org.graalvm.nativeimage.c.type.CTypeConversion.CCharPointerHolder;
 import org.graalvm.word.PointerBase;
-
-import io.webfolder.cdp.channel.LibuvPipeConnection;
 
 @CContext(Libuv.UDirectives.class)
 @CLibrary("cdp4j")
 class Libuv {
 
     static final boolean WINDOWS = ";".equals(pathSeparator);
+
+    static final ObjectHandles objectHandles = ObjectHandles.create();
 
     static class UDirectives implements CContext.Directives {
 
@@ -75,10 +77,11 @@ class Libuv {
                        .resolve("main")
                        .resolve("native");
         }
+
         public List<String> getOptions() {
             Path include = get(getVcpkgRoot())
                                 .resolve("installed")
-                                .resolve(WINDOWS ? "x64-windows-static" : "x64-linux")
+                                .resolve(WINDOWS ? "x64-windows" : "x64-linux")
                                 .resolve("include");
             System.out.println("[cdp4j] vcpkg include path: " + include.toString());
             String uvCdp4jIncludePath = getUvCdp4jPath().toString();
@@ -99,7 +102,7 @@ class Libuv {
         public List<String> getLibraryPaths() {
             Path vcpkgLibraryPath = get(getVcpkgRoot())
                                     .resolve("installed")
-                                    .resolve(WINDOWS ? "x64-windows-static" : "x64-linux")
+                                    .resolve(WINDOWS ? "x64-windows" : "x64-linux")
                                     .resolve("lib");
             System.out.println("[cdp4j] vcpkg library path: " + vcpkgLibraryPath);
             String uvCdp4jLibraryPath = getUvCdp4jPath().resolve("build").toString();
@@ -275,6 +278,12 @@ class Libuv {
 
         @CField("len")
         int len();
+
+        @CField("pinned_payload")
+		void pinned_payload(ObjectHandle pinned_payload);
+
+        @CField("pinned_payload")
+        ObjectHandle pinned_payload();
     }
 
     @CFunction
@@ -316,12 +325,22 @@ class Libuv {
 
     @CEntryPoint(name = "cdp4j_on_read_callback_java")
     static void cdp4j_on_read_callback_java(IsolateThread thread, CCharPointer data, int len) {
-        if (data.isNonNull()) {
-            ByteBuffer buffer = CTypeConversion.asByteBuffer(data, len);
-            byte[] response = new byte[buffer.remaining()];
-            buffer.get(response);
-            LibuvPipeConnection.getPipeConnection().onResponse(response);
+        if (data.isNonNull() && len > 0) {
+        	byte[] buffer = new byte[len];
+        	for (int i = 0; i < len; i++) {
+        		buffer[i] = data.read(i);
+        	}
+            getPipeConnection().onResponse(buffer);
         }
+    }
+
+    @CEntryPoint(name = "cdp4j_on_write_callback_java")
+    static void cdp4j_on_write_callback_java(IsolateThread thread, context_write context) {
+    	CCharPointerHolder holder = objectHandles.get(context.pinned_payload());
+    	if ( holder != null ) {
+    		holder.close();
+    	}
+    	objectHandles.destroy(context.pinned_payload());
     }
 
     @CConstant

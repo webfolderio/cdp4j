@@ -279,7 +279,7 @@
   </properties>
   <profiles>
     <profile>
-      <id>jdk11</id>
+      <id>java11</id>
       <build>
         <plugins>
           <plugin>
