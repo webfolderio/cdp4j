@@ -11,9 +11,7 @@ static void on_response(uv_stream_t* stream, ssize_t nread, const uv_buf_t* buf)
 }
 
 static void on_async_write(uv_write_t* req, int status) {
-  if (req) {
-    free(req);
-  }
+  free(req);
 }
 
 static void async_write(uv_async_t* handle) {
@@ -26,8 +24,13 @@ static void async_write(uv_async_t* handle) {
   cdp4j_on_write_callback_java(thread, context);
 }
 
+static void cdp4j_on_process_exit(uv_process_t* process, int64_t exit_status, int term_signal) {
+  void* thread = process->data;
+  cdp4j_on_process_exit_java(thread);
+}
+
 int cdp4j_spawn_process(uv_loop_t* loop, uv_process_t* handle, uv_process_options_t* options) {
-  // options->exit_cb = cdp4j_on_process_exit;
+  options->exit_cb = cdp4j_on_process_exit;
   return uv_spawn(loop, handle, options);
 }
 

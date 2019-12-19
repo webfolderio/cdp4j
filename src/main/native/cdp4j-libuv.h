@@ -29,3 +29,5 @@ int cdp4j_start_read(uv_pipe_t* out_pipe);
 void cdp4j_on_read_callback_java(void* thread, char* data, int let);
 
 void cdp4j_on_write_callback_java(void* thread, context_write* context);
+
+void cdp4j_on_process_exit_java(void* thread);

@@ -227,6 +227,11 @@ class Libuv {
     @CStruct(value = "uv_process_s", addStructKeyword = true)
     interface process extends PointerBase {
 
+        @CField("data")
+        PointerBase data();
+
+        @CField("data")
+        void data(PointerBase data);
     }
 
     @CStruct(value = "uv_buf_t", addStructKeyword = true)
@@ -296,9 +301,6 @@ class Libuv {
     static native int uv_run(loop loop, int mode);
 
     @CFunction
-    static native int uv_stop(loop loop);
-
-    @CFunction
     static native int uv_process_kill(process process, int signum);
 
     @CFunction
@@ -310,6 +312,19 @@ class Libuv {
     @CFunction
     static native int uv_stream_set_blocking(pipe pipe, int blocking);
 
+    @CFunction
+    static native int uv_read_stop(pipe handle);
+
+    @CFunction
+    static native void uv_close(pipe handle, PointerBase cb);
+
+    @CFunction
+    static native int uv_loop_close(loop loop);
+
+    @CFunction
+    static native void uv_stop(loop loop);
+
+    
     // ------------------------------------------------------------------------
     // cdp4j native methods
     // ------------------------------------------------------------------------
@@ -341,6 +356,11 @@ class Libuv {
     		holder.close();
     	}
     	objectHandles.destroy(context.pinned_payload());
+    }
+
+    @CEntryPoint(name = "cdp4j_on_process_exit_java")
+    static void cdp4j_on_process_exit_java(IsolateThread thread) {
+    	getPipeConnection().getProcess().dispose();
     }
 
     @CConstant

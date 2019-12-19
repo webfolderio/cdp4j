@@ -16,11 +16,11 @@ import io.webfolder.cdp.libuv.Libuv.loop;
 
 public class UvLoop {
 
+    private static int counter;
+
     private loop loop;
 
-    protected IsolateThread currentThread;
-
-    private static int counter;
+    private IsolateThread currentThread;
 
     public UvLoop() {
         debug("-> UvLoop()");
@@ -61,15 +61,11 @@ public class UvLoop {
     }
 
     public void start(Runnable runnable) {
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                UvLoop.this.currentThread = CurrentIsolate.getCurrentThread();
-                runnable.run();
-                UvLoop.this.run();
-            }
-        });
+        Thread thread = new Thread(() -> {
+		    UvLoop.this.currentThread = CurrentIsolate.getCurrentThread();
+		    runnable.run();
+		    UvLoop.this.run();
+		});
         thread.setDaemon(true);
         thread.setName("cdp4j-libuv-thread-" + (++counter));
         thread.start();
@@ -77,7 +73,9 @@ public class UvLoop {
 
     public void dispose() {
         if (loop.isNonNull()) {
+            debug("-> UvLoop.dispose()");
             free(loop);
+        	debug("<- UvLoop.dispose()");
         }
     }
 

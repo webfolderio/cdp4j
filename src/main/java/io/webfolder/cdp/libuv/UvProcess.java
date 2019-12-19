@@ -136,6 +136,8 @@ public class UvProcess {
 
         options.args(args);
 
+        process.data(loop.getCurrentThread());
+
         int ret = cdp4j_spawn_process(loop.getPeer(),
                                       process,
                                       options);
@@ -221,6 +223,12 @@ public class UvProcess {
     }
 
     public void dispose() {
+    	if ( outPipe != null ) {
+    		outPipe.dispose();
+    	}
+    	if ( inPipe != null ) {
+    		inPipe.dispose();
+    	}
         if (process.isNonNull()) {
             free(process);
         }
