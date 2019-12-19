@@ -18,23 +18,34 @@
  */
 package io.webfolder.cdp.channel;
 
+import io.webfolder.cdp.libuv.UvProcess;
 import io.webfolder.cdp.session.MessageHandler;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class LibuvChannelFactory implements ChannelFactory, AutoCloseable {
 
+    private UvProcess process;
+
     @Override
     public Channel createChannel(Connection     connection,
                                  SessionFactory factory,
                                  MessageHandler handler) {
+        if ( process != null ) {
+            throw new IllegalStateException();
+        }
         LibuvPipeConnection pipeConnection = (LibuvPipeConnection) connection;
         pipeConnection.setMessageHandler(handler);
         LibuvPipeConnection.setPipeConnection(pipeConnection);
+        this.process = pipeConnection.getProcess();
         return new LibuvChannel(pipeConnection.getProcess());
     }
 
     @Override
     public void close() throws Exception {
         // no op
+    }
+
+    public UvProcess getProcess() {
+        return process;
     }
 }

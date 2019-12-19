@@ -4,7 +4,6 @@ import static io.webfolder.cdp.libuv.Libuv.CDP4J_UV_SUCCESS;
 import static io.webfolder.cdp.libuv.Libuv.UV_RUN_DEFAULT;
 import static io.webfolder.cdp.libuv.Libuv.uv_loop_init;
 import static io.webfolder.cdp.libuv.Libuv.uv_run;
-import static io.webfolder.cdp.libuv.Libuv.uv_stop;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static org.graalvm.nativeimage.UnmanagedMemory.free;
 import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
@@ -76,9 +75,10 @@ public class UvLoop {
         thread.start();
     }
 
-    public void stop() {
-        uv_stop(loop);
-        free(loop);
+    public void dispose() {
+        if (loop.isNonNull()) {
+            free(loop);
+        }
     }
 
     IsolateThread getCurrentThread() {

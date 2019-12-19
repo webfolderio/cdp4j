@@ -36,7 +36,7 @@ public class HelloGraalVm {
                                  .arguments(asList("--remote-debugging-pipe"))
                                  .useCustomTypeAdapter(Generated)
                                  .loggerType(Console)
-                                 .processManager(new LibuvProcessManager())
+                                 .processManager(new LibuvProcessManager(libuvFactory))
                                  .build();
         Launcher launcher = new Launcher(options, libuvFactory);
         try (SessionFactory factory = launcher.launch()) {

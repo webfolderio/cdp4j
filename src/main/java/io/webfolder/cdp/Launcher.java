@@ -265,7 +265,7 @@ public class Launcher {
         } finally {
             if ( ! spawned.get() ) {
                 if ( loop != null ) {
-                    loop.stop();
+                    loop.dispose();
                 }
                 if ( process != null ) {
                     process.dispose();

@@ -36,7 +36,9 @@ class UvPipe {
         return pipe;
     }
 
-    void close() {
-        free(pipe);
+    void dispose() {
+        if (pipe.isNonNull()) {
+            free(pipe);
+        }
     }
 }

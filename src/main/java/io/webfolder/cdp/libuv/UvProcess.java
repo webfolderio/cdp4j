@@ -15,7 +15,6 @@ import static io.webfolder.cdp.libuv.Libuv.cdp4j_start_read;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_write_pipe;
 import static io.webfolder.cdp.libuv.Libuv.uv_process_kill;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
-import static org.graalvm.nativeimage.UnmanagedMemory.calloc;
 import static org.graalvm.nativeimage.UnmanagedMemory.free;
 import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
 import static org.graalvm.nativeimage.c.struct.SizeOf.get;
@@ -162,15 +161,19 @@ public class UvProcess {
         return true;
     }
 
-    void kill() {
+    public boolean kill() {
         if ( inPipe != null ) {
-            inPipe.close();
+            inPipe.dispose();
         }
         if ( outPipe != null ) {
-            outPipe.close();
+            outPipe.dispose();
         }
-        uv_process_kill(process, SIGKILL());
+        if ( loop != null ) {
+            loop.dispose();
+        }
+        int ret = uv_process_kill(process, SIGKILL());
         free(process);
+        return ret == CDP4J_UV_SUCCESS();
     }
 
     public void writeAsync(byte[] payload) {
@@ -182,10 +185,11 @@ public class UvProcess {
             context.pipe(inPipe.getPeer());
 
             int len = payload.length + 1;
-            CCharPointer data = calloc(SizeOf.get(CCharPointer.class) * (len));
+            CCharPointer data = malloc(SizeOf.get(CCharPointer.class) * (len));
             for (int i = 0; i < len - 1; i++) {
                 data.write(i, payload[i]);
             }
+            data.write(len - 1, (byte) 0);
 
             context.len(len);
             context.data(data);
@@ -200,9 +204,6 @@ public class UvProcess {
             if ( ret != CDP4J_UV_SUCCESS() ) {
                 if (context.isNonNull()) {
                     if (context.data().isNonNull()) {
-                        /*if (context.data().base().isNonNull()) {
-                            free(context.data().base());
-                        }*/
                         free(context.data());
                     }
                     free(context);
@@ -219,7 +220,7 @@ public class UvProcess {
     }
 
     public void dispose() {
-        if ( process != nullPointer() ) {
+        if (process.isNonNull()) {
             free(process);
         }
     }
