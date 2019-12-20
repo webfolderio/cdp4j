@@ -322,9 +322,17 @@ class Libuv {
     static native int uv_loop_close(loop loop);
 
     @CFunction
+    static native int uv_loop_alive(loop loop);
+
+    @CFunction
     static native void uv_stop(loop loop);
 
-    
+    @CFunction
+    static native int cdp4j_close_loop(loop loop);
+
+    @CFunction
+    static native void uv_disable_stdio_inheritance();
+
     // ------------------------------------------------------------------------
     // cdp4j native methods
     // ------------------------------------------------------------------------
@@ -360,7 +368,7 @@ class Libuv {
 
     @CEntryPoint(name = "cdp4j_on_process_exit_java")
     static void cdp4j_on_process_exit_java(IsolateThread thread) {
-    	getPipeConnection().getProcess().dispose();
+    	getPipeConnection().getLoop().dispose();
     }
 
     @CConstant
@@ -394,8 +402,14 @@ class Libuv {
     static final native int UV_RUN_DEFAULT();
 
     @CConstant
+    static final native int UV_RUN_ONCE();
+
+    @CConstant
     static final native int SIGKILL();
 
     @CConstant
     static final native int CDP4J_UV_SUCCESS();
+
+    @CConstant
+    static final native int UV_EBUSY();
 }

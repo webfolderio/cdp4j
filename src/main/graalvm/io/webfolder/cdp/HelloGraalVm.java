@@ -30,7 +30,7 @@ import io.webfolder.cdp.session.SessionFactory;
 
 public class HelloGraalVm {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         LibuvChannelFactory libuvFactory = new LibuvChannelFactory();
         Options options = Options.builder()
                                  .arguments(asList("--remote-debugging-pipe"))
@@ -43,6 +43,7 @@ public class HelloGraalVm {
             Session session = factory.create();
             session.navigate("https://webfolder.io");
             session.wait(1000);
+            System.out.println(session.getText("body"));
         }
     }
 }

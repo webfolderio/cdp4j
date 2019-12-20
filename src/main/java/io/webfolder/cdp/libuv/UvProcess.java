@@ -14,6 +14,7 @@ import static io.webfolder.cdp.libuv.Libuv.cdp4j_spawn_process;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_start_read;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_write_pipe;
 import static io.webfolder.cdp.libuv.Libuv.objectHandles;
+import static io.webfolder.cdp.libuv.Libuv.uv_disable_stdio_inheritance;
 import static io.webfolder.cdp.libuv.Libuv.uv_process_kill;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static org.graalvm.nativeimage.UnmanagedMemory.free;
@@ -64,6 +65,8 @@ public class UvProcess {
                          String[] arguments,
                          boolean  redirectOut,
                          boolean  redirectErr) {
+    	uv_disable_stdio_inheritance();
+
         debug("-> UvProcess.spawn()");
 
         inPipe = loop.createPipe();
@@ -78,7 +81,7 @@ public class UvProcess {
         }
         outPipe.getPeer().data(loop.getCurrentThread());
         inPipe.getPeer().data(loop.getCurrentThread());
-        
+
         stdio_container container = StackValue.get(5, get(stdio_container.class));
 
         container.addressOf(0).flags(UV_IGNORE()); // stdin
@@ -218,7 +221,7 @@ public class UvProcess {
         }
     }
 
-    UvLoop getLoop() {
+    public UvLoop getLoop() {
         return loop;
     }
 

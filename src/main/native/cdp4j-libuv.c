@@ -1,4 +1,5 @@
 #include "cdp4j-libuv.h"
+#include <stdlib.h>
 
 static void alloc_buffer(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf) {
     buf->base = (char*) malloc(suggested_size);
@@ -45,4 +46,15 @@ int cdp4j_write_pipe(uv_loop_t* loop, uv_async_t* handle, context_write* context
     }
   }
   return CDP4J_UV_SUCCESS - 1;
+}
+
+static void on_walk(uv_handle_t *peer, void *arg) {
+  if ( ! uv_is_closing(peer) ) {
+    uv_close(peer, NULL);
+  }
+}
+
+void cdp4j_close_loop(uv_loop_t* loop) {
+  uv_walk(loop, on_walk, NULL);
+  uv_run(loop, UV_RUN_DEFAULT);
 }

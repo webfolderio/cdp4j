@@ -2,10 +2,10 @@ package io.webfolder.cdp.libuv;
 
 import static io.webfolder.cdp.libuv.Libuv.CDP4J_UV_SUCCESS;
 import static io.webfolder.cdp.libuv.Libuv.UV_RUN_DEFAULT;
+import static io.webfolder.cdp.libuv.Libuv.cdp4j_close_loop;
 import static io.webfolder.cdp.libuv.Libuv.uv_loop_init;
 import static io.webfolder.cdp.libuv.Libuv.uv_run;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
-import static org.graalvm.nativeimage.UnmanagedMemory.free;
 import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
 import static org.graalvm.nativeimage.c.struct.SizeOf.get;
 
@@ -21,6 +21,8 @@ public class UvLoop {
     private loop loop;
 
     private IsolateThread currentThread;
+
+	private UvProcess process;
 
     public UvLoop() {
         debug("-> UvLoop()");
@@ -50,8 +52,11 @@ public class UvLoop {
     }
 
     public UvProcess createProcess() {
+    	if ( process != null ) {
+    		throw new IllegalStateException();
+    	}
         debug("-> UvProcess.createProcess()");
-        UvProcess process = new UvProcess(this);
+        process = new UvProcess(this);
         debug("<- UvProcess.createProcess()");
         return process;
     }
@@ -74,7 +79,7 @@ public class UvLoop {
     public void dispose() {
         if (loop.isNonNull()) {
             debug("-> UvLoop.dispose()");
-            free(loop);
+            Libuv.uv_stop(loop);
         	debug("<- UvLoop.dispose()");
         }
     }
@@ -84,6 +89,8 @@ public class UvLoop {
     }
 
     void run() {
-        uv_run(loop, UV_RUN_DEFAULT());
+    	uv_run(loop, UV_RUN_DEFAULT());
+    	cdp4j_close_loop(loop);
+    	process.dispose();
     }
 }
