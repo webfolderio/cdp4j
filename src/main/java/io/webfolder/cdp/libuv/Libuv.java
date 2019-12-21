@@ -351,7 +351,7 @@ class Libuv {
     static void cdp4j_on_write_callback_java(IsolateThread thread, context_write context) {
     	CCharPointerHolder holder = objectHandles.get(context.pinned_payload());
     	if ( holder != null ) {
-    		holder.close();
+    	    holder.close();
     	}
     	objectHandles.destroy(context.pinned_payload());
     }

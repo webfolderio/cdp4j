@@ -2,6 +2,10 @@
 #include <string.h>
 #include "uv.h"
 
+#ifndef ULONG
+  #define ULONG unsigned long
+#endif
+
 #define CDP4J_UV_SUCCESS 0
 
 typedef union uv_data_s {

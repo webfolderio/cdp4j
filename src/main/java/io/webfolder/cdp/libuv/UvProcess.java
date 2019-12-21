@@ -5,7 +5,6 @@ import static io.webfolder.cdp.libuv.Libuv.SIGKILL;
 import static io.webfolder.cdp.libuv.Libuv.UV_CREATE_PIPE;
 import static io.webfolder.cdp.libuv.Libuv.UV_IGNORE;
 import static io.webfolder.cdp.libuv.Libuv.UV_INHERIT_FD;
-import static io.webfolder.cdp.libuv.Libuv.UV_PROCESS_SETGID;
 import static io.webfolder.cdp.libuv.Libuv.UV_PROCESS_WINDOWS_VERBATIM_ARGUMENTS;
 import static io.webfolder.cdp.libuv.Libuv.UV_READABLE_PIPE;
 import static io.webfolder.cdp.libuv.Libuv.UV_WRITABLE_PIPE;
@@ -15,6 +14,7 @@ import static io.webfolder.cdp.libuv.Libuv.cdp4j_start_read;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_write_pipe;
 import static io.webfolder.cdp.libuv.Libuv.objectHandles;
 import static io.webfolder.cdp.libuv.Libuv.uv_disable_stdio_inheritance;
+import static io.webfolder.cdp.libuv.Libuv.uv_err_name;
 import static io.webfolder.cdp.libuv.Libuv.uv_process_kill;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static org.graalvm.nativeimage.UnmanagedMemory.free;
@@ -116,8 +116,6 @@ public class UvProcess {
 
         if (WINDOWS) {
             options.flags(UV_PROCESS_WINDOWS_VERBATIM_ARGUMENTS());
-        } else {
-            options.flags(UV_PROCESS_SETGID() | UV_PROCESS_SETGID());
         }
 
         // inherit from parent process
@@ -153,7 +151,7 @@ public class UvProcess {
 
         if ( ret != CDP4J_UV_SUCCESS() ) {
             debug("<- UvProcess.spawn()[cdp4j_spawn_process()]: false, " +
-                        toJavaString(Libuv.uv_err_name(ret)));
+                        toJavaString(uv_err_name(ret)));
             return false;
         }
 

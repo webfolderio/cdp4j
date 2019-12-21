@@ -7,8 +7,10 @@ static void alloc_buffer(uv_handle_t *handle, size_t suggested_size, uv_buf_t *b
 }
 
 static void on_response(uv_stream_t* stream, ssize_t nread, const uv_buf_t* buf) {
-  cdp4j_on_read_callback_java(stream->data, buf->base, (int) nread);
-  free(buf->base);
+  if (nread > 0) {
+    cdp4j_on_read_callback_java(stream->data, buf->base, (int) nread);
+    free(buf->base);
+  }
 }
 
 static void on_async_write(uv_write_t* req, int status) {
@@ -21,8 +23,8 @@ static void async_write(uv_async_t* handle) {
   uv_write_t *request = (uv_write_t*) malloc(sizeof(uv_write_t));
   uv_buf_t buf = uv_buf_init(context->data, context->len);
   uv_write(request, (uv_stream_t*) context->pipe, &buf, 1, on_async_write);
-  free(handle);
   cdp4j_on_write_callback_java(thread, context);
+  free(handle);
 }
 
 static void cdp4j_on_process_exit(uv_process_t* process, int64_t exit_status, int term_signal) {

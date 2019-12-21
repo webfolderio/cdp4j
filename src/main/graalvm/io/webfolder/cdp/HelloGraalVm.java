@@ -42,7 +42,7 @@ public class HelloGraalVm {
         try (SessionFactory factory = launcher.launch()) {
             Session session = factory.create();
             session.navigate("https://webfolder.io");
-            session.wait(1000);
+            session.waitDocumentReady();
             System.out.println(session.getText("body"));
         }
     }

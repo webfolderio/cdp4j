@@ -8,5 +8,4 @@
 /*.iml
 /src/test/java/io/webfolder/cdp/Generator.java
 /src/main/java/io/webfolder/cdp/CommandGenerator.java
-/src/main/native/CMake
 /src/main/native/build
