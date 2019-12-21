@@ -36,6 +36,7 @@ public class HelloGraalVm {
                                  .arguments(asList("--remote-debugging-pipe"))
                                  .useCustomTypeAdapter(Generated)
                                  .loggerType(Console)
+                                 .shutdownThreadPoolOnClose(false)
                                  .processManager(new LibuvProcessManager(libuvFactory))
                                  .build();
         Launcher launcher = new Launcher(options, libuvFactory);
@@ -45,5 +46,6 @@ public class HelloGraalVm {
             session.waitDocumentReady();
             System.out.println(session.getText("body"));
         }
+        System.in.read();
     }
 }

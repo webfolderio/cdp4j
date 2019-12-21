@@ -181,6 +181,10 @@ public class UvProcess {
     }
 
     public void writeAsync(String payload) {
+        loop.add(payload);
+    }
+
+    public void _writeAsync(String payload) {
         int ret = CDP4J_UV_SUCCESS() - 1;
         context_write context = nullPointer();
         async async = nullPointer();

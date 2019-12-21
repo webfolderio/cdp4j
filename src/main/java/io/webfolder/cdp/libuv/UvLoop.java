@@ -1,13 +1,16 @@
 package io.webfolder.cdp.libuv;
 
 import static io.webfolder.cdp.libuv.Libuv.CDP4J_UV_SUCCESS;
-import static io.webfolder.cdp.libuv.Libuv.UV_RUN_DEFAULT;
+import static io.webfolder.cdp.libuv.Libuv.UV_RUN_NOWAIT;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_close_loop;
 import static io.webfolder.cdp.libuv.Libuv.uv_loop_init;
 import static io.webfolder.cdp.libuv.Libuv.uv_run;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
 import static org.graalvm.nativeimage.c.struct.SizeOf.get;
+
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.graalvm.nativeimage.CurrentIsolate;
 import org.graalvm.nativeimage.IsolateThread;
@@ -22,7 +25,11 @@ public class UvLoop {
 
     private IsolateThread currentThread;
 
-	private UvProcess process;
+    private UvProcess process;
+
+    private AtomicBoolean running = new AtomicBoolean(false);
+
+    private LinkedBlockingQueue<String> writeQueue = new LinkedBlockingQueue<>();
 
     public UvLoop() {
         debug("-> UvLoop()");
@@ -32,7 +39,7 @@ public class UvLoop {
 
     public boolean init() {
         debug("-> UvLoop.init()");
-        if ( uv_loop_init(getPeer()) != CDP4J_UV_SUCCESS() ) {
+        if (uv_loop_init(getPeer()) != CDP4J_UV_SUCCESS()) {
             debug("<- UvLoop.init(): false");
             return false;
         }
@@ -52,9 +59,9 @@ public class UvLoop {
     }
 
     public UvProcess createProcess() {
-    	if ( process != null ) {
-    		throw new IllegalStateException();
-    	}
+        if ( process != null ) {
+            throw new IllegalStateException();
+        }
         debug("-> UvProcess.createProcess()");
         process = new UvProcess(this);
         debug("<- UvProcess.createProcess()");
@@ -67,10 +74,12 @@ public class UvLoop {
 
     public void start(Runnable runnable) {
         Thread thread = new Thread(() -> {
-		    UvLoop.this.currentThread = CurrentIsolate.getCurrentThread();
-		    runnable.run();
-		    UvLoop.this.run();
-		});
+            if (running.compareAndSet(false, true)) {
+                UvLoop.this.currentThread = CurrentIsolate.getCurrentThread();
+                runnable.run();
+                UvLoop.this.run();
+            }
+        });
         thread.setDaemon(true);
         thread.setName("cdp4j-libuv-thread-" + (++counter));
         thread.start();
@@ -79,8 +88,8 @@ public class UvLoop {
     public void dispose() {
         if (loop.isNonNull()) {
             debug("-> UvLoop.dispose()");
-            Libuv.uv_stop(loop);
-        	debug("<- UvLoop.dispose()");
+            running.compareAndSet(true, false);
+            debug("<- UvLoop.dispose()");
         }
     }
 
@@ -89,8 +98,18 @@ public class UvLoop {
     }
 
     void run() {
-    	uv_run(loop, UV_RUN_DEFAULT());
-    	cdp4j_close_loop(loop);
-    	process.dispose();
+        while (running.get()) {
+            uv_run(loop, UV_RUN_NOWAIT());
+            String payload = writeQueue.poll();
+            if ( payload != null ) {
+                process._writeAsync(payload);
+            }
+        }
+        cdp4j_close_loop(loop);
+        process.dispose();
+    }
+
+    public void add(String payload) {
+        writeQueue.offer(payload);
     }
 }

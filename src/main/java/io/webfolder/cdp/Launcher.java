@@ -230,9 +230,6 @@ public class Launcher {
 
     private SessionFactory launchLibuv(List<String> arguments) {
         UvLoop loop = new UvLoop();
-        if (!loop.init()) {
-            throw new CdpException("UvLoop.init() is failed"); 
-        }
         UvProcess process = loop.createProcess();
 
         CountDownLatch latch = new CountDownLatch(1);
@@ -252,6 +249,9 @@ public class Launcher {
         SessionFactory[] factory = new SessionFactory[] { null };
 
         loop.start(() -> {
+            if ( ! loop.init() ) {
+                throw new CdpException("UvLoop.init() is failed"); 
+            }
             if (process.spawn(exe.toString(),
                     argsSpawn.toArray(new String[0]), debug, debug)) {
                 spawned.set(true);

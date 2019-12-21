@@ -389,7 +389,7 @@ class Libuv {
     static final native int UV_WRITABLE_PIPE();
 
     @CConstant
-    static final native int UV_RUN_DEFAULT();
+    static final native int UV_RUN_NOWAIT();
 
     @CConstant
     static final native int UV_RUN_ONCE();
