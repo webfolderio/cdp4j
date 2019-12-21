@@ -236,17 +236,7 @@ class Libuv {
 
     @CStruct(value = "uv_buf_t", addStructKeyword = true)
     interface buf extends PointerBase {
-        @CField("base")
-        void base(CCharPointer base);
 
-        @CField("base")
-        CCharPointer base();
-
-        @CField("len")
-        void len(int len);
-
-        @CField("len")
-        int len();
     }
 
     @CStruct(value = "uv_async_s", addStructKeyword = true)
@@ -353,7 +343,7 @@ class Libuv {
         	for (int i = 0; i < len; i++) {
         		buffer[i] = data.read(i);
         	}
-            getPipeConnection().onResponse(buffer);
+        	getPipeConnection().onResponse(buffer);
         }
     }
 

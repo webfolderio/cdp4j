@@ -54,14 +54,11 @@ list(FILTER SRC_FILES EXCLUDE REGEX ".*CMakeCCompilerId.c$")
 list(FILTER SRC_FILES EXCLUDE REGEX ".*feature_tests.c$")
 list(FILTER SRC_FILES EXCLUDE REGEX ".*feature_tests.cxx$")
 
-add_library(cdp4j STATIC ${SRC_FILES})
-
 if(MSVC)
+  add_library(cdp4j STATIC ${SRC_FILES})
   target_link_libraries(cdp4j Threads::Threads unofficial::libuv::libuv)
 else()
-  target_link_libraries(cdp4j unofficial::libuv::libuv)
-endif()
-
-if(NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-  bundle_static_library(cdp4j cdp4j)
+  add_library(uvcdp4j STATIC ${SRC_FILES})
+  target_link_libraries(uvcdp4j unofficial::libuv::libuv)
+  bundle_static_library(uvcdp4j cdp4j)
 endif()

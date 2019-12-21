@@ -323,7 +323,7 @@
             <configuration>
               <mainClass>io.webfolder.cdp.HelloGraalVm</mainClass>
               <imageName>cdp4j-graalvm</imageName>
-              <buildArgs>-H:+ReportExceptionStackTraces</buildArgs>
+              <buildArgs>-H:+ReportExceptionStackTraces --verbose</buildArgs>
             </configuration>
           </plugin>
           <plugin>
