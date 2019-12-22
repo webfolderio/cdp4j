@@ -294,18 +294,6 @@ class Libuv {
     static native int uv_stream_set_blocking(pipe pipe, int blocking);
 
     @CFunction
-    static native int uv_read_stop(pipe handle);
-
-    @CFunction
-    static native void uv_close(pipe handle, PointerBase cb);
-
-    @CFunction
-    static native int uv_loop_close(loop loop);
-
-    @CFunction
-    static native int uv_loop_alive(loop loop);
-
-    @CFunction
     static native void uv_stop(loop loop);
 
     @CFunction
@@ -346,14 +334,14 @@ class Libuv {
 
     @CEntryPoint(name = "cdp4j_on_process_exit_java")
     static void cdp4j_on_process_exit_java(IsolateThread thread) {
-        getPipeConnection().getLoop().close();
+        LibuvPipeConnection connection = getPipeConnection();
+        if ( connection != null ) {
+            UvLoop loop = connection.getLoop();
+            if (loop.isRunning()) {
+                loop.close();
+            }
+        }
     }
-
-    @CConstant
-    static final native int UV_PROCESS_SETUID();
-
-    @CConstant
-    static final native int UV_PROCESS_SETGID();
 
     @CConstant
     static final native int UV_PROCESS_WINDOWS_VERBATIM_ARGUMENTS();
@@ -380,14 +368,8 @@ class Libuv {
     static final native int UV_RUN_NOWAIT();
 
     @CConstant
-    static final native int UV_RUN_ONCE();
-
-    @CConstant
     static final native int SIGKILL();
 
     @CConstant
     static final native int CDP4J_UV_SUCCESS();
-
-    @CConstant
-    static final native int UV_EBUSY();
 }

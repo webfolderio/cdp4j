@@ -45,7 +45,8 @@ public class HelloGraalVm {
             session.navigate("https://webfolder.io");
             session.waitDocumentReady();
             System.out.println(session.getText("body"));
+        } finally {
+            launcher.kill();
         }
-        System.in.read();
     }
 }

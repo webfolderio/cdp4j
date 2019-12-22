@@ -181,7 +181,10 @@ public class UvProcess {
     }
 
     public boolean kill() {
-        return uv_process_kill(process, SIGKILL()) == CDP4J_UV_SUCCESS();
+        debug("-> uv_process_kill()");
+        int ret = uv_process_kill(process, SIGKILL());
+        debug("<- uv_process_kill(): " + ret);
+        return ret == CDP4J_UV_SUCCESS();
     }
 
     public void writeAsync(String payload) {
@@ -200,13 +203,14 @@ public class UvProcess {
             context = malloc(SizeOf.get(context_write.class));
             context.pipe(inPipe.getPeer());
 
+            // +1 => C string has as an additional \0 char
             context.len(payload.length() + 1);
             context.data(cstring.get());
 
             debug("-> cdp4j_write_pipe()");
             int ret = cdp4j_write_pipe(getLoop().getPeer(),
                                        context);
-            debug("-> cdp4j_write_pipe(): " + ret);
+            debug("<- cdp4j_write_pipe(): " + ret);
         } finally {
             if (context.isNonNull()) {
                 free(context);
