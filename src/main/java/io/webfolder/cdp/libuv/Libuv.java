@@ -32,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.graalvm.nativeimage.IsolateThread;
-import org.graalvm.nativeimage.ObjectHandle;
-import org.graalvm.nativeimage.ObjectHandles;
 import org.graalvm.nativeimage.c.CContext;
 import org.graalvm.nativeimage.c.constant.CConstant;
 import org.graalvm.nativeimage.c.function.CEntryPoint;
@@ -44,7 +42,6 @@ import org.graalvm.nativeimage.c.struct.CFieldAddress;
 import org.graalvm.nativeimage.c.struct.CStruct;
 import org.graalvm.nativeimage.c.type.CCharPointer;
 import org.graalvm.nativeimage.c.type.CCharPointerPointer;
-import org.graalvm.nativeimage.c.type.CTypeConversion.CCharPointerHolder;
 import org.graalvm.word.PointerBase;
 
 @CContext(Libuv.UDirectives.class)
@@ -52,8 +49,6 @@ import org.graalvm.word.PointerBase;
 class Libuv {
 
     static final boolean WINDOWS = ";".equals(pathSeparator);
-
-    static final ObjectHandles objectHandles = ObjectHandles.create();
 
     static class UDirectives implements CContext.Directives {
 
@@ -273,12 +268,6 @@ class Libuv {
 
         @CField("len")
         int len();
-
-        @CField("pinned_payload")
-		void pinned_payload(ObjectHandle pinned_payload);
-
-        @CField("pinned_payload")
-        ObjectHandle pinned_payload();
     }
 
     @CFunction
@@ -331,7 +320,7 @@ class Libuv {
     static native int cdp4j_spawn_process(loop loop, process process, process_options options);
     
     @CFunction
-    static native int cdp4j_write_pipe(loop loop, async handle, context_write context);
+    static native int cdp4j_write_pipe(loop loop, context_write context);
 
     @CFunction
     static native int cdp4j_start_read(pipe out_pipe);
@@ -339,26 +328,17 @@ class Libuv {
     @CEntryPoint(name = "cdp4j_on_read_callback_java")
     static void cdp4j_on_read_callback_java(IsolateThread thread, CCharPointer data, int len) {
         if (data.isNonNull() && len > 0) {
-        	byte[] buffer = new byte[len];
-        	for (int i = 0; i < len; i++) {
-        		buffer[i] = data.read(i);
-        	}
-        	getPipeConnection().onResponse(buffer);
+            byte[] buffer = new byte[len];
+            for (int i = 0; i < len; i++) {
+                buffer[i] = data.read(i);
+            }
+            getPipeConnection().onResponse(buffer);
         }
-    }
-
-    @CEntryPoint(name = "cdp4j_on_write_callback_java")
-    static void cdp4j_on_write_callback_java(IsolateThread thread, context_write context) {
-    	CCharPointerHolder holder = objectHandles.get(context.pinned_payload());
-    	if ( holder != null ) {
-    	    holder.close();
-    	}
-    	objectHandles.destroy(context.pinned_payload());
     }
 
     @CEntryPoint(name = "cdp4j_on_process_exit_java")
     static void cdp4j_on_process_exit_java(IsolateThread thread) {
-    	getPipeConnection().getLoop().dispose();
+        getPipeConnection().getLoop().dispose();
     }
 
     @CConstant

@@ -102,7 +102,7 @@ public class UvLoop {
             uv_run(loop, UV_RUN_NOWAIT());
             String payload = writeQueue.poll();
             if ( payload != null ) {
-                process._writeAsync(payload);
+                process.write(payload);
             }
         }
         cdp4j_close_loop(loop);

@@ -17,16 +17,6 @@ static void on_async_write(uv_write_t* req, int status) {
   free(req);
 }
 
-static void async_write(uv_async_t* handle) {
-  context_write* context = (context_write*) handle->data;
-  void* thread = context->pipe->data;
-  uv_write_t *request = (uv_write_t*) malloc(sizeof(uv_write_t));
-  uv_buf_t buf = uv_buf_init(context->data, context->len);
-  uv_write(request, (uv_stream_t*) context->pipe, &buf, 1, on_async_write);
-  cdp4j_on_write_callback_java(thread, context);
-  free(handle);
-}
-
 static void cdp4j_on_process_exit(uv_process_t* process, int64_t exit_status, int term_signal) {
   void* thread = process->data;
   cdp4j_on_process_exit_java(thread);
@@ -41,13 +31,10 @@ int cdp4j_start_read(uv_pipe_t* out_pipe) {
   return uv_read_start((uv_stream_t*) out_pipe, alloc_buffer, on_response);
 }
 
-int cdp4j_write_pipe(uv_loop_t* loop, uv_async_t* handle, context_write* context) {
-  if (uv_async_init(loop, handle, async_write) == CDP4J_UV_SUCCESS) {
-    if (uv_async_send(handle) == CDP4J_UV_SUCCESS) {
-      return CDP4J_UV_SUCCESS;
-    }
-  }
-  return CDP4J_UV_SUCCESS - 1;
+int cdp4j_write_pipe(uv_loop_t* loop, context_write* context) {
+  uv_write_t *request = (uv_write_t*) malloc(sizeof(uv_write_t));
+  uv_buf_t buf = uv_buf_init(context->data, context->len);
+  return uv_write(request, (uv_stream_t*) context->pipe, &buf, 1, on_async_write);
 }
 
 static void on_walk(uv_handle_t *peer, void *arg) {

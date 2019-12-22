@@ -12,7 +12,6 @@ import static io.webfolder.cdp.libuv.Libuv.WINDOWS;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_spawn_process;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_start_read;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_write_pipe;
-import static io.webfolder.cdp.libuv.Libuv.objectHandles;
 import static io.webfolder.cdp.libuv.Libuv.uv_disable_stdio_inheritance;
 import static io.webfolder.cdp.libuv.Libuv.uv_err_name;
 import static io.webfolder.cdp.libuv.Libuv.uv_process_kill;
@@ -24,13 +23,11 @@ import static org.graalvm.nativeimage.c.type.CTypeConversion.toCString;
 import static org.graalvm.nativeimage.c.type.CTypeConversion.toJavaString;
 import static org.graalvm.word.WordFactory.nullPointer;
 
-import org.graalvm.nativeimage.ObjectHandle;
 import org.graalvm.nativeimage.StackValue;
 import org.graalvm.nativeimage.c.struct.SizeOf;
 import org.graalvm.nativeimage.c.type.CCharPointerPointer;
 import org.graalvm.nativeimage.c.type.CTypeConversion.CCharPointerHolder;
 
-import io.webfolder.cdp.libuv.Libuv.async;
 import io.webfolder.cdp.libuv.Libuv.context_write;
 import io.webfolder.cdp.libuv.Libuv.process;
 import io.webfolder.cdp.libuv.Libuv.process_options;
@@ -65,7 +62,7 @@ public class UvProcess {
                          String[] arguments,
                          boolean  redirectOut,
                          boolean  redirectErr) {
-    	uv_disable_stdio_inheritance();
+        uv_disable_stdio_inheritance();
 
         debug("-> UvProcess.spawn()");
 
@@ -184,41 +181,22 @@ public class UvProcess {
         loop.add(payload);
     }
 
-    public void _writeAsync(String payload) {
-        int ret = CDP4J_UV_SUCCESS() - 1;
+    public void write(String payload) {
         context_write context = nullPointer();
-        async async = nullPointer();
-        try {
+        try (CCharPointerHolder cstring = toCString(payload)) {
             context = malloc(SizeOf.get(context_write.class));
             context.pipe(inPipe.getPeer());
 
-            CCharPointerHolder cstring = toCString(payload);
-            ObjectHandle pinnedPayload = objectHandles.create(cstring);
             context.len(payload.length() + 1);
             context.data(cstring.get());
-            context.pinned_payload(pinnedPayload);
 
-            async = malloc(SizeOf.get(async.class));
-            async.data(context);
-
-            ret = cdp4j_write_pipe(getLoop().getPeer(),
-                                       async,
+            debug("-> cdp4j_write_pipe()");
+            int ret = cdp4j_write_pipe(getLoop().getPeer(),
                                        context);
+            debug("-> cdp4j_write_pipe(): " + ret);
         } finally {
-            if ( ret != CDP4J_UV_SUCCESS() ) {
-                if (context.isNonNull()) {
-                    if (context.data().isNonNull()) {
-                    	CCharPointerHolder cstring = objectHandles.get(context.pinned_payload());
-                    	if ( cstring != null ) {
-                    		cstring.close();
-                    	}
-                    	objectHandles.destroy(context.pinned_payload());
-                    }
-                    free(context);
-                }
-                if (async.isNonNull()) {
-                    free(async);
-                }
+            if (context.isNonNull()) {
+                free(context);
             }
         }
     }
@@ -228,12 +206,12 @@ public class UvProcess {
     }
 
     public void dispose() {
-    	if ( outPipe != null ) {
-    		outPipe.dispose();
-    	}
-    	if ( inPipe != null ) {
-    		inPipe.dispose();
-    	}
+        if ( outPipe != null ) {
+            outPipe.dispose();
+        }
+        if ( inPipe != null ) {
+            inPipe.dispose();
+        }
         if (process.isNonNull()) {
             free(process);
         }

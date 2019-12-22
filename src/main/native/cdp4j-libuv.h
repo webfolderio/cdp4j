@@ -17,7 +17,6 @@ typedef struct context_write {
   uv_pipe_t* pipe;
   char*      data;
   int        len;
-  void*      pinned_payload;
 } context_write;
 
 int cdp4j_spawn_process(uv_loop_t*            loop,
@@ -25,14 +24,11 @@ int cdp4j_spawn_process(uv_loop_t*            loop,
                         uv_process_options_t* options);
 
 int cdp4j_write_pipe(uv_loop_t*     loop,
-                     uv_async_t*    handle,
                      context_write* context);
 
 int cdp4j_start_read(uv_pipe_t* out_pipe);
 
 void cdp4j_on_read_callback_java(void* thread, char* data, int let);
-
-void cdp4j_on_write_callback_java(void* thread, context_write* context);
 
 void cdp4j_on_process_exit_java(void* thread);
 
