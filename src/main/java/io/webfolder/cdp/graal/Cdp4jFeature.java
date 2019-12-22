@@ -1,7 +1,31 @@
+/**
+ * cdp4j Commercial License
+ *
+ * Copyright 2017, 2019 WebFolder OÜ
+ *
+ * Permission  is hereby  granted,  to "____" obtaining  a  copy of  this software  and
+ * associated  documentation files  (the "Software"), to deal in  the Software  without
+ * restriction, including without limitation  the rights  to use, copy, modify,  merge,
+ * publish, distribute  and sublicense  of the Software,  and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  IMPLIED,
+ * INCLUDING  BUT NOT  LIMITED  TO THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL  THE AUTHORS  OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package io.webfolder.cdp.graal;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.graalvm.nativeimage.hosted.Feature;
 
@@ -77,15 +101,19 @@ final class Target_com_google_gson_internal_reflect_UnsafeReflectionAccessor {
 final class Target_com_google_gson_internal_ConstructorConstructor {
 
     @Substitute
+    @SuppressWarnings("unchecked")
     public <T> ObjectConstructor<T> get(TypeToken<T> typeToken) {
-        return new ObjectConstructor<T>() {
-
-            @Override
-            @SuppressWarnings("unchecked")
-            public T construct() {
-                return (T) new ArrayList<T>();
-            }
-        };
+        Class<? super T> rt = typeToken.getRawType();
+        if (ArrayList.class.equals(rt) || List.class.equals(rt)) {
+            return ArrayListObjectConstructor.INSTANCE;
+        } else if (HashMap.class.equals(rt)) {
+            return HashMapObjectConstructor.INSTANCE;
+        } else if (LinkedHashMap.class.equals(rt) || Map.class.equals(rt)) {
+            return LinkedHashMapObjectConstructor.INSTANCE;
+        } else if (HashSet.class.equals(rt) || Set.class.equals(rt)) {
+            return HashSetObjectConstructor.INSTANCE;
+        }
+        return null;
     }
 }
 

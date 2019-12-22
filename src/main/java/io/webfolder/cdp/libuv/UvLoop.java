@@ -107,7 +107,7 @@ public class UvLoop {
     }
 
     public void close() {
-        if (loop.isNonNull()) {
+        if (running.get() && loop.isNonNull()) {
             running.compareAndSet(true, false);
         }
     }
@@ -131,7 +131,7 @@ public class UvLoop {
         }
     }
 
-    public void add(String payload) {
+    void write(String payload) {
         writeQueue.offer(payload);
     }
 

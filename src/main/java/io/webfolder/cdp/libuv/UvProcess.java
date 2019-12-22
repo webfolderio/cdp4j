@@ -180,7 +180,7 @@ public class UvProcess {
         if ( ! loop.isRunning() ) {
             return;
         }
-        loop.add(payload);
+        loop.write(payload);
     }
 
     public void write(String payload) {
