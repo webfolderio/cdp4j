@@ -44,6 +44,8 @@ import org.graalvm.nativeimage.c.type.CCharPointer;
 import org.graalvm.nativeimage.c.type.CCharPointerPointer;
 import org.graalvm.word.PointerBase;
 
+import io.webfolder.cdp.channel.LibuvPipeConnection;
+
 @CContext(Libuv.UDirectives.class)
 @CLibrary("cdp4j")
 class Libuv {
@@ -328,17 +330,23 @@ class Libuv {
     @CEntryPoint(name = "cdp4j_on_read_callback_java")
     static void cdp4j_on_read_callback_java(IsolateThread thread, CCharPointer data, int len) {
         if (data.isNonNull() && len > 0) {
-            byte[] buffer = new byte[len];
-            for (int i = 0; i < len; i++) {
-                buffer[i] = data.read(i);
+            LibuvPipeConnection connection = getPipeConnection();
+            if ( connection != null ) {
+                UvLoop loop = connection.getLoop();
+                if (loop.isRunning()) {
+                    byte[] buffer = new byte[len];
+                    for (int i = 0; i < len; i++) {
+                        buffer[i] = data.read(i);
+                    }
+                    connection.onResponse(buffer);
+                }
             }
-            getPipeConnection().onResponse(buffer);
         }
     }
 
     @CEntryPoint(name = "cdp4j_on_process_exit_java")
     static void cdp4j_on_process_exit_java(IsolateThread thread) {
-        getPipeConnection().getLoop().dispose();
+        getPipeConnection().getLoop().close();
     }
 
     @CConstant

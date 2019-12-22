@@ -1,3 +1,21 @@
+/**
+ * cdp4j Commercial License
+ *
+ * Copyright 2017, 2019 WebFolder OÜ
+ *
+ * Permission  is hereby  granted,  to "____" obtaining  a  copy of  this software  and
+ * associated  documentation files  (the "Software"), to deal in  the Software  without
+ * restriction, including without limitation  the rights  to use, copy, modify,  merge,
+ * publish, distribute  and sublicense  of the Software,  and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  IMPLIED,
+ * INCLUDING  BUT NOT  LIMITED  TO THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL  THE AUTHORS  OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package io.webfolder.cdp.libuv;
 
 import static io.webfolder.cdp.libuv.Libuv.CDP4J_UV_SUCCESS;
@@ -163,25 +181,20 @@ public class UvProcess {
     }
 
     public boolean kill() {
-        if ( inPipe != null ) {
-            inPipe.dispose();
-        }
-        if ( outPipe != null ) {
-            outPipe.dispose();
-        }
-        if ( loop != null ) {
-            loop.dispose();
-        }
-        int ret = uv_process_kill(process, SIGKILL());
-        free(process);
-        return ret == CDP4J_UV_SUCCESS();
+        return uv_process_kill(process, SIGKILL()) == CDP4J_UV_SUCCESS();
     }
 
     public void writeAsync(String payload) {
+        if ( ! loop.isRunning() ) {
+            return;
+        }
         loop.add(payload);
     }
 
     public void write(String payload) {
+        if ( ! loop.isRunning() ) {
+            return;
+        }
         context_write context = nullPointer();
         try (CCharPointerHolder cstring = toCString(payload)) {
             context = malloc(SizeOf.get(context_write.class));

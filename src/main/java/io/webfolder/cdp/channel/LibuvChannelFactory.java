@@ -42,7 +42,7 @@ public class LibuvChannelFactory implements ChannelFactory, AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        // no op
+        process.getLoop().close();
     }
 
     public UvProcess getProcess() {

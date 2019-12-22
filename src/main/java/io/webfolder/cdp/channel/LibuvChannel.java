@@ -30,11 +30,12 @@ public class LibuvChannel implements Channel {
 
     @Override
     public boolean isOpen() {
-        return true;
+        return process.getLoop().isRunning();
     }
 
     @Override
     public void disconnect() {
+        process.getLoop().close();
     }
 
     @Override

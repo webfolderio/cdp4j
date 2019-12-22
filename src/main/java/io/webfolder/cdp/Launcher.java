@@ -230,7 +230,6 @@ public class Launcher {
 
     private SessionFactory launchLibuv(List<String> arguments) {
         UvLoop loop = new UvLoop();
-        UvProcess process = loop.createProcess();
 
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -239,7 +238,6 @@ public class Launcher {
         ArrayList<String> argsSpawn = new ArrayList<String>(arguments);
         String exe = argsSpawn.remove(0);
         argsSpawn.add(0, Paths.get(exe).getFileName().toString());
-        argsSpawn.add("about:blank");
 
         if (debug) {
         	argsSpawn.add("--enable-logging");
@@ -249,9 +247,7 @@ public class Launcher {
         SessionFactory[] factory = new SessionFactory[] { null };
 
         loop.start(() -> {
-            if ( ! loop.init() ) {
-                throw new CdpException("UvLoop.init() is failed"); 
-            }
+            UvProcess process = loop.createProcess();
             if (process.spawn(exe.toString(),
                     argsSpawn.toArray(new String[0]), debug, debug)) {
                 spawned.set(true);
@@ -267,11 +263,12 @@ public class Launcher {
             throw new CdpException("UvLoop.spawn() timeout");
         } finally {
             if ( ! spawned.get() ) {
-                if ( loop != null ) {
-                    loop.dispose();
-                }
-                if ( process != null ) {
+                UvProcess process = loop.getProcess();
+                if (process != null ) {
                     process.dispose();
+                }
+                if ( loop != null ) {
+                    loop.close();
                 }
             }
         }

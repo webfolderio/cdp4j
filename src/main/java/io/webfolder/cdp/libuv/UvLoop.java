@@ -1,5 +1,24 @@
+/**
+ * cdp4j Commercial License
+ *
+ * Copyright 2017, 2019 WebFolder OÜ
+ *
+ * Permission  is hereby  granted,  to "____" obtaining  a  copy of  this software  and
+ * associated  documentation files  (the "Software"), to deal in  the Software  without
+ * restriction, including without limitation  the rights  to use, copy, modify,  merge,
+ * publish, distribute  and sublicense  of the Software,  and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  IMPLIED,
+ * INCLUDING  BUT NOT  LIMITED  TO THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL  THE AUTHORS  OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package io.webfolder.cdp.libuv;
 
+import static org.graalvm.nativeimage.UnmanagedMemory.*;
 import static io.webfolder.cdp.libuv.Libuv.CDP4J_UV_SUCCESS;
 import static io.webfolder.cdp.libuv.Libuv.UV_RUN_NOWAIT;
 import static io.webfolder.cdp.libuv.Libuv.cdp4j_close_loop;
@@ -9,7 +28,7 @@ import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
 import static org.graalvm.nativeimage.c.struct.SizeOf.get;
 
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.graalvm.nativeimage.CurrentIsolate;
@@ -29,22 +48,22 @@ public class UvLoop {
 
     private AtomicBoolean running = new AtomicBoolean(false);
 
-    private LinkedBlockingQueue<String> writeQueue = new LinkedBlockingQueue<>();
-
-    public UvLoop() {
-        debug("-> UvLoop()");
-        this.loop = malloc(get(loop.class));
-        debug("<- UvLoop()");
-    }
+    private ArrayBlockingQueue<String> writeQueue = new ArrayBlockingQueue<String>(1024 * 4 , true);
 
     public boolean init() {
-        debug("-> UvLoop.init()");
-        if (uv_loop_init(getPeer()) != CDP4J_UV_SUCCESS()) {
-            debug("<- UvLoop.init(): false");
-            return false;
+        if ( running.get() == false ) {
+            debug("-> UvLoop.init()");
+            loop = malloc(get(loop.class));
+            if (uv_loop_init(getPeer()) != CDP4J_UV_SUCCESS()) {
+                free(loop);
+                debug("<- UvLoop.init(): false");
+                return false;
+            }
+            debug("<- UvLoop.init(): true");
+            return true;
         }
-        debug("<- UvLoop.init(): true");
-        return true;
+        debug("<- UvLoop.init(): false");
+        return false;
     }
 
     UvPipe createPipe() {
@@ -74,22 +93,22 @@ public class UvLoop {
 
     public void start(Runnable runnable) {
         Thread thread = new Thread(() -> {
-            if (running.compareAndSet(false, true)) {
-                UvLoop.this.currentThread = CurrentIsolate.getCurrentThread();
-                runnable.run();
-                UvLoop.this.run();
+            if (init()) {
+                if (running.compareAndSet(false, true)) {
+                    UvLoop.this.currentThread = CurrentIsolate.getCurrentThread();
+                    runnable.run();
+                    UvLoop.this.run();
+                }
             }
         });
         thread.setDaemon(true);
-        thread.setName("cdp4j-libuv-thread-" + (++counter));
+        thread.setName("cdp4j-libuv-" + (++counter));
         thread.start();
     }
 
-    public void dispose() {
+    public void close() {
         if (loop.isNonNull()) {
-            debug("-> UvLoop.dispose()");
             running.compareAndSet(true, false);
-            debug("<- UvLoop.dispose()");
         }
     }
 
@@ -105,11 +124,22 @@ public class UvLoop {
                 process.write(payload);
             }
         }
-        cdp4j_close_loop(loop);
-        process.dispose();
+        if (loop.isNonNull()) {
+            cdp4j_close_loop(loop);
+            process.dispose();
+            free(loop);
+        }
     }
 
     public void add(String payload) {
         writeQueue.offer(payload);
+    }
+
+    public boolean isRunning() {
+        return running.get();
+    }
+
+    public UvProcess getProcess() {
+        return process;
     }
 }
