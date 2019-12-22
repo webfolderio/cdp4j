@@ -61,12 +61,6 @@ public class UvProcess {
 
     private UvPipe outPipe;
 
-    private CCharPointerHolder file;
-
-    private CCharPointerPointer args;
-
-    private CCharPointerHolder[] argsHolder;
-
     private int argsLength;
 
     public UvProcess(UvLoop loop) {
@@ -80,9 +74,11 @@ public class UvProcess {
                          String[] arguments,
                          boolean  redirectOut,
                          boolean  redirectErr) {
-        uv_disable_stdio_inheritance();
-
         debug("-> UvProcess.spawn()");
+
+        debug("-> uv_disable_stdio_inheritance()");
+        uv_disable_stdio_inheritance();
+        debug("<- uv_disable_stdio_inheritance()");
 
         inPipe = loop.createPipe();
         if (inPipe == null) {
@@ -115,19 +111,12 @@ public class UvProcess {
         container.addressOf(3).data().stream(inPipe.getPeer());
         container.addressOf(4).data().stream(outPipe.getPeer());
 
-        if (redirectOut) {
-            container.addressOf(1).data().fd(1);
-        }
-        if (redirectErr) {
-            container.addressOf(2).data().fd(2);
-        }
-
-        this.file = toCString(exe);
+        CCharPointerHolder file = toCString(exe);
 
         process_options options = malloc(get(process_options.class));
         options.stdio_count(5);
         options.stdio(container);
-        options.file(this.file.get());
+        options.file(file.get());
 
         if (WINDOWS) {
             options.flags(UV_PROCESS_WINDOWS_VERBATIM_ARGUMENTS());
@@ -139,8 +128,8 @@ public class UvProcess {
         options.env(nullPointer());
 
         argsLength = arguments.length + 1;
-        args = malloc(get(CCharPointerPointer.class) * argsLength);
-        argsHolder = new CCharPointerHolder[argsLength];
+        CCharPointerPointer args = malloc(get(CCharPointerPointer.class) * argsLength);
+        CCharPointerHolder[] argsHolder = new CCharPointerHolder[argsLength];
         for (int i = 0; i < arguments.length; i++) {
             CCharPointerHolder arg = toCString(arguments[i]);
             argsHolder[i] = arg;

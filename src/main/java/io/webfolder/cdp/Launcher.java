@@ -240,8 +240,8 @@ public class Launcher {
         argsSpawn.add(0, Paths.get(exe).getFileName().toString());
 
         if (debug) {
-        	argsSpawn.add("--enable-logging");
-        	argsSpawn.add("--v=1");
+            argsSpawn.add("--enable-logging");
+            argsSpawn.add("--v=1");
         }
 
         SessionFactory[] factory = new SessionFactory[] { null };

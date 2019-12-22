@@ -57,53 +57,68 @@ class Libuv {
         private String getVcpkgRoot() {
             if (WINDOWS) {
                 return getProperty("cdp4j.vcpkg.root",
-                        format("C:\\tools\\vcpkg"));
+                                   "C:\\tools\\vcpkg");
             } else {
                 return getProperty("cdp4j.vcpkg.root",
                         format("%s%s%s", getProperty("user.home"), separator, "vcpkg"));
             }
         }
 
-        private Path getUvCdp4jPath() {
-            String path = Libuv.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            path = WINDOWS ? path.substring(1) : path;
-            return get(path)
-                       .getParent()
-                       .getParent()
-                       .resolve("src")
-                       .resolve("main")
-                       .resolve("native");
+        private Path getCdp4jNativePath() {
+            String cdp4jNativePath = getProperty("cdp4j.native.path");
+            if ( cdp4jNativePath != null &&
+                       ! cdp4jNativePath.trim().isEmpty() ) {
+                return get(cdp4jNativePath);
+            } else {
+                String path = Libuv.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+                path = WINDOWS ? path.substring(1) : path;
+                return get(path)
+                           .getParent()
+                           .getParent()
+                           .resolve("src")
+                           .resolve("main")
+                           .resolve("native");
+            }
         }
 
+        private String getVcpkgPortName() {
+            if (WINDOWS) {
+                return getProperty("cdp4j.vcpkg.port.name", "x64-windows");
+            }
+            return getProperty("cdp4j.vcpkg.port.name", "x64-linux");
+        }
+
+        @Override
         public List<String> getOptions() {
             Path include = get(getVcpkgRoot())
                                 .resolve("installed")
-                                .resolve(WINDOWS ? "x64-windows" : "x64-linux")
+                                .resolve(getVcpkgPortName())
                                 .resolve("include");
             System.out.println("[cdp4j] vcpkg include path: " + include.toString());
-            String uvCdp4jIncludePath = getUvCdp4jPath().toString();
-            System.out.println("[cdp4j] uv-cdp4j include path: " + uvCdp4jIncludePath);
-            String libCdp4jStaticPath = getUvCdp4jPath()
+            String cdp4jIncludePath = getCdp4jNativePath().toString();
+            System.out.println("[cdp4j] cdp4j include path: " + cdp4jIncludePath);
+            String libCdp4jStaticPath = getCdp4jNativePath()
                                             .resolve("build")
                                             .resolve(WINDOWS ? "cdp4j.lib" : "libcdp4j.a")
                                             .toString();
-            System.out.println("[cdp4j] libcdp4j path: " + libCdp4jStaticPath);
+            System.out.println("[cdp4j] cdp4j library: " + libCdp4jStaticPath);
             List<String> options = new ArrayList<>(asList(libCdp4jStaticPath,
                                             format("-I%s",
                                                 include.toAbsolutePath().toString()),
                                             format("-I%s",
-                                                  uvCdp4jIncludePath)));
+                                                  cdp4jIncludePath)));
             return options;
         }
 
+        @Override
         public List<String> getLibraryPaths() {
             Path vcpkgLibraryPath = get(getVcpkgRoot())
                                     .resolve("installed")
-                                    .resolve(WINDOWS ? "x64-windows" : "x64-linux")
+                                    .resolve(getVcpkgPortName())
                                     .resolve("lib");
             System.out.println("[cdp4j] vcpkg library path: " + vcpkgLibraryPath);
-            String uvCdp4jLibraryPath = getUvCdp4jPath().resolve("build").toString();
-            System.out.println("[cdp4j] uv-cdp4j library path: " + uvCdp4jLibraryPath);
+            String uvCdp4jLibraryPath = getCdp4jNativePath().resolve("build").toString();
+            System.out.println("[cdp4j] cdp4j library path: " + uvCdp4jLibraryPath);
             return asList(vcpkgLibraryPath.toString(), uvCdp4jLibraryPath);
         }
 

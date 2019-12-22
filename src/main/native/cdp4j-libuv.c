@@ -9,12 +9,16 @@ static void alloc_buffer(uv_handle_t *handle, size_t suggested_size, uv_buf_t *b
 static void on_response(uv_stream_t* stream, ssize_t nread, const uv_buf_t* buf) {
   if (nread > 0) {
     cdp4j_on_read_callback_java(stream->data, buf->base, (int) nread);
+  }
+  if (buf->base) {
     free(buf->base);
   }
 }
 
 static void on_async_write(uv_write_t* req, int status) {
-  free(req);
+  if (req) {
+    free(req);
+  }
 }
 
 static void cdp4j_on_process_exit(uv_process_t* process, int64_t exit_status, int term_signal) {
