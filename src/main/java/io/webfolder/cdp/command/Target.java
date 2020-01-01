@@ -41,11 +41,13 @@ public interface Target {
      * Attaches to the target with given id.
      * 
      * @param flatten Enables "flat" access to the session via specifying sessionId attribute in the commands.
+     * We plan to make this the default, deprecate non-flattened mode,
+     * and eventually retire it. See crbug.com/991325.
      * 
      * @return Id assigned to the session.
      */
     @Returns("sessionId")
-    String attachToTarget(String targetId, @Experimental @Optional Boolean flatten);
+    String attachToTarget(String targetId, @Optional Boolean flatten);
 
     /**
      * Attaches to the browser target, only uses flat sessionId mode.
@@ -67,11 +69,11 @@ public interface Target {
      * Inject object to the target's main frame that provides a communication
      * channel with browser target.
      *
-     * Injected object will be available as <code>window[bindingName]</code>.
+     * Injected object will be available as `window[bindingName]`.
      *
      * The object has the follwing API:
-     * - <code>binding.send(json)</code> - a method to send messages over the remote debugging protocol
-     * - <code>binding.onmessage = json => handleMessage(json)</code> - a callback that will be called for the protocol notifications and command responses.
+     * - `binding.send(json)` - a method to send messages over the remote debugging protocol
+     * - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
      * 
      * @param bindingName Binding name, 'cdp' if not specified.
      */
@@ -89,7 +91,7 @@ public interface Target {
     String createBrowserContext();
 
     /**
-     * Returns all browser contexts created with <code>Target.createBrowserContext</code> method.
+     * Returns all browser contexts created with `Target.createBrowserContext` method.
      * 
      * @return An array of browser context ids.
      */
@@ -152,6 +154,8 @@ public interface Target {
 
     /**
      * Sends protocol message over session with given id.
+     * Consider using flat mode instead; see commands attachToTarget, setAutoAttach,
+     * and crbug.com/991325.
      * 
      * @param sessionId Identifier of the session.
      * @param targetId Deprecated.
@@ -164,25 +168,28 @@ public interface Target {
      * automatically detaches from all currently attached targets.
      * 
      * @param autoAttach Whether to auto-attach to related targets.
-     * @param waitForDebuggerOnStart Whether to pause new targets when attaching to them. Use <code>Runtime.runIfWaitingForDebugger</code>
+     * @param waitForDebuggerOnStart Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
      * to run paused targets.
      * @param flatten Enables "flat" access to the session via specifying sessionId attribute in the commands.
+     * We plan to make this the default, deprecate non-flattened mode,
+     * and eventually retire it. See crbug.com/991325.
+     * @param windowOpen Auto-attach to the targets created via window.open from current target.
      */
     @Experimental
     void setAutoAttach(Boolean autoAttach, Boolean waitForDebuggerOnStart,
-            @Experimental @Optional Boolean flatten);
+            @Optional Boolean flatten, @Experimental @Optional Boolean windowOpen);
 
     /**
      * Controls whether to discover available targets and notify via
-     * <code>targetCreated/targetInfoChanged/targetDestroyed</code> events.
+     * `targetCreated/targetInfoChanged/targetDestroyed` events.
      * 
      * @param discover Whether to discover available targets.
      */
     void setDiscoverTargets(Boolean discover);
 
     /**
-     * Enables target discovery for the specified locations, when <code>setDiscoverTargets</code> was set to
-     * <code>true</code>.
+     * Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
+     * `true`.
      * 
      * @param locations List of remote locations.
      */
@@ -202,11 +209,11 @@ public interface Target {
      * Inject object to the target's main frame that provides a communication
      * channel with browser target.
      *
-     * Injected object will be available as <code>window[bindingName]</code>.
+     * Injected object will be available as `window[bindingName]`.
      *
      * The object has the follwing API:
-     * - <code>binding.send(json)</code> - a method to send messages over the remote debugging protocol
-     * - <code>binding.onmessage = json => handleMessage(json)</code> - a callback that will be called for the protocol notifications and command responses.
+     * - `binding.send(json)` - a method to send messages over the remote debugging protocol
+     * - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
      * 
      */
     @Experimental
@@ -236,6 +243,8 @@ public interface Target {
 
     /**
      * Sends protocol message over session with given id.
+     * Consider using flat mode instead; see commands attachToTarget, setAutoAttach,
+     * and crbug.com/991325.
      * 
      */
     void sendMessageToTarget(String message);
@@ -246,7 +255,7 @@ public interface Target {
      * automatically detaches from all currently attached targets.
      * 
      * @param autoAttach Whether to auto-attach to related targets.
-     * @param waitForDebuggerOnStart Whether to pause new targets when attaching to them. Use <code>Runtime.runIfWaitingForDebugger</code>
+     * @param waitForDebuggerOnStart Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
      * to run paused targets.
      */
     @Experimental

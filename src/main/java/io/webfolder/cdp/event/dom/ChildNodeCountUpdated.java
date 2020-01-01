@@ -24,7 +24,7 @@ import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
- * Fired when <code>Container</code>'s child node count has changed
+ * Fired when `Container`'s child node count has changed
  */
 @Domain("DOM")
 @EventName("childNodeCountUpdated")

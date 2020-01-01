@@ -29,84 +29,84 @@ import io.webfolder.cdp.type.network.ErrorReason;
 
 public class FetchImpl implements Fetch {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public FetchImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public FetchImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void continueRequest(String requestId) {
-        handler.invoke("Fetch", "continueRequest", "Fetch.continueRequest", null, void.class, null, true, false, false,
-                new String[] { "requestId" }, new Object[] { requestId });
-    }
+	@Override
+	public void disable() {
+		handler.invoke("Fetch", "disable", "Fetch.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    public void continueRequest(String requestId, String url, String method, String postData,
-            List<HeaderEntry> headers) {
-        handler.invoke("Fetch", "continueRequest", "Fetch.continueRequest", null, void.class, null, true, false, false,
-                new String[] { "requestId", "url", "method", "postData", "headers" },
-                new Object[] { requestId, url, method, postData, headers });
-    }
+	@Override
+	public void enable(List<RequestPattern> patterns, Boolean handleAuthRequests) {
+		handler.invoke("Fetch", "enable", "Fetch.enable", null, void.class, null, true, true, false,
+				new String[]{"patterns", "handleAuthRequests"}, new Object[]{patterns, handleAuthRequests});
+	}
 
-    @Override
-    public void continueWithAuth(String requestId, AuthChallengeResponse authChallengeResponse) {
-        handler.invoke("Fetch", "continueWithAuth", "Fetch.continueWithAuth", null, void.class, null, true, false,
-                false, new String[] { "requestId", "authChallengeResponse" },
-                new Object[] { requestId, authChallengeResponse });
-    }
+	@Override
+	public void failRequest(String requestId, ErrorReason errorReason) {
+		handler.invoke("Fetch", "failRequest", "Fetch.failRequest", null, void.class, null, true, false, false,
+				new String[]{"requestId", "errorReason"}, new Object[]{requestId, errorReason});
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("Fetch", "disable", "Fetch.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void fulfillRequest(String requestId, Integer responseCode, List<HeaderEntry> responseHeaders,
+			String binaryResponseHeaders, String body, String responsePhrase) {
+		handler.invoke("Fetch", "fulfillRequest", "Fetch.fulfillRequest", null, void.class, null, true, false, false,
+				new String[]{"requestId", "responseCode", "responseHeaders", "binaryResponseHeaders", "body",
+						"responsePhrase"},
+				new Object[]{requestId, responseCode, responseHeaders, binaryResponseHeaders, body, responsePhrase});
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("Fetch", "enable", "Fetch.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void continueRequest(String requestId, String url, String method, String postData,
+			List<HeaderEntry> headers) {
+		handler.invoke("Fetch", "continueRequest", "Fetch.continueRequest", null, void.class, null, true, false, false,
+				new String[]{"requestId", "url", "method", "postData", "headers"},
+				new Object[]{requestId, url, method, postData, headers});
+	}
 
-    @Override
-    public void enable(List<RequestPattern> patterns, Boolean handleAuthRequests) {
-        handler.invoke("Fetch", "enable", "Fetch.enable", null, void.class, null, true, true, false,
-                new String[] { "patterns", "handleAuthRequests" }, new Object[] { patterns, handleAuthRequests });
-    }
+	@Override
+	public void continueWithAuth(String requestId, AuthChallengeResponse authChallengeResponse) {
+		handler.invoke("Fetch", "continueWithAuth", "Fetch.continueWithAuth", null, void.class, null, true, false,
+				false, new String[]{"requestId", "authChallengeResponse"},
+				new Object[]{requestId, authChallengeResponse});
+	}
 
-    @Override
-    public void failRequest(String requestId, ErrorReason errorReason) {
-        handler.invoke("Fetch", "failRequest", "Fetch.failRequest", null, void.class, null, true, false, false,
-                new String[] { "requestId", "errorReason" }, new Object[] { requestId, errorReason });
-    }
+	@Override
+	public GetResponseBodyResult getResponseBody(String requestId) {
+		return (GetResponseBodyResult) handler.invoke("Fetch", "getResponseBody", "Fetch.getResponseBody", null,
+				GetResponseBodyResult.class, null, false, false, false, new String[]{"requestId"},
+				new Object[]{requestId});
+	}
 
-    @Override
-    public void fulfillRequest(String requestId, Integer responseCode, List<HeaderEntry> responseHeaders) {
-        handler.invoke("Fetch", "fulfillRequest", "Fetch.fulfillRequest", null, void.class, null, true, false, false,
-                new String[] { "requestId", "responseCode", "responseHeaders" },
-                new Object[] { requestId, responseCode, responseHeaders });
-    }
+	@Override
+	public String takeResponseBodyAsStream(String requestId) {
+		return (String) handler.invoke("Fetch", "takeResponseBodyAsStream", "Fetch.takeResponseBodyAsStream", "stream",
+				String.class, null, false, false, false, new String[]{"requestId"}, new Object[]{requestId});
+	}
 
-    @Override
-    public void fulfillRequest(String requestId, Integer responseCode, List<HeaderEntry> responseHeaders, String body,
-            String responsePhrase) {
-        handler.invoke("Fetch", "fulfillRequest", "Fetch.fulfillRequest", null, void.class, null, true, false, false,
-                new String[] { "requestId", "responseCode", "responseHeaders", "body", "responsePhrase" },
-                new Object[] { requestId, responseCode, responseHeaders, body, responsePhrase });
-    }
+	@Override
+	public void enable() {
+		handler.invoke("Fetch", "enable", "Fetch.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    public GetResponseBodyResult getResponseBody(String requestId) {
-        return (GetResponseBodyResult) handler.invoke("Fetch", "getResponseBody", "Fetch.getResponseBody", null,
-                GetResponseBodyResult.class, null, false, false, false, new String[] { "requestId" },
-                new Object[] { requestId });
-    }
+	@Override
+	public void fulfillRequest(String requestId, Integer responseCode) {
+		handler.invoke("Fetch", "fulfillRequest", "Fetch.fulfillRequest", null, void.class, null, true, false, false,
+				new String[]{"requestId", "responseCode"}, new Object[]{requestId, responseCode});
+	}
 
-    @Override
-    public String takeResponseBodyAsStream(String requestId) {
-        return (String) handler.invoke("Fetch", "takeResponseBodyAsStream", "Fetch.takeResponseBodyAsStream", "stream",
-                String.class, null, false, false, false, new String[] { "requestId" }, new Object[] { requestId });
-    }
+	@Override
+	public void continueRequest(String requestId) {
+		handler.invoke("Fetch", "continueRequest", "Fetch.continueRequest", null, void.class, null, true, false, false,
+				new String[]{"requestId"}, new Object[]{requestId});
+	}
 }

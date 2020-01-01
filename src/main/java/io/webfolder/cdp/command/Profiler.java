@@ -22,6 +22,7 @@ import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
+import io.webfolder.cdp.type.profiler.CounterInfo;
 import io.webfolder.cdp.type.profiler.Profile;
 import io.webfolder.cdp.type.profiler.ScriptCoverage;
 import io.webfolder.cdp.type.profiler.ScriptTypeProfile;
@@ -99,6 +100,27 @@ public interface Profiler {
     @Experimental
     @Returns("result")
     List<ScriptTypeProfile> takeTypeProfile();
+
+    /**
+     * Enable run time call stats collection.
+     */
+    @Experimental
+    void enableRuntimeCallStats();
+
+    /**
+     * Disable run time call stats collection.
+     */
+    @Experimental
+    void disableRuntimeCallStats();
+
+    /**
+     * Retrieve run time call stats.
+     * 
+     * @return Collected counter information.
+     */
+    @Experimental
+    @Returns("result")
+    List<CounterInfo> getRuntimeCallStats();
 
     /**
      * Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code

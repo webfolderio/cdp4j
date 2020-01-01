@@ -25,119 +25,119 @@ import io.webfolder.cdp.type.runtime.RemoteObject;
 
 public class HeapProfilerImpl implements HeapProfiler {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public HeapProfilerImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public HeapProfilerImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void addInspectedHeapObject(String heapObjectId) {
-        handler.invoke("HeapProfiler", "addInspectedHeapObject", "HeapProfiler.addInspectedHeapObject", null,
-                void.class, null, true, false, false, new String[] { "heapObjectId" }, new Object[] { heapObjectId });
-    }
+	@Override
+	public void addInspectedHeapObject(String heapObjectId) {
+		handler.invoke("HeapProfiler", "addInspectedHeapObject", "HeapProfiler.addInspectedHeapObject", null,
+				void.class, null, true, false, false, new String[]{"heapObjectId"}, new Object[]{heapObjectId});
+	}
 
-    @Override
-    public void collectGarbage() {
-        handler.invoke("HeapProfiler", "collectGarbage", "HeapProfiler.collectGarbage", null, void.class, null, true,
-                false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void collectGarbage() {
+		handler.invoke("HeapProfiler", "collectGarbage", "HeapProfiler.collectGarbage", null, void.class, null, true,
+				false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("HeapProfiler", "disable", "HeapProfiler.disable", null, void.class, null, true, false, true,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void disable() {
+		handler.invoke("HeapProfiler", "disable", "HeapProfiler.disable", null, void.class, null, true, false, true,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("HeapProfiler", "enable", "HeapProfiler.enable", null, void.class, null, true, true, false,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void enable() {
+		handler.invoke("HeapProfiler", "enable", "HeapProfiler.enable", null, void.class, null, true, true, false,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public String getHeapObjectId(String objectId) {
-        return (String) handler.invoke("HeapProfiler", "getHeapObjectId", "HeapProfiler.getHeapObjectId",
-                "heapSnapshotObjectId", String.class, null, false, false, false, new String[] { "objectId" },
-                new Object[] { objectId });
-    }
+	@Override
+	public String getHeapObjectId(String objectId) {
+		return (String) handler.invoke("HeapProfiler", "getHeapObjectId", "HeapProfiler.getHeapObjectId",
+				"heapSnapshotObjectId", String.class, null, false, false, false, new String[]{"objectId"},
+				new Object[]{objectId});
+	}
 
-    @Override
-    public RemoteObject getObjectByHeapObjectId(String objectId) {
-        return (RemoteObject) handler.invoke("HeapProfiler", "getObjectByHeapObjectId",
-                "HeapProfiler.getObjectByHeapObjectId", "result", RemoteObject.class, null, false, false, false,
-                new String[] { "objectId" }, new Object[] { objectId });
-    }
+	@Override
+	public RemoteObject getObjectByHeapObjectId(String objectId, String objectGroup) {
+		return (RemoteObject) handler.invoke("HeapProfiler", "getObjectByHeapObjectId",
+				"HeapProfiler.getObjectByHeapObjectId", "result", RemoteObject.class, null, false, false, false,
+				new String[]{"objectId", "objectGroup"}, new Object[]{objectId, objectGroup});
+	}
 
-    @Override
-    public RemoteObject getObjectByHeapObjectId(String objectId, String objectGroup) {
-        return (RemoteObject) handler.invoke("HeapProfiler", "getObjectByHeapObjectId",
-                "HeapProfiler.getObjectByHeapObjectId", "result", RemoteObject.class, null, false, false, false,
-                new String[] { "objectId", "objectGroup" }, new Object[] { objectId, objectGroup });
-    }
+	@Override
+	public SamplingHeapProfile getSamplingProfile() {
+		return (SamplingHeapProfile) handler.invoke("HeapProfiler", "getSamplingProfile",
+				"HeapProfiler.getSamplingProfile", "profile", SamplingHeapProfile.class, null, false, false, false,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public SamplingHeapProfile getSamplingProfile() {
-        return (SamplingHeapProfile) handler.invoke("HeapProfiler", "getSamplingProfile",
-                "HeapProfiler.getSamplingProfile", "profile", SamplingHeapProfile.class, null, false, false, false,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void startSampling(Double samplingInterval) {
+		handler.invoke("HeapProfiler", "startSampling", "HeapProfiler.startSampling", null, void.class, null, true,
+				false, false, new String[]{"samplingInterval"}, new Object[]{samplingInterval});
+	}
 
-    @Override
-    public void startSampling() {
-        handler.invoke("HeapProfiler", "startSampling", "HeapProfiler.startSampling", null, void.class, null, true,
-                false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void startTrackingHeapObjects(Boolean trackAllocations) {
+		handler.invoke("HeapProfiler", "startTrackingHeapObjects", "HeapProfiler.startTrackingHeapObjects", null,
+				void.class, null, true, false, false, new String[]{"trackAllocations"}, new Object[]{trackAllocations});
+	}
 
-    @Override
-    public void startSampling(Double samplingInterval) {
-        handler.invoke("HeapProfiler", "startSampling", "HeapProfiler.startSampling", null, void.class, null, true,
-                false, false, new String[] { "samplingInterval" }, new Object[] { samplingInterval });
-    }
+	@Override
+	public SamplingHeapProfile stopSampling() {
+		return (SamplingHeapProfile) handler.invoke("HeapProfiler", "stopSampling", "HeapProfiler.stopSampling",
+				"profile", SamplingHeapProfile.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void startTrackingHeapObjects() {
-        handler.invoke("HeapProfiler", "startTrackingHeapObjects", "HeapProfiler.startTrackingHeapObjects", null,
-                void.class, null, true, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void stopTrackingHeapObjects(Boolean reportProgress, Boolean treatGlobalObjectsAsRoots) {
+		handler.invoke("HeapProfiler", "stopTrackingHeapObjects", "HeapProfiler.stopTrackingHeapObjects", null,
+				void.class, null, true, false, false, new String[]{"reportProgress", "treatGlobalObjectsAsRoots"},
+				new Object[]{reportProgress, treatGlobalObjectsAsRoots});
+	}
 
-    @Override
-    public void startTrackingHeapObjects(Boolean trackAllocations) {
-        handler.invoke("HeapProfiler", "startTrackingHeapObjects", "HeapProfiler.startTrackingHeapObjects", null,
-                void.class, null, true, false, false, new String[] { "trackAllocations" },
-                new Object[] { trackAllocations });
-    }
+	@Override
+	public void takeHeapSnapshot(Boolean reportProgress, Boolean treatGlobalObjectsAsRoots) {
+		handler.invoke("HeapProfiler", "takeHeapSnapshot", "HeapProfiler.takeHeapSnapshot", null, void.class, null,
+				true, false, false, new String[]{"reportProgress", "treatGlobalObjectsAsRoots"},
+				new Object[]{reportProgress, treatGlobalObjectsAsRoots});
+	}
 
-    @Override
-    public SamplingHeapProfile stopSampling() {
-        return (SamplingHeapProfile) handler.invoke("HeapProfiler", "stopSampling", "HeapProfiler.stopSampling",
-                "profile", SamplingHeapProfile.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public RemoteObject getObjectByHeapObjectId(String objectId) {
+		return (RemoteObject) handler.invoke("HeapProfiler", "getObjectByHeapObjectId",
+				"HeapProfiler.getObjectByHeapObjectId", "result", RemoteObject.class, null, false, false, false,
+				new String[]{"objectId"}, new Object[]{objectId});
+	}
 
-    @Override
-    public void stopTrackingHeapObjects() {
-        handler.invoke("HeapProfiler", "stopTrackingHeapObjects", "HeapProfiler.stopTrackingHeapObjects", null,
-                void.class, null, true, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void startSampling() {
+		handler.invoke("HeapProfiler", "startSampling", "HeapProfiler.startSampling", null, void.class, null, true,
+				false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void stopTrackingHeapObjects(Boolean reportProgress) {
-        handler.invoke("HeapProfiler", "stopTrackingHeapObjects", "HeapProfiler.stopTrackingHeapObjects", null,
-                void.class, null, true, false, false, new String[] { "reportProgress" },
-                new Object[] { reportProgress });
-    }
+	@Override
+	public void startTrackingHeapObjects() {
+		handler.invoke("HeapProfiler", "startTrackingHeapObjects", "HeapProfiler.startTrackingHeapObjects", null,
+				void.class, null, true, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void takeHeapSnapshot() {
-        handler.invoke("HeapProfiler", "takeHeapSnapshot", "HeapProfiler.takeHeapSnapshot", null, void.class, null,
-                true, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void stopTrackingHeapObjects() {
+		handler.invoke("HeapProfiler", "stopTrackingHeapObjects", "HeapProfiler.stopTrackingHeapObjects", null,
+				void.class, null, true, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void takeHeapSnapshot(Boolean reportProgress) {
-        handler.invoke("HeapProfiler", "takeHeapSnapshot", "HeapProfiler.takeHeapSnapshot", null, void.class, null,
-                true, false, false, new String[] { "reportProgress" }, new Object[] { reportProgress });
-    }
+	@Override
+	public void takeHeapSnapshot() {
+		handler.invoke("HeapProfiler", "takeHeapSnapshot", "HeapProfiler.takeHeapSnapshot", null, void.class, null,
+				true, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 }

@@ -63,11 +63,25 @@ public interface WebAuthn {
     void addCredential(String authenticatorId, Credential credential);
 
     /**
+     * Returns a single credential stored in the given virtual authenticator that
+     * matches the credential ID.
+     * 
+     */
+    @Returns("credential")
+    Credential getCredential(String authenticatorId, String credentialId);
+
+    /**
      * Returns all the credentials stored in the given virtual authenticator.
      * 
      */
     @Returns("credentials")
     List<Credential> getCredentials(String authenticatorId);
+
+    /**
+     * Removes a credential from the authenticator.
+     * 
+     */
+    void removeCredential(String authenticatorId, String credentialId);
 
     /**
      * Clears all the credentials from the specified device.

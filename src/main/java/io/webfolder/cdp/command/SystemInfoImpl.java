@@ -28,26 +28,25 @@ import io.webfolder.cdp.type.systeminfo.ProcessInfo;
 
 public class SystemInfoImpl implements SystemInfo {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private static final TypeToken<List<ProcessInfo>> GET_PROCESS_INFO = new TypeToken<List<ProcessInfo>>() {
-    };
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
+	private static final TypeToken<List<ProcessInfo>> TT_LIST_PROCESS_INFO = new TypeToken<List<ProcessInfo>>() { };
 
-    public SystemInfoImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public SystemInfoImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public GetInfoResult getInfo() {
-        return (GetInfoResult) handler.invoke("SystemInfo", "getInfo", "SystemInfo.getInfo", null, GetInfoResult.class,
-                null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public GetInfoResult getInfo() {
+		return (GetInfoResult) handler.invoke("SystemInfo", "getInfo", "SystemInfo.getInfo", null, GetInfoResult.class,
+				null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<ProcessInfo> getProcessInfo() {
-        return (List<ProcessInfo>) handler.invoke("SystemInfo", "getProcessInfo", "SystemInfo.getProcessInfo",
-                "processInfo", List.class, GET_PROCESS_INFO.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<ProcessInfo> getProcessInfo() {
+		return (List<ProcessInfo>) handler.invoke("SystemInfo", "getProcessInfo", "SystemInfo.getProcessInfo",
+				"processInfo", List.class, TT_LIST_PROCESS_INFO.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 }

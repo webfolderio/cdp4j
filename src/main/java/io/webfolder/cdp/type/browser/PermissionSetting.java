@@ -16,28 +16,25 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.type.constant;
+package io.webfolder.cdp.type.browser;
 
 import com.google.gson.annotations.SerializedName;
 import com.vimeo.stag.UseStag;
 
 @UseStag
-public enum MouseButtonType {
-    @SerializedName("none")
-    None("none"),
+public enum PermissionSetting {
+    @SerializedName("granted")
+    Granted("granted"),
 
-    @SerializedName("left")
-    Left("left"),
+    @SerializedName("denied")
+    Denied("denied"),
 
-    @SerializedName("middle")
-    Middle("middle"),
-
-    @SerializedName("right")
-    Right("right");
+    @SerializedName("prompt")
+    Prompt("prompt");
 
     public final String value;
 
-    MouseButtonType(String value) {
+    PermissionSetting(String value) {
         this.value = value;
     }
 

@@ -24,9 +24,13 @@ import com.vimeo.stag.UseStag;
 public class Credential {
     private String credentialId;
 
-    private String rpIdHash;
+    private Boolean isResidentCredential;
+
+    private String rpId;
 
     private String privateKey;
+
+    private String userHandle;
 
     private Integer signCount;
 
@@ -38,36 +42,58 @@ public class Credential {
         this.credentialId = credentialId;
     }
 
-    /**
-     * SHA-256 hash of the Relying Party ID the credential is scoped to. Must
-     * be 32 bytes long.
-     * See https://w3c.github.io/webauthn/#rpidhash
-     */
-    public String getRpIdHash() {
-        return rpIdHash;
+    public Boolean isIsResidentCredential() {
+        return isResidentCredential;
+    }
+
+    public void setIsResidentCredential(Boolean isResidentCredential) {
+        this.isResidentCredential = isResidentCredential;
     }
 
     /**
-     * SHA-256 hash of the Relying Party ID the credential is scoped to. Must
-     * be 32 bytes long.
-     * See https://w3c.github.io/webauthn/#rpidhash
+     * Relying Party ID the credential is scoped to. Must be set when adding a
+     * credential.
      */
-    public void setRpIdHash(String rpIdHash) {
-        this.rpIdHash = rpIdHash;
+    public String getRpId() {
+        return rpId;
     }
 
     /**
-     * The private key in PKCS#8 format.
+     * Relying Party ID the credential is scoped to. Must be set when adding a
+     * credential.
+     */
+    public void setRpId(String rpId) {
+        this.rpId = rpId;
+    }
+
+    /**
+     * The ECDSA P-256 private key in PKCS#8 format.
      */
     public String getPrivateKey() {
         return privateKey;
     }
 
     /**
-     * The private key in PKCS#8 format.
+     * The ECDSA P-256 private key in PKCS#8 format.
      */
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
+    }
+
+    /**
+     * An opaque byte sequence with a maximum size of 64 bytes mapping the
+     * credential to a specific user.
+     */
+    public String getUserHandle() {
+        return userHandle;
+    }
+
+    /**
+     * An opaque byte sequence with a maximum size of 64 bytes mapping the
+     * credential to a specific user.
+     */
+    public void setUserHandle(String userHandle) {
+        this.userHandle = userHandle;
     }
 
     /**
@@ -86,5 +112,9 @@ public class Credential {
      */
     public void setSignCount(Integer signCount) {
         this.signCount = signCount;
+    }
+
+    public Boolean getIsResidentCredential() {
+        return isResidentCredential;
     }
 }

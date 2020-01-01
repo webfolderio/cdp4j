@@ -30,6 +30,8 @@ public interface ServiceWorker {
 
     void dispatchSyncEvent(String origin, String registrationId, String tag, Boolean lastChance);
 
+    void dispatchPeriodicSyncEvent(String origin, String registrationId, String tag);
+
     void enable();
 
     void inspectWorker(String versionId);

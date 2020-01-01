@@ -313,6 +313,7 @@ public interface Selector {
             EvaluateResult result        = runtime.evaluate(expression, null, includeCmdApi,
                                                                 null, getThis().getExecutionContextId(), null,
                                                                 null, null, null,
+                                                                null, null,
                                                                 null, null);
             if (result == null) {
                 return null;

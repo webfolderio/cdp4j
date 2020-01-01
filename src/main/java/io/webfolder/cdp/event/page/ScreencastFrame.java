@@ -26,7 +26,7 @@ import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.page.ScreencastFrameMetadata;
 
 /**
- * Compressed image data requested by the <code>startScreencast</code>
+ * Compressed image data requested by the `startScreencast`
  */
 @Experimental
 @Domain("Page")

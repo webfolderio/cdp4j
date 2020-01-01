@@ -38,6 +38,9 @@ public enum PseudoType {
     @SerializedName("after")
     After("after"),
 
+    @SerializedName("marker")
+    Marker("marker"),
+
     @SerializedName("backdrop")
     Backdrop("backdrop"),
 

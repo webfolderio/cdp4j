@@ -19,34 +19,33 @@
 package io.webfolder.cdp.command;
 
 import io.webfolder.cdp.session.SessionInvocationHandler;
-import io.webfolder.cdp.command.Console;
 
 @SuppressWarnings("deprecation")
 public class ConsoleImpl implements Console {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public ConsoleImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public ConsoleImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void clearMessages() {
-        handler.invoke("Console", "clearMessages", "Console.clearMessages", null, void.class, null, true, false, false,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void clearMessages() {
+		handler.invoke("Console", "clearMessages", "Console.clearMessages", null, void.class, null, true, false, false,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("Console", "disable", "Console.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void disable() {
+		handler.invoke("Console", "disable", "Console.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("Console", "enable", "Console.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void enable() {
+		handler.invoke("Console", "enable", "Console.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 }

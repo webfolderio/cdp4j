@@ -32,6 +32,8 @@ public class VirtualAuthenticatorOptions {
 
     private Boolean automaticPresenceSimulation;
 
+    private Boolean isUserVerified;
+
     public AuthenticatorProtocol getProtocol() {
         return protocol;
     }
@@ -48,18 +50,30 @@ public class VirtualAuthenticatorOptions {
         this.transport = transport;
     }
 
+    /**
+     * Defaults to false.
+     */
     public Boolean isHasResidentKey() {
         return hasResidentKey;
     }
 
+    /**
+     * Defaults to false.
+     */
     public void setHasResidentKey(Boolean hasResidentKey) {
         this.hasResidentKey = hasResidentKey;
     }
 
+    /**
+     * Defaults to false.
+     */
     public Boolean isHasUserVerification() {
         return hasUserVerification;
     }
 
+    /**
+     * Defaults to false.
+     */
     public void setHasUserVerification(Boolean hasUserVerification) {
         this.hasUserVerification = hasUserVerification;
     }
@@ -78,5 +92,37 @@ public class VirtualAuthenticatorOptions {
      */
     public void setAutomaticPresenceSimulation(Boolean automaticPresenceSimulation) {
         this.automaticPresenceSimulation = automaticPresenceSimulation;
+    }
+
+    /**
+     * Sets whether User Verification succeeds or fails for an authenticator.
+     * Defaults to false.
+     */
+    public Boolean isIsUserVerified() {
+        return isUserVerified;
+    }
+
+    /**
+     * Sets whether User Verification succeeds or fails for an authenticator.
+     * Defaults to false.
+     */
+    public void setIsUserVerified(Boolean isUserVerified) {
+        this.isUserVerified = isUserVerified;
+    }
+
+    public Boolean getHasResidentKey() {
+        return hasResidentKey;
+    }
+
+    public Boolean getHasUserVerification() {
+        return hasUserVerification;
+    }
+
+    public Boolean getAutomaticPresenceSimulation() {
+        return automaticPresenceSimulation;
+    }
+
+    public Boolean getIsUserVerified() {
+        return isUserVerified;
     }
 }

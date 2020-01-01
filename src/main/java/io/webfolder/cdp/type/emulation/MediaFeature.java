@@ -21,24 +21,24 @@ package io.webfolder.cdp.type.emulation;
 import com.vimeo.stag.UseStag;
 
 @UseStag
-public class SetVirtualTimePolicyResult {
-    private Double virtualTimeBase;
+public class MediaFeature {
+    private String name;
 
-    private Double virtualTimeTicksBase;
+    private String value;
 
-    public Double getVirtualTimeBase() {
-        return virtualTimeBase;
+    public String getName() {
+        return name;
     }
 
-    public Double getVirtualTimeTicksBase() {
-        return virtualTimeTicksBase;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setVirtualTimeBase(Double virtualTimeBase) {
-        this.virtualTimeBase = virtualTimeBase;
+    public String getValue() {
+        return value;
     }
 
-    public void setVirtualTimeTicksBase(Double virtualTimeTicksBase) {
-        this.virtualTimeTicksBase = virtualTimeTicksBase;
+    public void setValue(String value) {
+        this.value = value;
     }
 }

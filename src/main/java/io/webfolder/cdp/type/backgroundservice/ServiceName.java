@@ -38,7 +38,13 @@ public enum ServiceName {
     PushMessaging("pushMessaging"),
 
     @SerializedName("notifications")
-    Notifications("notifications");
+    Notifications("notifications"),
+
+    @SerializedName("paymentHandler")
+    PaymentHandler("paymentHandler"),
+
+    @SerializedName("periodicBackgroundSync")
+    PeriodicBackgroundSync("periodicBackgroundSync");
 
     public final String value;
 

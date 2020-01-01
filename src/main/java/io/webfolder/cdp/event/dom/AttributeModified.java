@@ -24,7 +24,7 @@ import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
- * Fired when <code>Element</code>'s attribute is modified
+ * Fired when `Element`'s attribute is modified
  */
 @Domain("DOM")
 @EventName("attributeModified")

@@ -18,93 +18,91 @@
  */
 package io.webfolder.cdp.command;
 
-import java.util.List;
-
-import com.google.gson.reflect.TypeToken;
-
 import io.webfolder.cdp.session.SessionInvocationHandler;
+import io.webfolder.cdp.command.LayerTree;
 import io.webfolder.cdp.type.dom.Rect;
 import io.webfolder.cdp.type.layertree.PictureTile;
 
+import java.util.List;
+import com.google.gson.reflect.TypeToken;
+
 public class LayerTreeImpl implements LayerTree {
 
-    private static final TypeToken<List<String>> COMPOSITING_REASONS = new TypeToken<List<String>>() {
-    };
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private static final TypeToken<List<Double>> PROFILE_SNAPSHOT = new TypeToken<List<Double>>() {
-    };
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
+	private static final TypeToken<List<String>> TT_LIST_STRING = new TypeToken<List<String>>() { };
+	private static final TypeToken<List<Double>> TT_LIST_DOUBLE = new TypeToken<List<Double>>() { };
 
-    public LayerTreeImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public LayerTreeImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<String> compositingReasons(String layerId) {
-        return (List<String>) handler.invoke("LayerTree", "compositingReasons", "LayerTree.compositingReasons",
-                "compositingReasons", List.class, COMPOSITING_REASONS.getType(), false, false, false,
-                new String[] { "layerId" }, new Object[] { layerId });
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<String> compositingReasons(String layerId) {
+		return (List<String>) handler.invoke("LayerTree", "compositingReasons", "LayerTree.compositingReasons",
+				"compositingReasons", List.class, TT_LIST_STRING.getType(), false, false, false,
+				new String[]{"layerId"}, new Object[]{layerId});
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("LayerTree", "disable", "LayerTree.disable", null, void.class, null, true, false, true,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void disable() {
+		handler.invoke("LayerTree", "disable", "LayerTree.disable", null, void.class, null, true, false, true,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("LayerTree", "enable", "LayerTree.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void enable() {
+		handler.invoke("LayerTree", "enable", "LayerTree.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    public String loadSnapshot(List<PictureTile> tiles) {
-        return (String) handler.invoke("LayerTree", "loadSnapshot", "LayerTree.loadSnapshot", "snapshotId",
-                String.class, null, false, false, false, new String[] { "tiles" }, new Object[] { tiles });
-    }
+	@Override
+	public String loadSnapshot(List<PictureTile> tiles) {
+		return (String) handler.invoke("LayerTree", "loadSnapshot", "LayerTree.loadSnapshot", "snapshotId",
+				String.class, null, false, false, false, new String[]{"tiles"}, new Object[]{tiles});
+	}
 
-    @Override
-    public String makeSnapshot(String layerId) {
-        return (String) handler.invoke("LayerTree", "makeSnapshot", "LayerTree.makeSnapshot", "snapshotId",
-                String.class, null, false, false, false, new String[] { "layerId" }, new Object[] { layerId });
-    }
+	@Override
+	public String makeSnapshot(String layerId) {
+		return (String) handler.invoke("LayerTree", "makeSnapshot", "LayerTree.makeSnapshot", "snapshotId",
+				String.class, null, false, false, false, new String[]{"layerId"}, new Object[]{layerId});
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<Double> profileSnapshot(String snapshotId) {
-        return (List<Double>) handler.invoke("LayerTree", "profileSnapshot", "LayerTree.profileSnapshot", "timings",
-                List.class, PROFILE_SNAPSHOT.getType(), false, false, false, new String[] { "snapshotId" },
-                new Object[] { snapshotId });
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<Double> profileSnapshot(String snapshotId, Integer minRepeatCount, Double minDuration, Rect clipRect) {
+		return (List<Double>) handler.invoke("LayerTree", "profileSnapshot", "LayerTree.profileSnapshot", "timings",
+				List.class, TT_LIST_DOUBLE.getType(), false, false, false,
+				new String[]{"snapshotId", "minRepeatCount", "minDuration", "clipRect"},
+				new Object[]{snapshotId, minRepeatCount, minDuration, clipRect});
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<Double> profileSnapshot(String snapshotId, Integer minRepeatCount, Double minDuration, Rect clipRect) {
-        return (List<Double>) handler.invoke("LayerTree", "profileSnapshot", "LayerTree.profileSnapshot", "timings",
-                List.class, PROFILE_SNAPSHOT.getType(), false, false, false,
-                new String[] { "snapshotId", "minRepeatCount", "minDuration", "clipRect" },
-                new Object[] { snapshotId, minRepeatCount, minDuration, clipRect });
-    }
+	@Override
+	public void releaseSnapshot(String snapshotId) {
+		handler.invoke("LayerTree", "releaseSnapshot", "LayerTree.releaseSnapshot", null, void.class, null, true, false,
+				false, new String[]{"snapshotId"}, new Object[]{snapshotId});
+	}
 
-    @Override
-    public void releaseSnapshot(String snapshotId) {
-        handler.invoke("LayerTree", "releaseSnapshot", "LayerTree.releaseSnapshot", null, void.class, null, true, false,
-                false, new String[] { "snapshotId" }, new Object[] { snapshotId });
-    }
+	@Override
+	public String replaySnapshot(String snapshotId, Integer fromStep, Integer toStep, Double scale) {
+		return (String) handler.invoke("LayerTree", "replaySnapshot", "LayerTree.replaySnapshot", "dataURL",
+				String.class, null, false, false, false, new String[]{"snapshotId", "fromStep", "toStep", "scale"},
+				new Object[]{snapshotId, fromStep, toStep, scale});
+	}
 
-    @Override
-    public String replaySnapshot(String snapshotId) {
-        return (String) handler.invoke("LayerTree", "replaySnapshot", "LayerTree.replaySnapshot", "dataURL",
-                String.class, null, false, false, false, new String[] { "snapshotId" }, new Object[] { snapshotId });
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<Double> profileSnapshot(String snapshotId) {
+		return (List<Double>) handler.invoke("LayerTree", "profileSnapshot", "LayerTree.profileSnapshot", "timings",
+				List.class, TT_LIST_DOUBLE.getType(), false, false, false, new String[]{"snapshotId"},
+				new Object[]{snapshotId});
+	}
 
-    @Override
-    public String replaySnapshot(String snapshotId, Integer fromStep, Integer toStep, Double scale) {
-        return (String) handler.invoke("LayerTree", "replaySnapshot", "LayerTree.replaySnapshot", "dataURL",
-                String.class, null, false, false, false, new String[] { "snapshotId", "fromStep", "toStep", "scale" },
-                new Object[] { snapshotId, fromStep, toStep, scale });
-    }
+	@Override
+	public String replaySnapshot(String snapshotId) {
+		return (String) handler.invoke("LayerTree", "replaySnapshot", "LayerTree.replaySnapshot", "dataURL",
+				String.class, null, false, false, false, new String[]{"snapshotId"}, new Object[]{snapshotId});
+	}
 }

@@ -16,37 +16,22 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.type.constant;
+package io.webfolder.cdp.type.security;
 
 import com.google.gson.annotations.SerializedName;
 import com.vimeo.stag.UseStag;
 
 @UseStag
-public enum ClientNavigationReason {
-    @SerializedName("formSubmissionGet")
-    FormSubmissionGet("formSubmissionGet"),
+public enum SafetyTipStatus {
+    @SerializedName("badReputation")
+    BadReputation("badReputation"),
 
-    @SerializedName("formSubmissionPost")
-    FormSubmissionPost("formSubmissionPost"),
-
-    @SerializedName("httpHeaderRefresh")
-    HttpHeaderRefresh("httpHeaderRefresh"),
-
-    @SerializedName("scriptInitiated")
-    ScriptInitiated("scriptInitiated"),
-
-    @SerializedName("metaTagRefresh")
-    MetaTagRefresh("metaTagRefresh"),
-
-    @SerializedName("pageBlockInterstitial")
-    PageBlockInterstitial("pageBlockInterstitial"),
-
-    @SerializedName("reload")
-    Reload("reload");
+    @SerializedName("lookalike")
+    Lookalike("lookalike");
 
     public final String value;
 
-    ClientNavigationReason(String value) {
+    SafetyTipStatus(String value) {
         this.value = value;
     }
 

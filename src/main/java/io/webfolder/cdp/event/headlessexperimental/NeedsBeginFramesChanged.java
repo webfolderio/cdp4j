@@ -25,6 +25,9 @@ import io.webfolder.cdp.annotation.EventName;
 
 /**
  * Issued when the target starts or stops needing BeginFrames
+ * Deprecated
+ * Issue beginFrame unconditionally instead and use result from
+ * beginFrame to detect whether the frames were suppressed
  */
 @Domain("HeadlessExperimental")
 @EventName("needsBeginFramesChanged")

@@ -22,7 +22,7 @@ import com.vimeo.stag.UseStag;
 
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
-import io.webfolder.cdp.type.constant.ClientNavigationReason;
+import io.webfolder.cdp.type.constant.FrameNavigationReason;
 
 /**
  * Fired when frame schedules a potential navigation
@@ -35,7 +35,7 @@ public class FrameScheduledNavigation {
 
     private Double delay;
 
-    private ClientNavigationReason reason;
+    private FrameNavigationReason reason;
 
     private String url;
 
@@ -72,14 +72,14 @@ public class FrameScheduledNavigation {
     /**
      * The reason for the navigation.
      */
-    public ClientNavigationReason getReason() {
+    public FrameNavigationReason getReason() {
         return reason;
     }
 
     /**
      * The reason for the navigation.
      */
-    public void setReason(ClientNavigationReason reason) {
+    public void setReason(FrameNavigationReason reason) {
         this.reason = reason;
     }
 

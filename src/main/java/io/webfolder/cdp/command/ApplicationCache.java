@@ -40,7 +40,8 @@ public interface ApplicationCache {
      * @return Relevant application cache data for the document in given frame.
      */
     @Returns("applicationCache")
-    io.webfolder.cdp.type.applicationcache.ApplicationCache getApplicationCacheForFrame(String frameId);
+    io.webfolder.cdp.type.applicationcache.ApplicationCache getApplicationCacheForFrame(
+            String frameId);
 
     /**
      * Returns array of frame identifiers with manifest urls for each frame containing a document

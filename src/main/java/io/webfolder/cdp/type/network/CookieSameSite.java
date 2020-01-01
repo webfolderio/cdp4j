@@ -35,9 +35,6 @@ public enum CookieSameSite {
     @SerializedName("Lax")
     Lax("Lax"),
 
-    @SerializedName("Extended")
-    Extended("Extended"),
-
     @SerializedName("None")
     None("None");
 

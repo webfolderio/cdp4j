@@ -22,16 +22,16 @@ import com.google.gson.annotations.SerializedName;
 import com.vimeo.stag.UseStag;
 
 @UseStag
-public enum Location {
-    @SerializedName("any")
-    Any("any"),
+public enum FileChooserInputMode {
+    @SerializedName("selectSingle")
+    SelectSingle("selectSingle"),
 
-    @SerializedName("current")
-    Current("current");
+    @SerializedName("selectMultiple")
+    SelectMultiple("selectMultiple");
 
     public final String value;
 
-    Location(String value) {
+    FileChooserInputMode(String value) {
         this.value = value;
     }
 

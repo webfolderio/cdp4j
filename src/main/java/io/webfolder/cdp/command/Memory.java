@@ -85,7 +85,7 @@ public interface Memory {
 
     /**
      * Retrieve native memory allocations profile collected since last
-     * <code>startSampling</code> call.
+     * `startSampling` call.
      */
     @Returns("profile")
     SamplingProfile getSamplingProfile();

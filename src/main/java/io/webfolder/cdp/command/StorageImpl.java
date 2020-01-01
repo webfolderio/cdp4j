@@ -18,52 +18,98 @@
  */
 package io.webfolder.cdp.command;
 
+import java.util.List;
+
+import com.google.gson.reflect.TypeToken;
+
 import io.webfolder.cdp.session.SessionInvocationHandler;
-import io.webfolder.cdp.command.Storage;
+import io.webfolder.cdp.type.network.Cookie;
+import io.webfolder.cdp.type.network.CookieParam;
 import io.webfolder.cdp.type.storage.GetUsageAndQuotaResult;
 
 public class StorageImpl implements Storage {
 
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
+	private static final TypeToken<List<Cookie>> TT_LIST_COOKIES = new TypeToken<List<Cookie>>() { };
 
-    public StorageImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public StorageImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void clearDataForOrigin(String origin, String storageTypes) {
-        handler.invoke("Storage", "clearDataForOrigin", "Storage.clearDataForOrigin", null, void.class, null, true,
-                false, false, new String[] { "origin", "storageTypes" }, new Object[] { origin, storageTypes });
-    }
+	@Override
+	public void clearDataForOrigin(String origin, String storageTypes) {
+		handler.invoke("Storage", "clearDataForOrigin", "Storage.clearDataForOrigin", null, void.class, null, true,
+				false, false, new String[]{"origin", "storageTypes"}, new Object[]{origin, storageTypes});
+	}
 
-    @Override
-    public GetUsageAndQuotaResult getUsageAndQuota(String origin) {
-        return (GetUsageAndQuotaResult) handler.invoke("Storage", "getUsageAndQuota", "Storage.getUsageAndQuota", null,
-                GetUsageAndQuotaResult.class, null, false, false, false, new String[] { "origin" },
-                new Object[] { origin });
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<Cookie> getCookies(String browserContextId) {
+		return (List<Cookie>) handler.invoke("Storage", "getCookies", "Storage.getCookies", "cookies", List.class,
+				TT_LIST_COOKIES.getType(), false, false, false, new String[]{"browserContextId"},
+				new Object[]{browserContextId});
+	}
 
-    @Override
-    public void trackCacheStorageForOrigin(String origin) {
-        handler.invoke("Storage", "trackCacheStorageForOrigin", "Storage.trackCacheStorageForOrigin", null, void.class,
-                null, true, false, false, new String[] { "origin" }, new Object[] { origin });
-    }
+	@Override
+	public void setCookies(List<CookieParam> cookies, String browserContextId) {
+		handler.invoke("Storage", "setCookies", "Storage.setCookies", null, void.class, null, true, false, false,
+				new String[]{"cookies", "browserContextId"}, new Object[]{cookies, browserContextId});
+	}
 
-    @Override
-    public void trackIndexedDBForOrigin(String origin) {
-        handler.invoke("Storage", "trackIndexedDBForOrigin", "Storage.trackIndexedDBForOrigin", null, void.class, null,
-                true, false, false, new String[] { "origin" }, new Object[] { origin });
-    }
+	@Override
+	public void clearCookies(String browserContextId) {
+		handler.invoke("Storage", "clearCookies", "Storage.clearCookies", null, void.class, null, true, false, false,
+				new String[]{"browserContextId"}, new Object[]{browserContextId});
+	}
 
-    @Override
-    public void untrackCacheStorageForOrigin(String origin) {
-        handler.invoke("Storage", "untrackCacheStorageForOrigin", "Storage.untrackCacheStorageForOrigin", null,
-                void.class, null, true, false, false, new String[] { "origin" }, new Object[] { origin });
-    }
+	@Override
+	public GetUsageAndQuotaResult getUsageAndQuota(String origin) {
+		return (GetUsageAndQuotaResult) handler.invoke("Storage", "getUsageAndQuota", "Storage.getUsageAndQuota", null,
+				GetUsageAndQuotaResult.class, null, false, false, false, new String[]{"origin"}, new Object[]{origin});
+	}
 
-    @Override
-    public void untrackIndexedDBForOrigin(String origin) {
-        handler.invoke("Storage", "untrackIndexedDBForOrigin", "Storage.untrackIndexedDBForOrigin", null, void.class,
-                null, true, false, false, new String[] { "origin" }, new Object[] { origin });
-    }
+	@Override
+	public void trackCacheStorageForOrigin(String origin) {
+		handler.invoke("Storage", "trackCacheStorageForOrigin", "Storage.trackCacheStorageForOrigin", null, void.class,
+				null, true, false, false, new String[]{"origin"}, new Object[]{origin});
+	}
+
+	@Override
+	public void trackIndexedDBForOrigin(String origin) {
+		handler.invoke("Storage", "trackIndexedDBForOrigin", "Storage.trackIndexedDBForOrigin", null, void.class, null,
+				true, false, false, new String[]{"origin"}, new Object[]{origin});
+	}
+
+	@Override
+	public void untrackCacheStorageForOrigin(String origin) {
+		handler.invoke("Storage", "untrackCacheStorageForOrigin", "Storage.untrackCacheStorageForOrigin", null,
+				void.class, null, true, false, false, new String[]{"origin"}, new Object[]{origin});
+	}
+
+	@Override
+	public void untrackIndexedDBForOrigin(String origin) {
+		handler.invoke("Storage", "untrackIndexedDBForOrigin", "Storage.untrackIndexedDBForOrigin", null, void.class,
+				null, true, false, false, new String[]{"origin"}, new Object[]{origin});
+	}
+
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<Cookie> getCookies() {
+		return (List<Cookie>) handler.invoke("Storage", "getCookies", "Storage.getCookies", "cookies", List.class,
+				TT_LIST_COOKIES.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
+
+	@Override
+	public void setCookies(List<CookieParam> cookies) {
+		handler.invoke("Storage", "setCookies", "Storage.setCookies", null, void.class, null, true, false, false,
+				new String[]{"cookies"}, new Object[]{cookies});
+	}
+
+	@Override
+	public void clearCookies() {
+		handler.invoke("Storage", "clearCookies", "Storage.clearCookies", null, void.class, null, true, false, false,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 }

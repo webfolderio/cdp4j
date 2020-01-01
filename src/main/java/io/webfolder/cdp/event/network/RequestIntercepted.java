@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.event.network;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.vimeo.stag.UseStag;
@@ -33,6 +34,8 @@ import io.webfolder.cdp.type.network.ResourceType;
 /**
  * Details of an intercepted HTTP request, which must be either allowed, blocked, modified or
  * mocked
+ * Deprecated, use Fetch
+ * requestPaused instead
  */
 @Experimental
 @Domain("Network")
@@ -59,7 +62,7 @@ public class RequestIntercepted {
 
     private Integer responseStatusCode;
 
-    private Map<String, Object> responseHeaders;
+    private Map<String, Object> responseHeaders = new HashMap<>();
 
     private String requestId;
 

@@ -24,33 +24,33 @@ import io.webfolder.cdp.type.io.ReadResult;
 
 public class IOImpl implements IO {
 
-    private final SessionInvocationHandler handler;
+	private final SessionInvocationHandler handler;
 
-    public IOImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public IOImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void close(String handle) {
-        handler.invoke("IO", "close", "IO.close", null, void.class, null, true, false, false, new String[] { "handle" },
-                new Object[] { handle });
-    }
+	@Override
+	public void close(String handle) {
+		handler.invoke("IO", "close", "IO.close", null, void.class, null, true, false, false, new String[]{"handle"},
+				new Object[]{handle});
+	}
 
-    @Override
-    public ReadResult read(String handle) {
-        return (ReadResult) handler.invoke("IO", "read", "IO.read", null, ReadResult.class, null, false, false, false,
-                new String[] { "handle" }, new Object[] { handle });
-    }
+	@Override
+	public ReadResult read(String handle, Integer offset, Integer size) {
+		return (ReadResult) handler.invoke("IO", "read", "IO.read", null, ReadResult.class, null, false, false, false,
+				new String[]{"handle", "offset", "size"}, new Object[]{handle, offset, size});
+	}
 
-    @Override
-    public ReadResult read(String handle, Integer offset, Integer size) {
-        return (ReadResult) handler.invoke("IO", "read", "IO.read", null, ReadResult.class, null, false, false, false,
-                new String[] { "handle", "offset", "size" }, new Object[] { handle, offset, size });
-    }
+	@Override
+	public String resolveBlob(String objectId) {
+		return (String) handler.invoke("IO", "resolveBlob", "IO.resolveBlob", "uuid", String.class, null, false, false,
+				false, new String[]{"objectId"}, new Object[]{objectId});
+	}
 
-    @Override
-    public String resolveBlob(String objectId) {
-        return (String) handler.invoke("IO", "resolveBlob", "IO.resolveBlob", "uuid", String.class, null, false, false,
-                false, new String[] { "objectId" }, new Object[] { objectId });
-    }
+	@Override
+	public ReadResult read(String handle) {
+		return (ReadResult) handler.invoke("IO", "read", "IO.read", null, ReadResult.class, null, false, false, false,
+				new String[]{"handle"}, new Object[]{handle});
+	}
 }

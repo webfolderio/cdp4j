@@ -18,11 +18,12 @@
  */
 package io.webfolder.cdp.event.page;
 
-import io.webfolder.cdp.annotation.Domain;
-import io.webfolder.cdp.annotation.EventName;
 import java.util.List;
 
 import com.vimeo.stag.UseStag;
+
+import io.webfolder.cdp.annotation.Domain;
+import io.webfolder.cdp.annotation.EventName;
 
 /**
  * Fired when a new window is going to be opened, via window

@@ -23,7 +23,6 @@ import com.vimeo.stag.UseStag;
 
 @UseStag
 public enum PdfTransferMode {
-
     @SerializedName("ReturnAsBase64")
     ReturnAsBase64("ReturnAsBase64"),
 

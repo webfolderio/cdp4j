@@ -44,14 +44,14 @@ public class LayoutTreeNode {
     private Boolean isStackingContext;
 
     /**
-     * The index of the related DOM node in the <code>domNodes</code> array returned by <code>getSnapshot</code>.
+     * The index of the related DOM node in the `domNodes` array returned by `getSnapshot`.
      */
     public Integer getDomNodeIndex() {
         return domNodeIndex;
     }
 
     /**
-     * The index of the related DOM node in the <code>domNodes</code> array returned by <code>getSnapshot</code>.
+     * The index of the related DOM node in the `domNodes` array returned by `getSnapshot`.
      */
     public void setDomNodeIndex(Integer domNodeIndex) {
         this.domNodeIndex = domNodeIndex;
@@ -100,14 +100,14 @@ public class LayoutTreeNode {
     }
 
     /**
-     * Index into the <code>computedStyles</code> array returned by <code>getSnapshot</code>.
+     * Index into the `computedStyles` array returned by `getSnapshot`.
      */
     public Integer getStyleIndex() {
         return styleIndex;
     }
 
     /**
-     * Index into the <code>computedStyles</code> array returned by <code>getSnapshot</code>.
+     * Index into the `computedStyles` array returned by `getSnapshot`.
      */
     public void setStyleIndex(Integer styleIndex) {
         this.styleIndex = styleIndex;

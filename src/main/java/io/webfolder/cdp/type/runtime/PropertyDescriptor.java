@@ -88,7 +88,7 @@ public class PropertyDescriptor {
     }
 
     /**
-     * A function which serves as a getter for the property, or <code>undefined</code> if there is no getter
+     * A function which serves as a getter for the property, or `undefined` if there is no getter
      * (accessor descriptors only).
      */
     public RemoteObject getGet() {
@@ -96,7 +96,7 @@ public class PropertyDescriptor {
     }
 
     /**
-     * A function which serves as a getter for the property, or <code>undefined</code> if there is no getter
+     * A function which serves as a getter for the property, or `undefined` if there is no getter
      * (accessor descriptors only).
      */
     public void setGet(RemoteObject get) {
@@ -104,7 +104,7 @@ public class PropertyDescriptor {
     }
 
     /**
-     * A function which serves as a setter for the property, or <code>undefined</code> if there is no setter
+     * A function which serves as a setter for the property, or `undefined` if there is no setter
      * (accessor descriptors only).
      */
     public RemoteObject getSet() {
@@ -112,7 +112,7 @@ public class PropertyDescriptor {
     }
 
     /**
-     * A function which serves as a setter for the property, or <code>undefined</code> if there is no setter
+     * A function which serves as a setter for the property, or `undefined` if there is no setter
      * (accessor descriptors only).
      */
     public void setSet(RemoteObject set) {
@@ -180,14 +180,14 @@ public class PropertyDescriptor {
     }
 
     /**
-     * Property symbol object, if the property is of the <code>symbol</code> type.
+     * Property symbol object, if the property is of the `symbol` type.
      */
     public RemoteObject getSymbol() {
         return symbol;
     }
 
     /**
-     * Property symbol object, if the property is of the <code>symbol</code> type.
+     * Property symbol object, if the property is of the `symbol` type.
      */
     public void setSymbol(RemoteObject symbol) {
         this.symbol = symbol;

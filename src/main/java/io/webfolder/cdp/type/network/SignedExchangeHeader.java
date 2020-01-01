@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.type.network;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +40,11 @@ public class SignedExchangeHeader {
 
     private Integer responseCode;
 
-    private Map<String, Object> responseHeaders;
+    private Map<String, Object> responseHeaders = new HashMap<>();
 
     private List<SignedExchangeSignature> signatures;
+
+    private String headerIntegrity;
 
     /**
      * Signed exchange request URL.
@@ -97,5 +100,19 @@ public class SignedExchangeHeader {
      */
     public void setSignatures(List<SignedExchangeSignature> signatures) {
         this.signatures = signatures;
+    }
+
+    /**
+     * Signed exchange header integrity hash in the form of "sha256-<base64-hash-value>".
+     */
+    public String getHeaderIntegrity() {
+        return headerIntegrity;
+    }
+
+    /**
+     * Signed exchange header integrity hash in the form of "sha256-<base64-hash-value>".
+     */
+    public void setHeaderIntegrity(String headerIntegrity) {
+        this.headerIntegrity = headerIntegrity;
     }
 }

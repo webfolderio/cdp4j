@@ -23,25 +23,25 @@ import io.webfolder.cdp.command.DeviceOrientation;
 
 public class DeviceOrientationImpl implements DeviceOrientation {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public DeviceOrientationImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public DeviceOrientationImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void clearDeviceOrientationOverride() {
-        handler.invoke("DeviceOrientation", "clearDeviceOrientationOverride",
-                "DeviceOrientation.clearDeviceOrientationOverride", null, void.class, null, true, false, false,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void clearDeviceOrientationOverride() {
+		handler.invoke("DeviceOrientation", "clearDeviceOrientationOverride",
+				"DeviceOrientation.clearDeviceOrientationOverride", null, void.class, null, true, false, false,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void setDeviceOrientationOverride(Double alpha, Double beta, Double gamma) {
-        handler.invoke("DeviceOrientation", "setDeviceOrientationOverride",
-                "DeviceOrientation.setDeviceOrientationOverride", null, void.class, null, true, false, false,
-                new String[] { "alpha", "beta", "gamma" }, new Object[] { alpha, beta, gamma });
-    }
+	@Override
+	public void setDeviceOrientationOverride(Double alpha, Double beta, Double gamma) {
+		handler.invoke("DeviceOrientation", "setDeviceOrientationOverride",
+				"DeviceOrientation.setDeviceOrientationOverride", null, void.class, null, true, false, false,
+				new String[]{"alpha", "beta", "gamma"}, new Object[]{alpha, beta, gamma});
+	}
 }

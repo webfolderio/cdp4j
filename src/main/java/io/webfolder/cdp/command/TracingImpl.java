@@ -18,66 +18,73 @@
  */
 package io.webfolder.cdp.command;
 
-import io.webfolder.cdp.session.SessionInvocationHandler;
-import io.webfolder.cdp.command.Tracing;
 import java.util.List;
+
+import com.google.gson.reflect.TypeToken;
+
+import io.webfolder.cdp.session.SessionInvocationHandler;
 import io.webfolder.cdp.type.constant.TransferMode;
 import io.webfolder.cdp.type.tracing.RequestMemoryDumpResult;
 import io.webfolder.cdp.type.tracing.StreamCompression;
 import io.webfolder.cdp.type.tracing.StreamFormat;
 import io.webfolder.cdp.type.tracing.TraceConfig;
-import com.google.gson.reflect.TypeToken;
 
 public class TracingImpl implements Tracing {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private static final TypeToken<List<String>> GET_CATEGORIES = new TypeToken<List<String>>() {
-    };
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
+	private static final TypeToken<List<String>> GET_CATEGORIES = new TypeToken<List<String>>() { };
 
-    public TracingImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public TracingImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void end() {
-        handler.invoke("Tracing", "end", "Tracing.end", null, void.class, null, true, false, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void end() {
+		handler.invoke("Tracing", "end", "Tracing.end", null, void.class, null, true, false, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<String> getCategories() {
-        return (List<String>) handler.invoke("Tracing", "getCategories", "Tracing.getCategories", "categories",
-                List.class, GET_CATEGORIES.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<String> getCategories() {
+		return (List<String>) handler.invoke("Tracing", "getCategories", "Tracing.getCategories", "categories",
+				List.class, GET_CATEGORIES.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void recordClockSyncMarker(String syncId) {
-        handler.invoke("Tracing", "recordClockSyncMarker", "Tracing.recordClockSyncMarker", null, void.class, null,
-                true, false, false, new String[] { "syncId" }, new Object[] { syncId });
-    }
+	@Override
+	public void recordClockSyncMarker(String syncId) {
+		handler.invoke("Tracing", "recordClockSyncMarker", "Tracing.recordClockSyncMarker", null, void.class, null,
+				true, false, false, new String[]{"syncId"}, new Object[]{syncId});
+	}
 
-    @Override
-    public RequestMemoryDumpResult requestMemoryDump() {
-        return (RequestMemoryDumpResult) handler.invoke("Tracing", "requestMemoryDump", "Tracing.requestMemoryDump",
-                null, RequestMemoryDumpResult.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public RequestMemoryDumpResult requestMemoryDump(Boolean deterministic) {
+		return (RequestMemoryDumpResult) handler.invoke("Tracing", "requestMemoryDump", "Tracing.requestMemoryDump",
+				null, RequestMemoryDumpResult.class, null, false, false, false, new String[]{"deterministic"},
+				new Object[]{deterministic});
+	}
 
-    @Override
-    public void start() {
-        handler.invoke("Tracing", "start", "Tracing.start", null, void.class, null, true, false, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void start(String categories, String options, Double bufferUsageReportingInterval, TransferMode transferMode,
+			StreamFormat streamFormat, StreamCompression streamCompression, TraceConfig traceConfig) {
+		handler.invoke("Tracing", "start", "Tracing.start", null, void.class, null, true, false, false,
+				new String[]{"categories", "options", "bufferUsageReportingInterval", "transferMode", "streamFormat",
+						"streamCompression", "traceConfig"},
+				new Object[]{categories, options, bufferUsageReportingInterval, transferMode, streamFormat,
+						streamCompression, traceConfig});
+	}
 
-    @Override
-    public void start(String categories, String options, Double bufferUsageReportingInterval, TransferMode transferMode,
-            StreamFormat streamFormat, StreamCompression streamCompression, TraceConfig traceConfig) {
-        handler.invoke("Tracing", "start", "Tracing.start", null, void.class, null, true, false, false,
-                new String[] { "categories", "options", "bufferUsageReportingInterval", "transferMode", "streamFormat",
-                        "streamCompression", "traceConfig" },
-                new Object[] { categories, options, bufferUsageReportingInterval, transferMode, streamFormat,
-                        streamCompression, traceConfig });
-    }
+	@Override
+	public RequestMemoryDumpResult requestMemoryDump() {
+		return (RequestMemoryDumpResult) handler.invoke("Tracing", "requestMemoryDump", "Tracing.requestMemoryDump",
+				null, RequestMemoryDumpResult.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
+
+	@Override
+	public void start() {
+		handler.invoke("Tracing", "start", "Tracing.start", null, void.class, null, true, false, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 }

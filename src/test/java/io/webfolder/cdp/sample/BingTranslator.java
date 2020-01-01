@@ -61,12 +61,12 @@ public class BingTranslator {
                 .setSelectedIndex("#tta_tgtsl", et.getIndex()) // choose Estonian
                 .wait(500);
 
-            session.focus("#tta_input")
+            session.focus("#tta_input_ta")
                     .wait(100)
                     .sendKeys("hello world")
                     .wait(1000);
 
-            System.out.println(session.getValue("#tta_output"));
+            System.out.println(session.getValue("#tta_output_ta"));
         } finally {
             launcher.kill();
         }

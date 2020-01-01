@@ -8,7 +8,7 @@ import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.target.TargetInfo;
 
 /**
- * Issued when attached to target because of auto-attach or <code>attachToTarget</code> command
+ * Issued when attached to target because of auto-attach or `attachToTarget` command
  */
 @Experimental
 @Domain("Target")

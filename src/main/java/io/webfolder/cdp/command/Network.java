@@ -27,6 +27,7 @@ import io.webfolder.cdp.type.network.AuthChallengeResponse;
 import io.webfolder.cdp.type.network.ConnectionType;
 import io.webfolder.cdp.type.network.Cookie;
 import io.webfolder.cdp.type.network.CookieParam;
+import io.webfolder.cdp.type.network.CookiePriority;
 import io.webfolder.cdp.type.network.CookieSameSite;
 import io.webfolder.cdp.type.network.ErrorReason;
 import io.webfolder.cdp.type.network.GetResponseBodyForInterceptionResult;
@@ -81,9 +82,10 @@ public interface Network {
      * modifications, or blocks it, or completes it with the provided response bytes. If a network
      * fetch occurs as a result which encounters a redirect an additional Network.requestIntercepted
      * event will be sent with the same InterceptionId.
+     * Deprecated, use Fetch.continueRequest, Fetch.fulfillRequest and Fetch.failRequest instead.
      * 
-     * @param errorReason If set this causes the request to fail with the given reason. Passing <code>Aborted</code> for requests
-     * marked with <code>isNavigationRequest</code> also cancels the navigation. Must not be set in response
+     * @param errorReason If set this causes the request to fail with the given reason. Passing `Aborted` for requests
+     * marked with `isNavigationRequest` also cancels the navigation. Must not be set in response
      * to an authChallenge.
      * @param rawResponse If set the requests completes using with the provided base64 encoded raw response, including
      * HTTP status line and headers etc... Must not be set in response to an authChallenge.
@@ -144,7 +146,7 @@ public interface Network {
 
     /**
      * Returns all browser cookies. Depending on the backend support, will return detailed cookie
-     * information in the <code>cookies</code> field.
+     * information in the `cookies` field.
      * 
      * @return Array of cookie objects.
      */
@@ -162,7 +164,7 @@ public interface Network {
 
     /**
      * Returns all browser cookies for the current URL. Depending on the backend support, will return
-     * detailed cookie information in the <code>cookies</code> field.
+     * detailed cookie information in the `cookies` field.
      * 
      * @param urls The list of URLs for which applicable cookies will be fetched
      * 
@@ -188,7 +190,7 @@ public interface Network {
      * @return Request body string, omitting files from multipart requests
      */
     @Returns("postData")
-    byte[] getRequestPostData(String requestId);
+    String getRequestPostData(String requestId);
 
     /**
      * Returns content served for the given currently intercepted request.
@@ -253,7 +255,7 @@ public interface Network {
     void setBypassServiceWorker(Boolean bypass);
 
     /**
-     * Toggles ignoring cache for each request. If <code>true</code>, cache will not be used.
+     * Toggles ignoring cache for each request. If `true`, cache will not be used.
      * 
      * @param cacheDisabled Cache disabled state.
      */
@@ -272,13 +274,15 @@ public interface Network {
      * @param httpOnly True if cookie is http-only.
      * @param sameSite Cookie SameSite type.
      * @param expires Cookie expiration date, session cookie if not set
+     * @param priority Cookie Priority type.
      * 
      * @return True if successfully set cookie.
      */
     @Returns("success")
     Boolean setCookie(String name, String value, @Optional String url, @Optional String domain,
             @Optional String path, @Optional Boolean secure, @Optional Boolean httpOnly,
-            @Optional CookieSameSite sameSite, @Optional Double expires);
+            @Optional CookieSameSite sameSite, @Optional Double expires,
+            @Experimental @Optional CookiePriority priority);
 
     /**
      * Sets given cookies.
@@ -305,6 +309,7 @@ public interface Network {
 
     /**
      * Sets the requests to intercept that match the provided patterns and optionally resource types.
+     * Deprecated, please use Fetch.enable instead.
      * 
      * @param patterns Requests matching any of these patterns will be forwarded and wait for the corresponding
      * continueInterceptedRequest call.
@@ -327,6 +332,7 @@ public interface Network {
      * modifications, or blocks it, or completes it with the provided response bytes. If a network
      * fetch occurs as a result which encounters a redirect an additional Network.requestIntercepted
      * event will be sent with the same InterceptionId.
+     * Deprecated, use Fetch.continueRequest, Fetch.fulfillRequest and Fetch.failRequest instead.
      * 
      */
     @Experimental
@@ -357,7 +363,7 @@ public interface Network {
 
     /**
      * Returns all browser cookies for the current URL. Depending on the backend support, will return
-     * detailed cookie information in the <code>cookies</code> field.
+     * detailed cookie information in the `cookies` field.
      * 
      * @return Array of cookie objects.
      */

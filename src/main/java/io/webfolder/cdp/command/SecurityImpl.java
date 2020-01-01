@@ -24,41 +24,41 @@ import io.webfolder.cdp.type.security.CertificateErrorAction;
 
 public class SecurityImpl implements Security {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public SecurityImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public SecurityImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("Security", "disable", "Security.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void disable() {
+		handler.invoke("Security", "disable", "Security.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("Security", "enable", "Security.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void enable() {
+		handler.invoke("Security", "enable", "Security.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    public void handleCertificateError(Integer eventId, CertificateErrorAction action) {
-        handler.invoke("Security", "handleCertificateError", "Security.handleCertificateError", null, void.class, null,
-                true, false, false, new String[] { "eventId", "action" }, new Object[] { eventId, action });
-    }
+	@Override
+	public void setIgnoreCertificateErrors(Boolean ignore) {
+		handler.invoke("Security", "setIgnoreCertificateErrors", "Security.setIgnoreCertificateErrors", null,
+				void.class, null, true, false, false, new String[]{"ignore"}, new Object[]{ignore});
+	}
 
-    @Override
-    public void setIgnoreCertificateErrors(Boolean ignore) {
-        handler.invoke("Security", "setIgnoreCertificateErrors", "Security.setIgnoreCertificateErrors", null,
-                void.class, null, true, false, false, new String[] { "ignore" }, new Object[] { ignore });
-    }
+	@Override
+	public void handleCertificateError(Integer eventId, CertificateErrorAction action) {
+		handler.invoke("Security", "handleCertificateError", "Security.handleCertificateError", null, void.class, null,
+				true, false, false, new String[]{"eventId", "action"}, new Object[]{eventId, action});
+	}
 
-    @Override
-    public void setOverrideCertificateErrors(Boolean override) {
-        handler.invoke("Security", "setOverrideCertificateErrors", "Security.setOverrideCertificateErrors", null,
-                void.class, null, true, false, false, new String[] { "override" }, new Object[] { override });
-    }
+	@Override
+	public void setOverrideCertificateErrors(Boolean override) {
+		handler.invoke("Security", "setOverrideCertificateErrors", "Security.setOverrideCertificateErrors", null,
+				void.class, null, true, false, false, new String[]{"override"}, new Object[]{override});
+	}
 }

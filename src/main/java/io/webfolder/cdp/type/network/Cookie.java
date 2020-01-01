@@ -18,18 +18,13 @@
  */
 package io.webfolder.cdp.type.network;
 
-import java.io.Serializable;
-
 import com.vimeo.stag.UseStag;
 
 /**
  * Cookie object
  */
 @UseStag
-public class Cookie implements Serializable {
-
-    private static final long serialVersionUID = 3780035664493989002L;
-
+public class Cookie {
     private String name;
 
     private String value;
@@ -49,6 +44,8 @@ public class Cookie implements Serializable {
     private Boolean session;
 
     private CookieSameSite sameSite;
+
+    private CookiePriority priority;
 
     /**
      * Cookie name.
@@ -188,5 +185,19 @@ public class Cookie implements Serializable {
      */
     public void setSameSite(CookieSameSite sameSite) {
         this.sameSite = sameSite;
+    }
+
+    /**
+     * Cookie Priority
+     */
+    public CookiePriority getPriority() {
+        return priority;
+    }
+
+    /**
+     * Cookie Priority
+     */
+    public void setPriority(CookiePriority priority) {
+        this.priority = priority;
     }
 }

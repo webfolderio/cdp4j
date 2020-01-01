@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.command;
 
-import java.util.List;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
@@ -45,6 +43,7 @@ import io.webfolder.cdp.type.page.NavigateResult;
 import io.webfolder.cdp.type.page.PrintToPDFResult;
 import io.webfolder.cdp.type.page.TransitionType;
 import io.webfolder.cdp.type.page.Viewport;
+import java.util.List;
 
 /**
  * Actions and events related to the inspected page belong to the page domain
@@ -103,7 +102,7 @@ public interface Page {
      */
     @Experimental
     @Returns("data")
-    String captureSnapshot(@Optional SnapshotType format);
+    byte[] captureSnapshot(@Optional SnapshotType format);
 
     /**
      * Clears the overriden device metrics.
@@ -165,9 +164,13 @@ public interface Page {
     @Returns("errors")
     List<String> getInstallabilityErrors();
 
+    @Experimental
+    @Returns("primaryIcon")
+    String getManifestIcons();
+
     /**
      * Returns all browser cookies. Depending on the backend support, will return detailed cookie
-     * information in the <code>cookies</code> field.
+     * information in the `cookies` field.
      * 
      * @return Array of cookie objects.
      */
@@ -270,14 +273,14 @@ public interface Page {
      * Defaults to false.
      * @param headerTemplate HTML template for the print header. Should be valid HTML markup with following
      * classes used to inject printing values into them:
-     * - <code>date</code>: formatted print date
-     * - <code>title</code>: document title
-     * - <code>url</code>: document location
-     * - <code>pageNumber</code>: current page number
-     * - <code>totalPages</code>: total pages in the document
+     * - `date`: formatted print date
+     * - `title`: document title
+     * - `url`: document location
+     * - `pageNumber`: current page number
+     * - `totalPages`: total pages in the document
      *
-     * For example, <span class=title></span> would generate span containing the title.
-     * @param footerTemplate HTML template for the print footer. Should use the same format as the <code>headerTemplate</code>.
+     * For example, `<span class=title></span>` would generate span containing the title.
+     * @param footerTemplate HTML template for the print footer. Should use the same format as the `headerTemplate`.
      * @param preferCSSPageSize Whether or not to prefer page size as defined by css. Defaults to false,
      * in which case the content will be scaled to fit the paper size.
      * @param transferMode return as stream
@@ -453,7 +456,7 @@ public interface Page {
     void setTouchEmulationEnabled(Boolean enabled, @Optional Platform configuration);
 
     /**
-     * Starts sending each frame using the <code>screencastFrame</code> event.
+     * Starts sending each frame using the `screencastFrame` event.
      * 
      * @param format Image compression format.
      * @param quality Compression quality from range [0..100].
@@ -494,7 +497,7 @@ public interface Page {
     void setWebLifecycleState(TargetLifecycleState state);
 
     /**
-     * Stops sending each frame in the <code>screencastFrame</code>.
+     * Stops sending each frame in the `screencastFrame`.
      */
     @Experimental
     void stopScreencast();
@@ -537,6 +540,15 @@ public interface Page {
     void waitForDebugger();
 
     /**
+     * Intercept file chooser requests and transfer control to protocol clients.
+     * When file chooser interception is enabled, native file chooser dialog is not shown.
+     * Instead, a protocol event `Page.fileChooserOpened` is emitted.
+     * 
+     */
+    @Experimental
+    void setInterceptFileChooserDialog(Boolean enabled);
+
+    /**
      * Evaluates given script in every frame upon creation (before loading frame's scripts).
      * 
      * 
@@ -561,7 +573,7 @@ public interface Page {
      */
     @Experimental
     @Returns("data")
-    String captureSnapshot();
+    byte[] captureSnapshot();
 
     /**
      * Creates an isolated world for the given frame.
@@ -653,7 +665,7 @@ public interface Page {
     void setTouchEmulationEnabled(Boolean enabled);
 
     /**
-     * Starts sending each frame using the <code>screencastFrame</code> event.
+     * Starts sending each frame using the `screencastFrame` event.
      */
     @Experimental
     void startScreencast();

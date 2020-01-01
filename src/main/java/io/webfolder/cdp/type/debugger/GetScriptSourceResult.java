@@ -16,27 +16,29 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.type.css;
-
-import java.util.List;
+package io.webfolder.cdp.type.debugger;
 
 import com.vimeo.stag.UseStag;
 
-import io.webfolder.cdp.annotation.Experimental;
-
-/**
- * A subset of the full ComputedStyle as defined by the request whitelist
- */
-@Experimental
 @UseStag
-public class ComputedStyle {
-    private List<CSSComputedStyleProperty> properties;
+public class GetScriptSourceResult {
+    private String scriptSource;
 
-    public List<CSSComputedStyleProperty> getProperties() {
-        return properties;
+    private String bytecode;
+
+    public String getScriptSource() {
+        return scriptSource;
     }
 
-    public void setProperties(List<CSSComputedStyleProperty> properties) {
-        this.properties = properties;
+    public String getBytecode() {
+        return bytecode;
+    }
+
+    public void setBytecode(String bytecode) {
+        this.bytecode = bytecode;
+    }
+
+    public void setScriptSource(String scriptSource) {
+        this.scriptSource = scriptSource;
     }
 }

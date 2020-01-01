@@ -18,16 +18,16 @@
  */
 package io.webfolder.cdp.command;
 
-import java.util.List;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.constant.InstrumentationName;
 import io.webfolder.cdp.type.constant.PauseOnExceptionState;
+import io.webfolder.cdp.type.constant.TargetCallFrames;
 import io.webfolder.cdp.type.debugger.BreakLocation;
 import io.webfolder.cdp.type.debugger.EvaluateOnCallFrameResult;
+import io.webfolder.cdp.type.debugger.GetScriptSourceResult;
 import io.webfolder.cdp.type.debugger.Location;
 import io.webfolder.cdp.type.debugger.RestartFrameResult;
 import io.webfolder.cdp.type.debugger.ScriptPosition;
@@ -38,6 +38,7 @@ import io.webfolder.cdp.type.debugger.SetScriptSourceResult;
 import io.webfolder.cdp.type.runtime.CallArgument;
 import io.webfolder.cdp.type.runtime.StackTrace;
 import io.webfolder.cdp.type.runtime.StackTraceId;
+import java.util.List;
 
 /**
  * Debugger domain exposes JavaScript debugging capabilities
@@ -51,8 +52,7 @@ public interface Debugger {
      * 
      * @param location Location to continue to.
      */
-    void continueToLocation(Location location,
-            @Optional Location targetCallFrames);
+    void continueToLocation(Location location, @Optional TargetCallFrames targetCallFrames);
 
     /**
      * Disables debugger for given page.
@@ -77,11 +77,11 @@ public interface Debugger {
      * @param callFrameId Call frame identifier to evaluate on.
      * @param expression Expression to evaluate.
      * @param objectGroup String object group name to put result into (allows rapid releasing resulting object handles
-     * using <code>releaseObjectGroup</code>).
+     * using `releaseObjectGroup`).
      * @param includeCommandLineAPI Specifies whether command line API should be available to the evaluated expression, defaults
      * to false.
      * @param silent In silent mode exceptions thrown during evaluation are not reported and do not pause
-     * execution. Overrides <code>setPauseOnException</code> state.
+     * execution. Overrides `setPauseOnException` state.
      * @param returnByValue Whether the result is expected to be a JSON object that should be sent by value.
      * @param generatePreview Whether preview should be generated for the result.
      * @param throwOnSideEffect Whether to throw an exception if side effect cannot be ruled out during evaluation.
@@ -115,13 +115,22 @@ public interface Debugger {
      * 
      * @param scriptId Id of the script to get source for.
      * 
-     * @return Script source.
+     * @return GetScriptSourceResult
      */
-    @Returns("scriptSource")
-    String getScriptSource(String scriptId);
+    GetScriptSourceResult getScriptSource(String scriptId);
 
     /**
-     * Returns stack trace with given <code>stackTraceId</code>.
+     * This command is deprecated. Use getScriptSource instead.
+     * 
+     * @param scriptId Id of the Wasm script to get source for.
+     * 
+     * @return Script source.
+     */
+    @Returns("bytecode")
+    String getWasmBytecode(String scriptId);
+
+    /**
+     * Returns stack trace with given `stackTraceId`.
      * 
      */
     @Experimental
@@ -173,7 +182,7 @@ public interface Debugger {
     /**
      * Enables or disables async call stacks tracking.
      * 
-     * @param maxDepth Maximum depth of async call stacks. Setting to <code>0</code> will effectively disable collecting async
+     * @param maxDepth Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
      * call stacks (default).
      */
     void setAsyncCallStackDepth(Integer maxDepth);
@@ -223,13 +232,13 @@ public interface Debugger {
     /**
      * Sets JavaScript breakpoint at given location specified either by URL or URL regex. Once this
      * command is issued, all existing parsed scripts will have breakpoints resolved and returned in
-     * <code>locations</code> property. Further matching script parsing will result in subsequent
-     * <code>breakpointResolved</code> events issued. This logical breakpoint will survive page reloads.
+     * `locations` property. Further matching script parsing will result in subsequent
+     * `breakpointResolved` events issued. This logical breakpoint will survive page reloads.
      * 
      * @param lineNumber Line number to set breakpoint at.
      * @param url URL of the resources to set breakpoint on.
-     * @param urlRegex Regex pattern for the URLs of the resources to set breakpoints on. Either <code>url</code> or
-     * <code>urlRegex</code> must be specified.
+     * @param urlRegex Regex pattern for the URLs of the resources to set breakpoints on. Either `url` or
+     * `urlRegex` must be specified.
      * @param scriptHash Script hash of the resources to set breakpoint on.
      * @param columnNumber Offset in the line to set breakpoint at.
      * @param condition Expression to use as a breakpoint condition. When specified, debugger will only stop on the
@@ -265,7 +274,7 @@ public interface Debugger {
 
     /**
      * Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or
-     * no exceptions. Initial pause on exceptions state is <code>none</code>.
+     * no exceptions. Initial pause on exceptions state is `none`.
      * 
      * @param state Pause on exceptions mode.
      */
@@ -315,7 +324,7 @@ public interface Debugger {
     /**
      * Steps into the function call.
      * 
-     * @param breakOnAsyncCall Debugger will issue additional Debugger.paused notification if any async task is scheduled
+     * @param breakOnAsyncCall Debugger will pause on the execution of the first async task which was scheduled
      * before next pause.
      */
     void stepInto(@Experimental @Optional Boolean breakOnAsyncCall);
@@ -390,8 +399,8 @@ public interface Debugger {
     /**
      * Sets JavaScript breakpoint at given location specified either by URL or URL regex. Once this
      * command is issued, all existing parsed scripts will have breakpoints resolved and returned in
-     * <code>locations</code> property. Further matching script parsing will result in subsequent
-     * <code>breakpointResolved</code> events issued. This logical breakpoint will survive page reloads.
+     * `locations` property. Further matching script parsing will result in subsequent
+     * `breakpointResolved` events issued. This logical breakpoint will survive page reloads.
      * 
      * @param lineNumber Line number to set breakpoint at.
      * 

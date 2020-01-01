@@ -65,12 +65,13 @@ public interface DOMSnapshot {
      * flattened.
      * 
      * @param computedStyles Whitelist of computed styles to return.
+     * @param includePaintOrder Whether to include layout object paint orders into the snapshot.
      * @param includeDOMRects Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot
      * 
      * @return CaptureSnapshotResult
      */
     CaptureSnapshotResult captureSnapshot(List<String> computedStyles,
-            @Optional Boolean includeDOMRects);
+            @Optional Boolean includePaintOrder, @Optional Boolean includeDOMRects);
 
     /**
      * Returns a document snapshot, including the full DOM tree of the root node (including iframes,

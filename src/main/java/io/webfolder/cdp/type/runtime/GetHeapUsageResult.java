@@ -34,11 +34,11 @@ public class GetHeapUsageResult {
         return totalSize;
     }
 
-    public void setUsedSize(Double usedSize) {
-        this.usedSize = usedSize;
-    }
-
     public void setTotalSize(Double totalSize) {
         this.totalSize = totalSize;
+    }
+
+    public void setUsedSize(Double usedSize) {
+        this.usedSize = usedSize;
     }
 }

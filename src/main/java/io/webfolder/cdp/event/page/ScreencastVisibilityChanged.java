@@ -25,7 +25,7 @@ import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
- * Fired when the page with currently enabled screencast was shown or hidden
+ * Fired when the page with currently enabled screencast was shown or hidden `
  */
 @Experimental
 @Domain("Page")

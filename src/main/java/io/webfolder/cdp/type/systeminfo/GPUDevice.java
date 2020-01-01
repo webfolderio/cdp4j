@@ -29,6 +29,10 @@ public class GPUDevice {
 
     private Double deviceId;
 
+    private Double subSysId;
+
+    private Double revision;
+
     private String vendorString;
 
     private String deviceString;
@@ -63,6 +67,34 @@ public class GPUDevice {
      */
     public void setDeviceId(Double deviceId) {
         this.deviceId = deviceId;
+    }
+
+    /**
+     * Sub sys ID of the GPU, only available on Windows.
+     */
+    public Double getSubSysId() {
+        return subSysId;
+    }
+
+    /**
+     * Sub sys ID of the GPU, only available on Windows.
+     */
+    public void setSubSysId(Double subSysId) {
+        this.subSysId = subSysId;
+    }
+
+    /**
+     * Revision of the GPU, only available on Windows.
+     */
+    public Double getRevision() {
+        return revision;
+    }
+
+    /**
+     * Revision of the GPU, only available on Windows.
+     */
+    public void setRevision(Double revision) {
+        this.revision = revision;
     }
 
     /**

@@ -28,7 +28,7 @@ import com.vimeo.stag.UseStag;
  */
 @UseStag
 public class ImageDecodeAcceleratorCapability {
-    private String imageType;
+    private ImageType imageType;
 
     private Size maxDimensions;
 
@@ -39,14 +39,14 @@ public class ImageDecodeAcceleratorCapability {
     /**
      * Image coded, e.g. Jpeg.
      */
-    public String getImageType() {
+    public ImageType getImageType() {
         return imageType;
     }
 
     /**
      * Image coded, e.g. Jpeg.
      */
-    public void setImageType(String imageType) {
+    public void setImageType(ImageType imageType) {
         this.imageType = imageType;
     }
 

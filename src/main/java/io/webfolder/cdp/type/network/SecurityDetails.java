@@ -217,7 +217,8 @@ public class SecurityDetails {
     /**
      * List of signed certificate timestamps (SCTs).
      */
-    public void setSignedCertificateTimestampList(List<SignedCertificateTimestamp> signedCertificateTimestampList) {
+    public void setSignedCertificateTimestampList(
+            List<SignedCertificateTimestamp> signedCertificateTimestampList) {
         this.signedCertificateTimestampList = signedCertificateTimestampList;
     }
 
@@ -231,7 +232,8 @@ public class SecurityDetails {
     /**
      * Whether the request complied with Certificate Transparency policy
      */
-    public void setCertificateTransparencyCompliance(CertificateTransparencyCompliance certificateTransparencyCompliance) {
+    public void setCertificateTransparencyCompliance(
+            CertificateTransparencyCompliance certificateTransparencyCompliance) {
         this.certificateTransparencyCompliance = certificateTransparencyCompliance;
     }
 }

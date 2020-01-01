@@ -29,11 +29,13 @@ import com.vimeo.stag.UseStag;
 public class LayoutTreeSnapshot {
     private List<Integer> nodeIndex;
 
-    private List<List<Double>> bounds;
+    private List<Double> bounds;
 
     private List<Integer> text;
 
     private RareBooleanData stackingContexts;
+
+    private List<Integer> paintOrders;
 
     private List<Double> offsetRects;
 
@@ -41,17 +43,15 @@ public class LayoutTreeSnapshot {
 
     private List<Double> clientRects;
 
-    private List<List<String>> styles;
-
     /**
-     * Index of the corresponding node in the <code>NodeTreeSnapshot</code> array returned by <code>captureSnapshot</code>.
+     * Index of the corresponding node in the `NodeTreeSnapshot` array returned by `captureSnapshot`.
      */
     public List<Integer> getNodeIndex() {
         return nodeIndex;
     }
 
     /**
-     * Index of the corresponding node in the <code>NodeTreeSnapshot</code> array returned by <code>captureSnapshot</code>.
+     * Index of the corresponding node in the `NodeTreeSnapshot` array returned by `captureSnapshot`.
      */
     public void setNodeIndex(List<Integer> nodeIndex) {
         this.nodeIndex = nodeIndex;
@@ -60,14 +60,14 @@ public class LayoutTreeSnapshot {
     /**
      * The absolute position bounding box.
      */
-    public List<List<Double>> getBounds() {
+    public List<Double> getBounds() {
         return bounds;
     }
 
     /**
      * The absolute position bounding box.
      */
-    public void setBounds(List<List<Double>> bounds) {
+    public void setBounds(List<Double> bounds) {
         this.bounds = bounds;
     }
 
@@ -97,6 +97,24 @@ public class LayoutTreeSnapshot {
      */
     public void setStackingContexts(RareBooleanData stackingContexts) {
         this.stackingContexts = stackingContexts;
+    }
+
+    /**
+     * Global paint order index, which is determined by the stacking order of the nodes. Nodes
+     * that are painted together will have the same index. Only provided if includePaintOrder in
+     * captureSnapshot was true.
+     */
+    public List<Integer> getPaintOrders() {
+        return paintOrders;
+    }
+
+    /**
+     * Global paint order index, which is determined by the stacking order of the nodes. Nodes
+     * that are painted together will have the same index. Only provided if includePaintOrder in
+     * captureSnapshot was true.
+     */
+    public void setPaintOrders(List<Integer> paintOrders) {
+        this.paintOrders = paintOrders;
     }
 
     /**
@@ -139,19 +157,5 @@ public class LayoutTreeSnapshot {
      */
     public void setClientRects(List<Double> clientRects) {
         this.clientRects = clientRects;
-    }
-
-    /**
-     * Array of indexes specifying computed style strings, filtered according to the <code>computedStyles</code> parameter passed to <code>captureSnapshot</code>.
-     */
-    public List<List<String>> getStyles() {
-        return styles;
-    }
-
-    /**
-     * Array of indexes specifying computed style strings, filtered according to the <code>computedStyles</code> parameter passed to <code>captureSnapshot</code>.
-     */
-    public void setStyles(List<List<String>> styles) {
-        this.styles = styles;
     }
 }

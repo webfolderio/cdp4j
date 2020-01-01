@@ -27,6 +27,8 @@ import com.vimeo.stag.UseStag;
 public class DocumentSnapshot {
     private Integer documentURL;
 
+    private Integer title;
+
     private Integer baseURL;
 
     private Integer contentLanguage;
@@ -49,29 +51,47 @@ public class DocumentSnapshot {
 
     private Double scrollOffsetY;
 
+    private Double contentWidth;
+
+    private Double contentHeight;
+
     /**
-     * Document URL that <code>Document</code> or <code>FrameOwner</code> node points to.
+     * Document URL that `Document` or `FrameOwner` node points to.
      */
     public Integer getDocumentURL() {
         return documentURL;
     }
 
     /**
-     * Document URL that <code>Document</code> or <code>FrameOwner</code> node points to.
+     * Document URL that `Document` or `FrameOwner` node points to.
      */
     public void setDocumentURL(Integer documentURL) {
         this.documentURL = documentURL;
     }
 
     /**
-     * Base URL that <code>Document</code> or <code>FrameOwner</code> node uses for URL completion.
+     * Document title.
+     */
+    public Integer getTitle() {
+        return title;
+    }
+
+    /**
+     * Document title.
+     */
+    public void setTitle(Integer title) {
+        this.title = title;
+    }
+
+    /**
+     * Base URL that `Document` or `FrameOwner` node uses for URL completion.
      */
     public Integer getBaseURL() {
         return baseURL;
     }
 
     /**
-     * Base URL that <code>Document</code> or <code>FrameOwner</code> node uses for URL completion.
+     * Base URL that `Document` or `FrameOwner` node uses for URL completion.
      */
     public void setBaseURL(Integer baseURL) {
         this.baseURL = baseURL;
@@ -106,28 +126,28 @@ public class DocumentSnapshot {
     }
 
     /**
-     * <code>DocumentType</code> node's publicId.
+     * `DocumentType` node's publicId.
      */
     public Integer getPublicId() {
         return publicId;
     }
 
     /**
-     * <code>DocumentType</code> node's publicId.
+     * `DocumentType` node's publicId.
      */
     public void setPublicId(Integer publicId) {
         this.publicId = publicId;
     }
 
     /**
-     * <code>DocumentType</code> node's systemId.
+     * `DocumentType` node's systemId.
      */
     public Integer getSystemId() {
         return systemId;
     }
 
     /**
-     * <code>DocumentType</code> node's systemId.
+     * `DocumentType` node's systemId.
      */
     public void setSystemId(Integer systemId) {
         this.systemId = systemId;
@@ -215,5 +235,33 @@ public class DocumentSnapshot {
      */
     public void setScrollOffsetY(Double scrollOffsetY) {
         this.scrollOffsetY = scrollOffsetY;
+    }
+
+    /**
+     * Document content width.
+     */
+    public Double getContentWidth() {
+        return contentWidth;
+    }
+
+    /**
+     * Document content width.
+     */
+    public void setContentWidth(Double contentWidth) {
+        this.contentWidth = contentWidth;
+    }
+
+    /**
+     * Document content height.
+     */
+    public Double getContentHeight() {
+        return contentHeight;
+    }
+
+    /**
+     * Document content height.
+     */
+    public void setContentHeight(Double contentHeight) {
+        this.contentHeight = contentHeight;
     }
 }

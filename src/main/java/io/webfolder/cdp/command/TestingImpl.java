@@ -19,25 +19,24 @@
 package io.webfolder.cdp.command;
 
 import io.webfolder.cdp.session.SessionInvocationHandler;
-import io.webfolder.cdp.command.Testing;
 
 public class TestingImpl implements Testing {
 
-    private final SessionInvocationHandler handler;
+	private final SessionInvocationHandler handler;
 
-    public TestingImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public TestingImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void generateTestReport(String message) {
-        handler.invoke("Testing", "generateTestReport", "Testing.generateTestReport", null, void.class, null, true,
-                false, false, new String[] { "message" }, new Object[] { message });
-    }
+	@Override
+	public void generateTestReport(String message, String group) {
+		handler.invoke("Testing", "generateTestReport", "Testing.generateTestReport", null, void.class, null, true,
+				false, false, new String[]{"message", "group"}, new Object[]{message, group});
+	}
 
-    @Override
-    public void generateTestReport(String message, String group) {
-        handler.invoke("Testing", "generateTestReport", "Testing.generateTestReport", null, void.class, null, true,
-                false, false, new String[] { "message", "group" }, new Object[] { message, group });
-    }
+	@Override
+	public void generateTestReport(String message) {
+		handler.invoke("Testing", "generateTestReport", "Testing.generateTestReport", null, void.class, null, true,
+				false, false, new String[]{"message"}, new Object[]{message});
+	}
 }

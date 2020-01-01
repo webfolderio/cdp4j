@@ -58,9 +58,11 @@ public interface HeapProfiler {
     @Returns("profile")
     SamplingHeapProfile stopSampling();
 
-    void stopTrackingHeapObjects(@Optional Boolean reportProgress);
+    void stopTrackingHeapObjects(@Optional Boolean reportProgress,
+            @Optional Boolean treatGlobalObjectsAsRoots);
 
-    void takeHeapSnapshot(@Optional Boolean reportProgress);
+    void takeHeapSnapshot(@Optional Boolean reportProgress,
+            @Optional Boolean treatGlobalObjectsAsRoots);
 
     @Returns("result")
     RemoteObject getObjectByHeapObjectId(String objectId);

@@ -79,17 +79,15 @@ public interface CacheStorage {
      * 
      * @return RequestEntriesResult
      */
-    RequestEntriesResult requestEntries(String cacheId, Integer skipCount, Integer pageSize,
-            @Optional String pathFilter);
+    RequestEntriesResult requestEntries(String cacheId, @Optional Integer skipCount,
+            @Optional Integer pageSize, @Optional String pathFilter);
 
     /**
      * Requests data from cache.
      * 
      * @param cacheId ID of cache to get entries from.
-     * @param skipCount Number of records to skip.
-     * @param pageSize Number of records to fetch.
      * 
      * @return RequestEntriesResult
      */
-    RequestEntriesResult requestEntries(String cacheId, Integer skipCount, Integer pageSize);
+    RequestEntriesResult requestEntries(String cacheId);
 }

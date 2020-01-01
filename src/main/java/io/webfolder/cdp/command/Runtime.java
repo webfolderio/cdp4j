@@ -65,11 +65,11 @@ public interface Runtime {
      * @param arguments Call arguments. All call arguments must belong to the same JavaScript world as the target
      * object.
      * @param silent In silent mode exceptions thrown during evaluation are not reported and do not pause
-     * execution. Overrides <code>setPauseOnException</code> state.
+     * execution. Overrides `setPauseOnException` state.
      * @param returnByValue Whether the result is expected to be a JSON object which should be sent by value.
      * @param generatePreview Whether preview should be generated for the result.
      * @param userGesture Whether execution should be treated as initiated by user in the UI.
-     * @param awaitPromise Whether execution should <code>await</code> for resulting value and return once awaited promise is
+     * @param awaitPromise Whether execution should `await` for resulting value and return once awaited promise is
      * resolved.
      * @param executionContextId Specifies execution context which global object will be used to call function on. Either
      * executionContextId or objectId should be specified.
@@ -109,7 +109,7 @@ public interface Runtime {
     void discardConsoleEntries();
 
     /**
-     * Enables reporting of execution contexts creation by means of <code>executionContextCreated</code> event.
+     * Enables reporting of execution contexts creation by means of `executionContextCreated` event.
      * When the reporting gets enabled the event will be sent immediately for each existing execution
      * context.
      */
@@ -122,16 +122,19 @@ public interface Runtime {
      * @param objectGroup Symbolic group name that can be used to release multiple objects.
      * @param includeCommandLineAPI Determines whether Command Line API should be available during the evaluation.
      * @param silent In silent mode exceptions thrown during evaluation are not reported and do not pause
-     * execution. Overrides <code>setPauseOnException</code> state.
+     * execution. Overrides `setPauseOnException` state.
      * @param contextId Specifies in which execution context to perform evaluation. If the parameter is omitted the
      * evaluation will be performed in the context of the inspected page.
      * @param returnByValue Whether the result is expected to be a JSON object that should be sent by value.
      * @param generatePreview Whether preview should be generated for the result.
      * @param userGesture Whether execution should be treated as initiated by user in the UI.
-     * @param awaitPromise Whether execution should <code>await</code> for resulting value and return once awaited promise is
+     * @param awaitPromise Whether execution should `await` for resulting value and return once awaited promise is
      * resolved.
      * @param throwOnSideEffect Whether to throw an exception if side effect cannot be ruled out during evaluation.
+     * This implies `disableBreaks` below.
      * @param timeout Terminate execution after timing out (number of milliseconds).
+     * @param disableBreaks Disable breakpoints during execution.
+     * @param replMode Reserved flag for future REPL mode support. Setting this flag has currently no effect.
      * 
      * @return EvaluateResult
      */
@@ -140,7 +143,8 @@ public interface Runtime {
             @Optional Integer contextId, @Optional Boolean returnByValue,
             @Experimental @Optional Boolean generatePreview, @Optional Boolean userGesture,
             @Optional Boolean awaitPromise, @Experimental @Optional Boolean throwOnSideEffect,
-            @Experimental @Optional Double timeout);
+            @Experimental @Optional Double timeout, @Experimental @Optional Boolean disableBreaks,
+            @Experimental @Optional Boolean replMode);
 
     /**
      * Returns the isolate id.
@@ -215,11 +219,11 @@ public interface Runtime {
      * evaluation will be performed in the context of the inspected page.
      * @param objectGroup Symbolic group name that can be used to release multiple objects.
      * @param silent In silent mode exceptions thrown during evaluation are not reported and do not pause
-     * execution. Overrides <code>setPauseOnException</code> state.
+     * execution. Overrides `setPauseOnException` state.
      * @param includeCommandLineAPI Determines whether Command Line API should be available during the evaluation.
      * @param returnByValue Whether the result is expected to be a JSON object which should be sent by value.
      * @param generatePreview Whether preview should be generated for the result.
-     * @param awaitPromise Whether execution should <code>await</code> for resulting value and return once awaited promise is
+     * @param awaitPromise Whether execution should `await` for resulting value and return once awaited promise is
      * resolved.
      * 
      * @return RunScriptResult
@@ -232,7 +236,7 @@ public interface Runtime {
     /**
      * Enables or disables async call stacks tracking.
      * 
-     * @param maxDepth Maximum depth of async call stacks. Setting to <code>0</code> will effectively disable collecting async
+     * @param maxDepth Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
      * call stacks (default).
      */
     void setAsyncCallStackDepth(Integer maxDepth);

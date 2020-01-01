@@ -25,7 +25,7 @@ import io.webfolder.cdp.annotation.EventName;
 
 /**
  * Fired when the node should be highlighted
- * This happens after call to <code>setInspectMode</code>
+ * This happens after call to `setInspectMode`
  */
 @Domain("Overlay")
 @EventName("nodeHighlightRequested")

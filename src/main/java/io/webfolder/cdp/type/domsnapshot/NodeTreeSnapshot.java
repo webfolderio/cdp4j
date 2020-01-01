@@ -35,7 +35,7 @@ public class NodeTreeSnapshot {
 
     private List<Integer> nodeValue;
 
-    private List<String> backendNodeId;
+    private List<Integer> backendNodeId;
 
     private RareStringData textValue;
 
@@ -70,58 +70,58 @@ public class NodeTreeSnapshot {
     }
 
     /**
-     * <code>Node</code>'s nodeType.
+     * `Node`'s nodeType.
      */
     public List<Integer> getNodeType() {
         return nodeType;
     }
 
     /**
-     * <code>Node</code>'s nodeType.
+     * `Node`'s nodeType.
      */
     public void setNodeType(List<Integer> nodeType) {
         this.nodeType = nodeType;
     }
 
     /**
-     * <code>Node</code>'s nodeName.
+     * `Node`'s nodeName.
      */
     public List<Integer> getNodeName() {
         return nodeName;
     }
 
     /**
-     * <code>Node</code>'s nodeName.
+     * `Node`'s nodeName.
      */
     public void setNodeName(List<Integer> nodeName) {
         this.nodeName = nodeName;
     }
 
     /**
-     * <code>Node</code>'s nodeValue.
+     * `Node`'s nodeValue.
      */
     public List<Integer> getNodeValue() {
         return nodeValue;
     }
 
     /**
-     * <code>Node</code>'s nodeValue.
+     * `Node`'s nodeValue.
      */
     public void setNodeValue(List<Integer> nodeValue) {
         this.nodeValue = nodeValue;
     }
 
     /**
-     * <code>Node</code>'s id, corresponds to DOM.Node.backendNodeId.
+     * `Node`'s id, corresponds to DOM.Node.backendNodeId.
      */
-    public List<String> getBackendNodeId() {
+    public List<Integer> getBackendNodeId() {
         return backendNodeId;
     }
 
     /**
-     * <code>Node</code>'s id, corresponds to DOM.Node.backendNodeId.
+     * `Node`'s id, corresponds to DOM.Node.backendNodeId.
      */
-    public void setBackendNodeId(List<String> backendNodeId) {
+    public void setBackendNodeId(List<Integer> backendNodeId) {
         this.backendNodeId = backendNodeId;
     }
 

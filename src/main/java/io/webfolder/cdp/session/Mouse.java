@@ -18,13 +18,14 @@
  */
 package io.webfolder.cdp.session;
 
-import static io.webfolder.cdp.type.constant.MouseButtonType.Left;
 import static io.webfolder.cdp.type.constant.MouseEventType.MouseMoved;
 import static io.webfolder.cdp.type.constant.MouseEventType.MousePressed;
 import static io.webfolder.cdp.type.constant.MouseEventType.MouseReleased;
+import static io.webfolder.cdp.type.constant.PointerType.Mouse;
 import static java.lang.String.format;
 
 import io.webfolder.cdp.command.Input;
+import io.webfolder.cdp.type.input.MouseButton;
 import io.webfolder.cdp.type.util.Point;
 
 /**
@@ -65,8 +66,8 @@ public interface Mouse {
         Point point = getThis().getClickablePoint(selector, args);
         int clickCount = 1;
         Input input = getThis().getCommand().getInput();
-        input.dispatchMouseEvent(MousePressed, point.x, point.y, null, null, Left, clickCount, null, null);
-        input.dispatchMouseEvent(MouseReleased, point.x, point.y, null, null, Left, clickCount, null, null);
+        input.dispatchMouseEvent(MousePressed, point.x, point.y, null, null, MouseButton.Left, null, clickCount, null, null, Mouse);
+        input.dispatchMouseEvent(MouseReleased, point.x, point.y, null, null, MouseButton.Left, null, clickCount, null, null, Mouse);
         return getThis();
     }
 

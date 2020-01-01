@@ -39,7 +39,10 @@ public enum SecurityState {
     Secure("secure"),
 
     @SerializedName("info")
-    Info("info");
+    Info("info"),
+
+    @SerializedName("insecure-broken")
+    InsecureBroken("insecure-broken");
 
     public final String value;
 

@@ -43,6 +43,8 @@ public class CookieParam {
 
     private Double expires;
 
+    private CookiePriority priority;
+
     /**
      * Cookie name.
      */
@@ -169,5 +171,19 @@ public class CookieParam {
      */
     public void setExpires(Double expires) {
         this.expires = expires;
+    }
+
+    /**
+     * Cookie Priority.
+     */
+    public CookiePriority getPriority() {
+        return priority;
+    }
+
+    /**
+     * Cookie Priority.
+     */
+    public void setPriority(CookiePriority priority) {
+        this.priority = priority;
     }
 }

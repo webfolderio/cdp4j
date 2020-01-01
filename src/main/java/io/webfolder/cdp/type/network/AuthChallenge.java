@@ -26,8 +26,8 @@ import io.webfolder.cdp.type.constant.AuthChallengeSource;
 /**
  * Authorization challenge for HTTP status code 401 or 407
  */
-@UseStag
 @Experimental
+@UseStag
 public class AuthChallenge {
     private AuthChallengeSource source;
 

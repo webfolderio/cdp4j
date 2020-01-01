@@ -18,12 +18,13 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import io.webfolder.cdp.type.runtime.ExceptionDetails;
-import io.webfolder.cdp.type.runtime.StackTrace;
-import io.webfolder.cdp.type.runtime.StackTraceId;
 import java.util.List;
 
 import com.vimeo.stag.UseStag;
+
+import io.webfolder.cdp.type.runtime.ExceptionDetails;
+import io.webfolder.cdp.type.runtime.StackTrace;
+import io.webfolder.cdp.type.runtime.StackTraceId;
 
 @UseStag
 public class SetScriptSourceResult {

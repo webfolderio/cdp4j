@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.type.network;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.vimeo.stag.UseStag;
@@ -36,7 +37,7 @@ public class Request {
 
     private String method;
 
-    private Map<String, Object> headers;
+    private Map<String, Object> headers = new HashMap<>();
 
     private String postData;
 

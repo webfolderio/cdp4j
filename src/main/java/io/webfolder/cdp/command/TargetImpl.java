@@ -28,163 +28,160 @@ import io.webfolder.cdp.type.target.TargetInfo;
 
 public class TargetImpl implements Target {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private static final TypeToken<List<String>> GET_BROWSER_CONTEXTS = new TypeToken<List<String>>() {
-    };
-    private static final TypeToken<List<TargetInfo>> GET_TARGETS = new TypeToken<List<TargetInfo>>() {
-    };
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
+	private static final TypeToken<List<String>> TT_LIST_STRING = new TypeToken<List<String>>() { };
+	private static final TypeToken<List<TargetInfo>> TT_LIST_TARGET_INFO = new TypeToken<List<TargetInfo>>() { };
 
-    public TargetImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public TargetImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void activateTarget(String targetId) {
-        handler.invoke("Target", "activateTarget", "Target.activateTarget", null, void.class, null, true, false, false,
-                new String[] { "targetId" }, new Object[] { targetId });
-    }
+	@Override
+	public void activateTarget(String targetId) {
+		handler.invoke("Target", "activateTarget", "Target.activateTarget", null, void.class, null, true, false, false,
+				new String[]{"targetId"}, new Object[]{targetId});
+	}
 
-    @Override
-    public String attachToBrowserTarget() {
-        return (String) handler.invoke("Target", "attachToBrowserTarget", "Target.attachToBrowserTarget", "sessionId",
-                String.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public String attachToTarget(String targetId, Boolean flatten) {
+		return (String) handler.invoke("Target", "attachToTarget", "Target.attachToTarget", "sessionId", String.class,
+				null, false, false, false, new String[]{"targetId", "flatten"}, new Object[]{targetId, flatten});
+	}
 
-    @Override
-    public String attachToTarget(String targetId) {
-        return (String) handler.invoke("Target", "attachToTarget", "Target.attachToTarget", "sessionId", String.class,
-                null, false, false, false, new String[] { "targetId" }, new Object[] { targetId });
-    }
+	@Override
+	public String attachToBrowserTarget() {
+		return (String) handler.invoke("Target", "attachToBrowserTarget", "Target.attachToBrowserTarget", "sessionId",
+				String.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public String attachToTarget(String targetId, Boolean flatten) {
-        return (String) handler.invoke("Target", "attachToTarget", "Target.attachToTarget", "sessionId", String.class,
-                null, false, false, false, new String[] { "targetId", "flatten" }, new Object[] { targetId, flatten });
-    }
+	@Override
+	public Boolean closeTarget(String targetId) {
+		return (Boolean) handler.invoke("Target", "closeTarget", "Target.closeTarget", "success", Boolean.class, null,
+				false, false, false, new String[]{"targetId"}, new Object[]{targetId});
+	}
 
-    @Override
-    public Boolean closeTarget(String targetId) {
-        return (Boolean) handler.invoke("Target", "closeTarget", "Target.closeTarget", "success", Boolean.class, null,
-                false, false, false, new String[] { "targetId" }, new Object[] { targetId });
-    }
+	@Override
+	public void exposeDevToolsProtocol(String targetId, String bindingName) {
+		handler.invoke("Target", "exposeDevToolsProtocol", "Target.exposeDevToolsProtocol", null, void.class, null,
+				true, false, false, new String[]{"targetId", "bindingName"}, new Object[]{targetId, bindingName});
+	}
 
-    @Override
-    public String createBrowserContext() {
-        return (String) handler.invoke("Target", "createBrowserContext", "Target.createBrowserContext",
-                "browserContextId", String.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public String createBrowserContext() {
+		return (String) handler.invoke("Target", "createBrowserContext", "Target.createBrowserContext",
+				"browserContextId", String.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public String createTarget(String url) {
-        return (String) handler.invoke("Target", "createTarget", "Target.createTarget", "targetId", String.class, null,
-                false, false, false, new String[] { "url" }, new Object[] { url });
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<String> getBrowserContexts() {
+		return (List<String>) handler.invoke("Target", "getBrowserContexts", "Target.getBrowserContexts",
+				"browserContextIds", List.class, TT_LIST_STRING.getType(), false, false, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    public String createTarget(String url, Integer width, Integer height, String browserContextId,
-            Boolean enableBeginFrameControl, Boolean newWindow, Boolean background) {
-        return (String) handler.invoke("Target", "createTarget", "Target.createTarget", "targetId", String.class, null,
-                false, false, false,
-                new String[] { "url", "width", "height", "browserContextId", "enableBeginFrameControl", "newWindow",
-                        "background" },
-                new Object[] { url, width, height, browserContextId, enableBeginFrameControl, newWindow, background });
-    }
+	@Override
+	public String createTarget(String url, Integer width, Integer height, String browserContextId,
+			Boolean enableBeginFrameControl, Boolean newWindow, Boolean background) {
+		return (String) handler.invoke("Target", "createTarget", "Target.createTarget", "targetId", String.class, null,
+				false, false, false,
+				new String[]{"url", "width", "height", "browserContextId", "enableBeginFrameControl", "newWindow",
+						"background"},
+				new Object[]{url, width, height, browserContextId, enableBeginFrameControl, newWindow, background});
+	}
 
-    @Override
-    public void detachFromTarget() {
-        handler.invoke("Target", "detachFromTarget", "Target.detachFromTarget", null, void.class, null, true, false,
-                false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void detachFromTarget(String sessionId, String targetId) {
+		handler.invoke("Target", "detachFromTarget", "Target.detachFromTarget", null, void.class, null, true, false,
+				false, new String[]{"sessionId", "targetId"}, new Object[]{sessionId, targetId});
+	}
 
-    @Override
-    public void detachFromTarget(String sessionId, String targetId) {
-        handler.invoke("Target", "detachFromTarget", "Target.detachFromTarget", null, void.class, null, true, false,
-                false, new String[] { "sessionId", "targetId" }, new Object[] { sessionId, targetId });
-    }
+	@Override
+	public void disposeBrowserContext(String browserContextId) {
+		handler.invoke("Target", "disposeBrowserContext", "Target.disposeBrowserContext", null, void.class, null, true,
+				false, false, new String[]{"browserContextId"}, new Object[]{browserContextId});
+	}
 
-    @Override
-    public void disposeBrowserContext(String browserContextId) {
-        handler.invoke("Target", "disposeBrowserContext", "Target.disposeBrowserContext", null, void.class, null, true,
-                false, false, new String[] { "browserContextId" }, new Object[] { browserContextId });
-    }
+	@Override
+	public TargetInfo getTargetInfo(String targetId) {
+		return (TargetInfo) handler.invoke("Target", "getTargetInfo", "Target.getTargetInfo", "targetInfo",
+				TargetInfo.class, null, false, false, false, new String[]{"targetId"}, new Object[]{targetId});
+	}
 
-    @Override
-    public void exposeDevToolsProtocol(String targetId) {
-        handler.invoke("Target", "exposeDevToolsProtocol", "Target.exposeDevToolsProtocol", null, void.class, null,
-                true, false, false, new String[] { "targetId" }, new Object[] { targetId });
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<TargetInfo> getTargets() {
+		return (List<TargetInfo>) handler.invoke("Target", "getTargets", "Target.getTargets", "targetInfos", List.class,
+				TT_LIST_TARGET_INFO.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void exposeDevToolsProtocol(String targetId, String bindingName) {
-        handler.invoke("Target", "exposeDevToolsProtocol", "Target.exposeDevToolsProtocol", null, void.class, null,
-                true, false, false, new String[] { "targetId", "bindingName" }, new Object[] { targetId, bindingName });
-    }
+	@Override
+	public void sendMessageToTarget(String message, String sessionId, String targetId) {
+		handler.invoke("Target", "sendMessageToTarget", "Target.sendMessageToTarget", null, void.class, null, true,
+				false, false, new String[]{"message", "sessionId", "targetId"},
+				new Object[]{message, sessionId, targetId});
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<String> getBrowserContexts() {
-        return (List<String>) handler.invoke("Target", "getBrowserContexts", "Target.getBrowserContexts",
-                "browserContextIds", List.class, GET_BROWSER_CONTEXTS.getType(), false, false, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void setAutoAttach(Boolean autoAttach, Boolean waitForDebuggerOnStart, Boolean flatten, Boolean windowOpen) {
+		handler.invoke("Target", "setAutoAttach", "Target.setAutoAttach", null, void.class, null, true, false, false,
+				new String[]{"autoAttach", "waitForDebuggerOnStart", "flatten", "windowOpen"},
+				new Object[]{autoAttach, waitForDebuggerOnStart, flatten, windowOpen});
+	}
 
-    @Override
-    public TargetInfo getTargetInfo() {
-        return (TargetInfo) handler.invoke("Target", "getTargetInfo", "Target.getTargetInfo", "targetInfo",
-                TargetInfo.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void setDiscoverTargets(Boolean discover) {
+		handler.invoke("Target", "setDiscoverTargets", "Target.setDiscoverTargets", null, void.class, null, true, false,
+				false, new String[]{"discover"}, new Object[]{discover});
+	}
 
-    @Override
-    public TargetInfo getTargetInfo(String targetId) {
-        return (TargetInfo) handler.invoke("Target", "getTargetInfo", "Target.getTargetInfo", "targetInfo",
-                TargetInfo.class, null, false, false, false, new String[] { "targetId" }, new Object[] { targetId });
-    }
+	@Override
+	public void setRemoteLocations(List<RemoteLocation> locations) {
+		handler.invoke("Target", "setRemoteLocations", "Target.setRemoteLocations", null, void.class, null, true, false,
+				false, new String[]{"locations"}, new Object[]{locations});
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<TargetInfo> getTargets() {
-        return (List<TargetInfo>) handler.invoke("Target", "getTargets", "Target.getTargets", "targetInfos", List.class,
-                GET_TARGETS.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public String attachToTarget(String targetId) {
+		return (String) handler.invoke("Target", "attachToTarget", "Target.attachToTarget", "sessionId", String.class,
+				null, false, false, false, new String[]{"targetId"}, new Object[]{targetId});
+	}
 
-    @Override
-    public void sendMessageToTarget(String message) {
-        handler.invoke("Target", "sendMessageToTarget", "Target.sendMessageToTarget", null, void.class, null, true,
-                false, false, new String[] { "message" }, new Object[] { message });
-    }
+	@Override
+	public void exposeDevToolsProtocol(String targetId) {
+		handler.invoke("Target", "exposeDevToolsProtocol", "Target.exposeDevToolsProtocol", null, void.class, null,
+				true, false, false, new String[]{"targetId"}, new Object[]{targetId});
+	}
 
-    @Override
-    public void sendMessageToTarget(String message, String sessionId, String targetId) {
-        handler.invoke("Target", "sendMessageToTarget", "Target.sendMessageToTarget", null, void.class, null, true,
-                false, false, new String[] { "message", "sessionId", "targetId" },
-                new Object[] { message, sessionId, targetId });
-    }
+	@Override
+	public String createTarget(String url) {
+		return (String) handler.invoke("Target", "createTarget", "Target.createTarget", "targetId", String.class, null,
+				false, false, false, new String[]{"url"}, new Object[]{url});
+	}
 
-    @Override
-    public void setAutoAttach(Boolean autoAttach, Boolean waitForDebuggerOnStart) {
-        handler.invoke("Target", "setAutoAttach", "Target.setAutoAttach", null, void.class, null, true, false, false,
-                new String[] { "autoAttach", "waitForDebuggerOnStart" },
-                new Object[] { autoAttach, waitForDebuggerOnStart });
-    }
+	@Override
+	public void detachFromTarget() {
+		handler.invoke("Target", "detachFromTarget", "Target.detachFromTarget", null, void.class, null, true, false,
+				false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void setAutoAttach(Boolean autoAttach, Boolean waitForDebuggerOnStart, Boolean flatten) {
-        handler.invoke("Target", "setAutoAttach", "Target.setAutoAttach", null, void.class, null, true, false, false,
-                new String[] { "autoAttach", "waitForDebuggerOnStart", "flatten" },
-                new Object[] { autoAttach, waitForDebuggerOnStart, flatten });
-    }
+	@Override
+	public TargetInfo getTargetInfo() {
+		return (TargetInfo) handler.invoke("Target", "getTargetInfo", "Target.getTargetInfo", "targetInfo",
+				TargetInfo.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void setDiscoverTargets(Boolean discover) {
-        handler.invoke("Target", "setDiscoverTargets", "Target.setDiscoverTargets", null, void.class, null, true, false,
-                false, new String[] { "discover" }, new Object[] { discover });
-    }
+	@Override
+	public void sendMessageToTarget(String message) {
+		handler.invoke("Target", "sendMessageToTarget", "Target.sendMessageToTarget", null, void.class, null, true,
+				false, false, new String[]{"message"}, new Object[]{message});
+	}
 
-    @Override
-    public void setRemoteLocations(List<RemoteLocation> locations) {
-        handler.invoke("Target", "setRemoteLocations", "Target.setRemoteLocations", null, void.class, null, true, false,
-                false, new String[] { "locations" }, new Object[] { locations });
-    }
+	@Override
+	public void setAutoAttach(Boolean autoAttach, Boolean waitForDebuggerOnStart) {
+		handler.invoke("Target", "setAutoAttach", "Target.setAutoAttach", null, void.class, null, true, false, false,
+				new String[]{"autoAttach", "waitForDebuggerOnStart"}, new Object[]{autoAttach, waitForDebuggerOnStart});
+	}
 }

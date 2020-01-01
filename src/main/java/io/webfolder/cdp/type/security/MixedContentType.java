@@ -22,10 +22,7 @@ import com.google.gson.annotations.SerializedName;
 import com.vimeo.stag.UseStag;
 
 /**
- * A description of mixed content (HTTP resources on HTTPS pages), as defined by
- * https://www
- * w3
- * org/TR/mixed-content/#categories
+ * A description of mixed content (HTTP resources on HTTPS pages).
  */
 @UseStag
 public enum MixedContentType {

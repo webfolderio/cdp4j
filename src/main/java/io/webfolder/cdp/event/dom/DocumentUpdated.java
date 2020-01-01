@@ -24,7 +24,7 @@ import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
- * Fired when <code>Document</code> has been totally updated
+ * Fired when `Document` has been totally updated
  * Node ids are no longer valid
  */
 @Domain("DOM")

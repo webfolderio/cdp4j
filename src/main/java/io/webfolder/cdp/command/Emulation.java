@@ -24,9 +24,11 @@ import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.constant.Platform;
 import io.webfolder.cdp.type.dom.RGBA;
+import io.webfolder.cdp.type.emulation.MediaFeature;
 import io.webfolder.cdp.type.emulation.ScreenOrientation;
 import io.webfolder.cdp.type.emulation.VirtualTimePolicy;
 import io.webfolder.cdp.type.page.Viewport;
+import java.util.List;
 
 /**
  * This domain emulates different environments for the page
@@ -121,11 +123,12 @@ public interface Emulation {
     void setEmitTouchEventsForMouse(Boolean enabled, @Optional Platform configuration);
 
     /**
-     * Emulates the given media for CSS media queries.
+     * Emulates the given media type or media feature for CSS media queries.
      * 
      * @param media Media type to emulate. Empty string disables the override.
+     * @param features Media features to emulate.
      */
-    void setEmulatedMedia(String media);
+    void setEmulatedMedia(@Optional String media, @Optional List<MediaFeature> features);
 
     /**
      * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
@@ -241,6 +244,11 @@ public interface Emulation {
 
     @Experimental
     void setEmitTouchEventsForMouse(Boolean enabled);
+
+    /**
+     * Emulates the given media type or media feature for CSS media queries.
+     */
+    void setEmulatedMedia();
 
     /**
      * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position

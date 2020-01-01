@@ -25,39 +25,39 @@ import io.webfolder.cdp.type.headlessexperimental.ScreenshotParams;
 
 public class HeadlessExperimentalImpl implements HeadlessExperimental {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public HeadlessExperimentalImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public HeadlessExperimentalImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public BeginFrameResult beginFrame() {
-        return (BeginFrameResult) handler.invoke("HeadlessExperimental", "beginFrame",
-                "HeadlessExperimental.beginFrame", null, BeginFrameResult.class, null, false, false, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public BeginFrameResult beginFrame(Double frameTimeTicks, Double interval, Boolean noDisplayUpdates,
+			ScreenshotParams screenshot) {
+		return (BeginFrameResult) handler.invoke("HeadlessExperimental", "beginFrame",
+				"HeadlessExperimental.beginFrame", null, BeginFrameResult.class, null, false, false, false,
+				new String[]{"frameTimeTicks", "interval", "noDisplayUpdates", "screenshot"},
+				new Object[]{frameTimeTicks, interval, noDisplayUpdates, screenshot});
+	}
 
-    @Override
-    public BeginFrameResult beginFrame(Double frameTimeTicks, Double interval, Boolean noDisplayUpdates,
-            ScreenshotParams screenshot) {
-        return (BeginFrameResult) handler.invoke("HeadlessExperimental", "beginFrame",
-                "HeadlessExperimental.beginFrame", null, BeginFrameResult.class, null, false, false, false,
-                new String[] { "frameTimeTicks", "interval", "noDisplayUpdates", "screenshot" },
-                new Object[] { frameTimeTicks, interval, noDisplayUpdates, screenshot });
-    }
+	@Override
+	public void disable() {
+		handler.invoke("HeadlessExperimental", "disable", "HeadlessExperimental.disable", null, void.class, null, true,
+				false, true, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("HeadlessExperimental", "disable", "HeadlessExperimental.disable", null, void.class, null, true,
-                false, true, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void enable() {
+		handler.invoke("HeadlessExperimental", "enable", "HeadlessExperimental.enable", null, void.class, null, true,
+				true, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("HeadlessExperimental", "enable", "HeadlessExperimental.enable", null, void.class, null, true,
-                true, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public BeginFrameResult beginFrame() {
+		return (BeginFrameResult) handler.invoke("HeadlessExperimental", "beginFrame",
+				"HeadlessExperimental.beginFrame", null, BeginFrameResult.class, null, false, false, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 }

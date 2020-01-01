@@ -30,6 +30,8 @@ public class GetAppManifestResult {
 
     private String data;
 
+    private AppManifestParsedProperties parsed;
+
     public String getUrl() {
         return url;
     }
@@ -42,6 +44,10 @@ public class GetAppManifestResult {
         return data;
     }
 
+    public AppManifestParsedProperties getParsed() {
+        return parsed;
+    }
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -52,5 +58,9 @@ public class GetAppManifestResult {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public void setParsed(AppManifestParsedProperties parsed) {
+        this.parsed = parsed;
     }
 }

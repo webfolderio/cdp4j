@@ -32,6 +32,10 @@ public class PrivatePropertyDescriptor {
 
     private RemoteObject value;
 
+    private RemoteObject get;
+
+    private RemoteObject set;
+
     /**
      * Private property name.
      */
@@ -58,5 +62,37 @@ public class PrivatePropertyDescriptor {
      */
     public void setValue(RemoteObject value) {
         this.value = value;
+    }
+
+    /**
+     * A function which serves as a getter for the private property,
+     * or `undefined` if there is no getter (accessor descriptors only).
+     */
+    public RemoteObject getGet() {
+        return get;
+    }
+
+    /**
+     * A function which serves as a getter for the private property,
+     * or `undefined` if there is no getter (accessor descriptors only).
+     */
+    public void setGet(RemoteObject get) {
+        this.get = get;
+    }
+
+    /**
+     * A function which serves as a setter for the private property,
+     * or `undefined` if there is no setter (accessor descriptors only).
+     */
+    public RemoteObject getSet() {
+        return set;
+    }
+
+    /**
+     * A function which serves as a setter for the private property,
+     * or `undefined` if there is no setter (accessor descriptors only).
+     */
+    public void setSet(RemoteObject set) {
+        this.set = set;
     }
 }

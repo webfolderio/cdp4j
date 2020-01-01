@@ -9,13 +9,13 @@
         </layout>
     </appender>
 
-    <logger name="cdp4j.session"     level="INFO" />
-    <logger name="cdp4j.flow"        level="INFO" />
-    <logger name="cdp4j.factory"     level="INFO" />
-    <logger name="cdp4j.ws.request"  level="ERROR" />
-    <logger name="cdp4j.ws.response" level="ERROR" />
+    <logger name="cdp4j.session"     level="DEBUG" />
+    <logger name="cdp4j.flow"        level="DEBUG" />
+    <logger name="cdp4j.factory"     level="DEBUG" />
+    <logger name="cdp4j.ws.request"  level="DEBUG" />
+    <logger name="cdp4j.ws.response" level="DEBUG" />
 
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="STDOUT" />
     </root>
 

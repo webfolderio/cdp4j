@@ -135,16 +135,14 @@ public class Paused {
     }
 
     /**
-     * Just scheduled async call will have this stack trace as parent stack during async execution.
-     * This field is available only after <code>Debugger.stepInto</code> call with <code>breakOnAsynCall</code> flag.
+     * Never present, will be removed.
      */
     public StackTraceId getAsyncCallStackTraceId() {
         return asyncCallStackTraceId;
     }
 
     /**
-     * Just scheduled async call will have this stack trace as parent stack during async execution.
-     * This field is available only after <code>Debugger.stepInto</code> call with <code>breakOnAsynCall</code> flag.
+     * Never present, will be removed.
      */
     public void setAsyncCallStackTraceId(StackTraceId asyncCallStackTraceId) {
         this.asyncCallStackTraceId = asyncCallStackTraceId;

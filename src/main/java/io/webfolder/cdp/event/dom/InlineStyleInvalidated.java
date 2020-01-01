@@ -27,7 +27,7 @@ import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
- * Fired when <code>Element</code>'s inline style is modified via a CSS property modification
+ * Fired when `Element`'s inline style is modified via a CSS property modification
  */
 @Experimental
 @Domain("DOM")

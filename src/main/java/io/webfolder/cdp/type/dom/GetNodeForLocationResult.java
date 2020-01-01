@@ -24,10 +24,16 @@ import com.vimeo.stag.UseStag;
 public class GetNodeForLocationResult {
     private Integer backendNodeId;
 
+    private String frameId;
+
     private Integer nodeId;
 
     public Integer getBackendNodeId() {
         return backendNodeId;
+    }
+
+    public String getFrameId() {
+        return frameId;
     }
 
     public Integer getNodeId() {
@@ -36,6 +42,10 @@ public class GetNodeForLocationResult {
 
     public void setBackendNodeId(Integer backendNodeId) {
         this.backendNodeId = backendNodeId;
+    }
+
+    public void setFrameId(String frameId) {
+        this.frameId = frameId;
     }
 
     public void setNodeId(Integer nodeId) {

@@ -26,6 +26,8 @@ import io.webfolder.cdp.type.browser.Bounds;
 import io.webfolder.cdp.type.browser.GetVersionResult;
 import io.webfolder.cdp.type.browser.GetWindowForTargetResult;
 import io.webfolder.cdp.type.browser.Histogram;
+import io.webfolder.cdp.type.browser.PermissionDescriptor;
+import io.webfolder.cdp.type.browser.PermissionSetting;
 import io.webfolder.cdp.type.browser.PermissionType;
 import java.util.List;
 
@@ -34,6 +36,18 @@ import java.util.List;
  */
 @Domain("Browser")
 public interface Browser {
+    /**
+     * Set permission settings for given origin.
+     * 
+     * @param origin Origin the permission applies to.
+     * @param permission Descriptor of permission to override.
+     * @param setting Setting of the permission.
+     * @param browserContextId Context to override. When omitted, default browser context is used.
+     */
+    @Experimental
+    void setPermission(String origin, PermissionDescriptor permission, PermissionSetting setting,
+            @Optional String browserContextId);
+
     /**
      * Grant specific permissions to the given origin and reject all others.
      * 
@@ -150,6 +164,16 @@ public interface Browser {
      */
     @Experimental
     void setDockTile(@Optional String badgeLabel, @Optional String image);
+
+    /**
+     * Set permission settings for given origin.
+     * 
+     * @param origin Origin the permission applies to.
+     * @param permission Descriptor of permission to override.
+     * @param setting Setting of the permission.
+     */
+    @Experimental
+    void setPermission(String origin, PermissionDescriptor permission, PermissionSetting setting);
 
     /**
      * Grant specific permissions to the given origin and reject all others.

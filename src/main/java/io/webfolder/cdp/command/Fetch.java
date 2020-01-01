@@ -66,11 +66,16 @@ public interface Fetch {
      * @param requestId An id the client received in requestPaused event.
      * @param responseCode An HTTP response code.
      * @param responseHeaders Response headers.
+     * @param binaryResponseHeaders Alternative way of specifying response headers as a \0-separated
+     * series of name: value pairs. Prefer the above method unless you
+     * need to represent some non-UTF8 values that can't be transmitted
+     * over the protocol as text.
      * @param body A response body.
      * @param responsePhrase A textual representation of responseCode.
-     * If absent, a standard phrase mathcing responseCode is used.
+     * If absent, a standard phrase matching responseCode is used.
      */
-    void fulfillRequest(String requestId, Integer responseCode, List<HeaderEntry> responseHeaders,
+    void fulfillRequest(String requestId, Integer responseCode,
+            @Optional List<HeaderEntry> responseHeaders, @Optional String binaryResponseHeaders,
             @Optional String body, @Optional String responsePhrase);
 
     /**
@@ -134,9 +139,8 @@ public interface Fetch {
      * 
      * @param requestId An id the client received in requestPaused event.
      * @param responseCode An HTTP response code.
-     * @param responseHeaders Response headers.
      */
-    void fulfillRequest(String requestId, Integer responseCode, List<HeaderEntry> responseHeaders);
+    void fulfillRequest(String requestId, Integer responseCode);
 
     /**
      * Continues the request, optionally modifying some of its parameters.

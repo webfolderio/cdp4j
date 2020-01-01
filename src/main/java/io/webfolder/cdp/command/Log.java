@@ -39,7 +39,7 @@ public interface Log {
 
     /**
      * Enables log domain, sends the entries collected so far to the client by means of the
-     * <code>entryAdded</code> notification.
+     * `entryAdded` notification.
      */
     void enable();
 

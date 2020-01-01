@@ -23,86 +23,93 @@ import io.webfolder.cdp.command.ServiceWorker;
 
 public class ServiceWorkerImpl implements ServiceWorker {
 
-    private static final String[] EMPTY_ARGS = new String[] {};
-    private static final Object[] EMPTY_VALUES = new Object[] {};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public ServiceWorkerImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public ServiceWorkerImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void deliverPushMessage(String origin, String registrationId, String data) {
-        handler.invoke("ServiceWorker", "deliverPushMessage", "ServiceWorker.deliverPushMessage", null, void.class,
-                null, true, false, false, new String[] { "origin", "registrationId", "data" },
-                new Object[] { origin, registrationId, data });
-    }
+	@Override
+	public void deliverPushMessage(String origin, String registrationId, String data) {
+		handler.invoke("ServiceWorker", "deliverPushMessage", "ServiceWorker.deliverPushMessage", null, void.class,
+				null, true, false, false, new String[]{"origin", "registrationId", "data"},
+				new Object[]{origin, registrationId, data});
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("ServiceWorker", "disable", "ServiceWorker.disable", null, void.class, null, true, false, true,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void disable() {
+		handler.invoke("ServiceWorker", "disable", "ServiceWorker.disable", null, void.class, null, true, false, true,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void dispatchSyncEvent(String origin, String registrationId, String tag, Boolean lastChance) {
-        handler.invoke("ServiceWorker", "dispatchSyncEvent", "ServiceWorker.dispatchSyncEvent", null, void.class, null,
-                true, false, false, new String[] { "origin", "registrationId", "tag", "lastChance" },
-                new Object[] { origin, registrationId, tag, lastChance });
-    }
+	@Override
+	public void dispatchSyncEvent(String origin, String registrationId, String tag, Boolean lastChance) {
+		handler.invoke("ServiceWorker", "dispatchSyncEvent", "ServiceWorker.dispatchSyncEvent", null, void.class, null,
+				true, false, false, new String[]{"origin", "registrationId", "tag", "lastChance"},
+				new Object[]{origin, registrationId, tag, lastChance});
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("ServiceWorker", "enable", "ServiceWorker.enable", null, void.class, null, true, true, false,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void dispatchPeriodicSyncEvent(String origin, String registrationId, String tag) {
+		handler.invoke("ServiceWorker", "dispatchPeriodicSyncEvent", "ServiceWorker.dispatchPeriodicSyncEvent", null,
+				void.class, null, true, false, false, new String[]{"origin", "registrationId", "tag"},
+				new Object[]{origin, registrationId, tag});
+	}
 
-    @Override
-    public void inspectWorker(String versionId) {
-        handler.invoke("ServiceWorker", "inspectWorker", "ServiceWorker.inspectWorker", null, void.class, null, true,
-                false, false, new String[] { "versionId" }, new Object[] { versionId });
-    }
+	@Override
+	public void enable() {
+		handler.invoke("ServiceWorker", "enable", "ServiceWorker.enable", null, void.class, null, true, true, false,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void setForceUpdateOnPageLoad(Boolean forceUpdateOnPageLoad) {
-        handler.invoke("ServiceWorker", "setForceUpdateOnPageLoad", "ServiceWorker.setForceUpdateOnPageLoad", null,
-                void.class, null, true, false, false, new String[] { "forceUpdateOnPageLoad" },
-                new Object[] { forceUpdateOnPageLoad });
-    }
+	@Override
+	public void inspectWorker(String versionId) {
+		handler.invoke("ServiceWorker", "inspectWorker", "ServiceWorker.inspectWorker", null, void.class, null, true,
+				false, false, new String[]{"versionId"}, new Object[]{versionId});
+	}
 
-    @Override
-    public void skipWaiting(String scopeURL) {
-        handler.invoke("ServiceWorker", "skipWaiting", "ServiceWorker.skipWaiting", null, void.class, null, true, false,
-                false, new String[] { "scopeURL" }, new Object[] { scopeURL });
-    }
+	@Override
+	public void setForceUpdateOnPageLoad(Boolean forceUpdateOnPageLoad) {
+		handler.invoke("ServiceWorker", "setForceUpdateOnPageLoad", "ServiceWorker.setForceUpdateOnPageLoad", null,
+				void.class, null, true, false, false, new String[]{"forceUpdateOnPageLoad"},
+				new Object[]{forceUpdateOnPageLoad});
+	}
 
-    @Override
-    public void startWorker(String scopeURL) {
-        handler.invoke("ServiceWorker", "startWorker", "ServiceWorker.startWorker", null, void.class, null, true, false,
-                false, new String[] { "scopeURL" }, new Object[] { scopeURL });
-    }
+	@Override
+	public void skipWaiting(String scopeURL) {
+		handler.invoke("ServiceWorker", "skipWaiting", "ServiceWorker.skipWaiting", null, void.class, null, true, false,
+				false, new String[]{"scopeURL"}, new Object[]{scopeURL});
+	}
 
-    @Override
-    public void stopAllWorkers() {
-        handler.invoke("ServiceWorker", "stopAllWorkers", "ServiceWorker.stopAllWorkers", null, void.class, null, true,
-                false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void startWorker(String scopeURL) {
+		handler.invoke("ServiceWorker", "startWorker", "ServiceWorker.startWorker", null, void.class, null, true, false,
+				false, new String[]{"scopeURL"}, new Object[]{scopeURL});
+	}
 
-    @Override
-    public void stopWorker(String versionId) {
-        handler.invoke("ServiceWorker", "stopWorker", "ServiceWorker.stopWorker", null, void.class, null, true, false,
-                false, new String[] { "versionId" }, new Object[] { versionId });
-    }
+	@Override
+	public void stopAllWorkers() {
+		handler.invoke("ServiceWorker", "stopAllWorkers", "ServiceWorker.stopAllWorkers", null, void.class, null, true,
+				false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void unregister(String scopeURL) {
-        handler.invoke("ServiceWorker", "unregister", "ServiceWorker.unregister", null, void.class, null, true, false,
-                false, new String[] { "scopeURL" }, new Object[] { scopeURL });
-    }
+	@Override
+	public void stopWorker(String versionId) {
+		handler.invoke("ServiceWorker", "stopWorker", "ServiceWorker.stopWorker", null, void.class, null, true, false,
+				false, new String[]{"versionId"}, new Object[]{versionId});
+	}
 
-    @Override
-    public void updateRegistration(String scopeURL) {
-        handler.invoke("ServiceWorker", "updateRegistration", "ServiceWorker.updateRegistration", null, void.class,
-                null, true, false, false, new String[] { "scopeURL" }, new Object[] { scopeURL });
-    }
+	@Override
+	public void unregister(String scopeURL) {
+		handler.invoke("ServiceWorker", "unregister", "ServiceWorker.unregister", null, void.class, null, true, false,
+				false, new String[]{"scopeURL"}, new Object[]{scopeURL});
+	}
+
+	@Override
+	public void updateRegistration(String scopeURL) {
+		handler.invoke("ServiceWorker", "updateRegistration", "ServiceWorker.updateRegistration", null, void.class,
+				null, true, false, false, new String[]{"scopeURL"}, new Object[]{scopeURL});
+	}
 }

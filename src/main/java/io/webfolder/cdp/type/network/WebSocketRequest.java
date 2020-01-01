@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.type.network;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.vimeo.stag.UseStag;
@@ -27,7 +28,7 @@ import com.vimeo.stag.UseStag;
  */
 @UseStag
 public class WebSocketRequest {
-    private Map<String, Object> headers;
+    private Map<String, Object> headers = new HashMap<>();
 
     /**
      * HTTP request headers.

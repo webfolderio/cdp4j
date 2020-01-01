@@ -202,7 +202,7 @@ public class ScriptFailedToParse {
     /**
      * True, if this script has sourceURL.
      */
-    public Boolean getHasSourceURL() {
+    public Boolean isHasSourceURL() {
         return hasSourceURL;
     }
 

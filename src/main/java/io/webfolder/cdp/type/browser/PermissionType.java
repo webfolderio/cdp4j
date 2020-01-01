@@ -35,11 +35,11 @@ public enum PermissionType {
     @SerializedName("backgroundFetch")
     BackgroundFetch("backgroundFetch"),
 
-    @SerializedName("clipboardRead")
-    ClipboardRead("clipboardRead"),
+    @SerializedName("clipboardReadWrite")
+    ClipboardReadWrite("clipboardReadWrite"),
 
-    @SerializedName("clipboardWrite")
-    ClipboardWrite("clipboardWrite"),
+    @SerializedName("clipboardSanitizedWrite")
+    ClipboardSanitizedWrite("clipboardSanitizedWrite"),
 
     @SerializedName("durableStorage")
     DurableStorage("durableStorage"),
@@ -55,6 +55,9 @@ public enum PermissionType {
 
     @SerializedName("midiSysex")
     MidiSysex("midiSysex"),
+
+    @SerializedName("nfc")
+    Nfc("nfc"),
 
     @SerializedName("notifications")
     Notifications("notifications"),
