@@ -1,7 +1,7 @@
 /**
  * cdp4j Commercial License
  *
- * Copyright 2017, 2019 WebFolder OÜ
+ * Copyright 2017, 2020 WebFolder OÜ
  *
  * Permission  is hereby  granted,  to "____" obtaining  a  copy of  this software  and
  * associated  documentation files  (the "Software"), to deal in  the Software  without
@@ -48,7 +48,7 @@ public class UvLoop {
 
     private AtomicBoolean running = new AtomicBoolean(false);
 
-    private ArrayBlockingQueue<String> writeQueue = new ArrayBlockingQueue<String>(1024 * 4 , true);
+    private ArrayBlockingQueue<String> writeQueue = new ArrayBlockingQueue<>(1024 * 4 , true);
 
     public boolean init() {
         if ( running.get() == false ) {

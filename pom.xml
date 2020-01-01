@@ -18,7 +18,7 @@
     <url>https://github.com/webfolderio/cdp4j.git</url>
   </scm>
   <description>cdp4j - Chrome DevTools Protocol for Java</description>
-  <inceptionYear>2017, 2019</inceptionYear>
+  <inceptionYear>2017, 2020</inceptionYear>
   <url>https://webfolder.io</url>
   <organization>
     <name>WebFolder OÜ</name>

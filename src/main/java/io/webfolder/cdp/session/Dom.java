@@ -1,7 +1,7 @@
 /**
  * cdp4j Commercial License
  *
- * Copyright 2017, 2019 WebFolder OÜ
+ * Copyright 2017, 2020 WebFolder OÜ
  *
  * Permission  is hereby  granted,  to "____" obtaining  a  copy of  this software  and
  * associated  documentation files  (the "Software"), to deal in  the Software  without
@@ -1004,7 +1004,7 @@ public interface Dom {
             DOMNode node = nodes.get(i);
             List<Integer> childNodeIndexes = node.getChildNodeIndexes();
             int childLength = childNodeIndexes == null ? 0 : childNodeIndexes.size();
-            if ( parentIndex > 0) {
+            if (parentIndex > 0) {
                 DOMNode parent = nodes.get(parentIndex);
                 if ( parent != null ) {
                     TreeNode parentNode = tree.find(parent);

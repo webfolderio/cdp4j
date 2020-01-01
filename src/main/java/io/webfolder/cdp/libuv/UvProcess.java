@@ -1,7 +1,7 @@
 /**
  * cdp4j Commercial License
  *
- * Copyright 2017, 2019 WebFolder OÜ
+ * Copyright 2017, 2020 WebFolder OÜ
  *
  * Permission  is hereby  granted,  to "____" obtaining  a  copy of  this software  and
  * associated  documentation files  (the "Software"), to deal in  the Software  without
@@ -170,10 +170,13 @@ public class UvProcess {
     }
 
     public boolean kill() {
-        debug("-> uv_process_kill()");
-        int ret = uv_process_kill(process, SIGKILL());
-        debug("<- uv_process_kill(): " + ret);
-        return ret == CDP4J_UV_SUCCESS();
+        if (process.isNonNull()) {
+            debug("-> uv_process_kill()");
+            int ret = uv_process_kill(process, SIGKILL());
+            debug("<- uv_process_kill(): " + ret);
+            return ret == CDP4J_UV_SUCCESS();
+        }
+        return false;
     }
 
     public void writeAsync(String payload) {
