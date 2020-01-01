@@ -29,7 +29,7 @@ import com.vimeo.stag.UseStag;
 public class LayoutTreeSnapshot {
     private List<Integer> nodeIndex;
 
-    private List<Double> bounds;
+    private List<List<Double>> bounds;
 
     private List<Integer> text;
 
@@ -60,14 +60,14 @@ public class LayoutTreeSnapshot {
     /**
      * The absolute position bounding box.
      */
-    public List<Double> getBounds() {
+    public List<List<Double>> getBounds() {
         return bounds;
     }
 
     /**
      * The absolute position bounding box.
      */
-    public void setBounds(List<Double> bounds) {
+    public void setBounds(List<List<Double>> bounds) {
         this.bounds = bounds;
     }
 
