@@ -92,6 +92,8 @@
             <exclude>COPYING.md</exclude>
             <exclude>LICENSE</exclude>
             <exclude>pom.xml</exclude>
+            <exclude>src/main/native/CMakeLists.txt</exclude>
+            <exclude>.github/workflows/maven.yml</exclude>
             <exclude>src/test/resources/**</exclude>
             <exclude>src/main/resources/**</exclude>
             <exclude>src/main/java/io/webfolder/cdp/logger/FormattingTuple.java</exclude>
