@@ -46,17 +46,13 @@ public class StorageId {
     /**
      * Whether the storage is local storage (not session storage).
      */
-    public Boolean isIsLocalStorage() {
-        return isLocalStorage;
+    public void setIsLocalStorage(Boolean isLocalStorage) {
+        this.isLocalStorage = isLocalStorage;
     }
 
     /**
      * Whether the storage is local storage (not session storage).
      */
-    public void setIsLocalStorage(Boolean isLocalStorage) {
-        this.isLocalStorage = isLocalStorage;
-    }
-
     public Boolean getIsLocalStorage() {
         return isLocalStorage;
     }

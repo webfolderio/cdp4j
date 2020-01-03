@@ -134,17 +134,13 @@ public class LayoutTreeNode {
     /**
      * Set to true to indicate the element begins a new stacking context.
      */
-    public Boolean isIsStackingContext() {
-        return isStackingContext;
+    public void setIsStackingContext(Boolean isStackingContext) {
+        this.isStackingContext = isStackingContext;
     }
 
     /**
      * Set to true to indicate the element begins a new stacking context.
      */
-    public void setIsStackingContext(Boolean isStackingContext) {
-        this.isStackingContext = isStackingContext;
-    }
-
     public Boolean getIsStackingContext() {
         return isStackingContext;
     }

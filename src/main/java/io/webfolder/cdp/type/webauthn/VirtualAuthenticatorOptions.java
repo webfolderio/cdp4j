@@ -98,14 +98,6 @@ public class VirtualAuthenticatorOptions {
      * Sets whether User Verification succeeds or fails for an authenticator.
      * Defaults to false.
      */
-    public Boolean isIsUserVerified() {
-        return isUserVerified;
-    }
-
-    /**
-     * Sets whether User Verification succeeds or fails for an authenticator.
-     * Defaults to false.
-     */
     public void setIsUserVerified(Boolean isUserVerified) {
         this.isUserVerified = isUserVerified;
     }

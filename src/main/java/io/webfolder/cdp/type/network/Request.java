@@ -180,13 +180,6 @@ public class Request {
     /**
      * Whether is loaded via link preload.
      */
-    public Boolean isIsLinkPreload() {
-        return isLinkPreload;
-    }
-
-    /**
-     * Whether is loaded via link preload.
-     */
     public void setIsLinkPreload(Boolean isLinkPreload) {
         this.isLinkPreload = isLinkPreload;
     }
@@ -195,6 +188,9 @@ public class Request {
         return hasPostData;
     }
 
+    /**
+     * Whether is loaded via link preload.
+     */
     public Boolean getIsLinkPreload() {
         return isLinkPreload;
     }

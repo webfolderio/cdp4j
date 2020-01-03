@@ -64,17 +64,13 @@ public class FunctionCoverage {
     /**
      * Whether coverage data for this function has block granularity.
      */
-    public Boolean isIsBlockCoverage() {
-        return isBlockCoverage;
+    public void setIsBlockCoverage(Boolean isBlockCoverage) {
+        this.isBlockCoverage = isBlockCoverage;
     }
 
     /**
      * Whether coverage data for this function has block granularity.
      */
-    public void setIsBlockCoverage(Boolean isBlockCoverage) {
-        this.isBlockCoverage = isBlockCoverage;
-    }
-
     public Boolean getIsBlockCoverage() {
         return isBlockCoverage;
     }

@@ -42,10 +42,6 @@ public class Credential {
         this.credentialId = credentialId;
     }
 
-    public Boolean isIsResidentCredential() {
-        return isResidentCredential;
-    }
-
     public void setIsResidentCredential(Boolean isResidentCredential) {
         this.isResidentCredential = isResidentCredential;
     }

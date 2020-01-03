@@ -168,13 +168,6 @@ public class PropertyDescriptor {
     /**
      * True if the property is owned for the object.
      */
-    public Boolean isIsOwn() {
-        return isOwn;
-    }
-
-    /**
-     * True if the property is owned for the object.
-     */
     public void setIsOwn(Boolean isOwn) {
         this.isOwn = isOwn;
     }
@@ -209,6 +202,9 @@ public class PropertyDescriptor {
         return wasThrown;
     }
 
+    /**
+     * True if the property is owned for the object.
+     */
     public Boolean getIsOwn() {
         return isOwn;
     }

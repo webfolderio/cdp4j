@@ -469,17 +469,13 @@ public class Node {
     /**
      * Whether the node is SVG.
      */
-    public Boolean isIsSVG() {
-        return isSVG;
+    public void setIsSVG(Boolean isSVG) {
+        this.isSVG = isSVG;
     }
 
     /**
      * Whether the node is SVG.
      */
-    public void setIsSVG(Boolean isSVG) {
-        this.isSVG = isSVG;
-    }
-
     public Boolean getIsSVG() {
         return isSVG;
     }

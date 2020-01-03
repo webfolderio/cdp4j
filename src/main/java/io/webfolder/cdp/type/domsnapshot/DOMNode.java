@@ -408,15 +408,6 @@ public class DOMNode {
      * event listeners attached via JavaScript as well as anchor tags that naturally navigate when
      * clicked.
      */
-    public Boolean isIsClickable() {
-        return isClickable;
-    }
-
-    /**
-     * Whether this DOM node responds to mouse clicks. This includes nodes that have had click
-     * event listeners attached via JavaScript as well as anchor tags that naturally navigate when
-     * clicked.
-     */
     public void setIsClickable(Boolean isClickable) {
         this.isClickable = isClickable;
     }
@@ -493,6 +484,11 @@ public class DOMNode {
         return optionSelected;
     }
 
+    /**
+     * Whether this DOM node responds to mouse clicks. This includes nodes that have had click
+     * event listeners attached via JavaScript as well as anchor tags that naturally navigate when
+     * clicked.
+     */
     public Boolean getIsClickable() {
         return isClickable;
     }

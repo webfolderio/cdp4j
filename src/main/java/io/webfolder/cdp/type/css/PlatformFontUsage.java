@@ -48,13 +48,6 @@ public class PlatformFontUsage {
     /**
      * Indicates if the font was downloaded or resolved locally.
      */
-    public Boolean isIsCustomFont() {
-        return isCustomFont;
-    }
-
-    /**
-     * Indicates if the font was downloaded or resolved locally.
-     */
     public void setIsCustomFont(Boolean isCustomFont) {
         this.isCustomFont = isCustomFont;
     }
@@ -73,6 +66,9 @@ public class PlatformFontUsage {
         this.glyphCount = glyphCount;
     }
 
+    /**
+     * Indicates if the font was downloaded or resolved locally.
+     */
     public Boolean getIsCustomFont() {
         return isCustomFont;
     }

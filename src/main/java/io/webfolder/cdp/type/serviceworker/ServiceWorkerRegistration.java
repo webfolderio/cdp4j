@@ -47,10 +47,6 @@ public class ServiceWorkerRegistration {
         this.scopeURL = scopeURL;
     }
 
-    public Boolean isIsDeleted() {
-        return isDeleted;
-    }
-
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
