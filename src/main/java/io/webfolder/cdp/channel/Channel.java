@@ -20,7 +20,7 @@ package io.webfolder.cdp.channel;
 
 public interface Channel {
 
-    public static final int CLOSE_STATUS_CODE = 1000;
+    public static final short CLOSE_STATUS_CODE = 1000;
 
     public static final String CLOSE_REASON_TEXT = "done";
 

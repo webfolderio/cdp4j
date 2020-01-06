@@ -43,15 +43,6 @@ class VertxWebSocketChannel implements Channel {
 
     private WebSocket webSocket;
 
-    /**
-     * 1000;
-     * <i>
-     * 1000 indicates a normal closure, meaning that the purpose for
-     * which the connection was established has been fulfilled.
-     * </i>
-     */
-    private static final short NORMAL = 1000;
-
     public VertxWebSocketChannel(SessionFactory          factory,
                                  HttpClient              httpClient,
                                  MessageHandler          handler,
@@ -69,7 +60,9 @@ class VertxWebSocketChannel implements Channel {
 
     @Override
     public void disconnect() {
-        webSocket.close(NORMAL, event -> factory.close());
+        webSocket.close(CLOSE_STATUS_CODE,
+                        CLOSE_REASON_TEXT,
+                        event -> factory.close());
     }
 
     @Override
@@ -83,6 +76,7 @@ class VertxWebSocketChannel implements Channel {
         httpClient.webSocket(options, (Handler<AsyncResult<WebSocket>>) event -> {
             if (event.succeeded()) {
                 webSocket = event.result();
+                webSocket.exceptionHandler(onError -> semaphore.release());
                 webSocket.textMessageHandler(content -> handler.process(content));
                 webSocket.closeHandler(onCloseEvent -> factory.close());
             }
