@@ -69,12 +69,12 @@ class VertxWebSocketChannel implements Channel {
 
     @Override
     public void disconnect() {
-        webSocket.close(NORMAL, event -> { });
+        webSocket.close(NORMAL, event -> factory.close());
     }
 
     @Override
     public void sendText(String message) {
-        webSocket.writeTextMessage(message, event -> { });
+        webSocket.writeTextMessage(message, null);
     }
 
     @Override
@@ -83,9 +83,7 @@ class VertxWebSocketChannel implements Channel {
         httpClient.webSocket(options, (Handler<AsyncResult<WebSocket>>) event -> {
             if (event.succeeded()) {
                 webSocket = event.result();
-                webSocket.textMessageHandler(content -> {
-                    handler.process(content);
-                });
+                webSocket.textMessageHandler(content -> handler.process(content));
                 webSocket.closeHandler(onCloseEvent -> factory.close());
             }
             semaphore.release();
