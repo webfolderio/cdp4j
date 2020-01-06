@@ -33,5 +33,5 @@ public class WebSocketConnection implements Connection {
     @Override
     public String toString() {
         return "WebSocketConnection [url=" + url + "]";
-    }    
+    }
 }
