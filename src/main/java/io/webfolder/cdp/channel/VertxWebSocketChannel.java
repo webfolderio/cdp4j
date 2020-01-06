@@ -20,7 +20,7 @@ package io.webfolder.cdp.channel;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -79,7 +79,7 @@ class VertxWebSocketChannel implements Channel {
 
     @Override
     public void connect() {
-        CountDownLatch latch = new CountDownLatch(1);
+        Semaphore semaphore = new Semaphore(0);
         httpClient.webSocket(options, (Handler<AsyncResult<WebSocket>>) event -> {
             if (event.succeeded()) {
                 webSocket = event.result();
@@ -88,10 +88,10 @@ class VertxWebSocketChannel implements Channel {
                 });
                 webSocket.closeHandler(onCloseEvent -> factory.close());
             }
-            latch.countDown();
+            semaphore.release();
         });
         try {
-            latch.await(1, MINUTES);
+            semaphore.tryAcquire(1, MINUTES);
         } catch (InterruptedException e) {
             throw new CdpException(e);
         }
