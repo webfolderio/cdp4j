@@ -46,8 +46,12 @@ int cdp4j_write_pipe(uv_loop_t*     loop,
 
 int cdp4j_start_read(uv_pipe_t* out_pipe);
 
+void cdp4j_async_close_loop(uv_loop_t* loop);
+
+int cdp4j_write_async(uv_loop_t* loop, void* thread);
+
 void cdp4j_on_read_callback_java(void* thread, char* data, int let);
 
 void cdp4j_on_process_exit_java(void* thread);
 
-void cdp4j_close_loop(uv_loop_t* loop);
+int cdp4j_on_async_write_callback_java(void* thread);

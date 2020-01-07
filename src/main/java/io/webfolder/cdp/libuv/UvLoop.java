@@ -19,12 +19,12 @@
 package io.webfolder.cdp.libuv;
 
 import static io.webfolder.cdp.libuv.Libuv.CDP4J_UV_SUCCESS;
-import static io.webfolder.cdp.libuv.Libuv.UV_RUN_NOWAIT;
-import static io.webfolder.cdp.libuv.Libuv.cdp4j_close_loop;
+import static io.webfolder.cdp.libuv.Libuv.UV_RUN_DEFAULT;
+import static io.webfolder.cdp.libuv.Libuv.cdp4j_async_close_loop;
+import static io.webfolder.cdp.libuv.Libuv.cdp4j_write_async;
 import static io.webfolder.cdp.libuv.Libuv.uv_loop_init;
 import static io.webfolder.cdp.libuv.Libuv.uv_run;
 import static io.webfolder.cdp.libuv.UvLogger.debug;
-import static java.lang.Thread.onSpinWait;
 import static org.graalvm.nativeimage.UnmanagedMemory.free;
 import static org.graalvm.nativeimage.UnmanagedMemory.malloc;
 import static org.graalvm.nativeimage.c.struct.SizeOf.get;
@@ -82,9 +82,9 @@ public class UvLoop {
         if ( process != null ) {
             throw new IllegalStateException();
         }
-        debug("-> UvProcess.createProcess()");
+        debug("-> UvLoop.createProcess()");
         process = new UvProcess(this);
-        debug("<- UvProcess.createProcess()");
+        debug("<- UvLoop.createProcess()");
         return process;
     }
 
@@ -108,9 +108,13 @@ public class UvLoop {
     }
 
     public void close() {
-        if (running.get() && loop.isNonNull()) {
-            running.compareAndSet(true, false);
-        }
+    	debug("-> UvLoop.close()");
+    	if (running.compareAndSet(true, false) && loop.isNonNull()) {
+            cdp4j_async_close_loop(loop);
+            process.dispose();
+            free(loop);
+    	}
+    	debug("<- UvLoop.close()");
     }
 
     IsolateThread getCurrentThread() {
@@ -118,23 +122,21 @@ public class UvLoop {
     }
 
     void run() {
-        while (running.get()) {
-            uv_run(loop, UV_RUN_NOWAIT());
-            String payload = null;
-            while ( ( payload = writeQueue.poll() ) != null ) {
-                process.write(payload);
-            }
-            onSpinWait();
-        }
-        if (loop.isNonNull()) {
-            cdp4j_close_loop(loop);
-            process.dispose();
-            free(loop);
-        }
+    	debug("-> UvLoop.run()");
+    	uv_run(loop, UV_RUN_DEFAULT());
+    	debug("<- UvLoop.run()");
     }
 
-    void write(String payload) {
-        writeQueue.offer(payload);
+    void writeAsync(String payload) {
+		writeQueue.offer(payload);
+		cdp4j_write_async(loop, currentThread);
+    }
+
+    void writeSync() {
+		String payload = null;
+		while ( ( payload = writeQueue.poll() ) != null ) {
+			process.write(payload);
+		}
     }
 
     public boolean isRunning() {

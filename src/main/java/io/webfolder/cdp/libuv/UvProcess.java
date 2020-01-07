@@ -183,7 +183,7 @@ public class UvProcess {
         if ( ! loop.isRunning() ) {
             return;
         }
-        loop.write(payload);
+        loop.writeAsync(payload);
     }
 
     public void write(String payload) {

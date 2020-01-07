@@ -312,10 +312,13 @@ class Libuv {
     static native void uv_stop(loop loop);
 
     @CFunction
-    static native int cdp4j_close_loop(loop loop);
+    static native int cdp4j_async_close_loop(loop loop);
 
     @CFunction
     static native void uv_disable_stdio_inheritance();
+
+    @CFunction
+    static native int cdp4j_write_async(loop loop, IsolateThread thread);
 
     // ------------------------------------------------------------------------
     // cdp4j native methods
@@ -345,6 +348,16 @@ class Libuv {
                 }
             }
         }
+    }
+
+    @CEntryPoint(name = "cdp4j_on_async_write_callback_java")
+    static void cdp4j_on_async_write_callback_java(IsolateThread thread) {
+    	if (thread.isNonNull()) {
+            LibuvPipeConnection connection = getPipeConnection();
+            if ( connection != null ) {
+            	connection.getLoop().writeSync();
+            }
+    	}
     }
 
     @CEntryPoint(name = "cdp4j_on_process_exit_java")
@@ -380,7 +393,7 @@ class Libuv {
     static final native int UV_WRITABLE_PIPE();
 
     @CConstant
-    static final native int UV_RUN_NOWAIT();
+    static final native int UV_RUN_DEFAULT();
 
     @CConstant
     static final native int SIGKILL();
