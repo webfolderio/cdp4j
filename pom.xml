@@ -240,9 +240,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.oracle.substratevm</groupId>
+      <groupId>org.graalvm.nativeimage</groupId>
       <artifactId>svm</artifactId>
-      <version>19.2.0.1</version>
+      <version>19.3.0.2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -291,6 +291,7 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
       <version>4.0.0-milestone4</version>
+      <scope>provided</scope>
       <exclusions>
         <exclusion>
           <groupId>io.netty</groupId>
@@ -344,7 +345,7 @@
           <plugin>
             <groupId>org.graalvm.nativeimage</groupId>
             <artifactId>native-image-maven-plugin</artifactId>
-            <version>19.3.0</version>
+            <version>19.3.0.2</version>
             <executions>
               <execution>
                 <goals>
