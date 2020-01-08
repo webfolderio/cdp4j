@@ -40,7 +40,7 @@ static void on_async_write(uv_write_t* req, int status) {
 }
 
 static void cdp4j_on_process_exit(uv_process_t* process, int64_t exit_status, int term_signal) {
-  void* thread = process->data;
+  void* thread = (void*) process->data;
   cdp4j_on_process_exit_java(thread);
 }
 
@@ -68,7 +68,7 @@ static void async_callback(uv_async_t *handle) {
 
 int cdp4j_write_async(uv_loop_t* loop, void* thread) {
   uv_async_t* async = malloc(sizeof(uv_async_t));
-  async->data = thread;
+  async->data = (void*) thread;
   int ret = uv_async_init(loop, async, async_callback);
   if ( ret != CDP4J_UV_SUCCESS ) {
     free(async);
@@ -81,31 +81,37 @@ int cdp4j_write_async(uv_loop_t* loop, void* thread) {
   return ret;
 }
 
-static void on_walk(uv_handle_t *peer, void *arg) {
-  if ( ! uv_is_closing(peer) ) {
-    uv_close(peer, NULL);
-  }
-}
-
 static void async_close_callback(uv_async_t *handle) {
   if (handle && handle->data) {
-    uv_loop_t* loop = (uv_loop_t*) handle->data;
-    uv_walk(loop, on_walk, NULL);
+    context_close* ctx = (context_close*) handle->data;
+    uv_close((uv_handle_t*) ctx->in_pipe, NULL);
+    uv_close((uv_handle_t*) ctx->out_pipe, NULL);
+    uv_loop_t* loop = (uv_loop_t*) ctx->loop;
     uv_stop(loop);
+    uv_loop_close(loop);
+    free(ctx);
     free(handle);
   }
 }
 
-void cdp4j_async_close_loop(uv_loop_t* loop) {
+void cdp4j_async_close_loop(uv_loop_t* loop,
+                            uv_pipe_t* in_pipe,
+                            uv_pipe_t* out_pipe) {
   uv_async_t* async = malloc(sizeof(uv_async_t));
-  async->data = loop;
+  context_close* ctx = malloc(sizeof(context_close));
+  ctx->loop = loop;
+  ctx->in_pipe = in_pipe;
+  ctx->out_pipe = out_pipe;
+  async->data = (void*) ctx;
   int ret = uv_async_init(loop, async, async_close_callback);
   if ( ret != CDP4J_UV_SUCCESS ) {
+    free(ctx);
     free(async);
     return;
   }
   ret = uv_async_send(async);
   if ( ret != CDP4J_UV_SUCCESS ) {
+    free(ctx);
     free(async);
   }
 }

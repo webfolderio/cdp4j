@@ -309,10 +309,7 @@ class Libuv {
     static native int uv_stream_set_blocking(pipe pipe, int blocking);
 
     @CFunction
-    static native void uv_stop(loop loop);
-
-    @CFunction
-    static native int cdp4j_async_close_loop(loop loop);
+    static native int cdp4j_async_close_loop(loop loop, pipe inPipe, pipe outPipe);
 
     @CFunction
     static native void uv_disable_stdio_inheritance();
@@ -364,10 +361,12 @@ class Libuv {
     static void cdp4j_on_process_exit_java(IsolateThread thread) {
         LibuvPipeConnection connection = getPipeConnection();
         if ( connection != null ) {
-            UvLoop loop = connection.getLoop();
-            if (loop.isRunning()) {
-                loop.close();
-            }
+        	UvLoop loop = connection.getLoop();
+        	if (loop.isRunning()) {
+        		UvProcess process = connection.getProcess();
+        		process.setRunning(false);
+        		loop.close();
+        	}
         }
     }
 

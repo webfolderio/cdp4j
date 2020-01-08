@@ -41,6 +41,8 @@ import static org.graalvm.nativeimage.c.type.CTypeConversion.toCString;
 import static org.graalvm.nativeimage.c.type.CTypeConversion.toJavaString;
 import static org.graalvm.word.WordFactory.nullPointer;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.graalvm.nativeimage.StackValue;
 import org.graalvm.nativeimage.c.struct.SizeOf;
 import org.graalvm.nativeimage.c.type.CCharPointerPointer;
@@ -62,6 +64,8 @@ public class UvProcess {
     private UvPipe outPipe;
 
     private int argsLength;
+
+    private AtomicBoolean running = new AtomicBoolean(false);
 
     public UvProcess(UvLoop loop) {
         debug("-> UvProcess()");
@@ -166,11 +170,13 @@ public class UvProcess {
         }
         debug("<- UvProcess.spawn(): true");
 
+        running.set(true);
+
         return true;
     }
 
     public boolean kill() {
-        if (process.isNonNull()) {
+        if (running.get() && process.isNonNull()) {
             debug("-> uv_process_kill()");
             int ret = uv_process_kill(process, SIGKILL());
             debug("<- uv_process_kill(): " + ret);
@@ -225,4 +231,20 @@ public class UvProcess {
             free(process);
         }
     }
+
+    UvPipe getInPipe() {
+    	return inPipe;
+    }
+
+    UvPipe getOutPipe() {
+    	return outPipe;
+    }
+
+	void setRunning(boolean running) {
+		this.running.compareAndSet(true, false);
+	}
+
+	public boolean isRunning() {
+		return running.get();
+	}
 }

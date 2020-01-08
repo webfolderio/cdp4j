@@ -102,17 +102,17 @@ public class UvLoop {
                 }
             }
         });
-        thread.setDaemon(true);
+        thread.setDaemon(false);
         thread.setName("cdp4j-libuv-" + (++counter));
         thread.start();
     }
 
     public void close() {
     	debug("-> UvLoop.close()");
-    	if (running.compareAndSet(true, false) && loop.isNonNull()) {
-            cdp4j_async_close_loop(loop);
-            process.dispose();
-            free(loop);
+    	if (running.compareAndSet(true, false)) {
+            cdp4j_async_close_loop(loop,
+            		               getProcess().getInPipe().getPeer(),
+            		               getProcess().getOutPipe().getPeer());
     	}
     	debug("<- UvLoop.close()");
     }
@@ -139,6 +139,7 @@ public class UvLoop {
 		}
     }
 
+    
     public boolean isRunning() {
         return running.get();
     }

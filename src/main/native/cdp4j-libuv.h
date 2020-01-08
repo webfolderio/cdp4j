@@ -37,6 +37,12 @@ typedef struct context_write {
   int        len;
 } context_write;
 
+typedef struct context_close {
+  uv_loop_t* loop;
+  uv_pipe_t* in_pipe;
+  uv_pipe_t* out_pipe;
+} context_close;
+
 int cdp4j_spawn_process(uv_loop_t*            loop,
                         uv_process_t*         handle,
                         uv_process_options_t* options);
@@ -46,7 +52,9 @@ int cdp4j_write_pipe(uv_loop_t*     loop,
 
 int cdp4j_start_read(uv_pipe_t* out_pipe);
 
-void cdp4j_async_close_loop(uv_loop_t* loop);
+void cdp4j_async_close_loop(uv_loop_t* loop,
+                            uv_pipe_t* in_pipe,
+                            uv_pipe_t* out_pipe);
 
 int cdp4j_write_async(uv_loop_t* loop, void* thread);
 
