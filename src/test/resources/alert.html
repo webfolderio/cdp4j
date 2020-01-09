@@ -4,16 +4,16 @@
   <title>Alert</title>
   <script type="text/javascript">
   window.onbeforeunload = function (e) {
-	  var message = "Your confirmation message goes here.",
-	  e = e || window.event;
-	  // For IE and Firefox
-	  if (e) {
-	    e.returnValue = message;
-	  }
+      var message = "Your confirmation message goes here.",
+      e = e || window.event;
+      // For IE and Firefox
+      if (e) {
+        e.returnValue = message;
+      }
 
-	  // For Safari
-	  return message;
-	};
+      // For Safari
+      return message;
+    };
 </script>
  </head>
 <body>

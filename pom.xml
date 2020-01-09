@@ -374,6 +374,7 @@
                   <sources>
                     <source>${project.build.directory}/generated-sources/annotations</source>
                     <source>${project.basedir}/src/main/graalvm</source>
+                    <source>${project.basedir}/src/main/java11</source>
                   </sources>
                 </configuration>
               </execution>
@@ -382,11 +383,11 @@
         </plugins>
       </build>
         <dependencies>
-	    <dependency>
-	      <groupId>com.google.code.gson</groupId>
-	      <artifactId>gson</artifactId>
-	      <version>2.8.6</version>
-	    </dependency>
+        <dependency>
+          <groupId>com.google.code.gson</groupId>
+          <artifactId>gson</artifactId>
+          <version>2.8.6</version>
+        </dependency>
           <dependency>
             <groupId>com.vimeo.stag</groupId>
             <artifactId>stag-library</artifactId>
@@ -409,7 +410,7 @@
               <groupId>io.netty</groupId>
               <artifactId>netty-codec-socks</artifactId>
              </exclusion>
-            </exclusions>
+          </exclusions>
         </dependency>
       </dependencies>
     </profile>

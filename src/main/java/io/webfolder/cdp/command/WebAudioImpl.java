@@ -24,30 +24,30 @@ import io.webfolder.cdp.type.webaudio.ContextRealtimeData;
 
 public class WebAudioImpl implements WebAudio {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
 
-	public WebAudioImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public WebAudioImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("WebAudio", "enable", "WebAudio.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("WebAudio", "enable", "WebAudio.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("WebAudio", "disable", "WebAudio.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("WebAudio", "disable", "WebAudio.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public ContextRealtimeData getRealtimeData(String contextId) {
-		return (ContextRealtimeData) handler.invoke("WebAudio", "getRealtimeData", "WebAudio.getRealtimeData",
-				"realtimeData", ContextRealtimeData.class, null, false, false, false, new String[]{"contextId"},
-				new Object[]{contextId});
-	}
+    @Override
+    public ContextRealtimeData getRealtimeData(String contextId) {
+        return (ContextRealtimeData) handler.invoke("WebAudio", "getRealtimeData", "WebAudio.getRealtimeData",
+                "realtimeData", ContextRealtimeData.class, null, false, false, false, new String[]{"contextId"},
+                new Object[]{contextId});
+    }
 }

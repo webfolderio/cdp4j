@@ -24,25 +24,25 @@ import io.webfolder.cdp.type.constant.Encoding;
 
 public class AuditsImpl implements Audits {
 
-	private final SessionInvocationHandler handler;
+    private final SessionInvocationHandler handler;
 
-	public AuditsImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public AuditsImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public GetEncodedResponseResult getEncodedResponse(String requestId, Encoding encoding, Double quality,
-			Boolean sizeOnly) {
-		return (GetEncodedResponseResult) handler.invoke("Audits", "getEncodedResponse", "Audits.getEncodedResponse",
-				null, GetEncodedResponseResult.class, null, false, false, false,
-				new String[]{"requestId", "encoding", "quality", "sizeOnly"},
-				new Object[]{requestId, encoding, quality, sizeOnly});
-	}
+    @Override
+    public GetEncodedResponseResult getEncodedResponse(String requestId, Encoding encoding, Double quality,
+            Boolean sizeOnly) {
+        return (GetEncodedResponseResult) handler.invoke("Audits", "getEncodedResponse", "Audits.getEncodedResponse",
+                null, GetEncodedResponseResult.class, null, false, false, false,
+                new String[]{"requestId", "encoding", "quality", "sizeOnly"},
+                new Object[]{requestId, encoding, quality, sizeOnly});
+    }
 
-	@Override
-	public GetEncodedResponseResult getEncodedResponse(String requestId, Encoding encoding) {
-		return (GetEncodedResponseResult) handler.invoke("Audits", "getEncodedResponse", "Audits.getEncodedResponse",
-				null, GetEncodedResponseResult.class, null, false, false, false, new String[]{"requestId", "encoding"},
-				new Object[]{requestId, encoding});
-	}
+    @Override
+    public GetEncodedResponseResult getEncodedResponse(String requestId, Encoding encoding) {
+        return (GetEncodedResponseResult) handler.invoke("Audits", "getEncodedResponse", "Audits.getEncodedResponse",
+                null, GetEncodedResponseResult.class, null, false, false, false, new String[]{"requestId", "encoding"},
+                new Object[]{requestId, encoding});
+    }
 }

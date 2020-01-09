@@ -26,80 +26,80 @@ import io.webfolder.cdp.type.memory.SamplingProfile;
 
 public class MemoryImpl implements Memory {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
 
-	public MemoryImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public MemoryImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public GetDOMCountersResult getDOMCounters() {
-		return (GetDOMCountersResult) handler.invoke("Memory", "getDOMCounters", "Memory.getDOMCounters", null,
-				GetDOMCountersResult.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public GetDOMCountersResult getDOMCounters() {
+        return (GetDOMCountersResult) handler.invoke("Memory", "getDOMCounters", "Memory.getDOMCounters", null,
+                GetDOMCountersResult.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void prepareForLeakDetection() {
-		handler.invoke("Memory", "prepareForLeakDetection", "Memory.prepareForLeakDetection", null, void.class, null,
-				true, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void prepareForLeakDetection() {
+        handler.invoke("Memory", "prepareForLeakDetection", "Memory.prepareForLeakDetection", null, void.class, null,
+                true, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void forciblyPurgeJavaScriptMemory() {
-		handler.invoke("Memory", "forciblyPurgeJavaScriptMemory", "Memory.forciblyPurgeJavaScriptMemory", null,
-				void.class, null, true, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void forciblyPurgeJavaScriptMemory() {
+        handler.invoke("Memory", "forciblyPurgeJavaScriptMemory", "Memory.forciblyPurgeJavaScriptMemory", null,
+                void.class, null, true, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void setPressureNotificationsSuppressed(Boolean suppressed) {
-		handler.invoke("Memory", "setPressureNotificationsSuppressed", "Memory.setPressureNotificationsSuppressed",
-				null, void.class, null, true, false, false, new String[]{"suppressed"}, new Object[]{suppressed});
-	}
+    @Override
+    public void setPressureNotificationsSuppressed(Boolean suppressed) {
+        handler.invoke("Memory", "setPressureNotificationsSuppressed", "Memory.setPressureNotificationsSuppressed",
+                null, void.class, null, true, false, false, new String[]{"suppressed"}, new Object[]{suppressed});
+    }
 
-	@Override
-	public void simulatePressureNotification(PressureLevel level) {
-		handler.invoke("Memory", "simulatePressureNotification", "Memory.simulatePressureNotification", null,
-				void.class, null, true, false, false, new String[]{"level"}, new Object[]{level});
-	}
+    @Override
+    public void simulatePressureNotification(PressureLevel level) {
+        handler.invoke("Memory", "simulatePressureNotification", "Memory.simulatePressureNotification", null,
+                void.class, null, true, false, false, new String[]{"level"}, new Object[]{level});
+    }
 
-	@Override
-	public void startSampling(Integer samplingInterval, Boolean suppressRandomness) {
-		handler.invoke("Memory", "startSampling", "Memory.startSampling", null, void.class, null, true, false, false,
-				new String[]{"samplingInterval", "suppressRandomness"},
-				new Object[]{samplingInterval, suppressRandomness});
-	}
+    @Override
+    public void startSampling(Integer samplingInterval, Boolean suppressRandomness) {
+        handler.invoke("Memory", "startSampling", "Memory.startSampling", null, void.class, null, true, false, false,
+                new String[]{"samplingInterval", "suppressRandomness"},
+                new Object[]{samplingInterval, suppressRandomness});
+    }
 
-	@Override
-	public void stopSampling() {
-		handler.invoke("Memory", "stopSampling", "Memory.stopSampling", null, void.class, null, true, false, false,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void stopSampling() {
+        handler.invoke("Memory", "stopSampling", "Memory.stopSampling", null, void.class, null, true, false, false,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public SamplingProfile getAllTimeSamplingProfile() {
-		return (SamplingProfile) handler.invoke("Memory", "getAllTimeSamplingProfile",
-				"Memory.getAllTimeSamplingProfile", "profile", SamplingProfile.class, null, false, false, false,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public SamplingProfile getAllTimeSamplingProfile() {
+        return (SamplingProfile) handler.invoke("Memory", "getAllTimeSamplingProfile",
+                "Memory.getAllTimeSamplingProfile", "profile", SamplingProfile.class, null, false, false, false,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public SamplingProfile getBrowserSamplingProfile() {
-		return (SamplingProfile) handler.invoke("Memory", "getBrowserSamplingProfile",
-				"Memory.getBrowserSamplingProfile", "profile", SamplingProfile.class, null, false, false, false,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public SamplingProfile getBrowserSamplingProfile() {
+        return (SamplingProfile) handler.invoke("Memory", "getBrowserSamplingProfile",
+                "Memory.getBrowserSamplingProfile", "profile", SamplingProfile.class, null, false, false, false,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public SamplingProfile getSamplingProfile() {
-		return (SamplingProfile) handler.invoke("Memory", "getSamplingProfile", "Memory.getSamplingProfile", "profile",
-				SamplingProfile.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public SamplingProfile getSamplingProfile() {
+        return (SamplingProfile) handler.invoke("Memory", "getSamplingProfile", "Memory.getSamplingProfile", "profile",
+                SamplingProfile.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void startSampling() {
-		handler.invoke("Memory", "startSampling", "Memory.startSampling", null, void.class, null, true, false, false,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void startSampling() {
+        handler.invoke("Memory", "startSampling", "Memory.startSampling", null, void.class, null, true, false, false,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 }

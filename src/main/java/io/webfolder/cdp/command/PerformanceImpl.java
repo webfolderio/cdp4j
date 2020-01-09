@@ -28,37 +28,37 @@ import io.webfolder.cdp.type.performance.Metric;
 
 public class PerformanceImpl implements Performance {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
-	private static final TypeToken<List<Metric>> GET_METRICS = new TypeToken<List<Metric>>() { };
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
+    private static final TypeToken<List<Metric>> GET_METRICS = new TypeToken<List<Metric>>() { };
     
-	public PerformanceImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public PerformanceImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("Performance", "disable", "Performance.disable", null, void.class, null, true, false, true,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("Performance", "disable", "Performance.disable", null, void.class, null, true, false, true,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("Performance", "enable", "Performance.enable", null, void.class, null, true, true, false,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("Performance", "enable", "Performance.enable", null, void.class, null, true, true, false,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void setTimeDomain(TimeDomain timeDomain) {
-		handler.invoke("Performance", "setTimeDomain", "Performance.setTimeDomain", null, void.class, null, true, false,
-				false, new String[]{"timeDomain"}, new Object[]{timeDomain});
-	}
+    @Override
+    public void setTimeDomain(TimeDomain timeDomain) {
+        handler.invoke("Performance", "setTimeDomain", "Performance.setTimeDomain", null, void.class, null, true, false,
+                false, new String[]{"timeDomain"}, new Object[]{timeDomain});
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<Metric> getMetrics() {
-		return (List<Metric>) handler.invoke("Performance", "getMetrics", "Performance.getMetrics", "metrics",
-				List.class, GET_METRICS.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<Metric> getMetrics() {
+        return (List<Metric>) handler.invoke("Performance", "getMetrics", "Performance.getMetrics", "metrics",
+                List.class, GET_METRICS.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 }

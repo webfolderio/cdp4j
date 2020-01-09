@@ -23,33 +23,33 @@ import io.webfolder.cdp.type.backgroundservice.ServiceName;
 
 public class BackgroundServiceImpl implements BackgroundService {
 
-	private final SessionInvocationHandler handler;
+    private final SessionInvocationHandler handler;
 
-	public BackgroundServiceImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public BackgroundServiceImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void startObserving(ServiceName service) {
-		handler.invoke("BackgroundService", "startObserving", "BackgroundService.startObserving", null, void.class,
-				null, true, false, false, new String[]{"service"}, new Object[]{service});
-	}
+    @Override
+    public void startObserving(ServiceName service) {
+        handler.invoke("BackgroundService", "startObserving", "BackgroundService.startObserving", null, void.class,
+                null, true, false, false, new String[]{"service"}, new Object[]{service});
+    }
 
-	@Override
-	public void stopObserving(ServiceName service) {
-		handler.invoke("BackgroundService", "stopObserving", "BackgroundService.stopObserving", null, void.class, null,
-				true, false, false, new String[]{"service"}, new Object[]{service});
-	}
+    @Override
+    public void stopObserving(ServiceName service) {
+        handler.invoke("BackgroundService", "stopObserving", "BackgroundService.stopObserving", null, void.class, null,
+                true, false, false, new String[]{"service"}, new Object[]{service});
+    }
 
-	@Override
-	public void setRecording(Boolean shouldRecord, ServiceName service) {
-		handler.invoke("BackgroundService", "setRecording", "BackgroundService.setRecording", null, void.class, null,
-				true, false, false, new String[]{"shouldRecord", "service"}, new Object[]{shouldRecord, service});
-	}
+    @Override
+    public void setRecording(Boolean shouldRecord, ServiceName service) {
+        handler.invoke("BackgroundService", "setRecording", "BackgroundService.setRecording", null, void.class, null,
+                true, false, false, new String[]{"shouldRecord", "service"}, new Object[]{shouldRecord, service});
+    }
 
-	@Override
-	public void clearEvents(ServiceName service) {
-		handler.invoke("BackgroundService", "clearEvents", "BackgroundService.clearEvents", null, void.class, null,
-				true, false, false, new String[]{"service"}, new Object[]{service});
-	}
+    @Override
+    public void clearEvents(ServiceName service) {
+        handler.invoke("BackgroundService", "clearEvents", "BackgroundService.clearEvents", null, void.class, null,
+                true, false, false, new String[]{"service"}, new Object[]{service});
+    }
 }

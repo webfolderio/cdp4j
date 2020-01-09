@@ -29,53 +29,53 @@ import com.google.gson.reflect.TypeToken;
 
 public class CacheStorageImpl implements CacheStorage {
 
-	private final SessionInvocationHandler handler;
-	private static final TypeToken<List<Cache>> TT_CACHE_NAMES = new TypeToken<List<Cache>>() { };
+    private final SessionInvocationHandler handler;
+    private static final TypeToken<List<Cache>> TT_CACHE_NAMES = new TypeToken<List<Cache>>() { };
 
-	public CacheStorageImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public CacheStorageImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void deleteCache(String cacheId) {
-		handler.invoke("CacheStorage", "deleteCache", "CacheStorage.deleteCache", null, void.class, null, true, false,
-				false, new String[]{"cacheId"}, new Object[]{cacheId});
-	}
+    @Override
+    public void deleteCache(String cacheId) {
+        handler.invoke("CacheStorage", "deleteCache", "CacheStorage.deleteCache", null, void.class, null, true, false,
+                false, new String[]{"cacheId"}, new Object[]{cacheId});
+    }
 
-	@Override
-	public void deleteEntry(String cacheId, String request) {
-		handler.invoke("CacheStorage", "deleteEntry", "CacheStorage.deleteEntry", null, void.class, null, true, false,
-				false, new String[]{"cacheId", "request"}, new Object[]{cacheId, request});
-	}
+    @Override
+    public void deleteEntry(String cacheId, String request) {
+        handler.invoke("CacheStorage", "deleteEntry", "CacheStorage.deleteEntry", null, void.class, null, true, false,
+                false, new String[]{"cacheId", "request"}, new Object[]{cacheId, request});
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<Cache> requestCacheNames(String securityOrigin) {
-		return (List<Cache>) handler.invoke("CacheStorage", "requestCacheNames", "CacheStorage.requestCacheNames",
-				"caches", List.class, TT_CACHE_NAMES.getType(), false, false, false,
-				new String[]{"securityOrigin"}, new Object[]{securityOrigin});
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<Cache> requestCacheNames(String securityOrigin) {
+        return (List<Cache>) handler.invoke("CacheStorage", "requestCacheNames", "CacheStorage.requestCacheNames",
+                "caches", List.class, TT_CACHE_NAMES.getType(), false, false, false,
+                new String[]{"securityOrigin"}, new Object[]{securityOrigin});
+    }
 
-	@Override
-	public CachedResponse requestCachedResponse(String cacheId, String requestURL, List<Header> requestHeaders) {
-		return (CachedResponse) handler.invoke("CacheStorage", "requestCachedResponse",
-				"CacheStorage.requestCachedResponse", "response", CachedResponse.class, null, false, false, false,
-				new String[]{"cacheId", "requestURL", "requestHeaders"},
-				new Object[]{cacheId, requestURL, requestHeaders});
-	}
+    @Override
+    public CachedResponse requestCachedResponse(String cacheId, String requestURL, List<Header> requestHeaders) {
+        return (CachedResponse) handler.invoke("CacheStorage", "requestCachedResponse",
+                "CacheStorage.requestCachedResponse", "response", CachedResponse.class, null, false, false, false,
+                new String[]{"cacheId", "requestURL", "requestHeaders"},
+                new Object[]{cacheId, requestURL, requestHeaders});
+    }
 
-	@Override
-	public RequestEntriesResult requestEntries(String cacheId, Integer skipCount, Integer pageSize, String pathFilter) {
-		return (RequestEntriesResult) handler.invoke("CacheStorage", "requestEntries", "CacheStorage.requestEntries",
-				null, RequestEntriesResult.class, null, false, false, false,
-				new String[]{"cacheId", "skipCount", "pageSize", "pathFilter"},
-				new Object[]{cacheId, skipCount, pageSize, pathFilter});
-	}
+    @Override
+    public RequestEntriesResult requestEntries(String cacheId, Integer skipCount, Integer pageSize, String pathFilter) {
+        return (RequestEntriesResult) handler.invoke("CacheStorage", "requestEntries", "CacheStorage.requestEntries",
+                null, RequestEntriesResult.class, null, false, false, false,
+                new String[]{"cacheId", "skipCount", "pageSize", "pathFilter"},
+                new Object[]{cacheId, skipCount, pageSize, pathFilter});
+    }
 
-	@Override
-	public RequestEntriesResult requestEntries(String cacheId) {
-		return (RequestEntriesResult) handler.invoke("CacheStorage", "requestEntries", "CacheStorage.requestEntries",
-				null, RequestEntriesResult.class, null, false, false, false, new String[]{"cacheId"},
-				new Object[]{cacheId});
-	}
+    @Override
+    public RequestEntriesResult requestEntries(String cacheId) {
+        return (RequestEntriesResult) handler.invoke("CacheStorage", "requestEntries", "CacheStorage.requestEntries",
+                null, RequestEntriesResult.class, null, false, false, false, new String[]{"cacheId"},
+                new Object[]{cacheId});
+    }
 }

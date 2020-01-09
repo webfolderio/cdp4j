@@ -22,21 +22,21 @@ import io.webfolder.cdp.session.SessionInvocationHandler;
 
 public class TetheringImpl implements Tethering {
 
-	private final SessionInvocationHandler handler;
+    private final SessionInvocationHandler handler;
 
-	public TetheringImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public TetheringImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void bind(Integer port) {
-		handler.invoke("Tethering", "bind", "Tethering.bind", null, void.class, null, true, false, false,
-				new String[]{"port"}, new Object[]{port});
-	}
+    @Override
+    public void bind(Integer port) {
+        handler.invoke("Tethering", "bind", "Tethering.bind", null, void.class, null, true, false, false,
+                new String[]{"port"}, new Object[]{port});
+    }
 
-	@Override
-	public void unbind(Integer port) {
-		handler.invoke("Tethering", "unbind", "Tethering.unbind", null, void.class, null, true, false, false,
-				new String[]{"port"}, new Object[]{port});
-	}
+    @Override
+    public void unbind(Integer port) {
+        handler.invoke("Tethering", "unbind", "Tethering.unbind", null, void.class, null, true, false, false,
+                new String[]{"port"}, new Object[]{port});
+    }
 }

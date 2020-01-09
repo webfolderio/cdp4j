@@ -8,7 +8,7 @@ package io.webfolder.cdp.logger;
  */
 final class Util {
 
-	
+    
     private Util() {
     }
 

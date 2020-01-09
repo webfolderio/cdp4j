@@ -44,8 +44,7 @@ public class HelloGraalVm {
         Options options = Options.builder()
                                  .useCustomTypeAdapter(Generated)
                                  .loggerType(Console)
-                                 .shutdownThreadPoolOnClose(false)
-                                 .processManager(new LinuxProcessManager())
+                                 .processManager(new DefaultProcessManager())
                                  .build();
 
         Launcher launcher = new Launcher(options, vertxWebSocketFactory);
@@ -53,8 +52,11 @@ public class HelloGraalVm {
                 Session session = factory.create()) {
             session.navigate("https://webfolder.io");
             session.waitDocumentReady();
+            System.out.println(session.getText("body"));
+        } finally {
+            httpClient.close();
+            vertx.close();
+            launcher.kill();
         }
-
-        System.in.read();
     }
 }
