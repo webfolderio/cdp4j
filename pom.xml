@@ -392,6 +392,25 @@
             <artifactId>stag-library</artifactId>
             <version>2.6.0</version>
           </dependency>
+        <dependency>
+          <groupId>io.vertx</groupId>
+          <artifactId>vertx-core</artifactId>
+          <version>4.0.0-milestone4</version>
+          <exclusions>
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty-codec-http2</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty-resolver-dns</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty-codec-socks</artifactId>
+             </exclusion>
+            </exclusions>
+        </dependency>
       </dependencies>
     </profile>
   </profiles>

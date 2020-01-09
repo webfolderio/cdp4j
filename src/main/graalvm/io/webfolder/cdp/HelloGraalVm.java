@@ -20,33 +20,41 @@ package io.webfolder.cdp;
 
 import static io.webfolder.cdp.CustomTypeAdapter.Generated;
 import static io.webfolder.cdp.logger.CdpLoggerType.Console;
-import static java.util.Arrays.asList;
 
 import java.io.IOException;
 
-import io.webfolder.cdp.channel.LibuvChannelFactory;
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.HttpClientOptions;
+import io.webfolder.cdp.channel.VertxWebSocketFactory;
 import io.webfolder.cdp.session.Session;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class HelloGraalVm {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        LibuvChannelFactory libuvFactory = new LibuvChannelFactory();
+        Vertx vertx = Vertx.vertx();
+        HttpClientOptions hOptions = new HttpClientOptions();
+        hOptions.setMaxWebsocketMessageSize(Integer.MAX_VALUE);
+        hOptions.setMaxWebsocketFrameSize(Integer.MAX_VALUE);
+        HttpClient httpClient = vertx.createHttpClient(hOptions);
+
+        VertxWebSocketFactory vertxWebSocketFactory = new VertxWebSocketFactory(httpClient);
+
         Options options = Options.builder()
-                                 .arguments(asList("--remote-debugging-pipe"))
                                  .useCustomTypeAdapter(Generated)
                                  .loggerType(Console)
                                  .shutdownThreadPoolOnClose(false)
-                                 .processManager(new LibuvProcessManager(libuvFactory))
+                                 .processManager(new LinuxProcessManager())
                                  .build();
-        Launcher launcher = new Launcher(options, libuvFactory);
-        try (SessionFactory factory = launcher.launch()) {
-            Session session = factory.create();
+
+        Launcher launcher = new Launcher(options, vertxWebSocketFactory);
+        try (SessionFactory factory = launcher.launch();
+                Session session = factory.create()) {
             session.navigate("https://webfolder.io");
             session.waitDocumentReady();
-            System.out.println(session.getText("body"));
-        } finally {
-            launcher.kill();
         }
+
+        System.in.read();
     }
 }

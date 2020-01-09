@@ -18,7 +18,6 @@
  */
 package io.webfolder.cdp;
 
-import static io.webfolder.cdp.libuv.UvLogger.debug;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
@@ -27,7 +26,6 @@ import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Locale.ENGLISH;
 import static java.util.concurrent.ThreadLocalRandom.current;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,21 +33,14 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
-import io.webfolder.cdp.channel.LibuvChannelFactory;
-import io.webfolder.cdp.channel.LibuvPipeConnection;
 import io.webfolder.cdp.channel.WebSocketConnection;
 import io.webfolder.cdp.exception.CdpException;
-import io.webfolder.cdp.libuv.UvLoop;
-import io.webfolder.cdp.libuv.UvProcess;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class Launcher {
@@ -216,70 +207,8 @@ public class Launcher {
             arguments.add("--headless");
         }
 
-        boolean libuv = channelFactory instanceof LibuvChannelFactory;
-
-        SessionFactory factory = null;
-        if (libuv) {
-            factory = launchLibuv(arguments);
-        } else {
-            factory = launchWebSocket(arguments);
-        }
-
+        SessionFactory factory = launchWebSocket(arguments);
         return factory;
-    }
-
-    private SessionFactory launchLibuv(List<String> arguments) {
-        UvLoop loop = new UvLoop();
-
-        CountDownLatch latch = new CountDownLatch(1);
-
-        AtomicBoolean spawned = new AtomicBoolean(false);
-
-        ArrayList<String> argsSpawn = new ArrayList<String>(arguments);
-        String exe = argsSpawn.remove(0);
-        argsSpawn.add(0, Paths.get(exe).getFileName().toString());
-
-        if (debug) {
-            argsSpawn.add("--enable-logging");
-            argsSpawn.add("--v=1");
-        }
-
-        SessionFactory[] factory = new SessionFactory[] { null };
-
-        loop.start(() -> {
-            UvProcess process = loop.createProcess();
-            if (process.spawn(exe.toString(),
-                    argsSpawn.toArray(new String[0]), debug, debug)) {
-                spawned.set(true);
-                LibuvPipeConnection connection = new LibuvPipeConnection(loop, process);
-                factory[0] = new SessionFactory(options, channelFactory, connection, false);
-            }
-            latch.countDown();
-        });
-
-        try {
-            latch.await(5, SECONDS);
-        } catch (InterruptedException e) {
-            throw new CdpException("UvLoop.spawn() timeout");
-        } finally {
-            if ( ! spawned.get() ) {
-                UvProcess process = loop.getProcess();
-                if (process != null ) {
-                    process.dispose();
-                }
-                if ( loop != null ) {
-                    loop.close();
-                }
-            }
-        }
-
-        if ( ! spawned.get() ) {
-            throw new CdpException("UvPorcess.spawn() is failed");
-        }
-
-        factory[0].connect();
-
-        return factory[0];
     }
 
     private SessionFactory launchWebSocket(List<String> arguments) {
