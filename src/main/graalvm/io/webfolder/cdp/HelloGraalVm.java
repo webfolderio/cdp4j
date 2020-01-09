@@ -44,7 +44,6 @@ public class HelloGraalVm {
         Options options = Options.builder()
                                  .useCustomTypeAdapter(Generated)
                                  .loggerType(Console)
-                                 .processManager(new DefaultProcessManager())
                                  .build();
 
         Launcher launcher = new Launcher(options, vertxWebSocketFactory);
