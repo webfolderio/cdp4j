@@ -33,6 +33,9 @@ public class VertxWebSocketFactory implements ChannelFactory {
 
     private final HttpClient httpClient;
 
+    // https://cs.chromium.org/chromium/src/content/browser/devtools/devtools_http_handler.cc?type=cs&q=kSendBufferSizeForDevTools&sq=package:chromium&g=0&l=83
+    public static final int MAX_PAYLOAD_SIZE = 256 * 1024 * 1024; // 256Mb
+
     public VertxWebSocketFactory(HttpClient httpClient) {
         this.httpClient = httpClient;
     }

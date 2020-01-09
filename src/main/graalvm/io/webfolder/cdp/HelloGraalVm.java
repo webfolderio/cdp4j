@@ -19,6 +19,7 @@
 package io.webfolder.cdp;
 
 import static io.webfolder.cdp.CustomTypeAdapter.Generated;
+import static io.webfolder.cdp.channel.VertxWebSocketFactory.MAX_PAYLOAD_SIZE;
 import static io.webfolder.cdp.logger.CdpLoggerType.Console;
 
 import java.io.IOException;
@@ -35,8 +36,8 @@ public class HelloGraalVm {
     public static void main(String[] args) throws IOException, InterruptedException {
         Vertx vertx = Vertx.vertx();
         HttpClientOptions hOptions = new HttpClientOptions();
-        hOptions.setMaxWebsocketMessageSize(Integer.MAX_VALUE);
-        hOptions.setMaxWebsocketFrameSize(Integer.MAX_VALUE);
+        hOptions.setMaxWebsocketMessageSize(MAX_PAYLOAD_SIZE);
+        hOptions.setMaxWebsocketFrameSize(MAX_PAYLOAD_SIZE);
         HttpClient httpClient = vertx.createHttpClient(hOptions);
 
         VertxWebSocketFactory vertxWebSocketFactory = new VertxWebSocketFactory(httpClient);
@@ -44,7 +45,8 @@ public class HelloGraalVm {
         Options options = Options.builder()
                                  .useCustomTypeAdapter(Generated)
                                  .loggerType(Console)
-                                 .build();
+                                 .processManager(new DefaultProcessManager())
+                             .build();
 
         Launcher launcher = new Launcher(options, vertxWebSocketFactory);
         try (SessionFactory factory = launcher.launch();

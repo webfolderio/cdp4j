@@ -18,6 +18,8 @@
  */
 package io.webfolder.cdp.sample;
 
+import static io.webfolder.cdp.channel.VertxWebSocketFactory.MAX_PAYLOAD_SIZE;
+
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpClientOptions;
@@ -31,8 +33,8 @@ public class VertxWebSocketConnection {
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
         HttpClientOptions options = new HttpClientOptions();
-        options.setMaxWebsocketMessageSize(Integer.MAX_VALUE);
-        options.setMaxWebsocketFrameSize(Integer.MAX_VALUE);
+        options.setMaxWebsocketMessageSize(MAX_PAYLOAD_SIZE);
+        options.setMaxWebsocketFrameSize(MAX_PAYLOAD_SIZE);
         HttpClient httpClient = vertx.createHttpClient(options);
 
         VertxWebSocketFactory vertxWebSocketFactory = new VertxWebSocketFactory(httpClient);

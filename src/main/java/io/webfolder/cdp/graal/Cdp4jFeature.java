@@ -38,7 +38,6 @@ import com.google.gson.reflect.TypeToken;
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
-import io.webfolder.cdp.DefaultProcessManager;
 import io.webfolder.cdp.ProcessManager;
 import io.webfolder.cdp.logger.CdpConsoleLogger;
 import io.webfolder.cdp.logger.CdpConsoleLogggerLevel;
@@ -68,7 +67,7 @@ final class Target_io_webfolder_cdp_AdaptiveProcessManager {
 
     @Substitute
     private ProcessManager init() {
-        return new DefaultProcessManager();
+        return null;
     }
 }
 
