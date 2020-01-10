@@ -58,7 +58,7 @@ public class AdaptiveProcessManager extends ProcessManager {
                throw new CdpException(e);
            }
         } else if (WINDOWS) {
-            return new TaskKillProcessManager();
+            return new WindowsProcessManager();
         } else if (LINUX) {
             return new LinuxProcessManager();
         } else if (MAC) {

@@ -18,6 +18,8 @@
  */
 package io.webfolder.cdp;
 
+import static com.google.devtools.build.lib.shell.SubprocessBuilder.StreamAction.STREAM;
+import static com.google.devtools.build.lib.windows.WindowsSubprocessFactory.INSTANCE;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
@@ -32,10 +34,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.ServerSocket;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import com.google.devtools.build.lib.shell.Subprocess;
+import com.google.devtools.build.lib.shell.SubprocessBuilder;
 
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
@@ -45,13 +55,15 @@ import io.webfolder.cdp.session.SessionFactory;
 
 public class Launcher {
 
-    private static final boolean JAVA_8  = getProperty("java.version").startsWith("1.8.");
+    private static final boolean JAVA_8   = getProperty("java.version").startsWith("1.8.");
 
-    private static final String  OS_NAME = getProperty("os.name").toLowerCase(ENGLISH);
+    private static final String  OS_NAME  = getProperty("os.name").toLowerCase(ENGLISH);
 
-    private static final boolean WINDOWS = OS_NAME.startsWith("windows");
+    private static final boolean WINDOWS  = OS_NAME.startsWith("windows");
 
-    private static final boolean OSX     = OS_NAME.startsWith("mac");
+    private static final boolean OSX      = OS_NAME.startsWith("mac");
+
+    private static final File WORKING_DIR = new File(".");
 
     private final Options options;
 
@@ -196,18 +208,100 @@ public class Launcher {
             arguments.add("--remote-debugging-port=0");            
         }
 
+        Path userDataDir = options.userDataDir();
         if (options.userDataDir() == null) {
-            Path remoteProfileData = get(getProperty("java.io.tmpdir")).resolve("remote-profile");
-            arguments.add(format("--user-data-dir=%s", remoteProfileData.toString()));
-        } else {
-            arguments.add(format("--user-data-dir=%s", options.userDataDir()));
+            userDataDir = get(getProperty("java.io.tmpdir")).resolve("remote-profile");
+        }
+
+        arguments.add(format("--user-data-dir=%s", userDataDir.toString()));
+
+        boolean inUse = isInUse(userDataDir);
+        if (inUse) {
+            throw new CdpException("--user-data-dir [" + userDataDir.toString() + "] is used by another process.");
         }
 
         if (options.headless()) {
             arguments.add("--headless");
         }
 
-        SessionFactory factory = launchWebSocket(arguments);
+        SessionFactory factory = WINDOWS ?
+        		                 launchWebSocketWindows(arguments) :
+        		                 launchWebSocket(arguments);
+        return factory;
+    }
+
+    private boolean isInUse(Path userDataDir) {
+        Path devToolsActivePort = userDataDir.resolve("DevToolsActivePort");
+        if (Files.exists(devToolsActivePort)) {
+            List<String> lines = Collections.emptyList();
+            try {
+                lines = Files.readAllLines(devToolsActivePort);
+            } catch (IOException e) {
+                throw new CdpException(e);
+            }
+            if (lines.size() >= 1) {
+                int port = Integer.parseInt(lines.get(0));
+                if (port > 0) {
+                    try (ServerSocket ignored = new ServerSocket(port)) {
+                        return false;
+                    } catch (IOException e) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private SessionFactory launchWebSocketWindows(List<String> arguments) {
+        Connection connection = null;
+
+        SubprocessBuilder builder = new SubprocessBuilder(INSTANCE);
+        builder.setWorkingDirectory(WORKING_DIR);
+
+        String cdp4jId = toHexString(current().nextLong());
+        arguments.add(format("--cdp4jId=%s", cdp4jId));
+
+        builder.setArgv(arguments);
+
+        Map<String, String> env = new LinkedHashMap<>(1);
+        env.put("CDP4J_ID", cdp4jId);
+        builder.setEnv(env);
+
+        builder.setStdout(STREAM);
+        builder.setStderr(STREAM);
+
+        try {
+            Subprocess process = builder.start();
+            try (Scanner scanner = new Scanner(process.getErrorStream())) {
+                while (scanner.hasNext()) {
+                    String line = scanner.nextLine().trim();
+                    if (line.isEmpty()) {
+                        continue;
+                    }
+                    if (line.toLowerCase(ENGLISH).startsWith("devtools listening on")) {
+                        int start = line.indexOf("ws://");
+                        connection = new WebSocketConnection(line.substring(start, line.length()));
+                        break;
+                    }
+                }
+                if (connection == null) {
+                    throw new CdpException("WebSocket connection url is required!");
+                }
+            }
+
+            if (process.finished()) {
+                throw new CdpException("No process: the chrome process is not alive.");
+            }
+
+            options.processManager().setProcess(new CdpProcess(process, cdp4jId));
+        } catch (IOException e) {
+            throw new CdpException(e);
+        }
+
+        SessionFactory factory = new SessionFactory(options,
+                                                    channelFactory,
+                                                    connection);
         return factory;
     }
 

@@ -20,16 +20,16 @@ package io.webfolder.cdp;
 
 public class CdpProcess {
 
-    private final Process process;
+    private final Object process;
 
     private final String cdp4jProcessId;
 
-    public CdpProcess(Process process, String cdp4jProcessId) {
+    public CdpProcess(Object process, String cdp4jProcessId) {
         this.process = process;
         this.cdp4jProcessId = cdp4jProcessId;
     }
 
-    public Process getProcess() {
+    public Object getProcess() {
         return process;
     }
 
