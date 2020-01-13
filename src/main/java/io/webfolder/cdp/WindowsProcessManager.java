@@ -41,11 +41,11 @@ public class WindowsProcessManager extends ProcessManager {
             return false;
         }
         if (running.compareAndSet(true, false)) {
-            Subprocess subprocess = (Subprocess) process.getProcess();
+            Subprocess subProcess = (Subprocess) process.getProcess();
             boolean ret = false;
-            if ( ! subprocess.finished() ) {
-                ret = subprocess.destroy();
-                while ( ! subprocess.finished() ) {
+            if ( ! subProcess.finished() ) {
+                ret = subProcess.destroy();
+                while ( ! subProcess.finished() ) {
                     try {
                         sleep(1);
                     } catch (InterruptedException e) {
@@ -53,8 +53,8 @@ public class WindowsProcessManager extends ProcessManager {
                     }
                 }
             }
-            if (subprocess.finished()) {
-                subprocess.close();
+            if (subProcess.finished()) {
+                subProcess.close();
             }
             return ret;
         }

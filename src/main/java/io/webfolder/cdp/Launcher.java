@@ -22,6 +22,7 @@ import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
 import static java.lang.System.getProperty;
+import static java.lang.Thread.sleep;
 import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Locale.ENGLISH;
@@ -288,11 +289,13 @@ public class Launcher {
                     }
                 }
                 if (connection == null) {
+                    close(process);
                     throw new CdpException("WebSocket connection url is required!");
                 }
             }
 
             if (process.finished()) {
+                close(process);
                 throw new CdpException("No process: the chrome process is not alive.");
             }
 
@@ -305,6 +308,22 @@ public class Launcher {
                                                     channelFactory,
                                                     connection);
         return factory;
+    }
+
+    private void close(Subprocess subProcess) {
+        if ( ! subProcess.finished() ) {
+            subProcess.destroy();
+            while ( ! subProcess.finished() ) {
+                try {
+                    sleep(1);
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+        }
+        if (subProcess.finished()) {
+            subProcess.close();
+        }
     }
 
     protected static ChannelFactory createChannelFactory() {
