@@ -18,7 +18,7 @@
  */
 package io.webfolder.cdp;
 
-import static io.webfolder.cdp.ProcessExecutor.*;
+import static io.webfolder.cdp.ProcessExecutor.ProcessBuilder;
 import static io.webfolder.cdp.logger.CdpLoggerType.Null;
 import static io.webfolder.cdp.session.WaitingStrategy.Semaphore;
 import static java.lang.Boolean.TRUE;
