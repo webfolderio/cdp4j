@@ -226,7 +226,19 @@ public class Launcher {
             arguments.add("--headless");
         }
 
-        SessionFactory factory = launchWebSocket(arguments);
+        SessionFactory factory = null;
+        switch (options.processExecutor()) {
+            case ProcessBuilder:
+                factory = launchWithProcessBuilder(arguments);
+            break;
+            case WfExec:
+                if ( ! WINDOWS ) {
+                    throw new CdpException("WfExec supports only Windows.");
+                }
+                factory = launchWithWfExec(arguments);
+            break;
+        }
+
         return factory;
     }
 
@@ -253,7 +265,7 @@ public class Launcher {
         return false;
     }
 
-    private SessionFactory launchWebSocket(List<String> arguments) {
+    private SessionFactory launchWithWfExec(List<String> arguments) {
         Connection connection = null;
 
         if (WINDOWS) {
@@ -296,6 +308,47 @@ public class Launcher {
 
             if (process.finished()) {
                 close(process);
+                throw new CdpException("No process: the chrome process is not alive.");
+            }
+
+            options.processManager().setProcess(new CdpProcess(process, cdp4jId));
+        } catch (IOException e) {
+            throw new CdpException(e);
+        }
+
+        SessionFactory factory = new SessionFactory(options,
+                                                    channelFactory,
+                                                    connection);
+        return factory;
+    }
+
+    private SessionFactory launchWithProcessBuilder(List<String> arguments) {
+        Connection connection = null;
+        ProcessBuilder builder = new ProcessBuilder(arguments);
+
+        String cdp4jId = toHexString(current().nextLong());
+        arguments.add(format("--cdp4jId=%s", cdp4jId));
+        builder.environment().put("CDP4J_ID", cdp4jId);
+        try {
+            Process process = builder.start();
+            try (Scanner scanner = new Scanner(process.getErrorStream())) {
+                while (scanner.hasNext()) {
+                    String line = scanner.nextLine().trim();
+                    if (line.isEmpty()) {
+                        continue;
+                    }
+                    if (line.toLowerCase(ENGLISH).startsWith("devtools listening on")) {
+                        int start = line.indexOf("ws://");
+                        connection = new WebSocketConnection(line.substring(start, line.length()));
+                        break;
+                    }
+                }
+                if (connection == null) {
+                    throw new CdpException("WebSocket connection url is required!");
+                }
+            }
+
+            if ( ! process.isAlive() ) {
                 throw new CdpException("No process: the chrome process is not alive.");
             }
 

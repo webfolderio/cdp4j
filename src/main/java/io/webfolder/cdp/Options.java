@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp;
 
+import static io.webfolder.cdp.ProcessExecutor.*;
 import static io.webfolder.cdp.logger.CdpLoggerType.Null;
 import static io.webfolder.cdp.session.WaitingStrategy.Semaphore;
 import static java.lang.Boolean.TRUE;
@@ -68,6 +69,8 @@ public class Options {
     private WaitingStrategy waitingStrategy;
 
     private CustomTypeAdapter useCustomTypeAdapter;
+
+    private ProcessExecutor processExecutor;
 
     private Options() {
         // no op
@@ -174,6 +177,9 @@ public class Options {
             if (options.useCustomTypeAdapter == null) {
                 options.useCustomTypeAdapter = null;
             }
+            if (options.processExecutor == null) {
+                options.processExecutor = ProcessBuilder;
+            }
             return options;
         }
 
@@ -237,5 +243,9 @@ public class Options {
 
     public CustomTypeAdapter useCustomTypeAdapter() {
         return useCustomTypeAdapter;
+    }
+
+    public ProcessExecutor processExecutor() {
+        return processExecutor;
     }
 }

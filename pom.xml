@@ -181,6 +181,7 @@
       <groupId>io.webfolder</groupId>
       <artifactId>wf-exec</artifactId>
       <version>1.0.1</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
