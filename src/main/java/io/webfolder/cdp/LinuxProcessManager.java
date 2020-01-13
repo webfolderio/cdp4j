@@ -26,6 +26,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
+import com.google.devtools.build.lib.shell.Subprocess;
+
 import io.webfolder.cdp.exception.CdpException;
 
 public class LinuxProcessManager extends ProcessManager {
@@ -37,7 +39,10 @@ public class LinuxProcessManager extends ProcessManager {
     @Override
     void setProcess(CdpProcess process) {
         try {
-            Field pidField = process.getProcess().getClass().getDeclaredField("pid");
+            Subprocess subprocess = (Subprocess) process.getProcess();
+            Field processField = subprocess.getClass().getDeclaredField("process");
+            Process javaProcess = (Process) processField.get(subprocess);
+            Field pidField = javaProcess.getClass().getDeclaredField("pid");
             pidField.setAccessible(true);
             this.pid = (int) pidField.get(process.getProcess());
         } catch (Throwable e) {

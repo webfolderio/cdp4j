@@ -21,9 +21,15 @@ package io.webfolder.cdp;
 import static java.lang.ProcessHandle.of;
 
 import java.lang.ProcessHandle.Info;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import com.google.devtools.build.lib.shell.Subprocess;
+
+import io.webfolder.cdp.exception.CdpException;
 
 public class DefaultProcessManager extends ProcessManager {
 
@@ -35,7 +41,19 @@ public class DefaultProcessManager extends ProcessManager {
 
     @Override
     void setProcess(CdpProcess process) {
-        ProcessHandle handle = process.getProcess().toHandle();
+        Subprocess subprocess = (Subprocess) process.getProcess();
+        Method method;
+        Process javaProcess;
+        try {
+            method = subprocess.getClass().getMethod("getProcess");
+            method.setAccessible(true);
+            javaProcess = (Process) method.invoke(subprocess);
+        } catch (NoSuchMethodException  | SecurityException |
+                 IllegalAccessException | IllegalArgumentException |
+                 InvocationTargetException e) {
+            throw new CdpException(e);
+        }
+        ProcessHandle handle = javaProcess.toHandle();
         Info info = handle.info();
         startTime = info.startInstant().get();
         command = info.command().get();

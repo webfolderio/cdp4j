@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp;
 
-import static com.google.devtools.build.lib.shell.SubprocessBuilder.StreamAction.STREAM;
-import static com.google.devtools.build.lib.windows.WindowsSubprocessFactory.INSTANCE;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
@@ -44,8 +42,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.google.devtools.build.lib.shell.JavaSubprocessFactory;
 import com.google.devtools.build.lib.shell.Subprocess;
 import com.google.devtools.build.lib.shell.SubprocessBuilder;
+import com.google.devtools.build.lib.windows.WindowsSubprocessFactory;
+import com.google.devtools.build.lib.windows.jni.WindowsJniLoader;
 
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
@@ -224,9 +225,7 @@ public class Launcher {
             arguments.add("--headless");
         }
 
-        SessionFactory factory = WINDOWS ?
-        		                 launchWebSocketWindows(arguments) :
-        		                 launchWebSocket(arguments);
+        SessionFactory factory = launchWebSocket(arguments);
         return factory;
     }
 
@@ -253,10 +252,16 @@ public class Launcher {
         return false;
     }
 
-    private SessionFactory launchWebSocketWindows(List<String> arguments) {
+    private SessionFactory launchWebSocket(List<String> arguments) {
         Connection connection = null;
 
-        SubprocessBuilder builder = new SubprocessBuilder(INSTANCE);
+        if (WINDOWS) {
+            WindowsJniLoader.loadJni();
+        }
+
+        SubprocessBuilder builder = new SubprocessBuilder(WINDOWS ?
+                                                          WindowsSubprocessFactory.INSTANCE :
+                                                          JavaSubprocessFactory.INSTANCE);
         builder.setWorkingDirectory(WORKING_DIR);
 
         String cdp4jId = toHexString(current().nextLong());
@@ -267,9 +272,6 @@ public class Launcher {
         Map<String, String> env = new LinkedHashMap<>(1);
         env.put("CDP4J_ID", cdp4jId);
         builder.setEnv(env);
-
-        builder.setStdout(STREAM);
-        builder.setStderr(STREAM);
 
         try {
             Subprocess process = builder.start();
@@ -291,47 +293,6 @@ public class Launcher {
             }
 
             if (process.finished()) {
-                throw new CdpException("No process: the chrome process is not alive.");
-            }
-
-            options.processManager().setProcess(new CdpProcess(process, cdp4jId));
-        } catch (IOException e) {
-            throw new CdpException(e);
-        }
-
-        SessionFactory factory = new SessionFactory(options,
-                                                    channelFactory,
-                                                    connection);
-        return factory;
-    }
-
-    private SessionFactory launchWebSocket(List<String> arguments) {
-        Connection connection = null;
-        ProcessBuilder builder = new ProcessBuilder(arguments);
-
-        String cdp4jId = toHexString(current().nextLong());
-        arguments.add(format("--cdp4jId=%s", cdp4jId));
-        builder.environment().put("CDP4J_ID", cdp4jId);
-        try {
-            Process process = builder.start();
-            try (Scanner scanner = new Scanner(process.getErrorStream())) {
-                while (scanner.hasNext()) {
-                    String line = scanner.nextLine().trim();
-                    if (line.isEmpty()) {
-                        continue;
-                    }
-                    if (line.toLowerCase(ENGLISH).startsWith("devtools listening on")) {
-                        int start = line.indexOf("ws://");
-                        connection = new WebSocketConnection(line.substring(start, line.length()));
-                        break;
-                    }
-                }
-                if (connection == null) {
-                    throw new CdpException("WebSocket connection url is required!");
-                }
-            }
-
-            if ( ! process.isAlive() ) {
                 throw new CdpException("No process: the chrome process is not alive.");
             }
 
