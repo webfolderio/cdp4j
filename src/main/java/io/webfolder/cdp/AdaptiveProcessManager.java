@@ -46,7 +46,7 @@ public class AdaptiveProcessManager extends ProcessManager {
     }
 
     private ProcessManager init() {
-        if ( ! JAVA_8 ) {
+        if ( ! JAVA_8 && ! WINDOWS ) {
             try {
                 Class<?> klass = getClass().getClassLoader().loadClass("io.webfolder.cdp.DefaultProcessManager");
                 Constructor<?> constructor = klass.getConstructor();
