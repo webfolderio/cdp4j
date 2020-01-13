@@ -18,33 +18,46 @@
  */
 package io.webfolder.cdp;
 
+import static java.lang.Thread.sleep;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.devtools.build.lib.shell.Subprocess;
 
 public class WindowsProcessManager extends ProcessManager {
 
-	private CdpProcess process;
+    private CdpProcess process;
 
-	private AtomicBoolean running = new AtomicBoolean(false);
-	
-	@Override
-	void setProcess(CdpProcess process) {
-		this.process = process;
-		running.compareAndSet(false, true);
-	}
+    private AtomicBoolean running = new AtomicBoolean(false);
+    
+    @Override
+    void setProcess(CdpProcess process) {
+        this.process = process;
+        running.compareAndSet(false, true);
+    }
 
-	@Override
-	public boolean kill() {
-	    if ( process == null ) {
-	        return false;
-	    }
-	    if (running.compareAndSet(true, false)) {
-	        Subprocess subprocess = (Subprocess) process.getProcess();
-	        if ( ! subprocess.finished() ) {
-	            return subprocess.destroy();
-	        }
-	    }
-		return false;
-	}
+    @Override
+    public boolean kill() {
+        if ( process == null ) {
+            return false;
+        }
+        if (running.compareAndSet(true, false)) {
+            Subprocess subprocess = (Subprocess) process.getProcess();
+            boolean ret = false;
+            if ( ! subprocess.finished() ) {
+                ret = subprocess.destroy();
+                while ( ! subprocess.finished() ) {
+                    try {
+                        sleep(1);
+                    } catch (InterruptedException e) {
+                        // ignore
+                    }
+                }
+            }
+            if (subprocess.finished()) {
+                subprocess.close();
+            }
+            return ret;
+        }
+        return false;
+    }
 }
