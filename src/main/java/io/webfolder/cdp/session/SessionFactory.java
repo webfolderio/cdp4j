@@ -203,6 +203,7 @@ public class SessionFactory implements AutoCloseable {
                     "about:blank".equals(url)       ||
                     "chrome://welcome/".equals(url) ||
                     "chrome://newtab/".equals(url)  ||
+                    "edge://newtab/".equals(url)    ||
                     url.startsWith("chrome://welcome-win10"))) {
             return true;
         }

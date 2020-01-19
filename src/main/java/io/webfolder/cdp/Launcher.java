@@ -25,6 +25,7 @@ import static java.lang.System.getProperty;
 import static java.lang.Thread.sleep;
 import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Locale.ENGLISH;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
@@ -136,13 +137,32 @@ public class Launcher {
     }
 
     protected List<String> getChromeWinPaths() {
+        Browser browser = options.getBrowser();
         List<String> prefixes = asList("%localappdata%",
                                        "%programfiles%",
                                        "%programfiles(x86)%");
-        List<String> suffixes = asList(
-                "\\Google\\Chrome Dev\\Application\\chrome.exe", // Chrome Dev
-                "\\Google\\Chrome SxS\\Application\\chrome.exe", // Chrome Canary
-                "\\Google\\Chrome\\Application\\chrome.exe");    // Chrome
+        List<String> suffixes = emptyList();
+        switch (browser) {
+            case Any:
+                suffixes = asList(
+                            "\\Google\\Chrome Dev\\Application\\chrome.exe", // Chrome Dev
+                            "\\Google\\Chrome SxS\\Application\\chrome.exe", // Chrome Canary
+                            "\\Google\\Chrome\\Application\\chrome.exe",     // Chrome
+                            "\\Microsoft\\Edge\\Application\\msedge.exe");   // Microsoft Edge
+            default:
+            case Chrome:
+                suffixes = asList("\\Google\\Chrome\\Application\\chrome.exe");
+            break;
+            case ChromeCanary:
+                suffixes = asList("\\Google\\Chrome SxS\\Application\\chrome.exe");
+            break;
+            case ChromeDev:
+                suffixes = asList("\\\\Google\\\\Chrome Dev\\\\Application\\\\chrome.exe");
+            break;
+            case MicrosoftEdge:
+                suffixes = asList("\\Microsoft\\Edge\\Application\\msedge.exe");
+            break;
+        }
         List<String> installations = new ArrayList<String>(prefixes.size() * suffixes.size());
         for (String prefix : prefixes) {
             for (String suffix : suffixes) {
@@ -239,6 +259,9 @@ public class Launcher {
             case WfExec:
                 if ( ! WINDOWS ) {
                     throw new CdpException("WfExec supports only Windows.");
+                }
+                if ( ! (options.processManager() instanceof WfProcessManager) ) {
+                    throw new CdpException("WfExec supports only WfProcessManager.");
                 }
                 factory = launchWithWfExec(arguments);
             break;

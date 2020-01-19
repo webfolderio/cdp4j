@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp;
 
+import static io.webfolder.cdp.Browser.Any;
 import static io.webfolder.cdp.ProcessExecutor.ProcessBuilder;
 import static io.webfolder.cdp.logger.CdpLoggerType.Null;
 import static io.webfolder.cdp.session.WaitingStrategy.Semaphore;
@@ -73,6 +74,8 @@ public class Options {
     private ProcessExecutor processExecutor;
 
     private String browserExecutablePath;
+
+    private Browser browser;
 
     private Options() {
         // no op
@@ -150,6 +153,16 @@ public class Options {
             return this;
         }
 
+        public Builder processExecutor(ProcessExecutor processExecutor) {
+            options.processExecutor = processExecutor;
+            return this;
+        }
+
+        public Builder browser(Browser browser) {
+            options.browser = browser;
+            return this;
+        }
+
         public Options build() {
             if (options.loggerType == null) {
                 options.loggerType = Null;
@@ -186,6 +199,9 @@ public class Options {
             }
             if (options.processExecutor == null) {
                 options.processExecutor = ProcessBuilder;
+            }
+            if (options.browser == null) {
+                options.browser = Any;
             }
             return options;
         }
@@ -258,5 +274,9 @@ public class Options {
 
     public String browserExecutablePath() {
         return browserExecutablePath;
+    }
+
+    public Browser getBrowser() {
+        return browser;
     }
 }
