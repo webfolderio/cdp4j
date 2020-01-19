@@ -90,12 +90,17 @@ public class Launcher {
     }
 
     protected String findChrome() {
-        if (WINDOWS) {
-            return findChromeWinPath();
-        } else if (OSX) {
-            return findChromeOsxPath();
+        String executablePath = options.browserExecutablePath();
+        if ( executablePath != null && ! executablePath.trim().isEmpty() ) {
+            return executablePath;
+        } else {
+            if (WINDOWS) {
+                return findChromeWinPath();
+            } else if (OSX) {
+                return findChromeOsxPath();
+            }
+            return "google-chrome";
         }
-        return "google-chrome";
     }
 
     protected String findChromeWinPath() {
@@ -207,7 +212,7 @@ public class Launcher {
         if (arguments.contains("--remote-debugging-pipe")) {
             arguments.remove("--remote-debugging-port=0");
         } else {
-            arguments.add("--remote-debugging-port=0");            
+            arguments.add("--remote-debugging-port=0");
         }
 
         Path userDataDir = options.userDataDir();

@@ -72,6 +72,8 @@ public class Options {
 
     private ProcessExecutor processExecutor;
 
+    private String browserExecutablePath;
+
     private Options() {
         // no op
     }
@@ -130,6 +132,11 @@ public class Options {
 
         public Builder readTimeout(int readTimeout) {
             options.readTimeout = readTimeout;
+            return this;
+        }
+
+        public Builder browserExecutablePath(String browserExecutablePath) {
+            options.browserExecutablePath = browserExecutablePath;
             return this;
         }
 
@@ -247,5 +254,9 @@ public class Options {
 
     public ProcessExecutor processExecutor() {
         return processExecutor;
+    }
+
+    public String browserExecutablePath() {
+        return browserExecutablePath;
     }
 }
