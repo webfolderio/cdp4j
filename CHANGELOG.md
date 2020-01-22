@@ -1,7 +1,7 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
-### 4.2.0 - January 22, 2019
+### 4.2.0 - January 22, 2020
 
 * :new: Added Vert.x [WebSocket client support](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/VertxWebSocketConnection.java).
 * :new: Added a new process executor ([wf-exec](https://github.com/webfolderio/wf-exec)). This feature available only for Windows platform.
