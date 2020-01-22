@@ -7,7 +7,7 @@ cdp4j Release Notes
 * :new: Added a new process executor ([wf-exec](https://github.com/webfolderio/wf-exec)). This feature available only for Windows platform.
 wf-exec help to kill all child processes when parent dies normally or abnormally. Sample usage: [WfExecSample.java](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/WfExecSample.java)
 * Update devtools protocol [r726364](https://github.com/webfolderio/cdp4j/commit/9d726822cb869bae5895589247b655df559ffa27)
-* :new: Released cdp4j.jar to Maven Central. #118
+* :new: Released cdp4j.jar to GitHub package. [#118](https://github.com/webfolderio/cdp4j/issues/118)
 * Dropped graalvm8 supports. cdp4j supports only graalvm11.
 
 ### 4.1.0 - November 26, 2019
