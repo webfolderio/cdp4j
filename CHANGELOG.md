@@ -1,6 +1,15 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
+### 4.2.0 - January 22, 2019
+
+* :new: Added Vert.x [WebSocket client support](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/VertxWebSocketConnection.java).
+* :new: Added a new process executor ([wf-exec](https://github.com/webfolderio/wf-exec)). This feature available only for Windows platform.
+wf-exec help to kill all child processes when parent dies normally or abnormally. Sample usage: [WfExecSample.java](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/WfExecSample.java)
+* Update devtools protocol [r726364](https://github.com/webfolderio/cdp4j/commit/9d726822cb869bae5895589247b655df559ffa27)
+* :new: Released cdp4j.jar to Maven Central. #118
+* Dropped graalvm8 supports. cdp4j supports only graalvm11.
+
 ### 4.1.0 - November 26, 2019
 
 * :new: Add [GraalVM](https://www.graalvm.org/) support [#116](https://github.com/webfolderio/cdp4j/issues/116)

@@ -27,19 +27,19 @@ import io.webfolder.cdp.session.SessionFactory;
 
 public class WfExecSample {
 
-	// Unlike standard Java ProcessBuilder
-	// WfExec kills child process when parent dies.
-	// wf-exec uses Windows Job Objects to manage group of process.
-	//
-	// wf-exec: https://github.com/webfolderio/wf-exec
-	// Job Objects: https://docs.microsoft.com/en-us/windows/win32/procthread/job-objects
+    // Unlike standard Java ProcessBuilder
+    // WfExec kills child process when parent dies.
+    // wf-exec uses Windows Job Objects to manage group of process.
+    //
+    // wf-exec: https://github.com/webfolderio/wf-exec
+    // Job Objects: https://docs.microsoft.com/en-us/windows/win32/procthread/job-objects
     public static void main(String[] args) {
         Options options = Options.builder()
-        						// this feature available for only Windows platform
-					        	.processExecutor(ProcessExecutor.WfExec)
-					        	// its mandatory to use WfProcessManager
-					        	.processManager(new WfProcessManager())
-				        	.build();
+                                // this feature available for only Windows platform
+                                .processExecutor(ProcessExecutor.WfExec)
+                                // its mandatory to use WfProcessManager
+                                .processManager(new WfProcessManager())
+                            .build();
 
         Launcher launcher = new Launcher(options);
 
