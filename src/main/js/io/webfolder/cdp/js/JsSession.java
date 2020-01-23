@@ -28,6 +28,10 @@ public class JsSession implements ISession {
         this.session = session;
     }
 
+    // ------------------------------------------------------------------------
+    // Session
+    // ------------------------------------------------------------------------
+
     @Override
     public void navigate(String url) {
         if (session == null) {
@@ -79,5 +83,122 @@ public class JsSession implements ISession {
             return null;
         }
         return session.getDOMSnapshot();
+    }
+
+    @Override
+    public void activate() {
+        if (session == null) {
+            return;
+        }
+        session.activate();
+    }
+
+    @Override
+    public String getStringProperty(String selector, String propertyName) {
+        if (session == null) {
+            return null;
+        }
+        return String.valueOf(session.getProperty(selector, propertyName));
+    }
+
+    // ------------------------------------------------------------------------
+    // Selector
+    // ------------------------------------------------------------------------
+
+    @Override
+    public boolean matches(String selector) {
+        if (session == null) {
+            return false;
+        }
+        try {
+            return session.matches(selector);
+        } catch (Throwable t) {
+            // never throw Exception
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Keyboard
+    // ------------------------------------------------------------------------
+
+    @Override
+    public void sendKeys(String text) {
+        if (session == null || text == null) {
+            return;
+        }
+        session.sendKeys(text);
+    }
+
+    @Override
+    public void sendTab() {
+        if (session == null) {
+            return;
+        }
+        session.sendTab();
+    }
+
+    @Override
+    public void sendEnter() {
+        if (session == null) {
+            return;
+        }
+        session.sendEnter();
+    }
+
+    @Override
+    public void sendBackspace() {
+        if (session == null) {
+            return;
+        }
+        session.sendBackspace();
+    }
+
+    @Override
+    public void sendLeftArrow() {
+        if (session == null) {
+            return;
+        }
+        session.sendLeftArrow();
+    }
+
+    @Override
+    public void sendUpArrow() {
+        if (session == null) {
+            return;
+        }
+        session.sendUpArrow();
+    }
+
+    @Override
+    public void sendRightArrow() {
+        if (session == null) {
+            return;
+        }
+        session.sendRightArrow();
+    }
+
+    @Override
+    public void sendDownArrow() {
+        if (session == null) {
+            return;
+        }
+        session.sendDownArrow();
+    }
+
+    @Override
+    public void sendEsc() {
+        if (session == null) {
+            return;
+        }
+        session.sendEsc();
+    }
+
+    @Override
+    public void sendKeyCode(int keyCode) {
+        if (session == null) {
+            return;
+        }
+        session.sendKeyCode(keyCode);
     }
 }

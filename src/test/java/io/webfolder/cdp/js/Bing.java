@@ -18,24 +18,17 @@
  */
 package io.webfolder.cdp.js;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import static java.nio.file.Paths.get;
 
-import com.koushikdutta.quack.JavaScriptObject;
-import com.koushikdutta.quack.QuackContext;
+import java.nio.file.Path;
 
-public class Cdp4jJs {
+public class Bing {
 
     public static void main(String[] args) throws Exception {
-        String lib = Paths.get(".").toAbsolutePath().resolve("quack.dll").toString();
-        System.load(lib);
+        Path script = get("src/test/resources/quickjs/bing.js");
 
-        QuackContext context = QuackContext.create(true);
-        JavaScriptObject global = context.getGlobalObject();
-
-        global.set("console", new JsConsole(System.out));
-        global.set("Launcher", new JsLauncher());
-
-        context.evaluate(Files.readString(Paths.get("src/test/resources/quickjs/test.js")), "test.js");
+        try (JsEngine engine = new JsEngine()) {
+            engine.evaluate(script);
+        }
     }
 }

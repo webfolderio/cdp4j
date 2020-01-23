@@ -20,6 +20,10 @@ package io.webfolder.cdp.js;
 
 public interface ISession {
 
+    // ------------------------------------------------------------------------
+    // Session
+    // ------------------------------------------------------------------------
+
     void navigate(String url);
 
     void waitDocumentReady();
@@ -33,4 +37,38 @@ public interface ISession {
     String getDOMSnapshot();
     
     String getText(String selector);
+
+    void activate();
+
+    String getStringProperty(String selector, String propertyName);
+
+    // ------------------------------------------------------------------------
+    // Selector
+    // ------------------------------------------------------------------------
+
+    boolean matches(String selector);
+
+    // ------------------------------------------------------------------------
+    // Keyboard
+    // ------------------------------------------------------------------------
+
+    void sendKeys(String text);
+
+    void sendTab();
+
+    void sendEnter();
+
+    void sendBackspace();
+
+    void sendLeftArrow();
+
+    void sendUpArrow();
+
+    void sendRightArrow();
+
+    void sendDownArrow();
+
+    void sendEsc();
+
+    void sendKeyCode(int keyCode);
 }

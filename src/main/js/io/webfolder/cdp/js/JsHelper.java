@@ -52,6 +52,17 @@ public class JsHelper {
         }
     }
 
+    public String getString(JavaScriptObject object, String name) {
+        Object value = object.get(name);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof String) {
+            return (String) value;
+        }
+        return String.valueOf(value);
+    }
+
     public List<Integer> getIntegerList(JavaScriptObject object, String name) {
         JavaScriptObject list = getObject(object, name);
         if (list == null) {

@@ -21,4 +21,6 @@ package io.webfolder.cdp.js;
 public interface IConsole {
 
     void info(Object message);
+
+    void error(Object message);
 }

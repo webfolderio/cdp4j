@@ -10,3 +10,4 @@
 /src/main/java/io/webfolder/cdp/CommandGenerator.java
 /src/main/native/build
 /quack.dll
+/src/main/resources/META-INF/quack.dll

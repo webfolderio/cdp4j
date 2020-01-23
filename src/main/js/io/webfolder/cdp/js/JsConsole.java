@@ -22,16 +22,53 @@ import static java.lang.String.valueOf;
 
 import java.io.PrintStream;
 
+import com.koushikdutta.quack.JavaScriptObject;
+
 public class JsConsole implements IConsole {
 
-    private final PrintStream ps;
+    private final JsHelper helper = new JsHelper();
 
-    public JsConsole(PrintStream ps) {
-        this.ps = ps;
+    private final PrintStream stdout;
+
+    private final PrintStream stderr;
+
+    public JsConsole(PrintStream stdout, PrintStream stderr) {
+        this.stdout = stdout;
+        this.stderr = stderr;
     }
 
     @Override
     public void info(Object message) {
-        ps.println(valueOf(message));
+        print(stdout, message);
+    }
+
+    @Override
+    public void error(Object message) {
+        print(stderr, message);
+    }
+
+    protected void print(PrintStream ps, Object message) {
+        String value = null;
+        if (message instanceof JavaScriptObject) {
+            JavaScriptObject jso = (JavaScriptObject) message;
+            boolean hasConstructor = jso.has("constructor");
+            if (hasConstructor) {
+                JavaScriptObject constructor = (JavaScriptObject) jso.get("constructor");
+                if ( constructor != null ) {
+                    String constructorName = String.valueOf(constructor.get("name"));
+                    boolean isJsError = "Error".equals(constructorName);
+                    if (isJsError) {
+                        String name = helper.getString(jso, "name");
+                        String msg = helper.getString(jso, "message");
+                        ps.println(name + " " + msg);
+                        return;
+                    }
+                }
+            }
+            value = jso.stringify();
+        } else {
+            value = message instanceof String ? (String) message : valueOf(message);
+        }
+        ps.println(value);
     }
 }
