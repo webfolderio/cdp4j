@@ -18,13 +18,17 @@
  */
 package io.webfolder.cdp.js;
 
-public interface IConsole {
+import static java.nio.file.Paths.get;
 
-    void info(Object message);
+import java.nio.file.Path;
 
-    void error(Object message);
+public class Headless {
 
-    void log(Object message);
+    public static void main(String[] args) throws Exception {
+        Path script = get("src/test/resources/quickjs/headless.js");
 
-    void warn(Object message);
+        try (JsEngine engine = new JsEngine()) {
+            engine.evaluate(script);
+        }
+    }
 }

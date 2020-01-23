@@ -101,6 +101,31 @@ public class JsSession implements ISession {
         return String.valueOf(session.getProperty(selector, propertyName));
     }
 
+
+    @Override
+    public void enableConsoleLog() {
+        if (session == null) {
+            return;
+        }
+        session.enableConsoleLog();
+    }
+
+    @Override
+    public void enableDetailLog() {
+        if (session == null) {
+            return;
+        }
+        session.enableDetailLog();
+    }
+
+    @Override
+    public void enableNetworkLog() {
+        if (session == null) {
+            return;
+        }
+        session.enableNetworkLog();
+    }
+
     // ------------------------------------------------------------------------
     // Selector
     // ------------------------------------------------------------------------

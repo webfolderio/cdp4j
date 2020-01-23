@@ -63,6 +63,17 @@ public class JsHelper {
         return String.valueOf(value);
     }
 
+    public Boolean getBoolean(JavaScriptObject object, String name) {
+        Object value = object.get(name);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Boolean) {
+            return (Boolean) value;
+        }
+        return Boolean.parseBoolean(String.valueOf(value));
+    }
+
     public List<Integer> getIntegerList(JavaScriptObject object, String name) {
         JavaScriptObject list = getObject(object, name);
         if (list == null) {

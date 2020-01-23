@@ -47,6 +47,14 @@ public class JsConsole implements IConsole {
         print(stderr, message);
     }
 
+    public void log(Object message) {
+        print(stdout, message);
+    }
+
+    public void warn(Object message) {
+        print(stdout, message);
+    }
+
     protected void print(PrintStream ps, Object message) {
         String value = null;
         if (message instanceof JavaScriptObject) {

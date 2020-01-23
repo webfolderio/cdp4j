@@ -42,6 +42,12 @@ public interface ISession {
 
     String getStringProperty(String selector, String propertyName);
 
+    void enableConsoleLog();
+
+    void enableDetailLog();
+
+    void enableNetworkLog();
+
     // ------------------------------------------------------------------------
     // Selector
     // ------------------------------------------------------------------------

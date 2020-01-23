@@ -18,6 +18,12 @@
  */
 package io.webfolder.cdp.js;
 
+import static io.webfolder.cdp.ProcessExecutor.WfExec;
+import static io.webfolder.cdp.js.JsEngine.WINDOWS;
+import static io.webfolder.cdp.logger.CdpConsoleLogggerLevel.Info;
+import static io.webfolder.cdp.logger.CdpLoggerType.Console;
+import static java.lang.Boolean.TRUE;
+
 import java.util.List;
 
 import com.koushikdutta.quack.JavaScriptObject;
@@ -26,6 +32,7 @@ import com.koushikdutta.quack.QuackObject;
 import io.webfolder.cdp.Launcher;
 import io.webfolder.cdp.Options;
 import io.webfolder.cdp.Options.Builder;
+import io.webfolder.cdp.WfProcessManager;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class JsLauncher implements QuackObject, ILauncher {
@@ -39,11 +46,20 @@ public class JsLauncher implements QuackObject, ILauncher {
     @Override
     public Object construct(Object... args) {
         Builder options = Options.builder();
+        boolean headless = false;
         if ( args != null && args.length == 1 ) {
             JavaScriptObject arg = (JavaScriptObject) args[0];
             List<String> arguments = helper.getStringList(arg, "args");
+            headless = TRUE.equals(helper.getBoolean(arg, "headless"));
             options.arguments(arguments);
         }
+        if (WINDOWS) {
+            options.processExecutor(WfExec);
+            options.processManager(new WfProcessManager());
+            options.loggerType(Console);
+            options.consoleLoggerLevel(Info);
+        }
+        options.headless(headless);
         launcher = new Launcher(options.build());
         return this;
     }
