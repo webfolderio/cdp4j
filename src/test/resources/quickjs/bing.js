@@ -11,7 +11,7 @@ session.sendEnter();
 
 session.wait(1_000);
 
-let docHtml = session.getDOMSnapshot();
+let docHtml = session.getDOMSnapshot().value;
 console.info(docHtml);
 
 launcher.kill();

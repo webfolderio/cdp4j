@@ -24,57 +24,57 @@ public interface ISession {
     // Session
     // ------------------------------------------------------------------------
 
-    void navigate(String url);
+    JsReturnValue navigate(String url);
 
-    void waitDocumentReady();
+    JsReturnValue waitDocumentReady();
 
-    void waitDocumentReady(int timeout);
+    JsReturnValue waitDocumentReady(int timeout);
 
-    void click(String selector);
+    JsReturnValue click(String selector);
 
-    void wait(int timeout);
+    JsReturnValue wait(int timeout);
 
-    String getDOMSnapshot();
-    
-    String getText(String selector);
+    JsReturnValue getDOMSnapshot();
 
-    void activate();
+    JsReturnValue getText(String selector);
 
-    String getStringProperty(String selector, String propertyName);
+    JsReturnValue activate();
 
-    void enableConsoleLog();
+    JsReturnValue getStringProperty(String selector, String propertyName);
 
-    void enableDetailLog();
+    JsReturnValue enableConsoleLog();
 
-    void enableNetworkLog();
+    JsReturnValue enableDetailLog();
+
+    JsReturnValue enableNetworkLog();
 
     // ------------------------------------------------------------------------
     // Selector
     // ------------------------------------------------------------------------
 
-    boolean matches(String selector);
+    JsReturnValue matches(String selector);
 
     // ------------------------------------------------------------------------
     // Keyboard
     // ------------------------------------------------------------------------
 
-    void sendKeys(String text);
+    JsReturnValue sendKeys(String text);
 
-    void sendTab();
+    JsReturnValue sendTab();
 
-    void sendEnter();
+    JsReturnValue sendEnter();
 
-    void sendBackspace();
+    JsReturnValue sendBackspace();
 
-    void sendLeftArrow();
+    JsReturnValue sendLeftArrow();
 
-    void sendUpArrow();
+    JsReturnValue sendUpArrow();
 
-    void sendRightArrow();
+    JsReturnValue sendRightArrow();
 
-    void sendDownArrow();
+    JsReturnValue sendDownArrow();
 
-    void sendEsc();
+    JsReturnValue sendEsc();
 
-    void sendKeyCode(int keyCode);
+    JsReturnValue sendKeyCode(int keyCode);
 }

@@ -9,6 +9,6 @@ session.enableNetworkLog();
 session.navigate('https://webfolder.io?cdp4j-js-headless');
 session.waitDocumentReady();
 
-console.info(session.getText('//body'));
+console.info(session.getText('//body').value);
 
 launcher.kill();

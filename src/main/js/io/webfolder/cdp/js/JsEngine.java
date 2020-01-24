@@ -100,13 +100,6 @@ public class JsEngine implements AutoCloseable {
         global.set("Launcher", new JsLauncher());
     }
 
-    @Override
-    public void close() {
-        if ( engine != null ) {
-            engine.close();
-        }
-    }
-
     public Object evaluate(Path path) {
         if (path == null) {
             return null;
@@ -121,5 +114,12 @@ public class JsEngine implements AutoCloseable {
         String fileName = path.getFileName().toString();
         Object ret = engine.evaluate(script, fileName);
         return ret;
+    }
+
+    @Override
+    public void close() {
+        if ( engine != null ) {
+            engine.close();
+        }
     }
 }

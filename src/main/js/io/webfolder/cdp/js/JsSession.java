@@ -18,6 +18,11 @@
  */
 package io.webfolder.cdp.js;
 
+import static io.webfolder.cdp.js.JsReturnValue.fail;
+import static io.webfolder.cdp.js.JsReturnValue.success;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 import io.webfolder.cdp.session.Session;
 
 public class JsSession implements ISession {
@@ -33,97 +38,124 @@ public class JsSession implements ISession {
     // ------------------------------------------------------------------------
 
     @Override
-    public void navigate(String url) {
-        if (session == null) {
-            return;
+    public JsReturnValue navigate(String url) {
+        try {
+            session.navigate(url);
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.navigate(url);
+        return success();
     }
 
     @Override
-    public void waitDocumentReady() {
-        if (session == null) {
-            return;
+    public JsReturnValue waitDocumentReady() {
+        try {
+            session.waitDocumentReady();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.waitDocumentReady();
+        return success();
     }
 
     @Override
-    public void waitDocumentReady(int timeout) {
-        if (session == null) {
-            return;
+    public JsReturnValue waitDocumentReady(int timeout) {
+        try {
+            session.waitDocumentReady(timeout);
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.waitDocumentReady(timeout);
+        return success();
     }
 
     @Override
-    public void click(String selector) {
-        session.click(selector);
+    public JsReturnValue click(String selector) {
+        try {
+            session.click(selector);
+        } catch (Throwable t) {
+            return fail(t);
+        }
+        return success();
     }
 
     @Override
-    public void wait(int timeout) {
-        if (session == null) {
-            return;
+    public JsReturnValue wait(int timeout) {
+        try {
+            session.wait(timeout);
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.wait(timeout);
+        return success();
     }
 
     @Override
-    public String getText(String selector) {
-        if (session == null) {
-            return null;
+    public JsReturnValue getText(String selector) {
+        try {
+            String val = session.getText(selector);
+            return success(val);
+        } catch (Throwable t) {
+            return fail(t);
         }
-        return session.getText(selector);
     }
 
     @Override
-    public String getDOMSnapshot() {
-        if (session == null) {
-            return null;
+    public JsReturnValue getDOMSnapshot() {
+        try {
+            String val = session.getDOMSnapshot();
+            return success(val);
+        } catch (Throwable t) {
+            return fail(t);
         }
-        return session.getDOMSnapshot();
     }
 
     @Override
-    public void activate() {
-        if (session == null) {
-            return;
+    public JsReturnValue activate() {
+        try {
+            session.activate();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.activate();
     }
 
     @Override
-    public String getStringProperty(String selector, String propertyName) {
-        if (session == null) {
-            return null;
+    public JsReturnValue getStringProperty(String selector, String propertyName) {
+        try {
+            String val = String.valueOf(session.getProperty(selector, propertyName));
+            return success(val);
+        } catch (Throwable t) {
+            return fail(t);
         }
-        return String.valueOf(session.getProperty(selector, propertyName));
     }
 
 
     @Override
-    public void enableConsoleLog() {
-        if (session == null) {
-            return;
+    public JsReturnValue enableConsoleLog() {
+        try {
+            session.enableConsoleLog();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.enableConsoleLog();
     }
 
     @Override
-    public void enableDetailLog() {
-        if (session == null) {
-            return;
+    public JsReturnValue enableDetailLog() {
+        try {
+            session.enableDetailLog();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.enableDetailLog();
     }
 
     @Override
-    public void enableNetworkLog() {
-        if (session == null) {
-            return;
+    public JsReturnValue enableNetworkLog() {
+        try {
+            session.enableNetworkLog();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.enableNetworkLog();
     }
 
     // ------------------------------------------------------------------------
@@ -131,15 +163,12 @@ public class JsSession implements ISession {
     // ------------------------------------------------------------------------
 
     @Override
-    public boolean matches(String selector) {
-        if (session == null) {
-            return false;
-        }
+    public JsReturnValue matches(String selector) {
         try {
-            return session.matches(selector);
+            boolean val = session.matches(selector);
+            return success(val == true ? TRUE : FALSE);
         } catch (Throwable t) {
-            // never throw Exception
-            return false;
+            return fail(t);
         }
     }
 
@@ -148,82 +177,102 @@ public class JsSession implements ISession {
     // ------------------------------------------------------------------------
 
     @Override
-    public void sendKeys(String text) {
-        if (session == null || text == null) {
-            return;
+    public JsReturnValue sendKeys(String text) {
+        try {
+            session.sendKeys(text);
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendKeys(text);
     }
 
     @Override
-    public void sendTab() {
-        if (session == null) {
-            return;
+    public JsReturnValue sendTab() {
+        try {
+            session.sendTab();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendTab();
     }
 
     @Override
-    public void sendEnter() {
-        if (session == null) {
-            return;
+    public JsReturnValue sendEnter() {
+        try {
+            session.sendEnter();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendEnter();
     }
 
     @Override
-    public void sendBackspace() {
-        if (session == null) {
-            return;
+    public JsReturnValue sendBackspace() {
+        try {
+            session.sendBackspace();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendBackspace();
     }
 
     @Override
-    public void sendLeftArrow() {
-        if (session == null) {
-            return;
+    public JsReturnValue sendLeftArrow() {
+        try {
+            session.sendLeftArrow();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendLeftArrow();
     }
 
     @Override
-    public void sendUpArrow() {
-        if (session == null) {
-            return;
+    public JsReturnValue sendUpArrow() {
+        try {
+            session.sendUpArrow();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendUpArrow();
     }
 
     @Override
-    public void sendRightArrow() {
-        if (session == null) {
-            return;
+    public JsReturnValue sendRightArrow() {
+        try {
+            session.sendRightArrow();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendRightArrow();
     }
 
     @Override
-    public void sendDownArrow() {
-        if (session == null) {
-            return;
+    public JsReturnValue sendDownArrow() {
+        try {
+            session.sendDownArrow();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendDownArrow();
     }
 
     @Override
-    public void sendEsc() {
-        if (session == null) {
-            return;
+    public JsReturnValue sendEsc() {
+        try {
+            session.sendEsc();
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendEsc();
     }
 
     @Override
-    public void sendKeyCode(int keyCode) {
-        if (session == null) {
-            return;
+    public JsReturnValue sendKeyCode(int keyCode) {
+        try {
+            session.sendKeyCode(keyCode);
+            return success();
+        } catch (Throwable t) {
+            return fail(t);
         }
-        session.sendKeyCode(keyCode);
     }
 }
