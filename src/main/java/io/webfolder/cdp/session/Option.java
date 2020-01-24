@@ -38,7 +38,7 @@ public class Option {
 
     private String group;
 
-    static TypeToken<List<Option>> TYPE_TOKEN = new TypeToken<List<Option>>() { };
+    public static TypeToken<List<Option>> TYPE_TOKEN = new TypeToken<List<Option>>() { };
 
     public Integer getIndex() {
         return index;

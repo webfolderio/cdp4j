@@ -751,7 +751,7 @@ public class Session implements AutoCloseable,
         invocationHandler.dispose();
     }
 
-    Gson getGson() {
+    public Gson getGson() {
         return gson;
     }
 

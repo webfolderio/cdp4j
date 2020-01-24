@@ -18,6 +18,8 @@
  */
 package io.webfolder.cdp.js;
 
+import com.koushikdutta.quack.JavaScriptObject;
+
 public interface ISession {
 
     // ------------------------------------------------------------------------
@@ -30,13 +32,7 @@ public interface ISession {
 
     JsReturnValue waitDocumentReady(int timeout);
 
-    JsReturnValue click(String selector);
-
     JsReturnValue wait(int timeout);
-
-    JsReturnValue getDOMSnapshot();
-
-    JsReturnValue getText(String selector);
 
     JsReturnValue activate();
 
@@ -47,6 +43,44 @@ public interface ISession {
     JsReturnValue enableDetailLog();
 
     JsReturnValue enableNetworkLog();
+
+    // ------------------------------------------------------------------------
+    // Mouse
+    // ------------------------------------------------------------------------
+
+    JsReturnValue click(String selector);
+
+    JsReturnValue move(double x, double y);
+
+    // ------------------------------------------------------------------------
+    // Navigator
+    // ------------------------------------------------------------------------
+
+    JsReturnValue stop();
+
+    JsReturnValue back();
+
+    JsReturnValue forward();
+
+    JsReturnValue reload();
+
+    JsReturnValue setUserAgent(String userAgent);
+
+    JsReturnValue getLocation();
+
+    JsReturnValue getPathname();
+
+    JsReturnValue getQueryString();
+
+    JsReturnValue getContent();
+
+    JsReturnValue getTitle();
+
+    JsReturnValue isDomReady();
+
+    JsReturnValue clearCache();
+
+    JsReturnValue clearCookies();
 
     // ------------------------------------------------------------------------
     // Selector
@@ -77,4 +111,54 @@ public interface ISession {
     JsReturnValue sendEsc();
 
     JsReturnValue sendKeyCode(int keyCode);
+
+    // ------------------------------------------------------------------------
+    // Dom
+    // ------------------------------------------------------------------------
+
+    JsReturnValue getText(String selector);
+
+    JsReturnValue getDOMSnapshot();
+
+    JsReturnValue selectInputText(String selector);
+
+    JsReturnValue focus(String selector);
+
+    JsReturnValue getSelectedIndex(String selector);
+
+    JsReturnValue setSelectedIndex(String selector, int index);
+
+    JsReturnValue getOptions(String selector);
+
+    JsReturnValue clearOptions(String selector);
+
+    JsReturnValue setSelectedOptions(String selector, JavaScriptObject jsObjectIndexes);
+
+    JsReturnValue setFiles(String selector, JavaScriptObject jsoFiles);
+
+    JsReturnValue isDisabled(String selector);
+
+    JsReturnValue isChecked(String selector);
+
+    JsReturnValue setChecked(String selector, boolean checked);
+
+    JsReturnValue setDisabled(String selector, boolean disabled);
+
+    JsReturnValue setValue(String selector, Object value);
+
+    JsReturnValue getValue(String selector);
+
+    JsReturnValue getAttributes(String selector);
+
+    JsReturnValue getAttribute(String selector, String name);
+
+    JsReturnValue setAttribute(String selector, String name, Object value);
+
+    JsReturnValue getBoxModel(String selector);
+
+    JsReturnValue getOuterHtml(String selector);
+
+    JsReturnValue scrollIntoViewIfNeeded(String selector);
+
+    JsReturnValue getClickablePoint(String selector);
 }

@@ -21,6 +21,7 @@ package io.webfolder.cdp.js;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
+import com.koushikdutta.quack.QuackJsonObject;
 import com.koushikdutta.quack.QuackObject;
 
 public class JsReturnValue implements QuackObject {
@@ -62,12 +63,24 @@ public class JsReturnValue implements QuackObject {
         return SUCCESS;
     }
 
-    public static JsReturnValue success(String val) {
-        return new JsReturnValue(val, null);
+    public static JsReturnValue success(String value) {
+        return new JsReturnValue(value, null);
     }
 
-    public static JsReturnValue success(Boolean val) {
-        return TRUE.equals(val) ? RET_TRUE : RET_FAIL;
+    public static JsReturnValue success(Boolean value) {
+        return TRUE.equals(value) ? RET_TRUE : RET_FAIL;
+    }
+
+    public static JsReturnValue success(boolean value) {
+        return true == value ? RET_TRUE : RET_FAIL;
+    }
+
+    public static JsReturnValue success(int value) {
+        return new JsReturnValue(value, null);
+    }
+
+    public static JsReturnValue success(QuackJsonObject json) {
+        return new JsReturnValue(json, null);
     }
 
     @Override
