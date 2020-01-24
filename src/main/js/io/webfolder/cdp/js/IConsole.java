@@ -20,11 +20,11 @@ package io.webfolder.cdp.js;
 
 public interface IConsole {
 
-    void info(Object message);
+    void info(Object... messages);
 
-    void error(Object message);
+    void error(Object... messages);
 
-    void log(Object message);
+    void log(Object... messages);
 
-    void warn(Object message);
+    void warn(Object... messages);
 }

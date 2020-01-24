@@ -21,6 +21,7 @@ package io.webfolder.cdp.js;
 import static java.lang.String.valueOf;
 
 import java.io.PrintStream;
+import java.util.StringJoiner;
 
 import com.koushikdutta.quack.JavaScriptObject;
 
@@ -38,45 +39,47 @@ public class JsConsole implements IConsole {
     }
 
     @Override
-    public void info(Object message) {
-        print(stdout, message);
+    public void info(Object... messages) {
+        print(stdout, messages);
     }
 
     @Override
-    public void error(Object message) {
-        print(stderr, message);
+    public void error(Object... messages) {
+        print(stderr, messages);
     }
 
-    public void log(Object message) {
-        print(stdout, message);
+    public void log(Object... messages) {
+        print(stdout, messages);
     }
 
-    public void warn(Object message) {
-        print(stdout, message);
+    public void warn(Object... messages) {
+        print(stdout, messages);
     }
 
-    protected void print(PrintStream ps, Object message) {
-        String value = null;
-        if (message instanceof JavaScriptObject) {
-            JavaScriptObject jso = (JavaScriptObject) message;
-            boolean hasConstructor = jso.has("constructor");
-            if (hasConstructor) {
-                JavaScriptObject constructor = (JavaScriptObject) jso.get("constructor");
-                if ( constructor != null ) {
-                    String constructorName = String.valueOf(constructor.get("name"));
-                    boolean isJsError = "Error".equals(constructorName);
-                    if (isJsError) {
-                        String name = helper.getString(jso, "name");
-                        String msg = helper.getString(jso, "message");
-                        ps.println(name + " " + msg);
-                        return;
+    protected void print(PrintStream ps, Object... messages) {
+        StringJoiner joiner = new StringJoiner(" ");
+        for (Object message : messages) {
+            if (message instanceof JavaScriptObject) {
+                JavaScriptObject jso = (JavaScriptObject) message;
+                boolean hasConstructor = jso.has("constructor");
+                if (hasConstructor) {
+                    JavaScriptObject constructor = (JavaScriptObject) jso.get("constructor");
+                    if ( constructor != null ) {
+                        String constructorName = String.valueOf(constructor.get("name"));
+                        boolean isJsError = "Error".equals(constructorName);
+                        if (isJsError) {
+                            String name = helper.getString(jso, "name");
+                            String msg = helper.getString(jso, "message");
+                            joiner.add(name + " " + msg);
+                        }
                     }
                 }
+                joiner.add(jso.stringify());
+            } else {
+                joiner.add(message instanceof String ? (String) message : valueOf(message));
             }
-            value = jso.stringify();
-        } else {
-            value = message instanceof String ? (String) message : valueOf(message);
         }
-        ps.println(value);
+        String msg = joiner.toString();
+        ps.println(msg);
     }
 }
