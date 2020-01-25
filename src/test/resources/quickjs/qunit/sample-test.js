@@ -1,10 +1,12 @@
+/// <reference path="qunit.d.ts" />
+
 var QUnit = exports.QUnit;
 
 let counter = 0;
 
 const newLine = os.platform == 'win32' ? '\r\n' : '\n';
 
-QUnit.log(function(details) {
+QUnit.log(details => {
   counter++;
   if (details.result) {
 	let message = '\'' + details.name + '\' is PASSED, ' + details.message;
@@ -15,20 +17,30 @@ QUnit.log(function(details) {
     console.error(counter + '. ' + message + newLine);
     console.error('stack trace');
     console.error('===========');
-    console.error(details.source);	  
+    console.error(details.source);
   }
 });
 
-QUnit.done(function(details) {
+QUnit.done(details => {
   console.info('Total  : ', details.total);
   console.info('Passed : ', details.passed);
   console.info('Failed : ', details.failed);
   console.info('Time   : ', details.runtime, 'ms');
 });
 
-QUnit.test('hello test', function(assert) {
-  assert.ok(2 == 2, 'Passed!');
-  assert.ok(1 == 2, 'Failed!');
+const { test, module } = QUnit;
+
+module('My Test Suite', (module) => {
+  module.before(assert => console.info('starting'));
+  module.after(assset => console.info('finished'));
+
+  test('test equal', assert => {
+    assert.equal(2, 2);
+  });
+
+  test('test not equal', assert => {
+    assert.notEqual(2, 2);
+  });	
 });
 
 QUnit.load();

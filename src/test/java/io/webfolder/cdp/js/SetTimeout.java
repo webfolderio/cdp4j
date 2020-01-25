@@ -26,7 +26,7 @@ public class SetTimeout {
 
     @SuppressWarnings("resource")
     public static void main(String[] args) throws Exception {
-        Path script = get("src/test/resources/quickjs/timeout.js");
+        Path script = get("src/test/resources/quickjs/sample/timeout.js");
 
         new JsEngine().evaluate(script);
 

@@ -1,26 +1,24 @@
-var QUnit = exports.QUnit;
+setTimeout(() => {
+	console.info('hello, world!');
+}, 10);
 
-QUnit.log(function(details) {
-  if ( ! details.result ) {
-    let message = '\'' + details.name + '\' is FAILED';
-        message += ', actual: [' + details.actual + '], expected: [' + details.expected + ']';
-        console.error(message + '\n');
-        console.error('stack trace');
-        console.error('===========');
-        console.error(details.source);
-    }
-});
+let counter = 0;
 
-QUnit.done(function(details) {
-  console.info('Total  : ', details.total);
-  console.info('Passed : ', details.passed);
-  console.info('Failed : ', details.failed);
-  console.info('Time   : ', details.runtime, 'ms');
-});
+setInterval(() => {
+  console.info(counter++);
+  if (counter > 4) {
+	  timer.clearInterval(id);
+  }
+}, 500);
 
-QUnit.test('hello test', function(assert) {
-  assert.ok(2 == 2, 'Passed!');
-  assert.ok(1 == 2, 'Passed!');
-});
+let timerId = setTimeout(() => {
+	console.info('this line will not be print!');
+}, 10);
 
-QUnit.load();
+cleartimeout(timerId);
+
+let intervalId = setInterval(() => {
+	console.info('this line will not be print too!');
+}, 10);
+
+cleartimeout(intervalId);
