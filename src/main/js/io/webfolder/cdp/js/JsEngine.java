@@ -45,7 +45,7 @@ import io.webfolder.cdp.exception.CdpException;
 
 public class JsEngine implements AutoCloseable {
 
-    private final QuackContext engine;
+    private final QuackContext context;
 
     private final JavaScriptObject global;
 
@@ -101,11 +101,11 @@ public class JsEngine implements AutoCloseable {
     }
 
     public JsEngine() {
-        engine = create(true);
-        if (engine == null) {
+        context = create(true);
+        if (context == null) {
             throw new IllegalStateException();
         }
-        global = engine.getGlobalObject();
+        global = context.getGlobalObject();
         init(global);
     }
 
@@ -113,29 +113,30 @@ public class JsEngine implements AutoCloseable {
         global.set("console", new JsConsole(System.out, System.err));
         global.set("Launcher", new JsLauncher());
         global.set("Timer", new JsTimer());
-        engine.evaluate(boostrapJs);
+        context.evaluate(boostrapJs);
     }
 
-    public Object evaluate(Path path) {
-        if (path == null) {
-            return null;
+    public void evaluate(Path... paths) {
+        for (Path path : paths) {
+            if (path == null) {
+                continue;
+            }
+            byte[] content = null;
+            try {
+                content = readAllBytes(path);
+            } catch (IOException e) {
+                throw new CdpException(e);
+            }
+            String script = new String(content, UTF_8);
+            String fileName = path.getFileName().toString();
+            context.evaluate(script, fileName);
         }
-        byte[] content = null;
-        try {
-            content = readAllBytes(path);
-        } catch (IOException e) {
-            return null;
-        }
-        String script = new String(content, UTF_8);
-        String fileName = path.getFileName().toString();
-        Object ret = engine.evaluate(script, fileName);
-        return ret;
     }
 
     @Override
     public void close() {
-        if ( engine != null ) {
-            engine.close();
+        if ( context != null ) {
+            context.close();
         }
     }
 }

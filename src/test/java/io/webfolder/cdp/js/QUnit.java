@@ -18,19 +18,17 @@
  */
 package io.webfolder.cdp.js;
 
-import com.koushikdutta.quack.JavaScriptObject;
+import static java.lang.Thread.sleep;
+import static java.nio.file.Paths.get;
 
-public interface ITimer {
+public class QUnit {
 
-    int setTimeout(JavaScriptObject callback, int delay);
-
-    int setTimeout(JavaScriptObject callback);
-
-    void cleartimeout(int timeoutId);
-
-    int setInterval(JavaScriptObject callback, int delay);
-
-    int setInterval(JavaScriptObject callback);
-
-    void clearInterval(int intervalId);
+    @SuppressWarnings("resource")
+    public static void main(String[] args) throws Exception {
+        new JsEngine().evaluate(
+                get("src/test/resources/quickjs/qunit/qunit-2.9.3.js"),
+                get("src/test/resources/quickjs/qunit/sample-test.js")
+        );
+        sleep(500);
+    }
 }

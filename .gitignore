@@ -11,3 +11,4 @@
 /src/main/native/build
 /quack.dll
 /src/main/resources/META-INF/quack.dll
+/src/test/resources/quickjs/qunit/qunit-2.9.3.js

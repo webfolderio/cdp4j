@@ -75,6 +75,12 @@ public class JsTimer implements ITimer, QuackObject, AutoCloseable {
         return timeoutId;
     }
 
+
+    @Override
+    public int setTimeout(JavaScriptObject callback) {
+        return setTimeout(callback, 0);
+    }
+
     @Override
     public void cleartimeout(int timeoutId) {
         Integer id = valueOf(timeoutId);
@@ -100,6 +106,11 @@ public class JsTimer implements ITimer, QuackObject, AutoCloseable {
         }, delay, delay, MILLISECONDS);
         jobs.put(valueOf(intervalId), job);
         return intervalId;
+    }
+
+    @Override
+    public int setInterval(JavaScriptObject callback) {
+        return setInterval(callback, 0);
     }
 
     @Override
