@@ -31,12 +31,17 @@ import static java.nio.file.Paths.get;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.util.Locale.ENGLISH;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import com.koushikdutta.quack.JavaScriptObject;
 import com.koushikdutta.quack.QuackContext;
+
+import io.webfolder.cdp.exception.CdpException;
 
 public class JsEngine implements AutoCloseable {
 
@@ -55,6 +60,8 @@ public class JsEngine implements AutoCloseable {
 
     private static boolean loaded;
 
+    private static String boostrapJs;
+
     static {
         loadJni();
     }
@@ -67,21 +74,28 @@ public class JsEngine implements AutoCloseable {
             return false;
         }
         Path libFile = tmpdir.resolve("cdp4js-" + version).resolve("quack.dll");
-        if (!exists(libFile)) {
-            ClassLoader cl = JsEngine.class.getClassLoader();
+        ClassLoader cl = JsEngine.class.getClassLoader();
+        if ( ! exists(libFile) ) {
             try (InputStream is = cl.getResourceAsStream("META-INF/quack.dll")) {
-                if (!exists(libFile.getParent())) {
+                if ( ! exists(libFile.getParent()) ) {
                     createDirectory(libFile.getParent());
                 }
-                if (!exists(libFile)) {
+                if ( ! exists(libFile) ) {
                     createFile(libFile);
                 }
                 copy(is, libFile, REPLACE_EXISTING);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new CdpException(e);
             }
         }
         load(libFile.toString());
+        try (InputStream is = cl.getResourceAsStream("cdp4js-bootstrap.js");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            boostrapJs = reader.lines()
+                                   .collect(Collectors.joining(WINDOWS ? "\r\n" : "\n"));
+        } catch (IOException e) {
+            throw new CdpException(e);
+        }
         loaded = true;
         return true;
     }
@@ -98,6 +112,8 @@ public class JsEngine implements AutoCloseable {
     protected void init(JavaScriptObject global) {
         global.set("console", new JsConsole(System.out, System.err));
         global.set("Launcher", new JsLauncher());
+        global.set("Timer", new JsTimer());
+        engine.evaluate(boostrapJs);
     }
 
     public Object evaluate(Path path) {
