@@ -26,7 +26,7 @@ public interface ITimer {
 
     int setTimeout(JavaScriptObject callback);
 
-    void cleartimeout(int timeoutId);
+    void clearTimeout(int timeoutId);
 
     int setInterval(JavaScriptObject callback, int delay);
 

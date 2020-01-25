@@ -15,10 +15,10 @@ let timerId = setTimeout(() => {
 	console.info('this line will not be print!');
 }, 10);
 
-cleartimeout(timerId);
+clearTimeout(timerId);
 
 let intervalId = setInterval(() => {
 	console.info('this line will not be print too!');
 }, 10);
 
-cleartimeout(intervalId);
+clearInterval(intervalId);

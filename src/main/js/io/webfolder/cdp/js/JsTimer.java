@@ -82,7 +82,7 @@ public class JsTimer implements ITimer, QuackObject, AutoCloseable {
     }
 
     @Override
-    public void cleartimeout(int timeoutId) {
+    public void clearTimeout(int timeoutId) {
         Integer id = valueOf(timeoutId);
         ScheduledFuture<?> job = jobs.remove(id);
         if (job == null) {
@@ -115,7 +115,7 @@ public class JsTimer implements ITimer, QuackObject, AutoCloseable {
 
     @Override
     public void clearInterval(int intervalId) {
-        cleartimeout(intervalId);
+        clearTimeout(intervalId);
     }
 
     @Override

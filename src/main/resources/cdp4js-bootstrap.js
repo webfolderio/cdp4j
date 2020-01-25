@@ -1,22 +1,21 @@
-const window = function() {
-  this.self = this;
+let window, self, global;
+
+(function() {
+  globalThis = self = window = Function('return this')();  // window <- global object
+  window.self = self;
 
   // init location
-  this.location = { };
-  this.location.search = '';
-  this.location.protocol = 'file:';
-
-  // init NodeJS module support
-  this.module = { };
-  this.module.exports = { };
+  window.location = { };
+  window.location.search = '';
+  window.location.protocol = 'file:';
 
   // init CommonJS exports support
-  this.exports = this.module.exports;
+  window.exports = { };
 
   // init timer support
   const timer = new Timer();
-  this.setTimeout = timer.setTimeout;
-  this.cleartimeout = timer.cleartimeout;
-  this.setInterval = timer.setInterval;
-  this.clearInterval = timer.clearInterval;
-}(this);
+  window.setTimeout = timer.setTimeout;
+  window.clearTimeout = timer.clearTimeout;
+  window.setInterval = timer.setInterval;
+  window.clearInterval = timer.clearInterval;
+})();

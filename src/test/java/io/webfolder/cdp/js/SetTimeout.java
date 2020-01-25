@@ -30,6 +30,6 @@ public class SetTimeout {
 
         new JsEngine().evaluate(script);
 
-        System.in.read();
+        Thread.sleep(4_000);
     }
 }
