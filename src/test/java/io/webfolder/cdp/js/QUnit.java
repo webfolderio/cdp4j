@@ -25,10 +25,10 @@ public class QUnit {
 
     @SuppressWarnings("resource")
     public static void main(String[] args) throws Exception {
-        new JsEngine().evaluate(
-                get("src/test/resources/quickjs/qunit/qunit-2.9.3.js"),
-                get("src/test/resources/quickjs/qunit/sample-test.js")
-        );
+        JsEngine engine = new JsEngine();
+        engine.evaluate(get("src/test/resources/quickjs/qunit/qunit-2.9.3.js"),
+                        get("src/test/resources/quickjs/qunit/cdp4js-qunit.js"));
+        engine.evaluateModule(get("src/test/resources/quickjs/qunit/sample-test.js"));
         sleep(500);
     }
 }

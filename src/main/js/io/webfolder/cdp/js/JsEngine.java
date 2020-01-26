@@ -116,20 +116,32 @@ public class JsEngine implements AutoCloseable {
         context.evaluate(boostrapJs);
     }
 
-    public void evaluate(Path... paths) {
-        for (Path path : paths) {
-            if (path == null) {
+    public void evaluateModule(Path script) {
+        evaluate(true, script);
+    }
+
+    public void evaluate(Path... scripts) {
+        evaluate(false, scripts);
+    }
+
+    private void evaluate(boolean module, Path... scripts) {
+        for (Path script : scripts) {
+            if (script == null) {
                 continue;
             }
-            byte[] content = null;
+            byte[] arr = null;
             try {
-                content = readAllBytes(path);
+                arr = readAllBytes(script);
             } catch (IOException e) {
                 throw new CdpException(e);
             }
-            String script = new String(content, UTF_8);
-            String fileName = path.getFileName().toString();
-            context.evaluate(script, fileName);
+            String content = new String(arr, UTF_8);
+            String fileName = script.getFileName().toString();
+            if (module) {
+                context.evaluateModule(content, fileName);
+            } else {
+                context.evaluate(content, fileName);
+            }
         }
     }
 

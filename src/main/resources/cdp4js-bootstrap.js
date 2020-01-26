@@ -1,8 +1,8 @@
-let window, self, global;
+let window;
 
 (function() {
-  globalThis = self = window = Function('return this')();  // window <- global object
-  window.self = self;
+  window = Function('return this')();  // window <- global object
+  window.self = window;
 
   // init location
   window.location = { };
@@ -14,8 +14,8 @@ let window, self, global;
 
   // init timer support
   const timer = new Timer();
-  window.setTimeout = timer.setTimeout;
-  window.clearTimeout = timer.clearTimeout;
-  window.setInterval = timer.setInterval;
-  window.clearInterval = timer.clearInterval;
+  globalThis.setTimeout = window.setTimeout = timer.setTimeout;
+  globalThis.clearTimeout = window.clearTimeout = timer.clearTimeout;
+  globalThis.setInterval = window.setInterval = timer.setInterval;
+  globalThis.clearInterval = window.clearInterval = timer.clearInterval;
 })();
