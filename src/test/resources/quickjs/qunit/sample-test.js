@@ -1,6 +1,6 @@
 /// <reference path="qunit.d.ts" />
 
-const { test, module } = QUnit;
+const { expect, test, module } = QUnit;
 
 module('My Test Suite', (module) => {
   module.before(assert => console.info('starting'));
@@ -12,7 +12,20 @@ module('My Test Suite', (module) => {
 
   test('test not equal', assert => {
     assert.notEqual(2, 2);
-  });	
-});
+  });
 
-QUnit.load();
+  test("two async calls", assert => {
+    assert.expect(2);
+    var done1 = assert.async();
+    var done2 = assert.async();
+    setTimeout(() => {
+      assert.ok(true, "test resumed from async operation 1");
+      done1();
+    }, 500);
+    setTimeout(() => {
+      assert.ok(true, "test resumed from async operation 2");
+      done2();
+    }, 150);
+  });
+
+});

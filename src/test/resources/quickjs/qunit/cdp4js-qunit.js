@@ -20,3 +20,5 @@ QUnit.done(details => {
   console.info('Failed : ', details.failed);
   console.info('Time   : ', details.runtime, 'ms');
 });
+
+QUnit.start();

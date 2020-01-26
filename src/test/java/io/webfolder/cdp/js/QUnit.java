@@ -29,6 +29,6 @@ public class QUnit {
         engine.evaluate(get("src/test/resources/quickjs/qunit/qunit-2.9.3.js"),
                         get("src/test/resources/quickjs/qunit/cdp4js-qunit.js"));
         engine.evaluateModule(get("src/test/resources/quickjs/qunit/sample-test.js"));
-        sleep(500);
+        sleep(2000);
     }
 }
