@@ -1,6 +1,10 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
+### 4.2.1 - January 27, 2020
+
+* __FIXED__ Launcher throws ClassFoundException when wf-exec library is missing.
+
 ### 4.2.0 - January 22, 2020
 
 * :new: Added Vert.x [WebSocket client support](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/VertxWebSocketConnection.java).
