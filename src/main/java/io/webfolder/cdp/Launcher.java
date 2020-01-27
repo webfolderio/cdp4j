@@ -18,11 +18,11 @@
  */
 package io.webfolder.cdp;
 
+import static io.webfolder.cdp.WfExecLauncher.launchWithWfExec;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
 import static java.lang.System.getProperty;
-import static java.lang.Thread.sleep;
 import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -39,16 +39,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-
-import com.google.devtools.build.lib.shell.JavaSubprocessFactory;
-import com.google.devtools.build.lib.shell.Subprocess;
-import com.google.devtools.build.lib.shell.SubprocessBuilder;
-import com.google.devtools.build.lib.windows.WindowsSubprocessFactory;
-import com.google.devtools.build.lib.windows.jni.WindowsJniLoader;
 
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
@@ -65,8 +57,6 @@ public class Launcher {
     private static final boolean WINDOWS  = OS_NAME.startsWith("windows");
 
     private static final boolean OSX      = OS_NAME.startsWith("mac");
-
-    private static final File WORKING_DIR = new File(".");
 
     private final Options options;
 
@@ -263,7 +253,7 @@ public class Launcher {
                 if ( ! (options.processManager() instanceof WfProcessManager) ) {
                     throw new CdpException("WfExec supports only WfProcessManager.");
                 }
-                factory = launchWithWfExec(arguments);
+                factory = launchWithWfExec(options, channelFactory, arguments);
             break;
         }
 
@@ -291,63 +281,6 @@ public class Launcher {
             }
         }
         return false;
-    }
-
-    private SessionFactory launchWithWfExec(List<String> arguments) {
-        Connection connection = null;
-
-        if (WINDOWS) {
-            WindowsJniLoader.loadJni();
-        }
-
-        SubprocessBuilder builder = new SubprocessBuilder(WINDOWS ?
-                                                          WindowsSubprocessFactory.INSTANCE :
-                                                          JavaSubprocessFactory.INSTANCE);
-        builder.setWorkingDirectory(WORKING_DIR);
-
-        String cdp4jId = toHexString(current().nextLong());
-        arguments.add(format("--cdp4jId=%s", cdp4jId));
-
-        builder.setArgv(arguments);
-
-        Map<String, String> env = new LinkedHashMap<>(1);
-        env.put("CDP4J_ID", cdp4jId);
-        builder.setEnv(env);
-
-        try {
-            Subprocess process = builder.start();
-            try (Scanner scanner = new Scanner(process.getErrorStream())) {
-                while (scanner.hasNext()) {
-                    String line = scanner.nextLine().trim();
-                    if (line.isEmpty()) {
-                        continue;
-                    }
-                    if (line.toLowerCase(ENGLISH).startsWith("devtools listening on")) {
-                        int start = line.indexOf("ws://");
-                        connection = new WebSocketConnection(line.substring(start, line.length()));
-                        break;
-                    }
-                }
-                if (connection == null) {
-                    close(process);
-                    throw new CdpException("WebSocket connection url is required!");
-                }
-            }
-
-            if (process.finished()) {
-                close(process);
-                throw new CdpException("No process: the chrome process is not alive.");
-            }
-
-            options.processManager().setProcess(new CdpProcess(process, cdp4jId));
-        } catch (IOException e) {
-            throw new CdpException(e);
-        }
-
-        SessionFactory factory = new SessionFactory(options,
-                                                    channelFactory,
-                                                    connection);
-        return factory;
     }
 
     private SessionFactory launchWithProcessBuilder(List<String> arguments) {
@@ -389,22 +322,6 @@ public class Launcher {
                                                     channelFactory,
                                                     connection);
         return factory;
-    }
-
-    private void close(Subprocess subProcess) {
-        if ( ! subProcess.finished() ) {
-            subProcess.destroy();
-            while ( ! subProcess.finished() ) {
-                try {
-                    sleep(1);
-                } catch (InterruptedException e) {
-                    // ignore
-                }
-            }
-        }
-        if (subProcess.finished()) {
-            subProcess.close();
-        }
     }
 
     protected static ChannelFactory createChannelFactory() {
