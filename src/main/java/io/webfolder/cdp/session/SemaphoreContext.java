@@ -24,6 +24,7 @@ import java.util.concurrent.Semaphore;
 
 import com.google.gson.JsonElement;
 
+import io.webfolder.cdp.exception.CdpReadTimeoutException;
 import io.webfolder.cdp.exception.CommandException;
 
 class SemaphoreContext implements Context {
@@ -39,7 +40,7 @@ class SemaphoreContext implements Context {
         try {
             semaphore.tryAcquire(timeout, MILLISECONDS);
         } catch (InterruptedException e) {
-            // ignore
+            throw new CdpReadTimeoutException(timeout + " ms");
         }
     }
 

@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.session;
 
+import static io.webfolder.cdp.session.WaitingStrategy.ParkThread;
 import static io.webfolder.cdp.session.WaitingStrategy.Semaphore;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -107,13 +108,18 @@ public class SessionInvocationHandler {
         final Context context = Semaphore.equals(waitingStrategy) ? new SemaphoreContext() : new ThreadContext();
         contexts.put(id, context);
 
-        final long start = currentTimeMillis();
+        final long start = ParkThread.equals(waitingStrategy) ? currentTimeMillis() : 0;
 
         channel.sendText(json);
 
         context.await(readTimeout);
 
-        if ((context.getData() == null && context.getError() == null) &&
+        // This rule must be applied only to ParkThread not for Semaphore.
+        // SemaphoreContext implicitly throw an exception if timeout is occurred.
+        // ThreadContext.await() can't detect if timeout occurred.
+        // We must check explicitly timeout value if waiting strategy is ParkThread.
+        if (ParkThread.equals(waitingStrategy) &&
+                   (context.getData() == null && context.getError() == null) &&
                    (currentTimeMillis() - start) >= readTimeout) {
             throw new CdpReadTimeoutException(readTimeout + "ms");
         }
