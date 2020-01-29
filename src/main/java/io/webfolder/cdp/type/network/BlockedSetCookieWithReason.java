@@ -30,7 +30,7 @@ import io.webfolder.cdp.annotation.Experimental;
 @Experimental
 @UseStag
 public class BlockedSetCookieWithReason {
-    private List<Cookie> blockedReasons;
+    private List<SetCookieBlockedReason> blockedReasons;
 
     private String cookieLine;
 
@@ -39,14 +39,14 @@ public class BlockedSetCookieWithReason {
     /**
      * The reason(s) this cookie was blocked.
      */
-    public List<Cookie> getBlockedReasons() {
+    public List<SetCookieBlockedReason> getBlockedReasons() {
         return blockedReasons;
     }
 
     /**
      * The reason(s) this cookie was blocked.
      */
-    public void setBlockedReasons(List<Cookie> blockedReasons) {
+    public void setBlockedReasons(List<SetCookieBlockedReason> blockedReasons) {
         this.blockedReasons = blockedReasons;
     }
 
