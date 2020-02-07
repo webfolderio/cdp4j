@@ -1,6 +1,10 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
+### 5.0.0 - Q4, 2020
+
+* Drop Java 8 support.
+
 ### 4.2.1 - January 27, 2020
 
 * __FIXED__ Launcher throws ClassFoundException when wf-exec library is missing.
