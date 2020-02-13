@@ -7,16 +7,18 @@ It use Google Chrome DevTools Protocol to automate Chrome/Chromium based browser
 Features
 --------
 * Supports full capabilities of the Chrome DevTools Protocol ([tip-of-tree](https://chromedevtools.github.io/debugger-protocol-viewer/tot/))
+* PDF printer
 * Evaluate JavaScript
 * Invoke JavaScript function
+* Invoke Java function from Browser (JavaScript)
 * Supports native CSS selector engine
 * Supports XPath queries
 * Incognito Browsing (private tab)
 * Full page screen capture
 * Trigger Mouse events (click etc...)
 * Send keys (text, tab, enter etc...)
-* Redirect log entries (javascript, network, storage etc...) from browser to slf4j
-* Intercept Network (request & response)
+* Redirect log entries (javascript, network, storage etc...) from browser to slf4j, log4j or console logger.
+* Intercept Network traffic (request & response)
 * Upload file programmatically without third party solutions (does not requires AWT Robot etc...)
 * get & set Element properties
 * Supports Headless Chrome/Chromium
@@ -24,11 +26,12 @@ Features
 * clear cache, clear cookies, list cookies
 * set & get values of form elements
 * Supports event handling
+* Supports all well known Java WebSocket libraries.
 
 Supported Java Versions
 -----------------------
 
-Oracle/OpenJDK & GraalVM.
+Oracle/OpenJDK, GraalVM & Substrate VM.
 
 _Note_: We only support LTS versions (8 & 11).
 
@@ -36,7 +39,7 @@ Both the JRE and the JDK are suitable for use with this library.
 
 Stability
 ---------
-This library is suitable for use in production systems.
+This library is suitable for use in production systems. Our library is used by many well known enterprise customers.
 
 Download
 --------
@@ -46,7 +49,9 @@ Download
 
 Supported Platforms
 -------------------
-cdp4j has been tested under Windows 10 and Ubuntu, but should work on any platform where a Java & Chrome/Chromium available.
+cdp4j has been tested under Windows 10 and Ubuntu, but should work on any platform where a Java 8+/Graal VM/Substrate VM & Chrome/Chromium/Microsoft Edge available.
+
+__Note__: Although we do not execute test suites on Mac, many customers run cdp4j without any problem. Please do not hesitate to report bugs related with Mac.
 
 Release Notes
 -------------
@@ -80,13 +85,35 @@ Logging
 -------
 slf4j 1.x, log4j 1.x and custom Console logger is supported.
 
+__Note:__ Please let us know if your preferred logging library is not listed.
+
+WebSocket Protocol
+------------------
+DevTools Protocol uses WebSocket protocol to automate Chromium based browser. We supports the following Java WebSocket libraries.
+
+* [Jre WebSocket Library](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/JreWebSocketConnection.java) (requires Java 11+).
+* [Jetty](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/JettyWebSocketConnection.java)
+* [Undertow](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/UndertowWebSocketConnection.java)
+* [Vertx](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/VertxWebSocketConnection.java)
+* [Tyrus](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/TyrusWebSocketConnection.java)
+* [TooTallNateWebSocket](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/TooTallNateWebSocketConnection.java)
+* [Tomcat](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/TomcatWebSocketConnection.java)
+* [Netty](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/NettyWebSocketConnection.java)
+* [NvWebSocket](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/NvWebSocketConnection.java)
+
+__Note:__ Please let us know if your preferred WebSocket library is not listed.
+
+Examples
+-------
+We provide many [examples](https://github.com/webfolderio/cdp4j/tree/master/src/test/java/io/webfolder/cdp/sample) to show how to use cdp4j library. It's highly recommended to run theses examples before starting to use cdp4j.
+
 Design Principles
 -----------------
 * Avoid external dependencies as much as possible.
 * Support only Chrome/Chromium based browsers.
 * Supports full capabilities of the Chrome DevTools Protocol.
 * Keep the API simple.
-* Support GraalVM.
+* Support GraalVM & Substrate VM.
 
 How it is tested
 ----------------
