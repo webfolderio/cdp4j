@@ -113,7 +113,7 @@ __Note:__ Please let us know if your preferred WebSocket library is not listed.
 
 Examples
 -------
-We provide many [examples](https://github.com/webfolderio/cdp4j/tree/master/src/test/java/io/webfolder/cdp/sample) to show how to use cdp4j library. It's highly recommended to run theses examples before starting to use cdp4j.
+We provide many [examples](https://github.com/webfolderio/cdp4j/tree/master/src/test/java/io/webfolder/cdp/sample) to show how to use cdp4j library. It's highly recommended to run these examples before starting to use cdp4j.
 
 Design Principles
 -----------------
