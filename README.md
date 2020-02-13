@@ -1,11 +1,17 @@
-cdp4j - Chrome DevTools Protocol for Java
-=================================================
+cdp4j - Chrome/Chromium browser automation libray for Java
+==========================================================
 
-cdp4j is a web-automation library for Java. It can be used for automating the use of web pages and for testing web pages.
-It use Google Chrome DevTools Protocol to automate Chrome/Chromium based browsers.
+cdp4j is Java library with a clear and concise API to automate Chrome/Chromium based browser. It use Google Chrome DevTools Protocol to automate Chrome/Chromium based browsers.
 
-Features
---------
+What can you do with cdp4j?
+---------------------------
+* Automatically fill-out forms. You can easily download and upload of text, images, handle PDF files, or take screenshots.
+* Import or export data to and from web applications.
+* Extract Any Kind of Data from the Web.
+* Automate Web Upload/Download.
+
+Main Features
+-------------
 * Supports full capabilities of the Chrome DevTools Protocol ([tip-of-tree](https://chromedevtools.github.io/debugger-protocol-viewer/tot/))
 * PDF printer
 * Evaluate JavaScript
@@ -15,6 +21,8 @@ Features
 * Supports XPath queries
 * Incognito Browsing (private tab)
 * Full page screen capture
+* Support parallel running
+* Auto-Wait for DOM change completion
 * Trigger Mouse events (click etc...)
 * Send keys (text, tab, enter etc...)
 * Redirect log entries (javascript, network, storage etc...) from browser to slf4j, log4j or console logger.
