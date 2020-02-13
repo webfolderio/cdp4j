@@ -41,9 +41,9 @@ Supported Java Versions
 
 Oracle/OpenJDK, GraalVM & Substrate VM.
 
-_Note_: We only support LTS versions (8 & 11).
-
 Both the JRE and the JDK are suitable for use with this library.
+
+__Note__: We only support LTS versions (8 & 11).
 
 Stability
 ---------
@@ -127,6 +127,14 @@ How it is tested
 ----------------
 cdp4j is regularly built and tested on Windows 10 and Ubuntu.
 
-Support
--------
+Support & Bug Report
+--------------------
 Please report your bugs and new features by e-mail ([support@webfolder.io](mailto:support@webfolder.io)). github issues is only used by cdp4j developers.
+
+License
+-------
+cdp4j is a proprietary software which means that you or your company needs [commercial license](https://github.com/webfolderio/cdp4j/blob/master/LICENSE) to use cdp4j.
+
+Trial
+-----
+You are free to use this library for only __development purpose__. It's not require to buy commercial for trial usage. Production systems requires commercial license without any exception.
