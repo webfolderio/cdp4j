@@ -5,11 +5,15 @@ cdp4j Release Notes
 
 * Drop Java 8 support.
 
+### 4.4.0 - June 22, 2020
+
+[Standalone api server #120](https://github.com/webfolderio/cdp4j/issues/120)
+
 ### 4.3.0 - April 24, 2020
 
-* [libuv#122](https://github.com/webfolderio/cdp4j/issues/121)
+* [libuv #122](https://github.com/webfolderio/cdp4j/issues/121)
 
-* [quickjs#121](https://github.com/webfolderio/cdp4j/issues/121)
+* [quickjs #121](https://github.com/webfolderio/cdp4j/issues/121)
 
 ### 4.2.1 - January 27, 2020
 
