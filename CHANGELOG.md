@@ -5,6 +5,12 @@ cdp4j Release Notes
 
 * Drop Java 8 support.
 
+### 4.3.0 - April 24, 2020
+
+* [libuv#122](https://github.com/webfolderio/cdp4j/issues/121)
+
+* [quickjs#121](https://github.com/webfolderio/cdp4j/issues/121)
+
 ### 4.2.1 - January 27, 2020
 
 * __FIXED__ Launcher throws ClassFoundException when wf-exec library is missing.
