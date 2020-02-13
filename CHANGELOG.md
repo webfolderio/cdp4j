@@ -4,6 +4,7 @@ cdp4j Release Notes
 ### 5.0.0 - Q4, 2020
 
 * Drop Java 8 support.
+* New engine based on fibers and continuations via Project Loom.
 
 ### 4.4.0 - June 22, 2020
 
