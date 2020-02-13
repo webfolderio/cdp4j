@@ -133,8 +133,8 @@ Please report your bugs and new features by e-mail ([support@webfolder.io](mailt
 
 License
 -------
-cdp4j is a proprietary software which means that you or your company needs [commercial license](https://github.com/webfolderio/cdp4j/blob/master/LICENSE) to use cdp4j.
+cdp4j is a proprietary software which means that you or your company needs [commercial license](https://webfolder.io/license.html) to use cdp4j.
 
 Trial
 -----
-You are free to use this library for only __development purpose__. It's not require to buy commercial for trial usage. Production systems requires commercial license without any exception.
+You are free to use this library for only __development purpose__. It's not require to [buy](https://webfolder.io/buy.html) commercial for trial usage. Production systems requires commercial license without any exception.
