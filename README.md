@@ -51,9 +51,9 @@ This library is suitable for use in production systems. Our library is used by m
 
 Download
 --------
-[cdp4j-4.2.1.jar](https://github.com/webfolderio/cdp4j/releases/download/4.2.1/cdp4j-4.2.1.jar)
+[cdp4j-4.2.2.jar](https://github.com/webfolderio/cdp4j/releases/download/4.2.2/cdp4j-4.2.2.jar)
 
-[cdp4j-4.2.1-sources.jar](https://github.com/webfolderio/cdp4j/releases/download/4.2.1/cdp4j-4.2.1-sources.jar)
+[cdp4j-4.2.2-sources.jar](https://github.com/webfolderio/cdp4j/releases/download/4.2.2/cdp4j-4.2.2-sources.jar)
 
 Supported Platforms
 -------------------

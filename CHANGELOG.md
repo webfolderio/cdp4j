@@ -16,6 +16,12 @@ cdp4j Release Notes
 
 * [quickjs #121](https://github.com/webfolderio/cdp4j/issues/121)
 
+### 4.2.2 - February 17, 2020
+
+* __Fixed__ - Revert read timeout exception to previous logic (v3.x)
+
+* __Fixed__ - invalid json mapping (Expected BEGIN_OBJECT but was STRING at...)
+
 ### 4.2.1 - January 27, 2020
 
 * __FIXED__ Launcher throws ClassFoundException when wf-exec library is missing.
