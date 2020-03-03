@@ -64,7 +64,11 @@ public class DefaultProcessManager extends ProcessManager {
                         }
                     });
                 }
-                return handle.destroyForcibly();
+                boolean success = handle.destroyForcibly();
+                if (success) {
+                    handle.onExit().join();
+                }
+                return success;
             }
         }
         return false;
