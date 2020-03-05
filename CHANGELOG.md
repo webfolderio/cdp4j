@@ -1,21 +1,6 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
-### 5.0.0 - Q4, 2020
-
-* Drop Java 8 support.
-* New engine based on fibers and continuations via Project Loom.
-
-### 4.4.0 - June 22, 2020
-
-[Standalone api server #120](https://github.com/webfolderio/cdp4j/issues/120)
-
-### 4.3.0 - April 24, 2020
-
-* [libuv #122](https://github.com/webfolderio/cdp4j/issues/121)
-
-* [quickjs #121](https://github.com/webfolderio/cdp4j/issues/121)
-
 ### 4.2.2 - February 17, 2020
 
 * __Fixed__ - Revert read timeout exception to previous logic (v3.x)
