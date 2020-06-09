@@ -1,6 +1,12 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
+### 5.0.0 - September, 2020
+
+* Drop Java 8 Support
+
+* Add libuv support
+
 ### 4.2.2 - February 17, 2020
 
 * __Fixed__ - Revert read timeout exception to previous logic (v3.x)
