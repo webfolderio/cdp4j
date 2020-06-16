@@ -18,12 +18,31 @@
  */
 package io.webfolder.cdp;
 
-/**
- * Process executor type
- */
-public enum ProcessExecutor {
-    /**
-     * Use {@link #ProcessBuilder} to launch Chrome browser.
-     */
-    ProcessBuilder
+import static io.webfolder.cdp.CustomTypeAdapter.Generated;
+import static io.webfolder.cdp.logger.CdpLoggerType.Console;
+
+import java.io.IOException;
+
+import io.webfolder.cdp.session.Session;
+import io.webfolder.cdp.session.SessionFactory;
+
+public class HelloGraal {
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Options options = Options.builder()
+                                 .useCustomTypeAdapter(Generated)
+                                 .loggerType(Console)
+                                 .processManager(new DefaultProcessManager())
+                             .build();
+
+        Launcher launcher = new Launcher(options);
+        try (SessionFactory factory = launcher.launch();
+                Session session = factory.create()) {
+            session.navigate("https://webfolder.io");
+            session.waitDocumentReady();
+            System.out.println(session.getText("body"));
+        } finally {
+            launcher.kill();
+        }
+    }
 }

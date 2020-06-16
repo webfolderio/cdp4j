@@ -21,6 +21,11 @@ package io.webfolder.cdp.logger;
 import static io.webfolder.cdp.logger.CdpLoggerType.Console;
 import static io.webfolder.cdp.logger.CdpLoggerType.Slf4j;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import io.webfolder.cdp.exception.CdpException;
+
 public class CdpLoggerFactory implements LoggerFactory {
 
     private final CdpLoggerType loggerType;
@@ -55,9 +60,9 @@ public class CdpLoggerFactory implements LoggerFactory {
     public CdpLogger getLogger(String name, CdpConsoleLogggerLevel loggerLevel) {
         try {
             switch (loggerType) {
-                case Slf4j  : return new CdpSlf4jLogger(name);
+                case Slf4j  : return getSlf4jLogger();
                 case Console: return new CdpConsoleLogger(loggerLevel);
-                case Log4j  : return new CdpLog4jLogger(name);
+                case Log4j  : getLog4jLogger();
                 default     : return NULL_LOGGER;
             }
         } catch (Throwable e) {
@@ -74,5 +79,41 @@ public class CdpLoggerFactory implements LoggerFactory {
             // ignore
         }
         return cdpLoggerType;
+    }
+
+    public CdpLogger getSlf4jLogger() {
+    	Class<?> klass;
+		try {
+			klass = CdpLoggerFactory.class.getClassLoader().loadClass("io.webfolder.cdp.logger.CdpSlf4jLogger");
+	    	Constructor<?> constructor = klass.getConstructor();
+	    	Object instance = constructor.newInstance();
+	    	return (CdpLogger) instance;
+		} catch (ClassNotFoundException |
+				 NoSuchMethodException |
+				 SecurityException |
+				 InstantiationException |
+				 IllegalAccessException |
+				 IllegalArgumentException |
+				 InvocationTargetException e) {
+			throw new CdpException(e);
+		}
+    }
+
+    public CdpLogger getLog4jLogger() {
+    	Class<?> klass;
+		try {
+			klass = CdpLoggerFactory.class.getClassLoader().loadClass("io.webfolder.cdp.logger.CdpLog4jLogger");
+	    	Constructor<?> constructor = klass.getConstructor();
+	    	Object instance = constructor.newInstance();
+	    	return (CdpLogger) instance;
+		} catch (ClassNotFoundException |
+				 NoSuchMethodException |
+				 SecurityException |
+				 InstantiationException |
+				 IllegalAccessException |
+				 IllegalArgumentException |
+				 InvocationTargetException e) {
+			throw new CdpException(e);
+		}
     }
 }

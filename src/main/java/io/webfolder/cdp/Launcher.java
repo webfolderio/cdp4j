@@ -18,7 +18,6 @@
  */
 package io.webfolder.cdp;
 
-import static io.webfolder.cdp.WfExecLauncher.launchWithWfExec;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
@@ -32,8 +31,6 @@ import static java.util.concurrent.ThreadLocalRandom.current;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,13 +41,12 @@ import java.util.Scanner;
 
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
+import io.webfolder.cdp.channel.JreWebSocketFactory;
 import io.webfolder.cdp.channel.WebSocketConnection;
 import io.webfolder.cdp.exception.CdpException;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class Launcher {
-
-    private static final boolean JAVA_8   = getProperty("java.version").startsWith("1.8.");
 
     private static final String  OS_NAME  = getProperty("os.name").toLowerCase(ENGLISH);
 
@@ -72,12 +68,12 @@ public class Launcher {
     }
 
     public Launcher(Options options) {
-        this(options, createChannelFactory());
+        this(options, new JreWebSocketFactory());
     }
 
     public Launcher() {
         this(Options.builder().build(),
-                createChannelFactory());
+                new JreWebSocketFactory());
     }
 
     protected String findChrome() {
@@ -246,15 +242,6 @@ public class Launcher {
             case ProcessBuilder:
                 factory = launchWithProcessBuilder(arguments);
             break;
-            case WfExec:
-                if ( ! WINDOWS ) {
-                    throw new CdpException("WfExec supports only Windows.");
-                }
-                if ( ! (options.processManager() instanceof WfProcessManager) ) {
-                    throw new CdpException("WfExec supports only WfProcessManager.");
-                }
-                factory = launchWithWfExec(options, channelFactory, arguments);
-            break;
         }
 
         return factory;
@@ -322,24 +309,6 @@ public class Launcher {
                                                     channelFactory,
                                                     connection);
         return factory;
-    }
-
-    protected static ChannelFactory createChannelFactory() {
-        try {
-            Class<?> klass = null;
-            if ( ! JAVA_8 ) {
-                klass = Launcher.class.getClassLoader().loadClass("io.webfolder.cdp.channel.JreWebSocketFactory");
-            } else {
-                klass = Launcher.class.getClassLoader().loadClass("io.webfolder.cdp.channel.NvWebSocketFactory");
-            }
-            Constructor<?> constructor = klass.getConstructor();
-            return (ChannelFactory) constructor.newInstance();
-        } catch (ClassNotFoundException |
-                 InstantiationException | IllegalAccessException |
-                 NoSuchMethodException  | SecurityException |
-                 IllegalArgumentException | InvocationTargetException e) {
-            throw new CdpException(e);
-        }
     }
 
     public boolean kill() {

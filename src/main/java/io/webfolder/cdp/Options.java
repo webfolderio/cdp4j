@@ -180,7 +180,7 @@ public class Options {
                 options.readTimeout = DEFAULT_READ_TIMEOUT;
             }
             if (options.processManager == null) {
-                options.processManager = new AdaptiveProcessManager();
+                options.processManager = new DefaultProcessManager();
             }
             if (options.screenHeight == null) {
                 options.screenHeight = DEFAULT_SCREEN_HEIGHT;
