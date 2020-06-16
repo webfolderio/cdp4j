@@ -1,11 +1,7 @@
 cdp4j - Web automation libray for Java
 ======================================
 
-**IMPORTANT**
-
-master branch (v5.0) is not stable.
-Prefer to use [v4.x](https://github.com/webfolderio/cdp4j/tree/4.x) branch.
-
+**IMPORTANT** : Master branch is undergoing incompatible changes for cdp4j 5.x. To track cdp4j 4.x, follow the 4.x branch.
 
 cdp4j is Java library with a clear and concise API to automate Chrome/Chromium based browser. It use Google Chrome DevTools Protocol to automate Chrome/Chromium based browsers.
 
