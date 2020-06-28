@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp;
 
+import static io.webfolder.cdp.ProcessExecutor.LibUv;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
@@ -42,6 +43,7 @@ import java.util.Scanner;
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
 import io.webfolder.cdp.channel.JreWebSocketFactory;
+import io.webfolder.cdp.channel.LibUvChannelFactory;
 import io.webfolder.cdp.channel.WebSocketConnection;
 import io.webfolder.cdp.exception.CdpException;
 import io.webfolder.cdp.session.SessionFactory;
@@ -68,7 +70,9 @@ public class Launcher {
     }
 
     public Launcher(Options options) {
-        this(options, new JreWebSocketFactory());
+        this(options, LibUv.equals(options.processExecutor()) ?
+                                    new LibUvChannelFactory() :
+                                    new JreWebSocketFactory());
     }
 
     public Launcher() {
@@ -215,11 +219,6 @@ public class Launcher {
 
     public SessionFactory launch() {
         List<String> arguments = getCommonParameters(findChrome(), options.arguments());
-        if (arguments.contains("--remote-debugging-pipe")) {
-            arguments.remove("--remote-debugging-port=0");
-        } else {
-            arguments.add("--remote-debugging-port=0");
-        }
 
         Path userDataDir = options.userDataDir();
         if (options.userDataDir() == null) {
@@ -239,7 +238,12 @@ public class Launcher {
 
         SessionFactory factory = null;
         switch (options.processExecutor()) {
+            case LibUv:
+                arguments.add("--remote-debugging-pipe");
+                factory = launchWithLibUv(arguments);
+            break;
             case ProcessBuilder:
+                arguments.add("--remote-debugging-port=0");
                 factory = launchWithProcessBuilder(arguments);
             break;
         }
@@ -268,6 +272,16 @@ public class Launcher {
             }
         }
         return false;
+    }
+
+    private SessionFactory launchWithLibUv(List<String> arguments) {
+        LibUvChannelFactory libUvChannelFactory = (LibUvChannelFactory) channelFactory;
+        Path chromePath = get(arguments.get(0));
+        libUvChannelFactory.spawn(chromePath, arguments);
+        SessionFactory factory = new SessionFactory(options,
+                                                    channelFactory,
+                                                    (Connection) channelFactory);
+        return factory;
     }
 
     private SessionFactory launchWithProcessBuilder(List<String> arguments) {
@@ -312,7 +326,13 @@ public class Launcher {
     }
 
     public boolean kill() {
-        return options.processManager().kill();
+        ProcessExecutor executor = options.processExecutor();
+        switch (executor) {
+            case LibUv:
+                ((LibUvChannelFactory) channelFactory).kill();
+            default:
+                return options.processManager().kill();
+        }
     }
 
     public Options getOptions() {

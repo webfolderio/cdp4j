@@ -25,5 +25,6 @@ public enum ProcessExecutor {
     /**
      * Use {@link #ProcessBuilder} to launch Chrome browser.
      */
-    ProcessBuilder
+    ProcessBuilder,
+    LibUv
 }
