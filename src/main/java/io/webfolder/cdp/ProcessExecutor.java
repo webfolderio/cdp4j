@@ -18,13 +18,18 @@
  */
 package io.webfolder.cdp;
 
+import io.webfolder.cdp.channel.LibUvChannelFactory;
+
 /**
  * Process executor type
  */
 public enum ProcessExecutor {
     /**
-     * Use {@link #ProcessBuilder} to launch Chrome browser.
+     * Use {@link DefaultProcessManager} to launch Chrome browser.
      */
     ProcessBuilder,
+    /**
+     * Use {@link LibUvChannelFactory} to launch Chrome browser.
+     */
     LibUv
 }

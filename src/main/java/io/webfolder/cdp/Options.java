@@ -55,8 +55,6 @@ public class Options {
 
     private Path userDataDir;
 
-    private ProcessManager processManager;
-
     private boolean headless;
 
     private Integer screenWidth;
@@ -103,11 +101,6 @@ public class Options {
             return this;
         }
 
-        public Builder processManager(ProcessManager processManager) {
-            options.processManager = processManager;
-            return this;
-        }
-        
         public Builder eventHandlerThreadPool(ExecutorService eventHandlerThreadPool) {
             options.eventHandlerThreadPool = eventHandlerThreadPool;
             return this;
@@ -179,9 +172,6 @@ public class Options {
             if (options.readTimeout == null) {
                 options.readTimeout = DEFAULT_READ_TIMEOUT;
             }
-            if (options.processManager == null) {
-                options.processManager = new DefaultProcessManager();
-            }
             if (options.screenHeight == null) {
                 options.screenHeight = DEFAULT_SCREEN_HEIGHT;
             }
@@ -234,10 +224,6 @@ public class Options {
 
     public Integer readTimeout() {
         return readTimeout;
-    }
-
-    public ProcessManager processManager() {
-        return processManager;
     }
 
     public boolean headless() {

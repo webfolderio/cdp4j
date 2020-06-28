@@ -19,7 +19,7 @@
 package io.webfolder.cdp;
 
 import static io.webfolder.cdp.ProcessExecutor.LibUv;
-import static java.lang.Long.toHexString;
+import static java.lang.ProcessHandle.of;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;
 import static java.lang.System.getProperty;
@@ -27,18 +27,21 @@ import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Locale.ENGLISH;
-import static java.util.concurrent.ThreadLocalRandom.current;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ProcessHandle.Info;
 import java.net.ServerSocket;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
@@ -59,6 +62,12 @@ public class Launcher {
     private final Options options;
 
     private final ChannelFactory channelFactory;
+
+	private Instant startTime;
+
+	private String command;
+
+	private long pid;
 
     public Launcher(Options options, ChannelFactory channelFactory) {
         this.options = options;
@@ -288,9 +297,6 @@ public class Launcher {
         Connection connection = null;
         ProcessBuilder builder = new ProcessBuilder(arguments);
 
-        String cdp4jId = toHexString(current().nextLong());
-        arguments.add(format("--cdp4jId=%s", cdp4jId));
-        builder.environment().put("CDP4J_ID", cdp4jId);
         try {
             Process process = builder.start();
             try (Scanner scanner = new Scanner(process.getErrorStream())) {
@@ -314,7 +320,11 @@ public class Launcher {
                 throw new CdpException("No process: the chrome process is not alive.");
             }
 
-            options.processManager().setProcess(new CdpProcess(process, cdp4jId));
+            ProcessHandle handle = process.toHandle();
+            Info info = handle.info();
+            startTime = info.startInstant().get();
+            command = info.command().get();
+            pid = handle.pid();
         } catch (IOException e) {
             throw new CdpException(e);
         }
@@ -331,7 +341,34 @@ public class Launcher {
             case LibUv:
                 ((LibUvChannelFactory) channelFactory).kill();
             default:
-                return options.processManager().kill();
+                Optional<ProcessHandle> process = of(pid);
+                if (process.isPresent()) {
+                    ProcessHandle handle = process.get();
+                    Info info = handle.info();
+                    if (handle.isAlive() &&
+                            info.startInstant().isPresent() &&
+                            info.startInstant().get().equals(startTime) &&
+                            info.command().isPresent() &&
+                            info.command().get().equals(command)) {
+                        try (Stream<ProcessHandle> descendants = handle.descendants()) {
+                            descendants.forEach(ph -> {
+                                try {
+                                    if (ph.isAlive()) {
+                                        ph.destroyForcibly();
+                                    }
+                                } catch (Exception ignored) {
+                                    
+                                }
+                            });
+                        }
+                        boolean success = handle.destroyForcibly();
+                        if (success) {
+                            handle.onExit().join();
+                        }
+                        return success;
+                    }
+                }
+                return false;
         }
     }
 

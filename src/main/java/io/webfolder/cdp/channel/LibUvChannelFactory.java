@@ -1,5 +1,24 @@
+/**
+ * cdp4j Commercial License
+ *
+ * Copyright 2017, 2020 WebFolder OÜ
+ *
+ * Permission  is hereby  granted,  to "____" obtaining  a  copy of  this software  and
+ * associated  documentation files  (the "Software"), to deal in  the Software  without
+ * restriction, including without limitation  the rights  to use, copy, modify,  merge,
+ * publish, distribute  and sublicense  of the Software,  and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  IMPLIED,
+ * INCLUDING  BUT NOT  LIMITED  TO THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL  THE AUTHORS  OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package io.webfolder.cdp.channel;
 
+import static com.oracle.libuv.LibUV.disableStdioInheritance;
 import static com.oracle.libuv.LibUV.loadJni;
 import static com.oracle.libuv.ProcessHandle.ProcessFlags.SETGID;
 import static com.oracle.libuv.ProcessHandle.ProcessFlags.SETUID;
@@ -19,7 +38,9 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.oracle.libuv.ContextProvider;
 import com.oracle.libuv.DefaultHandleFactory;
@@ -27,7 +48,6 @@ import com.oracle.libuv.IdleCallback;
 import com.oracle.libuv.IdleHandle;
 import com.oracle.libuv.LoopHandle;
 import com.oracle.libuv.PipeHandle;
-import com.oracle.libuv.ProcessCloseCallback;
 import com.oracle.libuv.ProcessExitCallback;
 import com.oracle.libuv.ProcessHandle;
 import com.oracle.libuv.ProcessHandle.ProcessFlags;
@@ -46,8 +66,7 @@ public class LibUvChannelFactory implements
                                     ChannelFactory,
                                     Channel,
                                     Connection,
-                                    ProcessExitCallback,
-                                    ProcessCloseCallback {
+                                    ProcessExitCallback {
 
     private static final char    MESSAGE_SEPERATOR      = '\0';
 
@@ -58,16 +77,18 @@ public class LibUvChannelFactory implements
     private static final boolean WINDOWS                = OS_NAME.startsWith("windows");
 
     private static final int     SIGTERM                = 15;
-    
+
+    private static final AtomicInteger THREAD_COUNTER = new AtomicInteger(0);
+
     private final DefaultHandleFactory handleFactory;
 
     private final Queue<Runnable> queue = new ConcurrentLinkedQueue<>();
 
     private final AtomicBoolean connected = new AtomicBoolean(false);
 
-    private PipeHandle inPipe;
-    
     private PipeHandle outPipe;
+    
+    private PipeHandle inPipe;
     
     private byte[] remaining;
     
@@ -81,29 +102,33 @@ public class LibUvChannelFactory implements
 
     static {
         loadJni();
+        disableStdioInheritance();
     }
 
     public LibUvChannelFactory() {
         loop = new LoopHandle();
         handleFactory = new DefaultHandleFactory(loop);
         Thread thread = new Thread(this);
+        thread.setName("cdp4j-libuv-" + THREAD_COUNTER.incrementAndGet());
         thread.setDaemon(true);
         thread.start();
     }
 
     public void spawn(Path path, List<String> arguments) {
         submit(() -> {
-            inPipe = handleFactory.newPipeHandle(false);
             outPipe = handleFactory.newPipeHandle(false);
+            inPipe = handleFactory.newPipeHandle(false);
 
-            outPipe.setReadCallback(LibUvChannelFactory.this);
+            inPipe.setReadCallback(LibUvChannelFactory.this);
 
+            boolean inheritStdioFd = "true".equals(System.getProperty("cdp4j.libuv.inherit.stdio.fd", "false"));
+ 
             StdioOptions[] stdio = new StdioOptions[5];
-            stdio[0] = new StdioOptions(IGNORE, null, 0);         // stdin
-            stdio[1] = new StdioOptions(INHERIT_FD, null, 1);     // stdout
-            stdio[2] = new StdioOptions(INHERIT_FD, null, 2);     // stderr
-            stdio[3] = new StdioOptions(CREATE_PIPE, inPipe, 3);  // input
-            stdio[4] = new StdioOptions(CREATE_PIPE, outPipe, 4); // output
+            stdio[0] = new StdioOptions(IGNORE, null, 0);                               // stdin
+            stdio[1] = new StdioOptions(inheritStdioFd ? INHERIT_FD : IGNORE, null, 1); // stdout
+            stdio[2] = new StdioOptions(inheritStdioFd ? INHERIT_FD : IGNORE, null, 2); // stderr
+            stdio[3] = new StdioOptions(CREATE_PIPE, outPipe, 3);                        // input
+            stdio[4] = new StdioOptions(CREATE_PIPE, inPipe, 4);                       // output
 
             String executable = path.getFileName().toString();
             List<String> args = arguments.subList(1, arguments.size());
@@ -117,7 +142,6 @@ public class LibUvChannelFactory implements
 
             process = handleFactory.newProcessHandle();
             process.setExitCallback(this);
-            process.setCloseCallback(this);
 
             String program = path.resolve(executable)
                                  .toAbsolutePath()
@@ -132,7 +156,7 @@ public class LibUvChannelFactory implements
                           -1,
                           -1);
 
-            outPipe.readStart();
+            inPipe.readStart();
 
             connected.set(true);
         });
@@ -195,10 +219,12 @@ public class LibUvChannelFactory implements
         idleHandle.start();
         try {
             loop.run();
-            connected.compareAndSet(true, false);
+            loop.close();
+            loop.destroy();
         } catch (Throwable e) {
-            connected.compareAndSet(true, false);
             throw new CdpException(e);
+        } finally {
+            connected.compareAndSet(true, false);
         }
     }
 
@@ -229,17 +255,32 @@ public class LibUvChannelFactory implements
 
     @Override
     public void disconnect() {
-        submit(() -> process.close());
-        submit(() -> loop.close());
-        submit(() -> loop.destroy());
+        CountDownLatch latch = new CountDownLatch(1);
+        submit(() -> {
+            outPipe.closeWrite();
+            outPipe.close();
+            outPipe.unref();
+            inPipe.readStop();
+            inPipe.close();
+            inPipe.unref();
+            process.close();
+            idleHandle.stop();
+            idleHandle.close();
+            latch.countDown();
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            throw new CdpException(e);
+        }
     }
 
     @Override
     public void sendText(String message) {
         if (connected.get()) {
             submit(() -> {
-                inPipe.write(message);
-                inPipe.write(MESSAGE_SEPERATOR_STR);
+                outPipe.write(message);
+                outPipe.write(MESSAGE_SEPERATOR_STR);
             });
         }
     }
@@ -256,15 +297,10 @@ public class LibUvChannelFactory implements
         connected.compareAndSet(true, false);
     }
 
-    @Override
-    public void onClose() throws Exception {
-        connected.compareAndSet(true, false);
-    }
-
     public boolean kill() {
         if (connected.get()) {
-            process.kill(SIGTERM);
-            return true;
+            int ret = process.kill(SIGTERM);
+            return ret == 0 ? true : false;
         }
         return false;
     }
