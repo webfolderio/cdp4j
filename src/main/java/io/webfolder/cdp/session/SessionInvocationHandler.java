@@ -230,5 +230,6 @@ public class SessionInvocationHandler {
                 // ignore
             }
         }
+        contexts.clear();
     }
 }

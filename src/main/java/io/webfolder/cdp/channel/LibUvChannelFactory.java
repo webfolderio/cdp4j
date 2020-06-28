@@ -38,7 +38,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -48,6 +47,7 @@ import com.oracle.libuv.IdleCallback;
 import com.oracle.libuv.IdleHandle;
 import com.oracle.libuv.LoopHandle;
 import com.oracle.libuv.PipeHandle;
+import com.oracle.libuv.ProcessCloseCallback;
 import com.oracle.libuv.ProcessExitCallback;
 import com.oracle.libuv.ProcessHandle;
 import com.oracle.libuv.ProcessHandle.ProcessFlags;
@@ -66,7 +66,8 @@ public class LibUvChannelFactory implements
                                     ChannelFactory,
                                     Channel,
                                     Connection,
-                                    ProcessExitCallback {
+                                    ProcessExitCallback,
+                                    ProcessCloseCallback {
 
     private static final char    MESSAGE_SEPERATOR      = '\0';
 
@@ -99,6 +100,8 @@ public class LibUvChannelFactory implements
     private ProcessHandle process;
 
     private LoopHandle loop;
+
+    private SessionFactory sessionFactory;
 
     static {
         loadJni();
@@ -222,9 +225,8 @@ public class LibUvChannelFactory implements
             loop.close();
             loop.destroy();
         } catch (Throwable e) {
-            throw new CdpException(e);
-        } finally {
             connected.compareAndSet(true, false);
+            throw new CdpException(e);
         }
     }
 
@@ -245,6 +247,7 @@ public class LibUvChannelFactory implements
                                  SessionFactory factory,
                                  MessageHandler handler) {
         this.handler = handler;
+        this.sessionFactory = factory;
         return this;
     }
 
@@ -255,24 +258,15 @@ public class LibUvChannelFactory implements
 
     @Override
     public void disconnect() {
-        CountDownLatch latch = new CountDownLatch(1);
-        submit(() -> {
-            outPipe.closeWrite();
-            outPipe.close();
-            outPipe.unref();
-            inPipe.readStop();
-            inPipe.close();
-            inPipe.unref();
-            process.close();
-            idleHandle.stop();
-            idleHandle.close();
-            latch.countDown();
-        });
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            throw new CdpException(e);
-        }
+        outPipe.closeWrite();
+        outPipe.close();
+        outPipe.unref();
+        inPipe.readStop();
+        inPipe.close();
+        inPipe.unref();
+        process.close();
+        idleHandle.stop();
+        idleHandle.close();
     }
 
     @Override
@@ -291,10 +285,18 @@ public class LibUvChannelFactory implements
     }
 
     @Override
-    public void onExit(int status,
-                       int signal,
+    public void onExit(int       status,
+                       int       signal,
                        Exception error) throws Exception {
-        connected.compareAndSet(true, false);
+        onClose();
+    }
+
+    @Override
+    public void onClose() throws Exception {
+        boolean ret = connected.compareAndSet(true, false);
+        if (ret) {
+            sessionFactory.close();
+        }
     }
 
     public boolean kill() {

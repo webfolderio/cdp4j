@@ -344,6 +344,9 @@ public class SessionFactory implements AutoCloseable {
                 browserSession.dispose();
             }
             channel.disconnect();
+            for (Session session : sessions.values()) {
+                session.dispose();
+            }
             sessions.clear();
             browserContexts.clear();
             if (options.shutdownThreadPoolOnClose()) {
