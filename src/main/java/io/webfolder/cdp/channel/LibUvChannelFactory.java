@@ -25,6 +25,7 @@ import static com.oracle.libuv.ProcessHandle.ProcessFlags.WINDOWS_VERBATIM_ARGUM
 import static com.oracle.libuv.StdioOptions.StdioType.CREATE_PIPE;
 import static com.oracle.libuv.StdioOptions.StdioType.IGNORE;
 import static com.oracle.libuv.StdioOptions.StdioType.INHERIT_FD;
+import static java.io.File.separator;
 import static java.lang.System.arraycopy;
 import static java.lang.System.getProperty;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -145,10 +146,12 @@ public class LibUvChannelFactory implements
             process = handleFactory.newProcessHandle();
             process.setExitCallback(this);
 
-            String program = path.resolve(executable)
-                                 .toAbsolutePath()
-                                 .toString();
-
+            String program = ! executable.contains(separator) ?
+                                  executable :
+                                  path.resolve(executable)
+                                      .toAbsolutePath()
+                                      .toString();
+    
             process.spawn(program,
                           args.toArray(new String[] { }),
                           env,
