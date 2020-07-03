@@ -20,8 +20,7 @@ package io.webfolder.cdp.channel;
 
 import static com.oracle.libuv.LibUV.disableStdioInheritance;
 import static com.oracle.libuv.LibUV.loadJni;
-import static com.oracle.libuv.ProcessHandle.ProcessFlags.SETGID;
-import static com.oracle.libuv.ProcessHandle.ProcessFlags.SETUID;
+import static com.oracle.libuv.ProcessHandle.ProcessFlags.NONE;
 import static com.oracle.libuv.ProcessHandle.ProcessFlags.WINDOWS_VERBATIM_ARGUMENTS;
 import static com.oracle.libuv.StdioOptions.StdioType.CREATE_PIPE;
 import static com.oracle.libuv.StdioOptions.StdioType.IGNORE;
@@ -130,8 +129,8 @@ public class LibUvChannelFactory implements
             stdio[0] = new StdioOptions(IGNORE, null, 0);                               // stdin
             stdio[1] = new StdioOptions(inheritStdioFd ? INHERIT_FD : IGNORE, null, 1); // stdout
             stdio[2] = new StdioOptions(inheritStdioFd ? INHERIT_FD : IGNORE, null, 2); // stderr
-            stdio[3] = new StdioOptions(CREATE_PIPE, outPipe, 3);                        // input
-            stdio[4] = new StdioOptions(CREATE_PIPE, inPipe, 4);                       // output
+            stdio[3] = new StdioOptions(CREATE_PIPE, outPipe, 3);                       // input
+            stdio[4] = new StdioOptions(CREATE_PIPE, inPipe, 4);                        // output
 
             String executable = path.getFileName().toString();
             List<String> args = arguments.subList(1, arguments.size());
@@ -141,7 +140,7 @@ public class LibUvChannelFactory implements
                              .getParent()
                              .toString();
 
-            EnumSet<ProcessFlags> flags = WINDOWS ? of(WINDOWS_VERBATIM_ARGUMENTS) : of(SETUID, SETGID);
+            EnumSet<ProcessFlags> flags = WINDOWS ? of(WINDOWS_VERBATIM_ARGUMENTS) : of(NONE);
 
             process = handleFactory.newProcessHandle();
             process.setExitCallback(this);
@@ -300,10 +299,13 @@ public class LibUvChannelFactory implements
     }
 
     public boolean kill() {
+        AtomicBoolean flag = new AtomicBoolean(false);
         if (connected.get()) {
-            int ret = process.kill(SIGTERM);
-            return ret == 0 ? true : false;
+            submit(() -> {
+                int ret = process.kill(SIGTERM);
+                flag.compareAndSet(false, ret == 0 ? true : false);
+            });
         }
-        return false;
+        return flag.get();
     }
 }

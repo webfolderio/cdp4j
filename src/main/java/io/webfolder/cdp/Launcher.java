@@ -339,7 +339,7 @@ public class Launcher {
         ProcessExecutor executor = options.processExecutor();
         switch (executor) {
             case LibUv:
-                ((LibUvChannelFactory) channelFactory).kill();
+                return ((LibUvChannelFactory) channelFactory).kill();
             default:
                 Optional<ProcessHandle> process = of(pid);
                 if (process.isPresent()) {
