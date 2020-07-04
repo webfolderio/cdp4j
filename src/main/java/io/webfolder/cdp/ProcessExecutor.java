@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp;
 
-import io.webfolder.cdp.channel.LibUvChannelFactory;
-
 /**
  * Process executor type
  */

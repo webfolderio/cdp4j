@@ -41,40 +41,11 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <annotationProcessorPaths>
-            <annotationProcessorPath>
-              <groupId>com.vimeo.stag</groupId>
-              <artifactId>stag-library-compiler</artifactId>
-              <version>2.6.0</version>
-            </annotationProcessorPath>
-          </annotationProcessorPaths>
-          <annotationProcessors>
-            <annotationProcessor>com.vimeo.stag.processor.StagProcessor</annotationProcessor>
-          </annotationProcessors>
           <compilerArgs>
             <arg>-parameters</arg>
-            <arg>-AstagGeneratedPackageName=io.webfolder.cdp</arg>
           </compilerArgs>
           <release>11</release>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${project.build.directory}/generated-sources/annotations</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>com.mycila</groupId>
@@ -554,7 +525,6 @@
                 <configuration>
                   <sources>
                     <source>${project.basedir}/src/main/graal</source>
-                    <source>${project.build.directory}/generated-sources/annotations</source>
                   </sources>
                 </configuration>
               </execution>

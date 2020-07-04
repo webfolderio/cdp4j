@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.session;
 
-import static io.webfolder.cdp.CustomTypeAdapter.Generated;
-import static io.webfolder.cdp.ProcessExecutor.LibUv;
-import static io.webfolder.cdp.ProcessExecutor.ProcessBuilder;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextCreated;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextDestroyed;
 import static java.lang.Boolean.TRUE;
@@ -38,9 +35,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
 
-import io.webfolder.cdp.CustomTypeAdapter;
 import io.webfolder.cdp.Options;
-import io.webfolder.cdp.Stag;
 import io.webfolder.cdp.channel.Channel;
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
@@ -87,14 +82,10 @@ public class SessionFactory implements AutoCloseable {
     public SessionFactory(Options options, ChannelFactory channelFactory, Connection connection, boolean init) {
         this.options            = options;
         this.loggerFactory      = createLoggerFactory(options.loggerType());
-        this.typeAdapterFactory = options.useCustomTypeAdapter() != null ? createTypeAdapterFactory(options.useCustomTypeAdapter()) : null;
+        this.typeAdapterFactory = new CdpTypeAdapterFactory();
         GsonBuilder builder     = new GsonBuilder().disableHtmlEscaping();
-        if ( options.useCustomTypeAdapter() != null ) {
-            this.gson = builder.registerTypeAdapterFactory(typeAdapterFactory)
-                               .create();
-        } else {
-            this.gson = builder.create();
-        }
+        this.gson               = builder.registerTypeAdapterFactory(typeAdapterFactory)
+                                         .create();
         MessageHandler handler = new MessageHandler(gson, this,
                                                     options.workerThreadPool(), options.eventHandlerThreadPool(),
                                                     loggerFactory.getLogger("cdp4j.ws.response", options.consoleLoggerLevel()));
@@ -111,13 +102,6 @@ public class SessionFactory implements AutoCloseable {
         } else {
             throw new IllegalStateException();
         }
-    }
-
-    private TypeAdapterFactory createTypeAdapterFactory(CustomTypeAdapter adapter) {
-        if (Generated.equals(adapter)) {
-            return new Stag.Factory();
-        }
-        return new CdpTypeAdapterFactory();
     }
 
     /**
@@ -332,9 +316,6 @@ public class SessionFactory implements AutoCloseable {
      */
     @Override
     public void close() {
-        if (LibUv.equals(options.processExecutor())) {
-            channel.disconnect();
-        }
         if (closed.compareAndSet(false, true)) {
             Target target = browserSession.getCommand().getTarget();
             if (channel.isOpen()) {
@@ -348,9 +329,7 @@ public class SessionFactory implements AutoCloseable {
                 }
                 browserSession.dispose();
             }
-            if (ProcessBuilder.equals(options.processExecutor())) {
-                channel.disconnect();
-            }
+            channel.disconnect();
             for (Session session : sessions.values()) {
                 session.dispose();
             }
@@ -372,8 +351,7 @@ public class SessionFactory implements AutoCloseable {
                     }
                 }
             }
-            if ( options.useCustomTypeAdapter() != null &&
-                    typeAdapterFactory instanceof AutoCloseable ) {
+            if ( typeAdapterFactory instanceof AutoCloseable ) {
                 try {
                     ((AutoCloseable) typeAdapterFactory).close();
                 } catch (Exception e) {

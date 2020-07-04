@@ -67,8 +67,6 @@ public class Options {
 
     private WaitingStrategy waitingStrategy;
 
-    private CustomTypeAdapter useCustomTypeAdapter;
-
     private ProcessExecutor processExecutor;
 
     private String browserExecutablePath;
@@ -141,11 +139,6 @@ public class Options {
             return this;
         }
 
-        public Builder useCustomTypeAdapter(CustomTypeAdapter useCustomTypeAdapter) {
-            options.useCustomTypeAdapter = useCustomTypeAdapter;
-            return this;
-        }
-
         public Builder processExecutor(ProcessExecutor processExecutor) {
             options.processExecutor = processExecutor;
             return this;
@@ -183,9 +176,6 @@ public class Options {
             }
             if (options.waitingStrategy == null) {
                 options.waitingStrategy = Semaphore;
-            }
-            if (options.useCustomTypeAdapter == null) {
-                options.useCustomTypeAdapter = null;
             }
             if (options.processExecutor == null) {
                 options.processExecutor = ProcessBuilder;
@@ -248,10 +238,6 @@ public class Options {
 
     public WaitingStrategy waitingStrategy() {
         return waitingStrategy;
-    }
-
-    public CustomTypeAdapter useCustomTypeAdapter() {
-        return useCustomTypeAdapter;
     }
 
     public ProcessExecutor processExecutor() {
