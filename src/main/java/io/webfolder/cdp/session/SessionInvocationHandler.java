@@ -121,7 +121,9 @@ public class SessionInvocationHandler {
         if (ParkThread.equals(waitingStrategy) &&
                    (context.getData() == null && context.getError() == null) &&
                    (currentTimeMillis() - start) >= readTimeout) {
-            throw new CdpReadTimeoutException(readTimeout + "ms");
+            if (channel.isOpen()) {
+                throw new CdpReadTimeoutException(readTimeout + "ms");
+            }
         }
 
         if ( context.getError() != null ) {

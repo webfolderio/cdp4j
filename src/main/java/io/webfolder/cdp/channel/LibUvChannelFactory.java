@@ -87,8 +87,6 @@ public class LibUvChannelFactory implements
 
     private final Queue<Runnable> queue = new ConcurrentLinkedQueue<>();
 
-    private final AtomicBoolean connected = new AtomicBoolean(false);
-
     private PipeHandle outPipe;
     
     private PipeHandle inPipe;
@@ -104,6 +102,12 @@ public class LibUvChannelFactory implements
     private LoopHandle loop;
 
     private SessionFactory sessionFactory;
+
+    private enum State { nil, running, closed, closing };
+
+    private volatile State loopState = State.nil;
+
+    private volatile State processState = State.nil;
 
     static {
         loadJni();
@@ -165,7 +169,7 @@ public class LibUvChannelFactory implements
 
             inPipe.readStart();
 
-            connected.set(true);
+    		setProcessState(State.running);
         });
     }
 
@@ -225,6 +229,7 @@ public class LibUvChannelFactory implements
         idleHandle.setIdleCallback(this);
         idleHandle.start();
         try {
+    		setLoopState(State.running);
             loop.run();
             loop.close();
             loop.destroy();
@@ -232,7 +237,7 @@ public class LibUvChannelFactory implements
         } catch (Throwable e) {
             throw new CdpException(e);
         } finally {
-            connected.compareAndSet(true, false);
+    		setLoopState(State.closed);
         }
     }
 
@@ -245,7 +250,9 @@ public class LibUvChannelFactory implements
     }
 
     public void submit(Runnable runnable) {
-        queue.add(runnable);
+    	if (loopState == State.running) {
+    		queue.add(runnable);
+    	}
     }
 
     @Override
@@ -259,32 +266,20 @@ public class LibUvChannelFactory implements
 
     @Override
     public boolean isOpen() {
-        return connected.get();
+        return processState == State.running;
     }
 
     @Override
     public synchronized void disconnect() {
-        submit(() -> {
-            outPipe.closeWrite();
-            outPipe.close();
-            outPipe.unref();
-            inPipe.readStop();
-            inPipe.close();
-            inPipe.unref();
-            process.close();
-            idleHandle.stop();
-            idleHandle.close();
-        });
+        submit(() -> close());
     }
 
     @Override
     public void sendText(String message) {
-        if (connected.get()) {
-            submit(() -> {
-                outPipe.write(message);
-                outPipe.write(MESSAGE_SEPERATOR_STR);
-            });
-        }
+        submit(() -> {
+            outPipe.write(message);
+            outPipe.write(MESSAGE_SEPERATOR_STR);
+        });
     }
 
     @Override
@@ -301,27 +296,52 @@ public class LibUvChannelFactory implements
 
     @Override
     public void onClose() throws Exception {
-        boolean ret = connected.compareAndSet(true, false);
-        if (ret) {
-            sessionFactory.close();
-        }
+    	if (processState == State.running) {
+    		setProcessState(State.closed);
+    		sessionFactory.close();
+    	}
     }
 
     public boolean kill() {
-        AtomicBoolean flag = new AtomicBoolean(false);
-        if (connected.get()) {
-            CountDownLatch latch = new CountDownLatch(1);
-            submit(() -> {
-                int ret = process.kill(SIGTERM);
-                flag.compareAndSet(false, ret == 0 ? true : false);
-                latch.countDown();
-            });
-            try {
-                latch.await(5, SECONDS);
-            } catch (InterruptedException e) {
-                // no op
-            }
-        }
-        return flag.get();
+		AtomicBoolean flag = new AtomicBoolean(false);
+		if (processState == State.running) {
+			setProcessState(State.closing);
+			CountDownLatch latch = new CountDownLatch(1);
+			submit(() -> {
+				int ret = process.kill(SIGTERM);
+				flag.compareAndSet(false, ret == 0 ? true : false);
+				latch.countDown();
+			});
+			try {
+				latch.await(1, SECONDS);
+			} catch (InterruptedException e) {
+				// no op
+			}
+		}
+		return flag.get();
     }
+
+    private void close() {
+    	if (loopState == State.running) {
+    		outPipe.closeWrite();
+    		outPipe.close();
+    		outPipe.unref();
+    		inPipe.readStop();
+    		inPipe.close();
+    		inPipe.unref();
+    		setProcessState(State.closing);
+			process.kill(SIGTERM);
+    		process.close();
+    		idleHandle.stop();
+    		idleHandle.close();
+    	}
+    }
+
+	private void setLoopState(State sate) {
+		this.loopState = sate;
+	}
+
+	private void setProcessState(State sate) {
+		this.processState = sate;
+	}
 }
