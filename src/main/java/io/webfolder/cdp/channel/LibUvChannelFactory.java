@@ -81,6 +81,9 @@ public class LibUvChannelFactory implements
 
     private static final int     SIGTERM                = 15;
 
+    // inherit the environment from the parent process
+    private static final String[]  DEFAULT_ENV          = null;
+
     private static final AtomicInteger THREAD_COUNTER = new AtomicInteger(0);
 
     private final DefaultHandleFactory handleFactory;
@@ -142,7 +145,6 @@ public class LibUvChannelFactory implements
             String executable = path.getFileName().toString();
             List<String> args = arguments.subList(1, arguments.size());
             args.add(0, executable);
-            String[] env = new String[] { };
             String dir = path.toAbsolutePath()
                              .getParent()
                              .toString();
@@ -160,7 +162,7 @@ public class LibUvChannelFactory implements
     
             process.spawn(program,
                           args.toArray(new String[] { }),
-                          env,
+                          DEFAULT_ENV,
                           dir,
                           flags,
                           stdio,
