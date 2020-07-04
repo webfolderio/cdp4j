@@ -319,23 +319,23 @@ public class SessionFactory implements AutoCloseable {
     @Override
     public void close() {
         if (closed.compareAndSet(false, true)) {
-    		boolean libuv = LibUv == options.processExecutor();
+            boolean libuv = LibUv == options.processExecutor();
             if (libuv && channel.isOpen()) {
-            	Thread thread = new Thread(() -> {
-					try {
-		                ((LibUvChannelFactory) channel).kill();
-					} catch (Throwable t) {
-						// ignore
-					}
-				});
-            	thread.setName("cdp4j-kill-browser");
-            	thread.setDaemon(true);
-            	thread.start();
+                Thread thread = new Thread(() -> {
+                    try {
+                        ((LibUvChannelFactory) channel).kill();
+                    } catch (Throwable t) {
+                        // ignore
+                    }
+                });
+                thread.setName("cdp4j-kill-browser");
+                thread.setDaemon(true);
+                thread.start();
             }
             if ( ! libuv && channel.isOpen() && browserSession != null ) {
-            	Target target = browserSession.getCommand().getTarget();
+                Target target = browserSession.getCommand().getTarget();
                 for (String next : browserContexts) {
-                	target.disposeBrowserContext(next);
+                    target.disposeBrowserContext(next);
                 }
                 target.closeTarget(browserTargetId);
             }

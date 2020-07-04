@@ -63,11 +63,11 @@ public class Launcher {
 
     private final ChannelFactory channelFactory;
 
-	private Instant startTime;
+    private Instant startTime;
 
-	private String command;
+    private String command;
 
-	private long pid;
+    private long pid;
 
     public Launcher(Options options, ChannelFactory channelFactory) {
         this.options = options;

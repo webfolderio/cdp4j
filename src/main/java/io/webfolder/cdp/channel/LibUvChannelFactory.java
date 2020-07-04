@@ -169,7 +169,7 @@ public class LibUvChannelFactory implements
 
             inPipe.readStart();
 
-    		setProcessState(State.running);
+            setProcessState(State.running);
         });
     }
 
@@ -229,7 +229,7 @@ public class LibUvChannelFactory implements
         idleHandle.setIdleCallback(this);
         idleHandle.start();
         try {
-    		setLoopState(State.running);
+            setLoopState(State.running);
             loop.run();
             loop.close();
             loop.destroy();
@@ -237,7 +237,7 @@ public class LibUvChannelFactory implements
         } catch (Throwable e) {
             throw new CdpException(e);
         } finally {
-    		setLoopState(State.closed);
+            setLoopState(State.closed);
         }
     }
 
@@ -250,9 +250,9 @@ public class LibUvChannelFactory implements
     }
 
     public void submit(Runnable runnable) {
-    	if (loopState == State.running) {
-    		queue.add(runnable);
-    	}
+        if (loopState == State.running) {
+            queue.add(runnable);
+        }
     }
 
     @Override
@@ -296,52 +296,52 @@ public class LibUvChannelFactory implements
 
     @Override
     public void onClose() throws Exception {
-    	if (processState == State.running) {
-    		setProcessState(State.closed);
-    		sessionFactory.close();
-    	}
+        if (processState == State.running) {
+            setProcessState(State.closed);
+            sessionFactory.close();
+        }
     }
 
     public boolean kill() {
-		AtomicBoolean flag = new AtomicBoolean(false);
-		if (processState == State.running) {
-			setProcessState(State.closing);
-			CountDownLatch latch = new CountDownLatch(1);
-			submit(() -> {
-				int ret = process.kill(SIGTERM);
-				flag.compareAndSet(false, ret == 0 ? true : false);
-				latch.countDown();
-			});
-			try {
-				latch.await(1, SECONDS);
-			} catch (InterruptedException e) {
-				// no op
-			}
-		}
-		return flag.get();
+        AtomicBoolean flag = new AtomicBoolean(false);
+        if (processState == State.running) {
+            setProcessState(State.closing);
+            CountDownLatch latch = new CountDownLatch(1);
+            submit(() -> {
+                int ret = process.kill(SIGTERM);
+                flag.compareAndSet(false, ret == 0 ? true : false);
+                latch.countDown();
+            });
+            try {
+                latch.await(1, SECONDS);
+            } catch (InterruptedException e) {
+                // no op
+            }
+        }
+        return flag.get();
     }
 
     private void close() {
-    	if (loopState == State.running) {
-    		outPipe.closeWrite();
-    		outPipe.close();
-    		outPipe.unref();
-    		inPipe.readStop();
-    		inPipe.close();
-    		inPipe.unref();
-    		setProcessState(State.closing);
-			process.kill(SIGTERM);
-    		process.close();
-    		idleHandle.stop();
-    		idleHandle.close();
-    	}
+        if (loopState == State.running) {
+            outPipe.closeWrite();
+            outPipe.close();
+            outPipe.unref();
+            inPipe.readStop();
+            inPipe.close();
+            inPipe.unref();
+            setProcessState(State.closing);
+            process.kill(SIGTERM);
+            process.close();
+            idleHandle.stop();
+            idleHandle.close();
+        }
     }
 
-	private void setLoopState(State sate) {
-		this.loopState = sate;
-	}
+    private void setLoopState(State sate) {
+        this.loopState = sate;
+    }
 
-	private void setProcessState(State sate) {
-		this.processState = sate;
-	}
+    private void setProcessState(State sate) {
+        this.processState = sate;
+    }
 }
