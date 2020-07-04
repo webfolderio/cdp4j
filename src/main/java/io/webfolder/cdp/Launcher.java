@@ -136,7 +136,7 @@ public class Launcher {
     }
 
     protected List<String> getChromeWinPaths() {
-        Browser browser = options.getBrowser();
+        Browser browser = options.browser();
         List<String> prefixes = asList("%localappdata%",
                                        "%programfiles%",
                                        "%programfiles(x86)%");

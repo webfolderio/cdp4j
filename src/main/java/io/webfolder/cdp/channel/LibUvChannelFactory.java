@@ -31,6 +31,7 @@ import static java.lang.System.getProperty;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.EnumSet.of;
 import static java.util.Locale.ENGLISH;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
@@ -38,6 +39,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -226,9 +228,11 @@ public class LibUvChannelFactory implements
             loop.run();
             loop.close();
             loop.destroy();
+            queue.clear();
         } catch (Throwable e) {
-            connected.compareAndSet(true, false);
             throw new CdpException(e);
+        } finally {
+            connected.compareAndSet(true, false);
         }
     }
 
@@ -259,16 +263,18 @@ public class LibUvChannelFactory implements
     }
 
     @Override
-    public void disconnect() {
-        outPipe.closeWrite();
-        outPipe.close();
-        outPipe.unref();
-        inPipe.readStop();
-        inPipe.close();
-        inPipe.unref();
-        process.close();
-        idleHandle.stop();
-        idleHandle.close();
+    public synchronized void disconnect() {
+        submit(() -> {
+            outPipe.closeWrite();
+            outPipe.close();
+            outPipe.unref();
+            inPipe.readStop();
+            inPipe.close();
+            inPipe.unref();
+            process.close();
+            idleHandle.stop();
+            idleHandle.close();
+        });
     }
 
     @Override
@@ -304,10 +310,17 @@ public class LibUvChannelFactory implements
     public boolean kill() {
         AtomicBoolean flag = new AtomicBoolean(false);
         if (connected.get()) {
+            CountDownLatch latch = new CountDownLatch(1);
             submit(() -> {
                 int ret = process.kill(SIGTERM);
                 flag.compareAndSet(false, ret == 0 ? true : false);
+                latch.countDown();
             });
+            try {
+                latch.await(5, SECONDS);
+            } catch (InterruptedException e) {
+                // no op
+            }
         }
         return flag.get();
     }

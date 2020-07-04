@@ -262,7 +262,7 @@ public class Options {
         return browserExecutablePath;
     }
 
-    public Browser getBrowser() {
+    public Browser browser() {
         return browser;
     }
 }

@@ -19,6 +19,8 @@
 package io.webfolder.cdp.session;
 
 import static io.webfolder.cdp.CustomTypeAdapter.Generated;
+import static io.webfolder.cdp.ProcessExecutor.LibUv;
+import static io.webfolder.cdp.ProcessExecutor.ProcessBuilder;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextCreated;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextDestroyed;
 import static java.lang.Boolean.TRUE;
@@ -330,6 +332,9 @@ public class SessionFactory implements AutoCloseable {
      */
     @Override
     public void close() {
+        if (LibUv.equals(options.processExecutor())) {
+            channel.disconnect();
+        }
         if (closed.compareAndSet(false, true)) {
             Target target = browserSession.getCommand().getTarget();
             if (channel.isOpen()) {
@@ -343,7 +348,9 @@ public class SessionFactory implements AutoCloseable {
                 }
                 browserSession.dispose();
             }
-            channel.disconnect();
+            if (ProcessBuilder.equals(options.processExecutor())) {
+                channel.disconnect();
+            }
             for (Session session : sessions.values()) {
                 session.dispose();
             }
