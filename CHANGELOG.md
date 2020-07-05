@@ -7,8 +7,6 @@ cdp4j Release Notes
 
 * Add libuv support
 
-* Build two different jar files. One of them will support reflection and the other will not use reflection.
-
 ### 4.2.2 - February 17, 2020
 
 * __Fixed__ - Revert read timeout exception to previous logic (v3.x)
