@@ -3,8 +3,6 @@ cdp4j Release Notes
 
 ### 5.0.0 - September, 2020 **not released yet**
 
-* Drop Java 8 Support
-
 * Add libuv support
 
 ### 4.2.2 - February 17, 2020
