@@ -25,39 +25,39 @@ import io.webfolder.cdp.type.constant.Encoding;
 
 public class AuditsImpl implements Audits {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
 
-	public AuditsImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public AuditsImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public GetEncodedResponseResult getEncodedResponse(String requestId, Encoding encoding, Double quality,
-			Boolean sizeOnly) {
-		return (GetEncodedResponseResult) handler.invoke("Audits", "getEncodedResponse", "Audits.getEncodedResponse",
-				null, GetEncodedResponseResult.class, null, false, false, false,
-				new String[]{"requestId", "encoding", "quality", "sizeOnly"},
-				new Object[]{requestId, encoding, quality, sizeOnly});
-	}
+    @Override
+    public GetEncodedResponseResult getEncodedResponse(String requestId, Encoding encoding, Double quality,
+            Boolean sizeOnly) {
+        return (GetEncodedResponseResult) handler.invoke("Audits", "getEncodedResponse", "Audits.getEncodedResponse",
+                null, GetEncodedResponseResult.class, null, false, false, false,
+                new String[]{"requestId", "encoding", "quality", "sizeOnly"},
+                new Object[]{requestId, encoding, quality, sizeOnly});
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("Audits", "disable", "Audits.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("Audits", "disable", "Audits.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("Audits", "enable", "Audits.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("Audits", "enable", "Audits.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public GetEncodedResponseResult getEncodedResponse(String requestId, Encoding encoding) {
-		return (GetEncodedResponseResult) handler.invoke("Audits", "getEncodedResponse", "Audits.getEncodedResponse",
-				null, GetEncodedResponseResult.class, null, false, false, false, new String[]{"requestId", "encoding"},
-				new Object[]{requestId, encoding});
-	}
+    @Override
+    public GetEncodedResponseResult getEncodedResponse(String requestId, Encoding encoding) {
+        return (GetEncodedResponseResult) handler.invoke("Audits", "getEncodedResponse", "Audits.getEncodedResponse",
+                null, GetEncodedResponseResult.class, null, false, false, false, new String[]{"requestId", "encoding"},
+                new Object[]{requestId, encoding});
+    }
 }

@@ -50,6 +50,7 @@ public class AdaptiveProcessManager implements ProcessManager {
             return new WfProcessManager();
         } else {
             if ( ! JAVA_8 ) {
+                // Java > 8
                 try {
                     Class<?> klass = getClass()
                                         .getClassLoader()

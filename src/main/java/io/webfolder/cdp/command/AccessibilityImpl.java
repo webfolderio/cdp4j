@@ -27,49 +27,49 @@ import io.webfolder.cdp.type.accessibility.AXNode;
 
 public class AccessibilityImpl implements Accessibility {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
-	private static final TypeToken<List<AXNode>> GET_PARTIAL_AX_TREE = new TypeToken<List<AXNode>>() { };
-	private static final TypeToken<List<AXNode>> GET_FULL_AX_TREE = new TypeToken<List<AXNode>>() { };
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
+    private static final TypeToken<List<AXNode>> GET_PARTIAL_AX_TREE = new TypeToken<List<AXNode>>() { };
+    private static final TypeToken<List<AXNode>> GET_FULL_AX_TREE = new TypeToken<List<AXNode>>() { };
 
-	public AccessibilityImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public AccessibilityImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("Accessibility", "disable", "Accessibility.disable", null, void.class, null, true, false, true,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("Accessibility", "disable", "Accessibility.disable", null, void.class, null, true, false, true,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("Accessibility", "enable", "Accessibility.enable", null, void.class, null, true, true, false,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("Accessibility", "enable", "Accessibility.enable", null, void.class, null, true, true, false,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<AXNode> getPartialAXTree(Integer nodeId, Integer backendNodeId, String objectId,
-			Boolean fetchRelatives) {
-		return (List<AXNode>) handler.invoke("Accessibility", "getPartialAXTree", "Accessibility.getPartialAXTree",
-				"nodes", List.class, GET_PARTIAL_AX_TREE.getType(), false, false, false,
-				new String[]{"nodeId", "backendNodeId", "objectId", "fetchRelatives"},
-				new Object[]{nodeId, backendNodeId, objectId, fetchRelatives});
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<AXNode> getPartialAXTree(Integer nodeId, Integer backendNodeId, String objectId,
+            Boolean fetchRelatives) {
+        return (List<AXNode>) handler.invoke("Accessibility", "getPartialAXTree", "Accessibility.getPartialAXTree",
+                "nodes", List.class, GET_PARTIAL_AX_TREE.getType(), false, false, false,
+                new String[]{"nodeId", "backendNodeId", "objectId", "fetchRelatives"},
+                new Object[]{nodeId, backendNodeId, objectId, fetchRelatives});
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<AXNode> getFullAXTree() {
-		return (List<AXNode>) handler.invoke("Accessibility", "getFullAXTree", "Accessibility.getFullAXTree", "nodes",
-				List.class, GET_FULL_AX_TREE.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<AXNode> getFullAXTree() {
+        return (List<AXNode>) handler.invoke("Accessibility", "getFullAXTree", "Accessibility.getFullAXTree", "nodes",
+                List.class, GET_FULL_AX_TREE.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<AXNode> getPartialAXTree() {
-		return (List<AXNode>) handler.invoke("Accessibility", "getPartialAXTree", "Accessibility.getPartialAXTree",
-				"nodes", List.class, GET_PARTIAL_AX_TREE.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<AXNode> getPartialAXTree() {
+        return (List<AXNode>) handler.invoke("Accessibility", "getPartialAXTree", "Accessibility.getPartialAXTree",
+                "nodes", List.class, GET_PARTIAL_AX_TREE.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 }

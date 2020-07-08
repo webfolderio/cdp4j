@@ -27,40 +27,40 @@ import io.webfolder.cdp.type.applicationcache.FrameWithManifest;
 
 public class ApplicationCacheImpl implements ApplicationCache {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
-	private static final TypeToken<List<FrameWithManifest>> GET_FRAMES_WITH_MANIFESTS = new TypeToken<List<FrameWithManifest>>() { };
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
+    private static final TypeToken<List<FrameWithManifest>> GET_FRAMES_WITH_MANIFESTS = new TypeToken<List<FrameWithManifest>>() { };
 
-	public ApplicationCacheImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public ApplicationCacheImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("ApplicationCache", "enable", "ApplicationCache.enable", null, void.class, null, true, true,
-				false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("ApplicationCache", "enable", "ApplicationCache.enable", null, void.class, null, true, true,
+                false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public io.webfolder.cdp.type.applicationcache.ApplicationCache getApplicationCacheForFrame(String frameId) {
-		return (io.webfolder.cdp.type.applicationcache.ApplicationCache) handler.invoke("ApplicationCache", "getApplicationCacheForFrame",
-				"ApplicationCache.getApplicationCacheForFrame", "applicationCache", ApplicationCache.class, null, false,
-				false, false, new String[]{"frameId"}, new Object[]{frameId});
-	}
+    @Override
+    public io.webfolder.cdp.type.applicationcache.ApplicationCache getApplicationCacheForFrame(String frameId) {
+        return (io.webfolder.cdp.type.applicationcache.ApplicationCache) handler.invoke("ApplicationCache", "getApplicationCacheForFrame",
+                "ApplicationCache.getApplicationCacheForFrame", "applicationCache", ApplicationCache.class, null, false,
+                false, false, new String[]{"frameId"}, new Object[]{frameId});
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<FrameWithManifest> getFramesWithManifests() {
-		return (List<FrameWithManifest>) handler.invoke("ApplicationCache", "getFramesWithManifests",
-				"ApplicationCache.getFramesWithManifests", "frameIds", List.class, GET_FRAMES_WITH_MANIFESTS.getType(),
-				false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<FrameWithManifest> getFramesWithManifests() {
+        return (List<FrameWithManifest>) handler.invoke("ApplicationCache", "getFramesWithManifests",
+                "ApplicationCache.getFramesWithManifests", "frameIds", List.class, GET_FRAMES_WITH_MANIFESTS.getType(),
+                false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public String getManifestForFrame(String frameId) {
-		return (String) handler.invoke("ApplicationCache", "getManifestForFrame",
-				"ApplicationCache.getManifestForFrame", "manifestURL", String.class, null, false, false, false,
-				new String[]{"frameId"}, new Object[]{frameId});
-	}
+    @Override
+    public String getManifestForFrame(String frameId) {
+        return (String) handler.invoke("ApplicationCache", "getManifestForFrame",
+                "ApplicationCache.getManifestForFrame", "manifestURL", String.class, null, false, false, false,
+                new String[]{"frameId"}, new Object[]{frameId});
+    }
 }

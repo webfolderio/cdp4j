@@ -28,11 +28,11 @@ import io.webfolder.cdp.session.SessionFactory;
 
 public class HelloGraal {
 
-	// before compile execute main method using native-image-agent
-	// -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image/io.webfolder/cdp4j
+    // before compile execute main method using native-image-agent
+    // -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image/io.webfolder/cdp4j
     public static void main(String[] args) throws IOException, InterruptedException {
         Options options = Options.builder()
-        						 .processExecutor(LibUv)
+                                 .processExecutor(LibUv)
                                  .loggerType(Console)
                              .build();
 

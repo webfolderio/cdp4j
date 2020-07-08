@@ -26,39 +26,39 @@ import com.google.gson.reflect.TypeToken;
 
 public class DatabaseImpl implements Database {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
-	private static final TypeToken<List<String>> GET_DATABASE_TABLE_NAMES = new TypeToken<List<String>>() { };
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
+    private static final TypeToken<List<String>> GET_DATABASE_TABLE_NAMES = new TypeToken<List<String>>() { };
 
-	public DatabaseImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public DatabaseImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("Database", "disable", "Database.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("Database", "disable", "Database.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("Database", "enable", "Database.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("Database", "enable", "Database.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public ExecuteSQLResult executeSQL(String databaseId, String query) {
-		return (ExecuteSQLResult) handler.invoke("Database", "executeSQL", "Database.executeSQL", null,
-				ExecuteSQLResult.class, null, false, false, false, new String[]{"databaseId", "query"},
-				new Object[]{databaseId, query});
-	}
+    @Override
+    public ExecuteSQLResult executeSQL(String databaseId, String query) {
+        return (ExecuteSQLResult) handler.invoke("Database", "executeSQL", "Database.executeSQL", null,
+                ExecuteSQLResult.class, null, false, false, false, new String[]{"databaseId", "query"},
+                new Object[]{databaseId, query});
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<String> getDatabaseTableNames(String databaseId) {
-		return (List<String>) handler.invoke("Database", "getDatabaseTableNames", "Database.getDatabaseTableNames",
-				"tableNames", List.class, GET_DATABASE_TABLE_NAMES.getType(), false, false, false,
-				new String[]{"databaseId"}, new Object[]{databaseId});
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<String> getDatabaseTableNames(String databaseId) {
+        return (List<String>) handler.invoke("Database", "getDatabaseTableNames", "Database.getDatabaseTableNames",
+                "tableNames", List.class, GET_DATABASE_TABLE_NAMES.getType(), false, false, false,
+                new String[]{"databaseId"}, new Object[]{databaseId});
+    }
 }

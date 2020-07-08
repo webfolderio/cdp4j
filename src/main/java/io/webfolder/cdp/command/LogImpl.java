@@ -25,41 +25,41 @@ import io.webfolder.cdp.type.log.ViolationSetting;
 
 public class LogImpl implements Log {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
 
-	public LogImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public LogImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void clear() {
-		handler.invoke("Log", "clear", "Log.clear", null, void.class, null, true, false, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void clear() {
+        handler.invoke("Log", "clear", "Log.clear", null, void.class, null, true, false, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("Log", "disable", "Log.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("Log", "disable", "Log.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("Log", "enable", "Log.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("Log", "enable", "Log.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public void startViolationsReport(List<ViolationSetting> config) {
-		handler.invoke("Log", "startViolationsReport", "Log.startViolationsReport", null, void.class, null, true, false,
-				false, new String[]{"config"}, new Object[]{config});
-	}
+    @Override
+    public void startViolationsReport(List<ViolationSetting> config) {
+        handler.invoke("Log", "startViolationsReport", "Log.startViolationsReport", null, void.class, null, true, false,
+                false, new String[]{"config"}, new Object[]{config});
+    }
 
-	@Override
-	public void stopViolationsReport() {
-		handler.invoke("Log", "stopViolationsReport", "Log.stopViolationsReport", null, void.class, null, true, false,
-				false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void stopViolationsReport() {
+        handler.invoke("Log", "stopViolationsReport", "Log.stopViolationsReport", null, void.class, null, true, false,
+                false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 }

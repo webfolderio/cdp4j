@@ -145,12 +145,12 @@
       <version>4.13</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
+    <!-- dependency>
       <groupId>uk.com.robust-it</groupId>
       <artifactId>cloning</artifactId>
       <version>1.9.12</version>
       <scope>test</scope>
-    </dependency>
+    </dependency-->
     <!-- dependency>
       <groupId>com.squareup</groupId>
       <artifactId>javapoet</artifactId>

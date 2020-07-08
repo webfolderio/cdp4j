@@ -23,47 +23,47 @@ import io.webfolder.cdp.command.Cast;
 
 public class CastImpl implements Cast {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
 
-	public CastImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public CastImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void enable(String presentationUrl) {
-		handler.invoke("Cast", "enable", "Cast.enable", null, void.class, null, true, true, false,
-				new String[]{"presentationUrl"}, new Object[]{presentationUrl});
-	}
+    @Override
+    public void enable(String presentationUrl) {
+        handler.invoke("Cast", "enable", "Cast.enable", null, void.class, null, true, true, false,
+                new String[]{"presentationUrl"}, new Object[]{presentationUrl});
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("Cast", "disable", "Cast.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("Cast", "disable", "Cast.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public void setSinkToUse(String sinkName) {
-		handler.invoke("Cast", "setSinkToUse", "Cast.setSinkToUse", null, void.class, null, true, false, false,
-				new String[]{"sinkName"}, new Object[]{sinkName});
-	}
+    @Override
+    public void setSinkToUse(String sinkName) {
+        handler.invoke("Cast", "setSinkToUse", "Cast.setSinkToUse", null, void.class, null, true, false, false,
+                new String[]{"sinkName"}, new Object[]{sinkName});
+    }
 
-	@Override
-	public void startTabMirroring(String sinkName) {
-		handler.invoke("Cast", "startTabMirroring", "Cast.startTabMirroring", null, void.class, null, true, false,
-				false, new String[]{"sinkName"}, new Object[]{sinkName});
-	}
+    @Override
+    public void startTabMirroring(String sinkName) {
+        handler.invoke("Cast", "startTabMirroring", "Cast.startTabMirroring", null, void.class, null, true, false,
+                false, new String[]{"sinkName"}, new Object[]{sinkName});
+    }
 
-	@Override
-	public void stopCasting(String sinkName) {
-		handler.invoke("Cast", "stopCasting", "Cast.stopCasting", null, void.class, null, true, false, false,
-				new String[]{"sinkName"}, new Object[]{sinkName});
-	}
+    @Override
+    public void stopCasting(String sinkName) {
+        handler.invoke("Cast", "stopCasting", "Cast.stopCasting", null, void.class, null, true, false, false,
+                new String[]{"sinkName"}, new Object[]{sinkName});
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("Cast", "enable", "Cast.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("Cast", "enable", "Cast.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 }

@@ -31,116 +31,116 @@ import io.webfolder.cdp.type.profiler.TakePreciseCoverageResult;
 
 public class ProfilerImpl implements Profiler {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
-	private static final TypeToken<List<ScriptCoverage>> GET_BEST_EFFORT_COVERAGE = new TypeToken<List<ScriptCoverage>>() { };
-	private static final TypeToken<List<ScriptTypeProfile>> TAKE_TYPE_PROFILE = new TypeToken<List<ScriptTypeProfile>>() { };
-	private static final TypeToken<List<CounterInfo>> GET_RUNTIME_CALL_STATS = new TypeToken<List<CounterInfo>>() { };
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
+    private static final TypeToken<List<ScriptCoverage>> GET_BEST_EFFORT_COVERAGE = new TypeToken<List<ScriptCoverage>>() { };
+    private static final TypeToken<List<ScriptTypeProfile>> TAKE_TYPE_PROFILE = new TypeToken<List<ScriptTypeProfile>>() { };
+    private static final TypeToken<List<CounterInfo>> GET_RUNTIME_CALL_STATS = new TypeToken<List<CounterInfo>>() { };
 
-	public ProfilerImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public ProfilerImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("Profiler", "disable", "Profiler.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("Profiler", "disable", "Profiler.disable", null, void.class, null, true, false, true, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("Profiler", "enable", "Profiler.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("Profiler", "enable", "Profiler.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<ScriptCoverage> getBestEffortCoverage() {
-		return (List<ScriptCoverage>) handler.invoke("Profiler", "getBestEffortCoverage",
-				"Profiler.getBestEffortCoverage", "result", List.class, GET_BEST_EFFORT_COVERAGE.getType(), false,
-				false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<ScriptCoverage> getBestEffortCoverage() {
+        return (List<ScriptCoverage>) handler.invoke("Profiler", "getBestEffortCoverage",
+                "Profiler.getBestEffortCoverage", "result", List.class, GET_BEST_EFFORT_COVERAGE.getType(), false,
+                false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void setSamplingInterval(Integer interval) {
-		handler.invoke("Profiler", "setSamplingInterval", "Profiler.setSamplingInterval", null, void.class, null, true,
-				false, false, new String[]{"interval"}, new Object[]{interval});
-	}
+    @Override
+    public void setSamplingInterval(Integer interval) {
+        handler.invoke("Profiler", "setSamplingInterval", "Profiler.setSamplingInterval", null, void.class, null, true,
+                false, false, new String[]{"interval"}, new Object[]{interval});
+    }
 
-	@Override
-	public void start() {
-		handler.invoke("Profiler", "start", "Profiler.start", null, void.class, null, true, false, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void start() {
+        handler.invoke("Profiler", "start", "Profiler.start", null, void.class, null, true, false, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public Double startPreciseCoverage(Boolean callCount, Boolean detailed, Boolean allowTriggeredUpdates) {
-		return (Double) handler.invoke("Profiler", "startPreciseCoverage", "Profiler.startPreciseCoverage", "timestamp",
-				Double.class, null, false, false, false, new String[]{"callCount", "detailed", "allowTriggeredUpdates"},
-				new Object[]{callCount, detailed, allowTriggeredUpdates});
-	}
+    @Override
+    public Double startPreciseCoverage(Boolean callCount, Boolean detailed, Boolean allowTriggeredUpdates) {
+        return (Double) handler.invoke("Profiler", "startPreciseCoverage", "Profiler.startPreciseCoverage", "timestamp",
+                Double.class, null, false, false, false, new String[]{"callCount", "detailed", "allowTriggeredUpdates"},
+                new Object[]{callCount, detailed, allowTriggeredUpdates});
+    }
 
-	@Override
-	public void startTypeProfile() {
-		handler.invoke("Profiler", "startTypeProfile", "Profiler.startTypeProfile", null, void.class, null, true, false,
-				false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void startTypeProfile() {
+        handler.invoke("Profiler", "startTypeProfile", "Profiler.startTypeProfile", null, void.class, null, true, false,
+                false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public Profile stop() {
-		return (Profile) handler.invoke("Profiler", "stop", "Profiler.stop", "profile", Profile.class, null, false,
-				false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public Profile stop() {
+        return (Profile) handler.invoke("Profiler", "stop", "Profiler.stop", "profile", Profile.class, null, false,
+                false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void stopPreciseCoverage() {
-		handler.invoke("Profiler", "stopPreciseCoverage", "Profiler.stopPreciseCoverage", null, void.class, null, true,
-				false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void stopPreciseCoverage() {
+        handler.invoke("Profiler", "stopPreciseCoverage", "Profiler.stopPreciseCoverage", null, void.class, null, true,
+                false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void stopTypeProfile() {
-		handler.invoke("Profiler", "stopTypeProfile", "Profiler.stopTypeProfile", null, void.class, null, true, false,
-				false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void stopTypeProfile() {
+        handler.invoke("Profiler", "stopTypeProfile", "Profiler.stopTypeProfile", null, void.class, null, true, false,
+                false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public TakePreciseCoverageResult takePreciseCoverage() {
-		return (TakePreciseCoverageResult) handler.invoke("Profiler", "takePreciseCoverage",
-				"Profiler.takePreciseCoverage", null, TakePreciseCoverageResult.class, null, false, false, false,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public TakePreciseCoverageResult takePreciseCoverage() {
+        return (TakePreciseCoverageResult) handler.invoke("Profiler", "takePreciseCoverage",
+                "Profiler.takePreciseCoverage", null, TakePreciseCoverageResult.class, null, false, false, false,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<ScriptTypeProfile> takeTypeProfile() {
-		return (List<ScriptTypeProfile>) handler.invoke("Profiler", "takeTypeProfile", "Profiler.takeTypeProfile",
-				"result", List.class, TAKE_TYPE_PROFILE.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<ScriptTypeProfile> takeTypeProfile() {
+        return (List<ScriptTypeProfile>) handler.invoke("Profiler", "takeTypeProfile", "Profiler.takeTypeProfile",
+                "result", List.class, TAKE_TYPE_PROFILE.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void enableRuntimeCallStats() {
-		handler.invoke("Profiler", "enableRuntimeCallStats", "Profiler.enableRuntimeCallStats", null, void.class, null,
-				true, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void enableRuntimeCallStats() {
+        handler.invoke("Profiler", "enableRuntimeCallStats", "Profiler.enableRuntimeCallStats", null, void.class, null,
+                true, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void disableRuntimeCallStats() {
-		handler.invoke("Profiler", "disableRuntimeCallStats", "Profiler.disableRuntimeCallStats", null, void.class,
-				null, true, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void disableRuntimeCallStats() {
+        handler.invoke("Profiler", "disableRuntimeCallStats", "Profiler.disableRuntimeCallStats", null, void.class,
+                null, true, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<CounterInfo> getRuntimeCallStats() {
-		return (List<CounterInfo>) handler.invoke("Profiler", "getRuntimeCallStats", "Profiler.getRuntimeCallStats",
-				"result", List.class, GET_RUNTIME_CALL_STATS.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<CounterInfo> getRuntimeCallStats() {
+        return (List<CounterInfo>) handler.invoke("Profiler", "getRuntimeCallStats", "Profiler.getRuntimeCallStats",
+                "result", List.class, GET_RUNTIME_CALL_STATS.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public Double startPreciseCoverage() {
-		return (Double) handler.invoke("Profiler", "startPreciseCoverage", "Profiler.startPreciseCoverage", "timestamp",
-				Double.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public Double startPreciseCoverage() {
+        return (Double) handler.invoke("Profiler", "startPreciseCoverage", "Profiler.startPreciseCoverage", "timestamp",
+                Double.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+    }
 }

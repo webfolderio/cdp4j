@@ -29,87 +29,87 @@ import com.google.gson.reflect.TypeToken;
 
 public class IndexedDBImpl implements IndexedDB {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
-	private static final TypeToken<List<String>> REQUEST_DATABASE_NAMES = new TypeToken<List<String>>() { };
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
+    private static final TypeToken<List<String>> REQUEST_DATABASE_NAMES = new TypeToken<List<String>>() { };
 
-	public IndexedDBImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public IndexedDBImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void clearObjectStore(String securityOrigin, String databaseName, String objectStoreName) {
-		handler.invoke("IndexedDB", "clearObjectStore", "IndexedDB.clearObjectStore", null, void.class, null, true,
-				false, false, new String[]{"securityOrigin", "databaseName", "objectStoreName"},
-				new Object[]{securityOrigin, databaseName, objectStoreName});
-	}
+    @Override
+    public void clearObjectStore(String securityOrigin, String databaseName, String objectStoreName) {
+        handler.invoke("IndexedDB", "clearObjectStore", "IndexedDB.clearObjectStore", null, void.class, null, true,
+                false, false, new String[]{"securityOrigin", "databaseName", "objectStoreName"},
+                new Object[]{securityOrigin, databaseName, objectStoreName});
+    }
 
-	@Override
-	public void deleteDatabase(String securityOrigin, String databaseName) {
-		handler.invoke("IndexedDB", "deleteDatabase", "IndexedDB.deleteDatabase", null, void.class, null, true, false,
-				false, new String[]{"securityOrigin", "databaseName"}, new Object[]{securityOrigin, databaseName});
-	}
+    @Override
+    public void deleteDatabase(String securityOrigin, String databaseName) {
+        handler.invoke("IndexedDB", "deleteDatabase", "IndexedDB.deleteDatabase", null, void.class, null, true, false,
+                false, new String[]{"securityOrigin", "databaseName"}, new Object[]{securityOrigin, databaseName});
+    }
 
-	@Override
-	public void deleteObjectStoreEntries(String securityOrigin, String databaseName, String objectStoreName,
-			KeyRange keyRange) {
-		handler.invoke("IndexedDB", "deleteObjectStoreEntries", "IndexedDB.deleteObjectStoreEntries", null, void.class,
-				null, true, false, false, new String[]{"securityOrigin", "databaseName", "objectStoreName", "keyRange"},
-				new Object[]{securityOrigin, databaseName, objectStoreName, keyRange});
-	}
+    @Override
+    public void deleteObjectStoreEntries(String securityOrigin, String databaseName, String objectStoreName,
+            KeyRange keyRange) {
+        handler.invoke("IndexedDB", "deleteObjectStoreEntries", "IndexedDB.deleteObjectStoreEntries", null, void.class,
+                null, true, false, false, new String[]{"securityOrigin", "databaseName", "objectStoreName", "keyRange"},
+                new Object[]{securityOrigin, databaseName, objectStoreName, keyRange});
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("IndexedDB", "disable", "IndexedDB.disable", null, void.class, null, true, false, true,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("IndexedDB", "disable", "IndexedDB.disable", null, void.class, null, true, false, true,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("IndexedDB", "enable", "IndexedDB.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("IndexedDB", "enable", "IndexedDB.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 
-	@Override
-	public RequestDataResult requestData(String securityOrigin, String databaseName, String objectStoreName,
-			String indexName, Integer skipCount, Integer pageSize, KeyRange keyRange) {
-		return (RequestDataResult) handler.invoke("IndexedDB", "requestData", "IndexedDB.requestData", null,
-				RequestDataResult.class, null, false, false, false,
-				new String[]{"securityOrigin", "databaseName", "objectStoreName", "indexName", "skipCount", "pageSize",
-						"keyRange"},
-				new Object[]{securityOrigin, databaseName, objectStoreName, indexName, skipCount, pageSize, keyRange});
-	}
+    @Override
+    public RequestDataResult requestData(String securityOrigin, String databaseName, String objectStoreName,
+            String indexName, Integer skipCount, Integer pageSize, KeyRange keyRange) {
+        return (RequestDataResult) handler.invoke("IndexedDB", "requestData", "IndexedDB.requestData", null,
+                RequestDataResult.class, null, false, false, false,
+                new String[]{"securityOrigin", "databaseName", "objectStoreName", "indexName", "skipCount", "pageSize",
+                        "keyRange"},
+                new Object[]{securityOrigin, databaseName, objectStoreName, indexName, skipCount, pageSize, keyRange});
+    }
 
-	@Override
-	public GetMetadataResult getMetadata(String securityOrigin, String databaseName, String objectStoreName) {
-		return (GetMetadataResult) handler.invoke("IndexedDB", "getMetadata", "IndexedDB.getMetadata", null,
-				GetMetadataResult.class, null, false, false, false,
-				new String[]{"securityOrigin", "databaseName", "objectStoreName"},
-				new Object[]{securityOrigin, databaseName, objectStoreName});
-	}
+    @Override
+    public GetMetadataResult getMetadata(String securityOrigin, String databaseName, String objectStoreName) {
+        return (GetMetadataResult) handler.invoke("IndexedDB", "getMetadata", "IndexedDB.getMetadata", null,
+                GetMetadataResult.class, null, false, false, false,
+                new String[]{"securityOrigin", "databaseName", "objectStoreName"},
+                new Object[]{securityOrigin, databaseName, objectStoreName});
+    }
 
-	@Override
-	public DatabaseWithObjectStores requestDatabase(String securityOrigin, String databaseName) {
-		return (DatabaseWithObjectStores) handler.invoke("IndexedDB", "requestDatabase", "IndexedDB.requestDatabase",
-				"databaseWithObjectStores", DatabaseWithObjectStores.class, null, false, false, false,
-				new String[]{"securityOrigin", "databaseName"}, new Object[]{securityOrigin, databaseName});
-	}
+    @Override
+    public DatabaseWithObjectStores requestDatabase(String securityOrigin, String databaseName) {
+        return (DatabaseWithObjectStores) handler.invoke("IndexedDB", "requestDatabase", "IndexedDB.requestDatabase",
+                "databaseWithObjectStores", DatabaseWithObjectStores.class, null, false, false, false,
+                new String[]{"securityOrigin", "databaseName"}, new Object[]{securityOrigin, databaseName});
+    }
 
-	@Override
-	@java.lang.SuppressWarnings("unchecked")
-	public List<String> requestDatabaseNames(String securityOrigin) {
-		return (List<String>) handler.invoke("IndexedDB", "requestDatabaseNames", "IndexedDB.requestDatabaseNames",
-				"databaseNames", List.class, REQUEST_DATABASE_NAMES.getType(), false, false, false,
-				new String[]{"securityOrigin"}, new Object[]{securityOrigin});
-	}
+    @Override
+    @java.lang.SuppressWarnings("unchecked")
+    public List<String> requestDatabaseNames(String securityOrigin) {
+        return (List<String>) handler.invoke("IndexedDB", "requestDatabaseNames", "IndexedDB.requestDatabaseNames",
+                "databaseNames", List.class, REQUEST_DATABASE_NAMES.getType(), false, false, false,
+                new String[]{"securityOrigin"}, new Object[]{securityOrigin});
+    }
 
-	@Override
-	public RequestDataResult requestData(String securityOrigin, String databaseName, String objectStoreName,
-			String indexName, Integer skipCount, Integer pageSize) {
-		return (RequestDataResult) handler.invoke("IndexedDB", "requestData", "IndexedDB.requestData", null,
-				RequestDataResult.class, null, false, false, false,
-				new String[]{"securityOrigin", "databaseName", "objectStoreName", "indexName", "skipCount", "pageSize"},
-				new Object[]{securityOrigin, databaseName, objectStoreName, indexName, skipCount, pageSize});
-	}
+    @Override
+    public RequestDataResult requestData(String securityOrigin, String databaseName, String objectStoreName,
+            String indexName, Integer skipCount, Integer pageSize) {
+        return (RequestDataResult) handler.invoke("IndexedDB", "requestData", "IndexedDB.requestData", null,
+                RequestDataResult.class, null, false, false, false,
+                new String[]{"securityOrigin", "databaseName", "objectStoreName", "indexName", "skipCount", "pageSize"},
+                new Object[]{securityOrigin, databaseName, objectStoreName, indexName, skipCount, pageSize});
+    }
 }

@@ -23,23 +23,23 @@ import io.webfolder.cdp.command.Inspector;
 
 public class InspectorImpl implements Inspector {
 
-	private static final Object[] EMPTY_VALUES = new Object[]{};
-	private static final String[] EMPTY_ARGS = new String[]{};
-	private final SessionInvocationHandler handler;
+    private static final Object[] EMPTY_VALUES = new Object[]{};
+    private static final String[] EMPTY_ARGS = new String[]{};
+    private final SessionInvocationHandler handler;
 
-	public InspectorImpl(SessionInvocationHandler handler) {
-		this.handler = handler;
-	}
+    public InspectorImpl(SessionInvocationHandler handler) {
+        this.handler = handler;
+    }
 
-	@Override
-	public void disable() {
-		handler.invoke("Inspector", "disable", "Inspector.disable", null, void.class, null, true, false, true,
-				EMPTY_ARGS, EMPTY_VALUES);
-	}
+    @Override
+    public void disable() {
+        handler.invoke("Inspector", "disable", "Inspector.disable", null, void.class, null, true, false, true,
+                EMPTY_ARGS, EMPTY_VALUES);
+    }
 
-	@Override
-	public void enable() {
-		handler.invoke("Inspector", "enable", "Inspector.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-				EMPTY_VALUES);
-	}
+    @Override
+    public void enable() {
+        handler.invoke("Inspector", "enable", "Inspector.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+                EMPTY_VALUES);
+    }
 }
