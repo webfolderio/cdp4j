@@ -227,7 +227,8 @@
                                 "block",
                                 "script",
                                 "eval",
-                                "module"
+                                "module",
+                                "wasm-expression-stack"
                             ]
                         },
                         {
@@ -300,6 +301,39 @@
                                 "call",
                                 "return"
                             ]
+                        }
+                    ]
+                },
+                {
+                    "id": "ScriptLanguage",
+                    "description": "Enum of possible script languages.",
+                    "type": "string",
+                    "enum": [
+                        "JavaScript",
+                        "WebAssembly"
+                    ]
+                },
+                {
+                    "id": "DebugSymbols",
+                    "description": "Debug symbols available for a wasm script.",
+                    "type": "object",
+                    "properties": [
+                        {
+                            "name": "type",
+                            "description": "Type of the debug symbols.",
+                            "type": "string",
+                            "enum": [
+                                "None",
+                                "SourceMap",
+                                "EmbeddedDWARF",
+                                "ExternalDWARF"
+                            ]
+                        },
+                        {
+                            "name": "externalURL",
+                            "description": "URL of the external symbol source.",
+                            "optional": true,
+                            "type": "string"
                         }
                     ]
                 }
@@ -400,6 +434,43 @@
                             "description": "Whether to throw an exception if side effect cannot be ruled out during evaluation.",
                             "optional": true,
                             "type": "boolean"
+                        },
+                        {
+                            "name": "timeout",
+                            "description": "Terminate execution after timing out (number of milliseconds).",
+                            "experimental": true,
+                            "optional": true,
+                            "$ref": "Runtime.TimeDelta"
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "name": "result",
+                            "description": "Object wrapper for the evaluation result.",
+                            "$ref": "Runtime.RemoteObject"
+                        },
+                        {
+                            "name": "exceptionDetails",
+                            "description": "Exception details.",
+                            "optional": true,
+                            "$ref": "Runtime.ExceptionDetails"
+                        }
+                    ]
+                },
+                {
+                    "name": "executeWasmEvaluator",
+                    "description": "Execute a Wasm Evaluator module on a given call frame.",
+                    "experimental": true,
+                    "parameters": [
+                        {
+                            "name": "callFrameId",
+                            "description": "WebAssembly call frame identifier to evaluate on.",
+                            "$ref": "CallFrameId"
+                        },
+                        {
+                            "name": "evaluator",
+                            "description": "Code of the evaluator module.",
+                            "type": "string"
                         },
                         {
                             "name": "timeout",
@@ -578,7 +649,15 @@
                 },
                 {
                     "name": "resume",
-                    "description": "Resumes JavaScript execution."
+                    "description": "Resumes JavaScript execution.",
+                    "parameters": [
+                        {
+                            "name": "terminateOnResume",
+                            "description": "Set to true to terminate execution upon resuming execution. In contrast\nto Runtime.terminateExecution, this will allows to execute further\nJavaScript (i.e. via evaluation) until execution of the paused code\nis actually resumed, at which point termination is triggered.\nIf execution is currently not paused, this parameter has no effect.",
+                            "optional": true,
+                            "type": "boolean"
+                        }
+                    ]
                 },
                 {
                     "name": "searchInContent",
@@ -1120,6 +1199,20 @@
                             "experimental": true,
                             "optional": true,
                             "$ref": "Runtime.StackTrace"
+                        },
+                        {
+                            "name": "codeOffset",
+                            "description": "If the scriptLanguage is WebAssembly, the code section offset in the module.",
+                            "experimental": true,
+                            "optional": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "scriptLanguage",
+                            "description": "The language of the script.",
+                            "experimental": true,
+                            "optional": true,
+                            "$ref": "Debugger.ScriptLanguage"
                         }
                     ]
                 },
@@ -1210,6 +1303,27 @@
                             "experimental": true,
                             "optional": true,
                             "$ref": "Runtime.StackTrace"
+                        },
+                        {
+                            "name": "codeOffset",
+                            "description": "If the scriptLanguage is WebAssembly, the code section offset in the module.",
+                            "experimental": true,
+                            "optional": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "scriptLanguage",
+                            "description": "The language of the script.",
+                            "experimental": true,
+                            "optional": true,
+                            "$ref": "Debugger.ScriptLanguage"
+                        },
+                        {
+                            "name": "debugSymbols",
+                            "description": "If the scriptLanguage is WebASsembly, the source of debug symbols for the module.",
+                            "experimental": true,
+                            "optional": true,
+                            "$ref": "Debugger.DebugSymbols"
                         }
                     ]
                 }
@@ -1809,6 +1923,19 @@
                             "description": "Collect block-based coverage.",
                             "optional": true,
                             "type": "boolean"
+                        },
+                        {
+                            "name": "allowTriggeredUpdates",
+                            "description": "Allow the backend to send updates on its own initiative",
+                            "optional": true,
+                            "type": "boolean"
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "name": "timestamp",
+                            "description": "Monotonically increasing time (in seconds) when the coverage update was taken in the backend.",
+                            "type": "number"
                         }
                     ]
                 },
@@ -1847,6 +1974,11 @@
                             "items": {
                                 "$ref": "ScriptCoverage"
                             }
+                        },
+                        {
+                            "name": "timestamp",
+                            "description": "Monotonically increasing time (in seconds) when the coverage update was taken in the backend.",
+                            "type": "number"
                         }
                     ]
                 },
@@ -1936,6 +2068,31 @@
                             "type": "string"
                         }
                     ]
+                },
+                {
+                    "name": "preciseCoverageDeltaUpdate",
+                    "description": "Reports coverage delta since the last poll (either from an event like this, or from\n`takePreciseCoverage` for the current isolate. May only be sent if precise code\ncoverage has been started. This event can be trigged by the embedder to, for example,\ntrigger collection of coverage data immediatelly at a certain point in time.",
+                    "experimental": true,
+                    "parameters": [
+                        {
+                            "name": "timestamp",
+                            "description": "Monotonically increasing time (in seconds) when the coverage update was taken in the backend.",
+                            "type": "number"
+                        },
+                        {
+                            "name": "occassion",
+                            "description": "Identifier for distinguishing coverage events.",
+                            "type": "string"
+                        },
+                        {
+                            "name": "result",
+                            "description": "Coverage data for the current isolate.",
+                            "type": "array",
+                            "items": {
+                                "$ref": "ScriptCoverage"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -1975,12 +2132,13 @@
                                 "number",
                                 "boolean",
                                 "symbol",
-                                "bigint"
+                                "bigint",
+                                "wasm"
                             ]
                         },
                         {
                             "name": "subtype",
-                            "description": "Object subtype hint. Specified for `object` type values only.",
+                            "description": "Object subtype hint. Specified for `object` or `wasm` type values only.",
                             "optional": true,
                             "type": "string",
                             "enum": [
@@ -2000,7 +2158,13 @@
                                 "promise",
                                 "typedarray",
                                 "arraybuffer",
-                                "dataview"
+                                "dataview",
+                                "i32",
+                                "i64",
+                                "f32",
+                                "f64",
+                                "v128",
+                                "externref"
                             ]
                         },
                         {
@@ -2796,7 +2960,14 @@
                         },
                         {
                             "name": "replMode",
-                            "description": "Reserved flag for future REPL mode support. Setting this flag has currently no effect.",
+                            "description": "Setting this flag to true enables `let` re-declaration and top-level `await`.\nNote that `let` variables can only be re-declared if they originate from\n`replMode` themselves.",
+                            "experimental": true,
+                            "optional": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "name": "allowUnsafeEvalBlockedByCSP",
+                            "description": "The Content Security Policy (CSP) for the target might block 'unsafe-eval'\nwhich includes eval(), Function(), setTimeout() and setInterval()\nwhen called with non-callable arguments. This flag bypasses CSP for this\nevaluation and allows unsafe-eval. Defaults to true.",
                             "experimental": true,
                             "optional": true,
                             "type": "boolean"

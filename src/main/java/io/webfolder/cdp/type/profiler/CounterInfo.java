@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.profiler;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Collected counter information
  */
 @Experimental
-@UseStag
 public class CounterInfo {
     private String name;
 

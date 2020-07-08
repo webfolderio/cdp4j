@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.css;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.css.CSSStyleSheetHeader;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.css.CSSStyleSheetHeader;
  */
 @Domain("CSS")
 @EventName("styleSheetAdded")
-@UseStag
 public class StyleSheetAdded {
     private CSSStyleSheetHeader header;
 

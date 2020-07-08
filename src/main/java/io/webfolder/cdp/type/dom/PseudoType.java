@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.dom;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Pseudo element type
  */
-@UseStag
 public enum PseudoType {
     @SerializedName("first-line")
     FirstLine("first-line"),

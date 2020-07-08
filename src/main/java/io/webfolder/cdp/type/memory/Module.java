@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.memory;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Executable module information
  */
-@UseStag
 public class Module {
     private String name;
 

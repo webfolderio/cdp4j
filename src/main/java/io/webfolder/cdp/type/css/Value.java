@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Data for a simple selector (these are delimited by commas in a selector list)
  */
-@UseStag
 public class Value {
     private String text;
 

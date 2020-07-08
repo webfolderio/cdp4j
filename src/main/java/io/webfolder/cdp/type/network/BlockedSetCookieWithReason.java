@@ -18,19 +18,14 @@
  */
 package io.webfolder.cdp.type.network;
 
-import java.util.List;
-
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * A cookie which was not stored from a response with the corresponding reason
  */
 @Experimental
-@UseStag
 public class BlockedSetCookieWithReason {
-    private List<SetCookieBlockedReason> blockedReasons;
+    private SetCookieBlockedReason blockedReasons;
 
     private String cookieLine;
 
@@ -39,14 +34,14 @@ public class BlockedSetCookieWithReason {
     /**
      * The reason(s) this cookie was blocked.
      */
-    public List<SetCookieBlockedReason> getBlockedReasons() {
+    public SetCookieBlockedReason getBlockedReasons() {
         return blockedReasons;
     }
 
     /**
      * The reason(s) this cookie was blocked.
      */
-    public void setBlockedReasons(List<SetCookieBlockedReason> blockedReasons) {
+    public void setBlockedReasons(SetCookieBlockedReason blockedReasons) {
         this.blockedReasons = blockedReasons;
     }
 

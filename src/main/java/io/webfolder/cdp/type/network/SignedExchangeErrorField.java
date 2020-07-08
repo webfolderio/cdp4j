@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Field type for a signed exchange related error
  */
-@UseStag
 public enum SignedExchangeErrorField {
     @SerializedName("signatureSig")
     SignatureSig("signatureSig"),

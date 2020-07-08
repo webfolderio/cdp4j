@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.security;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * The security level of a page or resource
  */
-@UseStag
 public enum SecurityState {
     @SerializedName("unknown")
     Unknown("unknown"),

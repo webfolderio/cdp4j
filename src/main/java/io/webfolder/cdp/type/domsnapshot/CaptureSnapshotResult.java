@@ -20,17 +20,10 @@ package io.webfolder.cdp.type.domsnapshot;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class CaptureSnapshotResult {
     private List<DocumentSnapshot> documents;
 
     public List<DocumentSnapshot> getDocuments() {
         return documents;
-    }
-
-    public void setDocuments(List<DocumentSnapshot> documents) {
-        this.documents = documents;
     }
 }

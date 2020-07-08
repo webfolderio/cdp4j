@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.profiler;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Describes a type collected during runtime
  */
 @Experimental
-@UseStag
 public class TypeObject {
     private String name;
 

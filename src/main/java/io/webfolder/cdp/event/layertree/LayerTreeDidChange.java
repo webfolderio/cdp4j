@@ -20,15 +20,12 @@ package io.webfolder.cdp.event.layertree;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.layertree.Layer;
 
 @Domain("LayerTree")
 @EventName("layerTreeDidChange")
-@UseStag
 public class LayerTreeDidChange {
     private List<Layer> layers;
 

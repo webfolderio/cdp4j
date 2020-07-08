@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.systeminfo;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Describes the width and height dimensions of an entity
  */
-@UseStag
 public class Size {
     private Integer width;
 

@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Information about the cached resource
  */
-@UseStag
 public class CachedResource {
     private String url;
 

@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.type.fetch;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.constant.AuthResponse;
 
@@ -27,7 +25,6 @@ import io.webfolder.cdp.type.constant.AuthResponse;
  * Response to an AuthChallenge
  */
 @Experimental
-@UseStag
 public class AuthChallengeResponse {
     private AuthResponse response;
 

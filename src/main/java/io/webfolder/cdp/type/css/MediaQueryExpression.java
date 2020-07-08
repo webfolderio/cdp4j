@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Media query expression descriptor
  */
-@UseStag
 public class MediaQueryExpression {
     private Double value;
 

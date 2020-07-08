@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Details of a signed certificate timestamp (SCT)
  */
-@UseStag
 public class SignedCertificateTimestamp {
     private String status;
 

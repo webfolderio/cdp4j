@@ -20,8 +20,6 @@ package io.webfolder.cdp.event.dom;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
@@ -33,7 +31,6 @@ import io.webfolder.cdp.type.dom.BackendNode;
 @Experimental
 @Domain("DOM")
 @EventName("distributedNodesUpdated")
-@UseStag
 public class DistributedNodesUpdated {
     private Integer insertionPointId;
 

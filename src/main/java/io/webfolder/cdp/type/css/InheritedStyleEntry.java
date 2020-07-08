@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.css;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Inherited CSS rule collection from ancestor node
  */
-@UseStag
 public class InheritedStyleEntry {
     private CSSStyle inlineStyle;
 

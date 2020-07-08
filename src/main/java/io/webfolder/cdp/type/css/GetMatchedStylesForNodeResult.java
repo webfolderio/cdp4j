@@ -20,9 +20,6 @@ package io.webfolder.cdp.type.css;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetMatchedStylesForNodeResult {
     private CSSStyle inlineStyle;
 
@@ -58,29 +55,5 @@ public class GetMatchedStylesForNodeResult {
 
     public List<CSSKeyframesRule> getCssKeyframesRules() {
         return cssKeyframesRules;
-    }
-
-    public void setInlineStyle(CSSStyle inlineStyle) {
-        this.inlineStyle = inlineStyle;
-    }
-
-    public void setAttributesStyle(CSSStyle attributesStyle) {
-        this.attributesStyle = attributesStyle;
-    }
-
-    public void setMatchedCSSRules(List<RuleMatch> matchedCSSRules) {
-        this.matchedCSSRules = matchedCSSRules;
-    }
-
-    public void setPseudoElements(List<PseudoElementMatches> pseudoElements) {
-        this.pseudoElements = pseudoElements;
-    }
-
-    public void setInherited(List<InheritedStyleEntry> inherited) {
-        this.inherited = inherited;
-    }
-
-    public void setCssKeyframesRules(List<CSSKeyframesRule> cssKeyframesRules) {
-        this.cssKeyframesRules = cssKeyframesRules;
     }
 }

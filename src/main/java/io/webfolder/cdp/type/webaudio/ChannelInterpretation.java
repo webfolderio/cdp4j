@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.webaudio;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Enum of AudioNode::ChannelInterpretation from the spec
  */
-@UseStag
 public enum ChannelInterpretation {
     @SerializedName("discrete")
     Discrete("discrete"),

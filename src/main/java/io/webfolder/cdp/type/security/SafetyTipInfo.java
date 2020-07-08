@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.security;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 @Experimental
-@UseStag
 public class SafetyTipInfo {
     private SafetyTipStatus safetyTipStatus;
 

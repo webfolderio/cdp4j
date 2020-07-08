@@ -19,9 +19,7 @@
 package io.webfolder.cdp.type.constant;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
-@UseStag
 public enum ScopeType {
     @SerializedName("global")
     Global("global"),
@@ -48,7 +46,10 @@ public enum ScopeType {
     Eval("eval"),
 
     @SerializedName("module")
-    Module("module");
+    Module("module"),
+
+    @SerializedName("wasm-expression-stack")
+    WasmExpressionStack("wasm-expression-stack");
 
     public final String value;
 

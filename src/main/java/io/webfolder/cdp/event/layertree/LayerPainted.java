@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.event.layertree;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.dom.Rect;
 
 @Domain("LayerTree")
 @EventName("layerPainted")
-@UseStag
 public class LayerPainted {
     private String layerId;
 

@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.dom;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * CSS Shape Outside details
  */
-@UseStag
 public class ShapeOutsideInfo {
     private List<Double> bounds;
 

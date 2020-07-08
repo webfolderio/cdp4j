@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.css;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Media query descriptor
  */
-@UseStag
 public class MediaQuery {
     private List<MediaQueryExpression> expressions;
 

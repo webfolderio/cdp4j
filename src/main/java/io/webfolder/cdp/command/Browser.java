@@ -29,6 +29,7 @@ import io.webfolder.cdp.type.browser.Histogram;
 import io.webfolder.cdp.type.browser.PermissionDescriptor;
 import io.webfolder.cdp.type.browser.PermissionSetting;
 import io.webfolder.cdp.type.browser.PermissionType;
+import io.webfolder.cdp.type.constant.DownloadBehavior;
 import java.util.List;
 
 /**
@@ -38,32 +39,47 @@ import java.util.List;
 public interface Browser {
     /**
      * Set permission settings for given origin.
-     * 
-     * @param origin Origin the permission applies to.
+     *
      * @param permission Descriptor of permission to override.
      * @param setting Setting of the permission.
+     * @param origin Origin the permission applies to, all origins if not specified.
      * @param browserContextId Context to override. When omitted, default browser context is used.
      */
     @Experimental
-    void setPermission(String origin, PermissionDescriptor permission, PermissionSetting setting,
-            @Optional String browserContextId);
+    void setPermission(PermissionDescriptor permission, PermissionSetting setting,
+            @Optional String origin, @Optional String browserContextId);
 
     /**
      * Grant specific permissions to the given origin and reject all others.
-     * 
+     *
+     * @param origin Origin the permission applies to, all origins if not specified.
      * @param browserContextId BrowserContext to override permissions. When omitted, default browser context is used.
      */
     @Experimental
-    void grantPermissions(String origin, PermissionType permissions,
+    void grantPermissions(PermissionType permissions, @Optional String origin,
             @Optional String browserContextId);
 
     /**
      * Reset all permission management for all origins.
-     * 
+     *
      * @param browserContextId BrowserContext to reset permissions. When omitted, default browser context is used.
      */
     @Experimental
     void resetPermissions(@Optional String browserContextId);
+
+    /**
+     * Set the behavior when downloading a file.
+     *
+     * @param behavior Whether to allow all or deny all download requests, or use default Chrome behavior if
+     * available (otherwise deny). |allowAndName| allows download and names files according to
+     * their dowmload guids.
+     * @param browserContextId BrowserContext to set download behavior. When omitted, default browser context is used.
+     * @param downloadPath The default path to save downloaded files to. This is requred if behavior is set to 'allow'
+     * or 'allowAndName'.
+     */
+    @Experimental
+    void setDownloadBehavior(DownloadBehavior behavior, @Optional String browserContextId,
+            @Optional String downloadPath);
 
     /**
      * Close browser gracefully.
@@ -84,7 +100,7 @@ public interface Browser {
 
     /**
      * Returns version information.
-     * 
+     *
      * @return GetVersionResult
      */
     GetVersionResult getVersion();
@@ -92,7 +108,7 @@ public interface Browser {
     /**
      * Returns the command line switches for the browser process if, and only if
      * --enable-automation is on the commandline.
-     * 
+     *
      * @return Commandline parameters
      */
     @Experimental
@@ -101,12 +117,12 @@ public interface Browser {
 
     /**
      * Get Chrome histograms.
-     * 
+     *
      * @param query Requested substring in name. Only histograms which have query as a
      * substring in their name are extracted. An empty or absent query returns
      * all histograms.
      * @param delta If true, retrieve delta since last call.
-     * 
+     *
      * @return Histograms.
      */
     @Experimental
@@ -115,10 +131,10 @@ public interface Browser {
 
     /**
      * Get a Chrome histogram by name.
-     * 
+     *
      * @param name Requested histogram name.
      * @param delta If true, retrieve delta since last call.
-     * 
+     *
      * @return Histogram.
      */
     @Experimental
@@ -127,9 +143,9 @@ public interface Browser {
 
     /**
      * Get position and size of the browser window.
-     * 
+     *
      * @param windowId Browser window id.
-     * 
+     *
      * @return Bounds information of the window. When window state is 'minimized', the restored window
      * position and size are returned.
      */
@@ -139,9 +155,9 @@ public interface Browser {
 
     /**
      * Get the browser window that contains the devtools target.
-     * 
+     *
      * @param targetId Devtools agent host id. If called as a part of the session, associated targetId is used.
-     * 
+     *
      * @return GetWindowForTargetResult
      */
     @Experimental
@@ -149,7 +165,7 @@ public interface Browser {
 
     /**
      * Set position and/or size of the browser window.
-     * 
+     *
      * @param windowId Browser window id.
      * @param bounds New window bounds. The 'minimized', 'maximized' and 'fullscreen' states cannot be combined
      * with 'left', 'top', 'width' or 'height'. Leaves unspecified fields unchanged.
@@ -159,7 +175,7 @@ public interface Browser {
 
     /**
      * Set dock tile details, platform-specific.
-     * 
+     *
      * @param image Png encoded image.
      */
     @Experimental
@@ -167,20 +183,19 @@ public interface Browser {
 
     /**
      * Set permission settings for given origin.
-     * 
-     * @param origin Origin the permission applies to.
+     *
      * @param permission Descriptor of permission to override.
      * @param setting Setting of the permission.
      */
     @Experimental
-    void setPermission(String origin, PermissionDescriptor permission, PermissionSetting setting);
+    void setPermission(PermissionDescriptor permission, PermissionSetting setting);
 
     /**
      * Grant specific permissions to the given origin and reject all others.
-     * 
+     *
      */
     @Experimental
-    void grantPermissions(String origin, PermissionType permissions);
+    void grantPermissions(PermissionType permissions);
 
     /**
      * Reset all permission management for all origins.
@@ -189,8 +204,18 @@ public interface Browser {
     void resetPermissions();
 
     /**
+     * Set the behavior when downloading a file.
+     *
+     * @param behavior Whether to allow all or deny all download requests, or use default Chrome behavior if
+     * available (otherwise deny). |allowAndName| allows download and names files according to
+     * their dowmload guids.
+     */
+    @Experimental
+    void setDownloadBehavior(DownloadBehavior behavior);
+
+    /**
      * Get Chrome histograms.
-     * 
+     *
      * @return Histograms.
      */
     @Experimental
@@ -199,9 +224,9 @@ public interface Browser {
 
     /**
      * Get a Chrome histogram by name.
-     * 
+     *
      * @param name Requested histogram name.
-     * 
+     *
      * @return Histogram.
      */
     @Experimental
@@ -210,7 +235,7 @@ public interface Browser {
 
     /**
      * Get the browser window that contains the devtools target.
-     * 
+     *
      * @return GetWindowForTargetResult
      */
     @Experimental

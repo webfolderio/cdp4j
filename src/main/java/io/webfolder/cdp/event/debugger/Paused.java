@@ -20,8 +20,6 @@ package io.webfolder.cdp.event.debugger;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.constant.PauseReason;
@@ -34,7 +32,6 @@ import io.webfolder.cdp.type.runtime.StackTraceId;
  */
 @Domain("Debugger")
 @EventName("paused")
-@UseStag
 public class Paused {
     private List<CallFrame> callFrames;
 

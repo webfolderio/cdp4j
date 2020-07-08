@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.indexeddb;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Database with an array of object stores
  */
-@UseStag
 public class DatabaseWithObjectStores {
     private String name;
 

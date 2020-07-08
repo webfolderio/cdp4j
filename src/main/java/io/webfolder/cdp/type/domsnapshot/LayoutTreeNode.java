@@ -20,14 +20,11 @@ package io.webfolder.cdp.type.domsnapshot;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.dom.Rect;
 
 /**
  * Details of an element in the DOM tree with a LayoutObject
  */
-@UseStag
 public class LayoutTreeNode {
     private Integer domNodeIndex;
 
@@ -44,14 +41,14 @@ public class LayoutTreeNode {
     private Boolean isStackingContext;
 
     /**
-     * The index of the related DOM node in the `domNodes` array returned by `getSnapshot`.
+     * The index of the related DOM node in the domNodes array returned by getSnapshot.
      */
     public Integer getDomNodeIndex() {
         return domNodeIndex;
     }
 
     /**
-     * The index of the related DOM node in the `domNodes` array returned by `getSnapshot`.
+     * The index of the related DOM node in the domNodes array returned by getSnapshot.
      */
     public void setDomNodeIndex(Integer domNodeIndex) {
         this.domNodeIndex = domNodeIndex;
@@ -100,14 +97,14 @@ public class LayoutTreeNode {
     }
 
     /**
-     * Index into the `computedStyles` array returned by `getSnapshot`.
+     * Index into the computedStyles array returned by getSnapshot.
      */
     public Integer getStyleIndex() {
         return styleIndex;
     }
 
     /**
-     * Index into the `computedStyles` array returned by `getSnapshot`.
+     * Index into the computedStyles array returned by getSnapshot.
      */
     public void setStyleIndex(Integer styleIndex) {
         this.styleIndex = styleIndex;
@@ -134,14 +131,14 @@ public class LayoutTreeNode {
     /**
      * Set to true to indicate the element begins a new stacking context.
      */
-    public void setIsStackingContext(Boolean isStackingContext) {
-        this.isStackingContext = isStackingContext;
+    public Boolean isIsStackingContext() {
+        return isStackingContext;
     }
 
     /**
      * Set to true to indicate the element begins a new stacking context.
      */
-    public Boolean getIsStackingContext() {
-        return isStackingContext;
+    public void setIsStackingContext(Boolean isStackingContext) {
+        this.isStackingContext = isStackingContext;
     }
 }

@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.emulation;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class MediaFeature {
     private String name;
 

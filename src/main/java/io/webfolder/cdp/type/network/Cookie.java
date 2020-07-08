@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Cookie object
  */
-@UseStag
 public class Cookie {
     private String name;
 

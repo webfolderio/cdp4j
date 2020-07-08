@@ -18,17 +18,13 @@
  */
 package io.webfolder.cdp.type.network;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import com.vimeo.stag.UseStag;
 
 import io.webfolder.cdp.type.security.SecurityState;
 
 /**
  * HTTP response data
  */
-@UseStag
 public class Response {
     private String url;
 
@@ -36,13 +32,13 @@ public class Response {
 
     private String statusText;
 
-    private Map<String, Object> headers = new HashMap<>();
+    private Map<String, Object> headers;
 
     private String headersText;
 
     private String mimeType;
 
-    private Map<String, Object> requestHeaders = new HashMap<>();
+    private Map<String, Object> requestHeaders;
 
     private String requestHeadersText;
 
@@ -63,6 +59,12 @@ public class Response {
     private Double encodedDataLength;
 
     private ResourceTiming timing;
+
+    private ServiceWorkerResponseSource serviceWorkerResponseSource;
+
+    private Double responseTime;
+
+    private String cacheStorageCacheName;
 
     private String protocol;
 
@@ -306,6 +308,49 @@ public class Response {
      */
     public void setTiming(ResourceTiming timing) {
         this.timing = timing;
+    }
+
+    /**
+     * Response source of response from ServiceWorker.
+     */
+    public ServiceWorkerResponseSource getServiceWorkerResponseSource() {
+        return serviceWorkerResponseSource;
+    }
+
+    /**
+     * Response source of response from ServiceWorker.
+     */
+    public void setServiceWorkerResponseSource(
+            ServiceWorkerResponseSource serviceWorkerResponseSource) {
+        this.serviceWorkerResponseSource = serviceWorkerResponseSource;
+    }
+
+    /**
+     * The time at which the returned response was generated.
+     */
+    public Double getResponseTime() {
+        return responseTime;
+    }
+
+    /**
+     * The time at which the returned response was generated.
+     */
+    public void setResponseTime(Double responseTime) {
+        this.responseTime = responseTime;
+    }
+
+    /**
+     * Cache Storage Cache Name.
+     */
+    public String getCacheStorageCacheName() {
+        return cacheStorageCacheName;
+    }
+
+    /**
+     * Cache Storage Cache Name.
+     */
+    public void setCacheStorageCacheName(String cacheStorageCacheName) {
+        this.cacheStorageCacheName = cacheStorageCacheName;
     }
 
     /**

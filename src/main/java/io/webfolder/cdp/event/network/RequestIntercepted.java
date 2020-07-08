@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.event.network;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import com.vimeo.stag.UseStag;
 
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
-import io.webfolder.cdp.type.network.AuthChallenge;
+import io.webfolder.cdp.type.fetch.AuthChallenge;
 import io.webfolder.cdp.type.network.ErrorReason;
 import io.webfolder.cdp.type.network.Request;
 import io.webfolder.cdp.type.network.ResourceType;
@@ -40,7 +37,6 @@ import io.webfolder.cdp.type.network.ResourceType;
 @Experimental
 @Domain("Network")
 @EventName("requestIntercepted")
-@UseStag
 public class RequestIntercepted {
     private String interceptionId;
 
@@ -62,7 +58,7 @@ public class RequestIntercepted {
 
     private Integer responseStatusCode;
 
-    private Map<String, Object> responseHeaders = new HashMap<>();
+    private Map<String, Object> responseHeaders;
 
     private String requestId;
 
@@ -123,7 +119,7 @@ public class RequestIntercepted {
     /**
      * Whether this is a navigation request, which can abort the navigation completely.
      */
-    public Boolean getIsNavigationRequest() {
+    public Boolean isIsNavigationRequest() {
         return isNavigationRequest;
     }
 
@@ -138,7 +134,7 @@ public class RequestIntercepted {
      * Set if the request is a navigation that will result in a download.
      * Only present after response is received from the server (i.e. HeadersReceived stage).
      */
-    public Boolean getIsDownload() {
+    public Boolean isIsDownload() {
         return isDownload;
     }
 

@@ -16,27 +16,21 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.event.webaudio;
+package io.webfolder.cdp.type.debugger;
 
-import com.vimeo.stag.UseStag;
+import io.webfolder.cdp.type.runtime.ExceptionDetails;
+import io.webfolder.cdp.type.runtime.RemoteObject;
 
-import io.webfolder.cdp.annotation.Domain;
-import io.webfolder.cdp.annotation.EventName;
+public class ExecuteWasmEvaluatorResult {
+    private RemoteObject result;
 
-/**
- * Notifies that existing BaseAudioContext has been destroyed
- */
-@Domain("WebAudio")
-@EventName("contextDestroyed")
-@UseStag
-public class ContextDestroyed {
-    private String contextId;
+    private ExceptionDetails exceptionDetails;
 
-    public String getContextId() {
-        return contextId;
+    public RemoteObject getResult() {
+        return result;
     }
 
-    public void setContextId(String contextId) {
-        this.contextId = contextId;
+    public ExceptionDetails getExceptionDetails() {
+        return exceptionDetails;
     }
 }

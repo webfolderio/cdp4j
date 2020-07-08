@@ -25,72 +25,72 @@ import java.util.List;
 
 public class AnimationImpl implements Animation {
 
-    private static final Object[] EMPTY_VALUES = new Object[]{};
-    private static final String[] EMPTY_ARGS = new String[]{};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public AnimationImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public AnimationImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("Animation", "disable", "Animation.disable", null, void.class, null, true, false, true,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void disable() {
+		handler.invoke("Animation", "disable", "Animation.disable", null, void.class, null, true, false, true,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("Animation", "enable", "Animation.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
-                EMPTY_VALUES);
-    }
+	@Override
+	public void enable() {
+		handler.invoke("Animation", "enable", "Animation.enable", null, void.class, null, true, true, false, EMPTY_ARGS,
+				EMPTY_VALUES);
+	}
 
-    @Override
-    public Double getCurrentTime(String id) {
-        return (Double) handler.invoke("Animation", "getCurrentTime", "Animation.getCurrentTime", "currentTime",
-                Double.class, null, false, false, false, new String[]{"id"}, new Object[]{id});
-    }
+	@Override
+	public Double getCurrentTime(String id) {
+		return (Double) handler.invoke("Animation", "getCurrentTime", "Animation.getCurrentTime", "currentTime",
+				Double.class, null, false, false, false, new String[]{"id"}, new Object[]{id});
+	}
 
-    @Override
-    public Double getPlaybackRate() {
-        return (Double) handler.invoke("Animation", "getPlaybackRate", "Animation.getPlaybackRate", "playbackRate",
-                Double.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public Double getPlaybackRate() {
+		return (Double) handler.invoke("Animation", "getPlaybackRate", "Animation.getPlaybackRate", "playbackRate",
+				Double.class, null, false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void releaseAnimations(List<String> animations) {
-        handler.invoke("Animation", "releaseAnimations", "Animation.releaseAnimations", null, void.class, null, true,
-                false, false, new String[]{"animations"}, new Object[]{animations});
-    }
+	@Override
+	public void releaseAnimations(List<String> animations) {
+		handler.invoke("Animation", "releaseAnimations", "Animation.releaseAnimations", null, void.class, null, true,
+				false, false, new String[]{"animations"}, new Object[]{animations});
+	}
 
-    @Override
-    public RemoteObject resolveAnimation(String animationId) {
-        return (RemoteObject) handler.invoke("Animation", "resolveAnimation", "Animation.resolveAnimation",
-                "remoteObject", RemoteObject.class, null, false, false, false, new String[]{"animationId"},
-                new Object[]{animationId});
-    }
+	@Override
+	public RemoteObject resolveAnimation(String animationId) {
+		return (RemoteObject) handler.invoke("Animation", "resolveAnimation", "Animation.resolveAnimation",
+				"remoteObject", RemoteObject.class, null, false, false, false, new String[]{"animationId"},
+				new Object[]{animationId});
+	}
 
-    @Override
-    public void seekAnimations(List<String> animations, Double currentTime) {
-        handler.invoke("Animation", "seekAnimations", "Animation.seekAnimations", null, void.class, null, true, false,
-                false, new String[]{"animations", "currentTime"}, new Object[]{animations, currentTime});
-    }
+	@Override
+	public void seekAnimations(List<String> animations, Double currentTime) {
+		handler.invoke("Animation", "seekAnimations", "Animation.seekAnimations", null, void.class, null, true, false,
+				false, new String[]{"animations", "currentTime"}, new Object[]{animations, currentTime});
+	}
 
-    @Override
-    public void setPaused(List<String> animations, Boolean paused) {
-        handler.invoke("Animation", "setPaused", "Animation.setPaused", null, void.class, null, true, false, false,
-                new String[]{"animations", "paused"}, new Object[]{animations, paused});
-    }
+	@Override
+	public void setPaused(List<String> animations, Boolean paused) {
+		handler.invoke("Animation", "setPaused", "Animation.setPaused", null, void.class, null, true, false, false,
+				new String[]{"animations", "paused"}, new Object[]{animations, paused});
+	}
 
-    @Override
-    public void setPlaybackRate(Double playbackRate) {
-        handler.invoke("Animation", "setPlaybackRate", "Animation.setPlaybackRate", null, void.class, null, true, false,
-                false, new String[]{"playbackRate"}, new Object[]{playbackRate});
-    }
+	@Override
+	public void setPlaybackRate(Double playbackRate) {
+		handler.invoke("Animation", "setPlaybackRate", "Animation.setPlaybackRate", null, void.class, null, true, false,
+				false, new String[]{"playbackRate"}, new Object[]{playbackRate});
+	}
 
-    @Override
-    public void setTiming(String animationId, Double duration, Double delay) {
-        handler.invoke("Animation", "setTiming", "Animation.setTiming", null, void.class, null, true, false, false,
-                new String[]{"animationId", "duration", "delay"}, new Object[]{animationId, duration, delay});
-    }
+	@Override
+	public void setTiming(String animationId, Double duration, Double delay) {
+		handler.invoke("Animation", "setTiming", "Animation.setTiming", null, void.class, null, true, false, false,
+				new String[]{"animationId", "duration", "delay"}, new Object[]{animationId, duration, delay});
+	}
 }

@@ -34,20 +34,20 @@ public interface Accessibility {
     void disable();
 
     /**
-     * Enables the accessibility domain which causes `AXNodeId`s to remain consistent between method calls.
+     * Enables the accessibility domain which causes AXNodeIds to remain consistent between method calls.
      * This turns on accessibility for the page, which can impact performance until accessibility is disabled.
      */
     void enable();
 
     /**
      * Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
-     * 
+     *
      * @param nodeId Identifier of the node to get the partial accessibility tree for.
      * @param backendNodeId Identifier of the backend node to get the partial accessibility tree for.
      * @param objectId JavaScript object id of the node wrapper to get the partial accessibility tree for.
      * @param fetchRelatives Whether to fetch this nodes ancestors, siblings and children. Defaults to true.
-     * 
-     * @return The `Accessibility.AXNode` for this DOM node, if it exists, plus its ancestors, siblings and
+     *
+     * @return The Accessibility.AXNode for this DOM node, if it exists, plus its ancestors, siblings and
      * children, if requested.
      */
     @Experimental
@@ -64,8 +64,8 @@ public interface Accessibility {
 
     /**
      * Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
-     * 
-     * @return The `Accessibility.AXNode` for this DOM node, if it exists, plus its ancestors, siblings and
+     *
+     * @return The Accessibility.AXNode for this DOM node, if it exists, plus its ancestors, siblings and
      * children, if requested.
      */
     @Experimental

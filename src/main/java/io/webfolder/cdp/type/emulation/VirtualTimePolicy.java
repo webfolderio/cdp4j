@@ -19,7 +19,6 @@
 package io.webfolder.cdp.type.emulation;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * advance: If the scheduler runs out of immediate work, the virtual time base may fast forward to
@@ -27,7 +26,6 @@ import com.vimeo.stag.UseStag;
  * pauseIfNetworkFetchesPending: The virtual time base may not advance if there are any pending
  * resource fetches
  */
-@UseStag
 public enum VirtualTimePolicy {
     @SerializedName("advance")
     Advance("advance"),

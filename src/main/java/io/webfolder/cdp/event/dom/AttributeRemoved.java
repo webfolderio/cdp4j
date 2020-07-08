@@ -18,17 +18,14 @@
  */
 package io.webfolder.cdp.event.dom;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
- * Fired when `Element`'s attribute is removed
+ * Fired when Element's attribute is removed
  */
 @Domain("DOM")
 @EventName("attributeRemoved")
-@UseStag
 public class AttributeRemoved {
     private Integer nodeId;
 

@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.media;
 
-import com.vimeo.stag.UseStag;
-
 /**
- * Player Property type
+ * Corresponds to kMediaPropertyChange
  */
-@UseStag
 public class PlayerProperty {
     private String name;
 

@@ -20,6 +20,7 @@ package io.webfolder.cdp.command;
 
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Experimental;
+import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.constant.TimeDomain;
 import io.webfolder.cdp.type.performance.Metric;
@@ -34,14 +35,16 @@ public interface Performance {
 
     /**
      * Enable collecting and reporting metrics.
+     *
+     * @param timeDomain Time domain to use for collecting and reporting duration metrics.
      */
-    void enable();
+    void enable(@Optional TimeDomain timeDomain);
 
     /**
      * Sets time domain to use for collecting and reporting duration metrics.
      * Note that this must be called before enabling metrics collection. Calling
      * this method while metrics collection is enabled returns an error.
-     * 
+     *
      * @param timeDomain Time domain
      */
     @Experimental
@@ -49,9 +52,14 @@ public interface Performance {
 
     /**
      * Retrieve current values of run-time metrics.
-     * 
+     *
      * @return Current values for run-time metrics.
      */
     @Returns("metrics")
     List<Metric> getMetrics();
+
+    /**
+     * Enable collecting and reporting metrics.
+     */
+    void enable();
 }

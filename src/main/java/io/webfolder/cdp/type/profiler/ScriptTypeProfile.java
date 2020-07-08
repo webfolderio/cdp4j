@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.profiler;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Type profile data collected during runtime for a JavaScript script
  */
 @Experimental
-@UseStag
 public class ScriptTypeProfile {
     private String scriptId;
 

@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.console;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.console.ConsoleMessage;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.console.ConsoleMessage;
  */
 @Domain("Console")
 @EventName("messageAdded")
-@UseStag
 public class MessageAdded {
     private ConsoleMessage message;
 

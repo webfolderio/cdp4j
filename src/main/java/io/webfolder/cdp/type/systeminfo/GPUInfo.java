@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.systeminfo;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Provides information about the GPU(s) on the system
  */
-@UseStag
 public class GPUInfo {
     private List<GPUDevice> devices;
 

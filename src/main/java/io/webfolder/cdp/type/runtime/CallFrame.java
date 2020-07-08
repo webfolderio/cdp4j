@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Stack entry for runtime errors and assertions
  */
-@UseStag
 public class CallFrame {
     private String functionName;
 

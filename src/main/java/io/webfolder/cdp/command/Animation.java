@@ -39,9 +39,9 @@ public interface Animation {
 
     /**
      * Returns the current time of the an animation.
-     * 
+     *
      * @param id Id of animation.
-     * 
+     *
      * @return Current time of the page.
      */
     @Returns("currentTime")
@@ -49,7 +49,7 @@ public interface Animation {
 
     /**
      * Gets the playback rate of the document timeline.
-     * 
+     *
      * @return Playback rate for animations on page.
      */
     @Returns("playbackRate")
@@ -57,16 +57,16 @@ public interface Animation {
 
     /**
      * Releases a set of animations to no longer be manipulated.
-     * 
+     *
      * @param animations List of animation ids to seek.
      */
     void releaseAnimations(List<String> animations);
 
     /**
      * Gets the remote object of the Animation.
-     * 
+     *
      * @param animationId Animation id.
-     * 
+     *
      * @return Corresponding remote object.
      */
     @Returns("remoteObject")
@@ -74,7 +74,7 @@ public interface Animation {
 
     /**
      * Seek a set of animations to a particular time within each animation.
-     * 
+     *
      * @param animations List of animation ids to seek.
      * @param currentTime Set the current time of each animation.
      */
@@ -82,7 +82,7 @@ public interface Animation {
 
     /**
      * Sets the paused state of a set of animations.
-     * 
+     *
      * @param animations Animations to set the pause state of.
      * @param paused Paused state to set to.
      */
@@ -90,14 +90,14 @@ public interface Animation {
 
     /**
      * Sets the playback rate of the document timeline.
-     * 
+     *
      * @param playbackRate Playback rate for animations on page
      */
     void setPlaybackRate(Double playbackRate);
 
     /**
      * Sets the timing of an animation node.
-     * 
+     *
      * @param animationId Animation id.
      * @param duration Duration of the animation.
      * @param delay Delay of the animation.

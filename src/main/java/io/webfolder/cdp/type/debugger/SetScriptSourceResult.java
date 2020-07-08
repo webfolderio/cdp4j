@@ -18,15 +18,11 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import java.util.List;
-
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.runtime.ExceptionDetails;
 import io.webfolder.cdp.type.runtime.StackTrace;
 import io.webfolder.cdp.type.runtime.StackTraceId;
+import java.util.List;
 
-@UseStag
 public class SetScriptSourceResult {
     private List<CallFrame> callFrames;
 
@@ -56,25 +52,5 @@ public class SetScriptSourceResult {
 
     public ExceptionDetails getExceptionDetails() {
         return exceptionDetails;
-    }
-
-    public void setCallFrames(List<CallFrame> callFrames) {
-        this.callFrames = callFrames;
-    }
-
-    public void setStackChanged(Boolean stackChanged) {
-        this.stackChanged = stackChanged;
-    }
-
-    public void setAsyncStackTrace(StackTrace asyncStackTrace) {
-        this.asyncStackTrace = asyncStackTrace;
-    }
-
-    public void setAsyncStackTraceId(StackTraceId asyncStackTraceId) {
-        this.asyncStackTraceId = asyncStackTraceId;
-    }
-
-    public void setExceptionDetails(ExceptionDetails exceptionDetails) {
-        this.exceptionDetails = exceptionDetails;
     }
 }

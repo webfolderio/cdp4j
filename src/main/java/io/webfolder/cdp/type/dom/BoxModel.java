@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.dom;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Box model
  */
-@UseStag
 public class BoxModel {
     private List<Double> content;
 

@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.fetch;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.fetch.AuthChallenge;
@@ -32,7 +30,6 @@ import io.webfolder.cdp.type.network.ResourceType;
  */
 @Domain("Fetch")
 @EventName("authRequired")
-@UseStag
 public class AuthRequired {
     private String requestId;
 

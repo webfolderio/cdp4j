@@ -44,6 +44,7 @@ import io.webfolder.cdp.command.Input;
 import io.webfolder.cdp.command.Inspector;
 import io.webfolder.cdp.command.LayerTree;
 import io.webfolder.cdp.command.Log;
+import io.webfolder.cdp.command.Media;
 import io.webfolder.cdp.command.Memory;
 import io.webfolder.cdp.command.Network;
 import io.webfolder.cdp.command.Overlay;
@@ -160,6 +161,10 @@ public class Command {
    
     public Log getLog() {
         return getProxy(Log.class);
+    }
+
+    public Media getMedia() {
+        return getProxy(Media.class);
     }
 
     public Memory getMemory() {

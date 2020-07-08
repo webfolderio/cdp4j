@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Generic font families collection
  */
 @Experimental
-@UseStag
 public class FontFamilies {
     private String standard;
 

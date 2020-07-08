@@ -19,9 +19,7 @@
 package io.webfolder.cdp.type.constant;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
-@UseStag
 public enum TouchEventType {
     @SerializedName("touchStart")
     TouchStart("touchStart"),

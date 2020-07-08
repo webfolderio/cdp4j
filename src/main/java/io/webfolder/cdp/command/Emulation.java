@@ -22,10 +22,12 @@ import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
+import io.webfolder.cdp.type.constant.EmulatedVisionDeficiency;
 import io.webfolder.cdp.type.constant.Platform;
 import io.webfolder.cdp.type.dom.RGBA;
 import io.webfolder.cdp.type.emulation.MediaFeature;
 import io.webfolder.cdp.type.emulation.ScreenOrientation;
+import io.webfolder.cdp.type.emulation.UserAgentMetadata;
 import io.webfolder.cdp.type.emulation.VirtualTimePolicy;
 import io.webfolder.cdp.type.page.Viewport;
 import java.util.List;
@@ -37,7 +39,7 @@ import java.util.List;
 public interface Emulation {
     /**
      * Tells whether emulation is supported.
-     * 
+     *
      * @return True if emulation is supported.
      */
     @Returns("result")
@@ -61,7 +63,7 @@ public interface Emulation {
 
     /**
      * Enables or disables simulating a focused and active page.
-     * 
+     *
      * @param enabled Whether to enable to disable focus emulation.
      */
     @Experimental
@@ -69,7 +71,7 @@ public interface Emulation {
 
     /**
      * Enables CPU throttling to emulate slow CPUs.
-     * 
+     *
      * @param rate Throttling rate as a slowdown factor (1 is no throttle, 2 is 2x slowdown, etc).
      */
     @Experimental
@@ -78,7 +80,7 @@ public interface Emulation {
     /**
      * Sets or clears an override of the default background color of the frame. This override is used
      * if the content does not specify one.
-     * 
+     *
      * @param color RGBA of the default background color. If not specified, any existing override will be
      * cleared.
      */
@@ -88,7 +90,7 @@ public interface Emulation {
      * Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
      * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
      * query results).
-     * 
+     *
      * @param width Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      * @param height Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      * @param deviceScaleFactor Overriding device scale factor value. 0 disables the override.
@@ -124,16 +126,24 @@ public interface Emulation {
 
     /**
      * Emulates the given media type or media feature for CSS media queries.
-     * 
+     *
      * @param media Media type to emulate. Empty string disables the override.
      * @param features Media features to emulate.
      */
     void setEmulatedMedia(@Optional String media, @Optional List<MediaFeature> features);
 
     /**
+     * Emulates the given vision deficiency.
+     *
+     * @param type Vision deficiency to emulate.
+     */
+    @Experimental
+    void setEmulatedVisionDeficiency(EmulatedVisionDeficiency type);
+
+    /**
      * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
      * unavailable.
-     * 
+     *
      * @param latitude Mock latitude
      * @param longitude Mock longitude
      * @param accuracy Mock accuracy
@@ -143,7 +153,7 @@ public interface Emulation {
 
     /**
      * Overrides value returned by the javascript navigator object.
-     * 
+     *
      * @param platform The platform navigator.platform should return.
      */
     @Experimental
@@ -151,7 +161,7 @@ public interface Emulation {
 
     /**
      * Sets a specified page scale factor.
-     * 
+     *
      * @param pageScaleFactor Page scale factor.
      */
     @Experimental
@@ -159,14 +169,14 @@ public interface Emulation {
 
     /**
      * Switches script execution in the page.
-     * 
+     *
      * @param value Whether script execution should be disabled in the page.
      */
     void setScriptExecutionDisabled(Boolean value);
 
     /**
      * Enables touch on platforms which do not support them.
-     * 
+     *
      * @param enabled Whether the touch event emulation should be enabled.
      * @param maxTouchPoints Maximum touch points supported. Defaults to one.
      */
@@ -175,7 +185,7 @@ public interface Emulation {
     /**
      * Turns on virtual time for all frames (replacing real-time with a synthetic time source) and sets
      * the current virtual time policy.  Note this supersedes any previous time budget.
-     * 
+     *
      * @param budget If set, after this many virtual milliseconds have elapsed virtual time will be paused and a
      * virtualTimeBudgetExpired event is sent.
      * @param maxVirtualTimeTaskStarvationCount If set this specifies the maximum number of tasks that can be run before virtual is forced
@@ -183,7 +193,7 @@ public interface Emulation {
      * @param waitForNavigation If set the virtual time policy change should be deferred until any frame starts navigating.
      * Note any previous deferred policy change is superseded.
      * @param initialVirtualTime If set, base::Time::Now will be overriden to initially return this value.
-     * 
+     *
      * @return Absolute timestamp at which virtual time was first enabled (up time in milliseconds).
      */
     @Experimental
@@ -193,8 +203,17 @@ public interface Emulation {
             @Optional Boolean waitForNavigation, @Optional Double initialVirtualTime);
 
     /**
+     * Overrides default host system locale with the specified one.
+     *
+     * @param locale ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override and
+     * restores default host system locale.
+     */
+    @Experimental
+    void setLocaleOverride(@Optional String locale);
+
+    /**
      * Overrides default host system timezone with the specified one.
-     * 
+     *
      * @param timezoneId The timezone identifier. If empty, disables the override and
      * restores default host system timezone.
      */
@@ -205,7 +224,7 @@ public interface Emulation {
      * Resizes the frame/viewport of the page. Note that this does not affect the frame's container
      * (e.g. browser window). Can be used to produce screenshots of the specified size. Not supported
      * on Android.
-     * 
+     *
      * @param width Frame width (DIP).
      * @param height Frame height (DIP).
      */
@@ -214,13 +233,14 @@ public interface Emulation {
 
     /**
      * Allows overriding user agent with the given string.
-     * 
+     *
      * @param userAgent User agent to use.
      * @param acceptLanguage Browser langugage to emulate.
      * @param platform The platform navigator.platform should return.
+     * @param userAgentMetadata To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData
      */
     void setUserAgentOverride(String userAgent, @Optional String acceptLanguage,
-            @Optional String platform);
+            @Optional String platform, @Experimental @Optional UserAgentMetadata userAgentMetadata);
 
     /**
      * Sets or clears an override of the default background color of the frame. This override is used
@@ -232,7 +252,7 @@ public interface Emulation {
      * Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
      * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
      * query results).
-     * 
+     *
      * @param width Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      * @param height Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      * @param deviceScaleFactor Overriding device scale factor value. 0 disables the override.
@@ -258,7 +278,7 @@ public interface Emulation {
 
     /**
      * Enables touch on platforms which do not support them.
-     * 
+     *
      * @param enabled Whether the touch event emulation should be enabled.
      */
     void setTouchEmulationEnabled(Boolean enabled);
@@ -266,8 +286,8 @@ public interface Emulation {
     /**
      * Turns on virtual time for all frames (replacing real-time with a synthetic time source) and sets
      * the current virtual time policy.  Note this supersedes any previous time budget.
-     * 
-     * 
+     *
+     *
      * @return Absolute timestamp at which virtual time was first enabled (up time in milliseconds).
      */
     @Experimental
@@ -275,8 +295,14 @@ public interface Emulation {
     Double setVirtualTimePolicy(VirtualTimePolicy policy);
 
     /**
+     * Overrides default host system locale with the specified one.
+     */
+    @Experimental
+    void setLocaleOverride();
+
+    /**
      * Allows overriding user agent with the given string.
-     * 
+     *
      * @param userAgent User agent to use.
      */
     void setUserAgentOverride(String userAgent);

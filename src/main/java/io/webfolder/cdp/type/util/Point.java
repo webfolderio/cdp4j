@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.util;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class Point {
 
     public double x;

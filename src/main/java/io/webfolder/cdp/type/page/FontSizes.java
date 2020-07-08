@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Default font sizes
  */
 @Experimental
-@UseStag
 public class FontSizes {
     private Integer standard;
 

@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.systeminfo;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Image format of a given image
  */
-@UseStag
 public enum ImageType {
     @SerializedName("jpeg")
     Jpeg("jpeg"),

@@ -20,8 +20,6 @@ package io.webfolder.cdp.type.runtime;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.constant.ObjectSubtypeHint;
 import io.webfolder.cdp.type.constant.ObjectType;
@@ -30,7 +28,6 @@ import io.webfolder.cdp.type.constant.ObjectType;
  * Object containing abbreviated remote object value
  */
 @Experimental
-@UseStag
 public class ObjectPreview {
     private ObjectType type;
 
@@ -59,14 +56,14 @@ public class ObjectPreview {
     }
 
     /**
-     * Object subtype hint. Specified for `object` type values only.
+     * Object subtype hint. Specified for object type values only.
      */
     public ObjectSubtypeHint getSubtype() {
         return subtype;
     }
 
     /**
-     * Object subtype hint. Specified for `object` type values only.
+     * Object subtype hint. Specified for object type values only.
      */
     public void setSubtype(ObjectSubtypeHint subtype) {
         this.subtype = subtype;
@@ -115,14 +112,14 @@ public class ObjectPreview {
     }
 
     /**
-     * List of the entries. Specified for `map` and `set` subtype values only.
+     * List of the entries. Specified for map and set subtype values only.
      */
     public List<EntryPreview> getEntries() {
         return entries;
     }
 
     /**
-     * List of the entries. Specified for `map` and `set` subtype values only.
+     * List of the entries. Specified for map and set subtype values only.
      */
     public void setEntries(List<EntryPreview> entries) {
         this.entries = entries;

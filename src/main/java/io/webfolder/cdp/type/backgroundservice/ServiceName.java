@@ -19,14 +19,12 @@
 package io.webfolder.cdp.type.backgroundservice;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * The Background Service that will be associated with the commands/events
  * Every Background Service operates independently, but they share the same
  * API
  */
-@UseStag
 public enum ServiceName {
     @SerializedName("backgroundFetch")
     BackgroundFetch("backgroundFetch"),

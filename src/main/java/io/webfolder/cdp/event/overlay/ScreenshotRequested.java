@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.overlay;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.page.Viewport;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.page.Viewport;
  */
 @Domain("Overlay")
 @EventName("screenshotRequested")
-@UseStag
 public class ScreenshotRequested {
     private Viewport viewport;
 

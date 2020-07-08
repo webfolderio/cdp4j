@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.profiler;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Source offset and types for a parameter or return value
  */
 @Experimental
-@UseStag
 public class TypeProfileEntry {
     private Integer offset;
 

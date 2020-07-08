@@ -16,15 +16,11 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package io.webfolder.cdp.type.indexeddb;
-
-import com.vimeo.stag.UseStag;
 
 /**
  * Object store index
  */
-@UseStag
 public class ObjectStoreIndex {
     private String name;
 

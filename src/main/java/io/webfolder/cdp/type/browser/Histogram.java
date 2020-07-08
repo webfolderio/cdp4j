@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.browser;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Chrome histogram
  */
 @Experimental
-@UseStag
 public class Histogram {
     private String name;
 

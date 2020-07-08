@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.systeminfo;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Represents process info
  */
-@UseStag
 public class ProcessInfo {
     private String type;
 

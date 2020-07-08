@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.event.heapprofiler;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 @Domain("HeapProfiler")
 @EventName("addHeapSnapshotChunk")
-@UseStag
 public class AddHeapSnapshotChunk {
     private String chunk;
 

@@ -18,17 +18,10 @@
  */
 package io.webfolder.cdp.type.database;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class ExecuteSQLResult {
     private Error sqlError;
 
     public Error getSqlError() {
         return sqlError;
-    }
-
-    public void setSqlError(Error sqlError) {
-        this.sqlError = sqlError;
     }
 }

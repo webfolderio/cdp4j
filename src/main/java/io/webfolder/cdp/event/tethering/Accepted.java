@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.tethering;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
@@ -28,7 +26,6 @@ import io.webfolder.cdp.annotation.EventName;
  */
 @Domain("Tethering")
 @EventName("accepted")
-@UseStag
 public class Accepted {
     private Integer port;
 

@@ -19,9 +19,7 @@
 package io.webfolder.cdp.type.serviceworker;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
-@UseStag
 public enum ServiceWorkerVersionStatus {
     @SerializedName("new")
     New("new"),

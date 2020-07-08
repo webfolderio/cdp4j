@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetInlineStylesForNodeResult {
     private CSSStyle inlineStyle;
 
@@ -32,13 +29,5 @@ public class GetInlineStylesForNodeResult {
 
     public CSSStyle getAttributesStyle() {
         return attributesStyle;
-    }
-
-    public void setInlineStyle(CSSStyle inlineStyle) {
-        this.inlineStyle = inlineStyle;
-    }
-
-    public void setAttributesStyle(CSSStyle attributesStyle) {
-        this.attributesStyle = attributesStyle;
     }
 }

@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.webaudio;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Enum of AudioNode::ChannelCountMode from the spec
  */
-@UseStag
 public enum ChannelCountMode {
     @SerializedName("clamped-max")
     ClampedMax("clamped-max"),

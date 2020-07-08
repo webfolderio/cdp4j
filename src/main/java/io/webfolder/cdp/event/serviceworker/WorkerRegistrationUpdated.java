@@ -20,15 +20,12 @@ package io.webfolder.cdp.event.serviceworker;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.serviceworker.ServiceWorkerRegistration;
 
 @Domain("ServiceWorker")
 @EventName("workerRegistrationUpdated")
-@UseStag
 public class WorkerRegistrationUpdated {
     private List<ServiceWorkerRegistration> registrations;
 

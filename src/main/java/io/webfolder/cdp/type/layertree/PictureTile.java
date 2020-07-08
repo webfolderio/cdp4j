@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.layertree;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Serialized fragment of layer picture along with its offset within the layer
  */
-@UseStag
 public class PictureTile {
     private Double x;
 

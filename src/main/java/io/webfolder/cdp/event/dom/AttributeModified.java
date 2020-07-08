@@ -18,17 +18,14 @@
  */
 package io.webfolder.cdp.event.dom;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
- * Fired when `Element`'s attribute is modified
+ * Fired when Element's attribute is modified
  */
 @Domain("DOM")
 @EventName("attributeModified")
-@UseStag
 public class AttributeModified {
     private Integer nodeId;
 

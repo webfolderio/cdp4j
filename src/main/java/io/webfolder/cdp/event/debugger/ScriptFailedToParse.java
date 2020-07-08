@@ -18,10 +18,9 @@
  */
 package io.webfolder.cdp.event.debugger;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
+import io.webfolder.cdp.type.debugger.ScriptLanguage;
 import io.webfolder.cdp.type.runtime.StackTrace;
 
 /**
@@ -29,7 +28,6 @@ import io.webfolder.cdp.type.runtime.StackTrace;
  */
 @Domain("Debugger")
 @EventName("scriptFailedToParse")
-@UseStag
 public class ScriptFailedToParse {
     private String scriptId;
 
@@ -58,6 +56,10 @@ public class ScriptFailedToParse {
     private Integer length;
 
     private StackTrace stackTrace;
+
+    private Integer codeOffset;
+
+    private ScriptLanguage scriptLanguage;
 
     /**
      * Identifier of the script parsed.
@@ -216,7 +218,7 @@ public class ScriptFailedToParse {
     /**
      * True, if this script is ES6 module.
      */
-    public Boolean getIsModule() {
+    public Boolean isIsModule() {
         return isModule;
     }
 
@@ -253,5 +255,33 @@ public class ScriptFailedToParse {
      */
     public void setStackTrace(StackTrace stackTrace) {
         this.stackTrace = stackTrace;
+    }
+
+    /**
+     * If the scriptLanguage is WebAssembly, the code section offset in the module.
+     */
+    public Integer getCodeOffset() {
+        return codeOffset;
+    }
+
+    /**
+     * If the scriptLanguage is WebAssembly, the code section offset in the module.
+     */
+    public void setCodeOffset(Integer codeOffset) {
+        this.codeOffset = codeOffset;
+    }
+
+    /**
+     * The language of the script.
+     */
+    public ScriptLanguage getScriptLanguage() {
+        return scriptLanguage;
+    }
+
+    /**
+     * The language of the script.
+     */
+    public void setScriptLanguage(ScriptLanguage scriptLanguage) {
+        this.scriptLanguage = scriptLanguage;
     }
 }

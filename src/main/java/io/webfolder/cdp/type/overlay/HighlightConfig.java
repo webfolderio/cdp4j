@@ -18,20 +18,19 @@
  */
 package io.webfolder.cdp.type.overlay;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.dom.RGBA;
 
 /**
  * Configuration data for the highlighting of page elements
  */
-@UseStag
 public class HighlightConfig {
     private Boolean showInfo;
 
     private Boolean showStyles;
 
     private Boolean showRulers;
+
+    private Boolean showAccessibilityInfo;
 
     private Boolean showExtensionLines;
 
@@ -50,6 +49,10 @@ public class HighlightConfig {
     private RGBA shapeMarginColor;
 
     private RGBA cssGridColor;
+
+    private ColorFormat colorFormat;
+
+    private GridHighlightConfig gridHighlightConfig;
 
     /**
      * Whether the node info tooltip should be shown (default: false).
@@ -91,6 +94,20 @@ public class HighlightConfig {
      */
     public void setShowRulers(Boolean showRulers) {
         this.showRulers = showRulers;
+    }
+
+    /**
+     * Whether the a11y info should be shown (default: true).
+     */
+    public Boolean isShowAccessibilityInfo() {
+        return showAccessibilityInfo;
+    }
+
+    /**
+     * Whether the a11y info should be shown (default: true).
+     */
+    public void setShowAccessibilityInfo(Boolean showAccessibilityInfo) {
+        this.showAccessibilityInfo = showAccessibilityInfo;
     }
 
     /**
@@ -217,5 +234,33 @@ public class HighlightConfig {
      */
     public void setCssGridColor(RGBA cssGridColor) {
         this.cssGridColor = cssGridColor;
+    }
+
+    /**
+     * The color format used to format color styles (default: hex).
+     */
+    public ColorFormat getColorFormat() {
+        return colorFormat;
+    }
+
+    /**
+     * The color format used to format color styles (default: hex).
+     */
+    public void setColorFormat(ColorFormat colorFormat) {
+        this.colorFormat = colorFormat;
+    }
+
+    /**
+     * The grid layout highlight configuration (default: all transparent).
+     */
+    public GridHighlightConfig getGridHighlightConfig() {
+        return gridHighlightConfig;
+    }
+
+    /**
+     * The grid layout highlight configuration (default: all transparent).
+     */
+    public void setGridHighlightConfig(GridHighlightConfig gridHighlightConfig) {
+        this.gridHighlightConfig = gridHighlightConfig;
     }
 }

@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class ShorthandEntry {
     private String name;
 
@@ -57,14 +54,14 @@ public class ShorthandEntry {
     }
 
     /**
-     * Whether the property has "!important" annotation (implies `false` if absent).
+     * Whether the property has "!important" annotation (implies false if absent).
      */
     public Boolean isImportant() {
         return important;
     }
 
     /**
-     * Whether the property has "!important" annotation (implies `false` if absent).
+     * Whether the property has "!important" annotation (implies false if absent).
      */
     public void setImportant(Boolean important) {
         this.important = important;

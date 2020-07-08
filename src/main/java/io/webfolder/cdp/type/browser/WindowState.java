@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.browser;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * The state of the browser window
  */
-@UseStag
 public enum WindowState {
     @SerializedName("normal")
     Normal("normal"),

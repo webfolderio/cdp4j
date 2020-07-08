@@ -18,20 +18,17 @@
  */
 package io.webfolder.cdp.event.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.page.ScreencastFrameMetadata;
 
 /**
- * Compressed image data requested by the `startScreencast`
+ * Compressed image data requested by the startScreencast
  */
 @Experimental
 @Domain("Page")
 @EventName("screencastFrame")
-@UseStag
 public class ScreencastFrame {
     private String data;
 

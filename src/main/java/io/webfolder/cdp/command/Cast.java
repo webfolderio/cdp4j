@@ -35,7 +35,7 @@ public interface Cast {
      * |sinksUpdated| event is fired.
      * Also starts observing for issue messages. When an issue is added or removed,
      * an |issueUpdated| event is fired.
-     * 
+     *
      */
     void enable(@Optional String presentationUrl);
 
@@ -47,19 +47,19 @@ public interface Cast {
     /**
      * Sets a sink to be used when the web page requests the browser to choose a
      * sink via Presentation API, Remote Playback API, or Cast SDK.
-     * 
+     *
      */
     void setSinkToUse(String sinkName);
 
     /**
      * Starts mirroring the tab to the sink.
-     * 
+     *
      */
     void startTabMirroring(String sinkName);
 
     /**
      * Stops the active Cast session on the sink.
-     * 
+     *
      */
     void stopCasting(String sinkName);
 

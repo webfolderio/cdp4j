@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.accessibility;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Enum of possible property sources
  */
-@UseStag
 public enum AXValueSourceType {
     @SerializedName("attribute")
     Attribute("attribute"),

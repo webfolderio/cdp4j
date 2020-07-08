@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.css;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.css.FontFace;
@@ -31,7 +29,6 @@ import io.webfolder.cdp.type.css.FontFace;
  */
 @Domain("CSS")
 @EventName("fontsUpdated")
-@UseStag
 public class FontsUpdated {
     private FontFace font;
 

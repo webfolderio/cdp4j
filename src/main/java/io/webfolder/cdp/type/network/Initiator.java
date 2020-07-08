@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.constant.InitiatorType;
 import io.webfolder.cdp.type.runtime.StackTrace;
 
 /**
  * Information about the request initiator
  */
-@UseStag
 public class Initiator {
     private InitiatorType type;
 

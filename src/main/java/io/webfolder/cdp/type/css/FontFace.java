@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Properties of a web font: https://www
  * w3
  * org/TR/2008/REC-CSS2-20080411/fonts
  * html#font-descriptions
  */
-@UseStag
 public class FontFace {
     private String fontFamily;
 

@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.io;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class ReadResult {
     private Boolean base64Encoded;
 
@@ -38,17 +35,5 @@ public class ReadResult {
 
     public Boolean getEof() {
         return eof;
-    }
-
-    public void setBase64Encoded(Boolean base64Encoded) {
-        this.base64Encoded = base64Encoded;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public void setEof(Boolean eof) {
-        this.eof = eof;
     }
 }

@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.schema;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Description of the protocol domain
  */
-@UseStag
 public class Domain {
     private String name;
 

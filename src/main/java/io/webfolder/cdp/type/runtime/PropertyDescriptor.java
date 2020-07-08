@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Object property descriptor
  */
-@UseStag
 public class PropertyDescriptor {
     private String name;
 
@@ -88,7 +85,7 @@ public class PropertyDescriptor {
     }
 
     /**
-     * A function which serves as a getter for the property, or `undefined` if there is no getter
+     * A function which serves as a getter for the property, or undefined if there is no getter
      * (accessor descriptors only).
      */
     public RemoteObject getGet() {
@@ -96,7 +93,7 @@ public class PropertyDescriptor {
     }
 
     /**
-     * A function which serves as a getter for the property, or `undefined` if there is no getter
+     * A function which serves as a getter for the property, or undefined if there is no getter
      * (accessor descriptors only).
      */
     public void setGet(RemoteObject get) {
@@ -104,7 +101,7 @@ public class PropertyDescriptor {
     }
 
     /**
-     * A function which serves as a setter for the property, or `undefined` if there is no setter
+     * A function which serves as a setter for the property, or undefined if there is no setter
      * (accessor descriptors only).
      */
     public RemoteObject getSet() {
@@ -112,7 +109,7 @@ public class PropertyDescriptor {
     }
 
     /**
-     * A function which serves as a setter for the property, or `undefined` if there is no setter
+     * A function which serves as a setter for the property, or undefined if there is no setter
      * (accessor descriptors only).
      */
     public void setSet(RemoteObject set) {
@@ -168,44 +165,28 @@ public class PropertyDescriptor {
     /**
      * True if the property is owned for the object.
      */
+    public Boolean isIsOwn() {
+        return isOwn;
+    }
+
+    /**
+     * True if the property is owned for the object.
+     */
     public void setIsOwn(Boolean isOwn) {
         this.isOwn = isOwn;
     }
 
     /**
-     * Property symbol object, if the property is of the `symbol` type.
+     * Property symbol object, if the property is of the symbol type.
      */
     public RemoteObject getSymbol() {
         return symbol;
     }
 
     /**
-     * Property symbol object, if the property is of the `symbol` type.
+     * Property symbol object, if the property is of the symbol type.
      */
     public void setSymbol(RemoteObject symbol) {
         this.symbol = symbol;
-    }
-
-    public Boolean getWritable() {
-        return writable;
-    }
-
-    public Boolean getConfigurable() {
-        return configurable;
-    }
-
-    public Boolean getEnumerable() {
-        return enumerable;
-    }
-
-    public Boolean getWasThrown() {
-        return wasThrown;
-    }
-
-    /**
-     * True if the property is owned for the object.
-     */
-    public Boolean getIsOwn() {
-        return isOwn;
     }
 }

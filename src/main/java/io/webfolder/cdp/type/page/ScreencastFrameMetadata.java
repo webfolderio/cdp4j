@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Screencast frame metadata
  */
 @Experimental
-@UseStag
 public class ScreencastFrameMetadata {
     private Double offsetTop;
 

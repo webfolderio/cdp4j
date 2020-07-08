@@ -31,7 +31,7 @@ public interface DeviceOrientation {
 
     /**
      * Overrides the Device Orientation.
-     * 
+     *
      * @param alpha Mock alpha
      * @param beta Mock beta
      * @param gamma Mock gamma

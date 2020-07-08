@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.page.Frame;
@@ -30,7 +28,6 @@ import io.webfolder.cdp.type.page.Frame;
  */
 @Domain("Page")
 @EventName("frameNavigated")
-@UseStag
 public class FrameNavigated {
     private Frame frame;
 

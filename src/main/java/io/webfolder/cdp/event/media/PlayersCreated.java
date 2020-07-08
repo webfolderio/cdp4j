@@ -20,8 +20,6 @@ package io.webfolder.cdp.event.media;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
@@ -33,7 +31,6 @@ import io.webfolder.cdp.annotation.EventName;
  */
 @Domain("Media")
 @EventName("playersCreated")
-@UseStag
 public class PlayersCreated {
     private List<String> players;
 

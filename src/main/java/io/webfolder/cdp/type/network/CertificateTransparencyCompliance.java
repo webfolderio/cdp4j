@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Whether the request complied with Certificate Transparency policy
  */
-@UseStag
 public enum CertificateTransparencyCompliance {
     @SerializedName("unknown")
     Unknown("unknown"),

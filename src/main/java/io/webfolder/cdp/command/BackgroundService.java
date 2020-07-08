@@ -30,25 +30,25 @@ import io.webfolder.cdp.type.backgroundservice.ServiceName;
 public interface BackgroundService {
     /**
      * Enables event updates for the service.
-     * 
+     *
      */
     void startObserving(ServiceName service);
 
     /**
      * Disables event updates for the service.
-     * 
+     *
      */
     void stopObserving(ServiceName service);
 
     /**
      * Set the recording state for the service.
-     * 
+     *
      */
     void setRecording(Boolean shouldRecord, ServiceName service);
 
     /**
      * Clears all stored data for the service.
-     * 
+     *
      */
     void clearEvents(ServiceName service);
 }

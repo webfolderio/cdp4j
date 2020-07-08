@@ -18,17 +18,13 @@
  */
 package io.webfolder.cdp.type.network;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import com.vimeo.stag.UseStag;
 
 /**
  * WebSocket request data
  */
-@UseStag
 public class WebSocketRequest {
-    private Map<String, Object> headers = new HashMap<>();
+    private Map<String, Object> headers;
 
     /**
      * HTTP request headers.

@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Types of reasons why a cookie may not be sent with a request
  */
-@UseStag
 public enum CookieBlockedReason {
     @SerializedName("SecureOnly")
     SecureOnly("SecureOnly"),

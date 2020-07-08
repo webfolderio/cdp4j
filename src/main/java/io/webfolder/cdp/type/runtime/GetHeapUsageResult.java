@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetHeapUsageResult {
     private Double usedSize;
 
@@ -32,13 +29,5 @@ public class GetHeapUsageResult {
 
     public Double getTotalSize() {
         return totalSize;
-    }
-
-    public void setTotalSize(Double totalSize) {
-        this.totalSize = totalSize;
-    }
-
-    public void setUsedSize(Double usedSize) {
-        this.usedSize = usedSize;
     }
 }

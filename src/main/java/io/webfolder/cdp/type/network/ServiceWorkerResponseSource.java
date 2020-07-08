@@ -16,37 +16,34 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.event.emulation;
+package io.webfolder.cdp.type.network;
 
-import com.vimeo.stag.UseStag;
-
-import io.webfolder.cdp.annotation.Domain;
-import io.webfolder.cdp.annotation.EventName;
-import io.webfolder.cdp.annotation.Experimental;
+import com.google.gson.annotations.SerializedName;
 
 /**
- * Notification sent after the virtual time has paused
+ * Source of serviceworker response
  */
-@Experimental
-@Domain("Emulation")
-@EventName("virtualTimePaused")
-@UseStag
-public class VirtualTimePaused {
-    private Double virtualTimeElapsed;
+public enum ServiceWorkerResponseSource {
+    @SerializedName("cache-storage")
+    CacheStorage("cache-storage"),
 
-    /**
-     * The amount of virtual time that has elapsed in milliseconds since virtual time was first
-     * enabled.
-     */
-    public Double getVirtualTimeElapsed() {
-        return virtualTimeElapsed;
+    @SerializedName("http-cache")
+    HttpCache("http-cache"),
+
+    @SerializedName("fallback-code")
+    FallbackCode("fallback-code"),
+
+    @SerializedName("network")
+    Network("network");
+
+    public final String value;
+
+    ServiceWorkerResponseSource(String value) {
+        this.value = value;
     }
 
-    /**
-     * The amount of virtual time that has elapsed in milliseconds since virtual time was first
-     * enabled.
-     */
-    public void setVirtualTimeElapsed(Double virtualTimeElapsed) {
-        this.virtualTimeElapsed = virtualTimeElapsed;
+    @Override
+    public String toString() {
+        return value;
     }
 }

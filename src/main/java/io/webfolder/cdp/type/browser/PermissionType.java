@@ -19,9 +19,7 @@
 package io.webfolder.cdp.type.browser;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
-@UseStag
 public enum PermissionType {
     @SerializedName("accessibilityEvents")
     AccessibilityEvents("accessibilityEvents"),

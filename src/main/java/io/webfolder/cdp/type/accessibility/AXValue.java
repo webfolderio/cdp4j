@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.accessibility;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * A single computed AX property
  */
-@UseStag
 public class AXValue {
     private AXValueType type;
 

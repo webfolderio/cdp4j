@@ -18,19 +18,15 @@
  */
 package io.webfolder.cdp.event.heapprofiler;
 
-import java.util.List;
-
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
+import java.util.List;
 
 /**
  * If heap objects tracking has been started then backend may send update for one or more fragments
  */
 @Domain("HeapProfiler")
 @EventName("heapStatsUpdate")
-@UseStag
 public class HeapStatsUpdate {
     private List<Integer> statsUpdate;
 

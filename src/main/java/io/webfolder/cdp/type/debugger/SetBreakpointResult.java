@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class SetBreakpointResult {
     private String breakpointId;
 
@@ -32,13 +29,5 @@ public class SetBreakpointResult {
 
     public Location getActualLocation() {
         return actualLocation;
-    }
-
-    public void setBreakpointId(String breakpointId) {
-        this.breakpointId = breakpointId;
-    }
-
-    public void setActualLocation(Location actualLocation) {
-        this.actualLocation = actualLocation;
     }
 }

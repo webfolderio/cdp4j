@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.serviceworker;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * ServiceWorker registration
  */
-@UseStag
 public class ServiceWorkerRegistration {
     private String registrationId;
 
@@ -47,11 +44,11 @@ public class ServiceWorkerRegistration {
         this.scopeURL = scopeURL;
     }
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public Boolean isIsDeleted() {
+        return isDeleted;
     }
 
-    public Boolean getIsDeleted() {
-        return isDeleted;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

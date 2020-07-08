@@ -30,7 +30,7 @@ import io.webfolder.cdp.type.memory.SamplingProfile;
 @Domain("Memory")
 public interface Memory {
     /**
-     * 
+     *
      * @return GetDOMCountersResult
      */
     GetDOMCountersResult getDOMCounters();
@@ -44,21 +44,21 @@ public interface Memory {
 
     /**
      * Enable/disable suppressing memory pressure notifications in all processes.
-     * 
+     *
      * @param suppressed If true, memory pressure notifications will be suppressed.
      */
     void setPressureNotificationsSuppressed(Boolean suppressed);
 
     /**
      * Simulate a memory pressure notification in all processes.
-     * 
+     *
      * @param level Memory pressure level of the notification.
      */
     void simulatePressureNotification(PressureLevel level);
 
     /**
      * Start collecting native memory profile.
-     * 
+     *
      * @param samplingInterval Average number of bytes between samples.
      * @param suppressRandomness Do not randomize intervals between samples.
      */
@@ -85,7 +85,7 @@ public interface Memory {
 
     /**
      * Retrieve native memory allocations profile collected since last
-     * `startSampling` call.
+     * startSampling call.
      */
     @Returns("profile")
     SamplingProfile getSamplingProfile();

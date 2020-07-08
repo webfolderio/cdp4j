@@ -18,11 +18,8 @@
  */
 package io.webfolder.cdp.event.network;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.vimeo.stag.UseStag;
 
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
@@ -38,13 +35,12 @@ import io.webfolder.cdp.type.network.BlockedSetCookieWithReason;
 @Experimental
 @Domain("Network")
 @EventName("responseReceivedExtraInfo")
-@UseStag
 public class ResponseReceivedExtraInfo {
     private String requestId;
 
     private List<BlockedSetCookieWithReason> blockedCookies;
 
-    private Map<String, Object> headers = new HashMap<>();
+    private Map<String, Object> headers;
 
     private String headersText;
 

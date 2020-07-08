@@ -18,15 +18,13 @@
  */
 package io.webfolder.cdp.event.security;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
  * There is a certificate error
  * If overriding certificate errors is enabled, then it should be
- * handled with the `handleCertificateError` command
+ * handled with the handleCertificateError command
  * Note: this event does not fire if the
  * certificate error has been allowed internally
  * Only one client per target should override
@@ -34,7 +32,6 @@ import io.webfolder.cdp.annotation.EventName;
  */
 @Domain("Security")
 @EventName("certificateError")
-@UseStag
 public class CertificateError {
     private Integer eventId;
 

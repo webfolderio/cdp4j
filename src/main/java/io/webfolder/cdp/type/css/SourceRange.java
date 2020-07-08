@@ -18,13 +18,10 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Text range within a resource
  * All numbers are zero-based
  */
-@UseStag
 public class SourceRange {
     private Integer startLine;
 

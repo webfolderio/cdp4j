@@ -20,9 +20,6 @@ package io.webfolder.cdp.type.cachestorage;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class RequestEntriesResult {
     private List<DataEntry> cacheDataEntries;
 
@@ -34,13 +31,5 @@ public class RequestEntriesResult {
 
     public Double getReturnCount() {
         return returnCount;
-    }
-
-    public void setCacheDataEntries(List<DataEntry> cacheDataEntries) {
-        this.cacheDataEntries = cacheDataEntries;
-    }
-
-    public void setReturnCount(Double returnCount) {
-        this.returnCount = returnCount;
     }
 }

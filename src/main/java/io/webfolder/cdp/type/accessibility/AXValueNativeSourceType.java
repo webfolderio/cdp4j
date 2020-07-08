@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.accessibility;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Enum of possible native property sources (as a subtype of a particular AXValueSourceType)
  */
-@UseStag
 public enum AXValueNativeSourceType {
     @SerializedName("figcaption")
     Figcaption("figcaption"),

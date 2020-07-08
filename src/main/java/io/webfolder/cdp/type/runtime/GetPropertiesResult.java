@@ -20,9 +20,6 @@ package io.webfolder.cdp.type.runtime;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetPropertiesResult {
     private List<PropertyDescriptor> result;
 
@@ -46,21 +43,5 @@ public class GetPropertiesResult {
 
     public ExceptionDetails getExceptionDetails() {
         return exceptionDetails;
-    }
-
-    public void setResult(List<PropertyDescriptor> result) {
-        this.result = result;
-    }
-
-    public void setInternalProperties(List<InternalPropertyDescriptor> internalProperties) {
-        this.internalProperties = internalProperties;
-    }
-
-    public void setPrivateProperties(List<PrivatePropertyDescriptor> privateProperties) {
-        this.privateProperties = privateProperties;
-    }
-
-    public void setExceptionDetails(ExceptionDetails exceptionDetails) {
-        this.exceptionDetails = exceptionDetails;
     }
 }

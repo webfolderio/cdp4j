@@ -19,9 +19,7 @@
 package io.webfolder.cdp.type.webauthn;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
-@UseStag
 public enum AuthenticatorProtocol {
     @SerializedName("u2f")
     U2f("u2f"),

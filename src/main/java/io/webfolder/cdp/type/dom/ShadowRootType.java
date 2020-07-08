@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.dom;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Shadow root type
  */
-@UseStag
 public enum ShadowRootType {
     @SerializedName("user-agent")
     UserAgent("user-agent"),

@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Location in the source code
  */
 @Experimental
-@UseStag
 public class ScriptPosition {
     private Integer lineNumber;
 

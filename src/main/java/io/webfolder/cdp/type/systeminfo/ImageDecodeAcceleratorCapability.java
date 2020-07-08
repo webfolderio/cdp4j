@@ -18,15 +18,10 @@
  */
 package io.webfolder.cdp.type.systeminfo;
 
-import java.util.List;
-
-import com.vimeo.stag.UseStag;
-
 /**
  * Describes a supported image decoding profile with its associated minimum and
  * maximum resolutions and subsampling
  */
-@UseStag
 public class ImageDecodeAcceleratorCapability {
     private ImageType imageType;
 
@@ -34,7 +29,7 @@ public class ImageDecodeAcceleratorCapability {
 
     private Size minDimensions;
 
-    private List<SubsamplingFormat> subsamplings;
+    private SubsamplingFormat subsamplings;
 
     /**
      * Image coded, e.g. Jpeg.
@@ -81,14 +76,14 @@ public class ImageDecodeAcceleratorCapability {
     /**
      * Optional array of supported subsampling formats, e.g. 4:2:0, if known.
      */
-    public List<SubsamplingFormat> getSubsamplings() {
+    public SubsamplingFormat getSubsamplings() {
         return subsamplings;
     }
 
     /**
      * Optional array of supported subsampling formats, e.g. 4:2:0, if known.
      */
-    public void setSubsamplings(List<SubsamplingFormat> subsamplings) {
+    public void setSubsamplings(SubsamplingFormat subsamplings) {
         this.subsamplings = subsamplings;
     }
 }

@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Loading priority of a resource request
  */
-@UseStag
 public enum ResourcePriority {
     @SerializedName("VeryLow")
     VeryLow("VeryLow"),

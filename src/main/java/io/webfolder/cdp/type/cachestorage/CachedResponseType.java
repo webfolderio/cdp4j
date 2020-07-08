@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.cachestorage;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * type of HTTP response cached
  */
-@UseStag
 public enum CachedResponseType {
     @SerializedName("basic")
     Basic("basic"),

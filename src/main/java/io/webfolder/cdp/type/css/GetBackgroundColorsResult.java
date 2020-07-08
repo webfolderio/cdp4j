@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetBackgroundColorsResult {
     private String computedFontSize;
 
@@ -32,13 +29,5 @@ public class GetBackgroundColorsResult {
 
     public String getComputedFontWeight() {
         return computedFontWeight;
-    }
-
-    public void setComputedFontSize(String computedFontSize) {
-        this.computedFontSize = computedFontSize;
-    }
-
-    public void setComputedFontWeight(String computedFontWeight) {
-        this.computedFontWeight = computedFontWeight;
     }
 }

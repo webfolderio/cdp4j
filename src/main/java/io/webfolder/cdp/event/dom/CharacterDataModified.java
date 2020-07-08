@@ -18,17 +18,14 @@
  */
 package io.webfolder.cdp.event.dom;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
- * Mirrors `DOMCharacterDataModified` event
+ * Mirrors DOMCharacterDataModified event
  */
 @Domain("DOM")
 @EventName("characterDataModified")
-@UseStag
 public class CharacterDataModified {
     private Integer nodeId;
 

@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Layout viewport position and dimensions
  */
-@UseStag
 public class LayoutViewport {
     private Integer pageX;
 

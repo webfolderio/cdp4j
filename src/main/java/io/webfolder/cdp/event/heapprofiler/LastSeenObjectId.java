@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.heapprofiler;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
@@ -31,7 +29,6 @@ import io.webfolder.cdp.annotation.EventName;
  */
 @Domain("HeapProfiler")
 @EventName("lastSeenObjectId")
-@UseStag
 public class LastSeenObjectId {
     private Integer lastSeenObjectId;
 

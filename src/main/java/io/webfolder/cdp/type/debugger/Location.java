@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Location in the source code
  */
-@UseStag
 public class Location {
     private String scriptId;
 
@@ -32,14 +29,14 @@ public class Location {
     private Integer columnNumber;
 
     /**
-     * Script identifier as reported in the `Debugger.scriptParsed`.
+     * Script identifier as reported in the Debugger.scriptParsed.
      */
     public String getScriptId() {
         return scriptId;
     }
 
     /**
-     * Script identifier as reported in the `Debugger.scriptParsed`.
+     * Script identifier as reported in the Debugger.scriptParsed.
      */
     public void setScriptId(String scriptId) {
         this.scriptId = scriptId;

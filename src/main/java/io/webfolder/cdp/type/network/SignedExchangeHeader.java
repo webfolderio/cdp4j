@@ -18,11 +18,8 @@
  */
 package io.webfolder.cdp.type.network;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.vimeo.stag.UseStag;
 
 import io.webfolder.cdp.annotation.Experimental;
 
@@ -34,13 +31,12 @@ import io.webfolder.cdp.annotation.Experimental;
  * html#cbor-representation
  */
 @Experimental
-@UseStag
 public class SignedExchangeHeader {
     private String requestUrl;
 
     private Integer responseCode;
 
-    private Map<String, Object> responseHeaders = new HashMap<>();
+    private Map<String, Object> responseHeaders;
 
     private List<SignedExchangeSignature> signatures;
 

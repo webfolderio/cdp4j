@@ -39,8 +39,10 @@ import io.webfolder.cdp.type.page.GetAppManifestResult;
 import io.webfolder.cdp.type.page.GetLayoutMetricsResult;
 import io.webfolder.cdp.type.page.GetNavigationHistoryResult;
 import io.webfolder.cdp.type.page.GetResourceContentResult;
+import io.webfolder.cdp.type.page.InstallabilityError;
 import io.webfolder.cdp.type.page.NavigateResult;
 import io.webfolder.cdp.type.page.PrintToPDFResult;
+import io.webfolder.cdp.type.page.ReferrerPolicy;
 import io.webfolder.cdp.type.page.TransitionType;
 import io.webfolder.cdp.type.page.Viewport;
 import java.util.List;
@@ -52,8 +54,8 @@ import java.util.List;
 public interface Page {
     /**
      * Deprecated, please use addScriptToEvaluateOnNewDocument instead.
-     * 
-     * 
+     *
+     *
      * @return Identifier of the added script.
      */
     @Experimental
@@ -62,11 +64,11 @@ public interface Page {
 
     /**
      * Evaluates given script in every frame upon creation (before loading frame's scripts).
-     * 
+     *
      * @param worldName If specified, creates an isolated world with the given name and evaluates given script in it.
      * This world name will be used as the ExecutionContextDescription::name when the corresponding
      * event is emitted.
-     * 
+     *
      * @return Identifier of the added script.
      */
     @Returns("identifier")
@@ -80,12 +82,12 @@ public interface Page {
 
     /**
      * Capture page screenshot.
-     * 
+     *
      * @param format Image compression format (defaults to png).
      * @param quality Compression quality from range [0..100] (jpeg only).
      * @param clip Capture the screenshot of a given region only.
      * @param fromSurface Capture the screenshot from the surface, rather than the view. Defaults to true.
-     * 
+     *
      * @return Base64-encoded image data.
      */
     @Returns("data")
@@ -95,14 +97,14 @@ public interface Page {
     /**
      * Returns a snapshot of the page as a string. For MHTML format, the serialization includes
      * iframes, shadow DOM, external resources, and element-inline styles.
-     * 
+     *
      * @param format Format (defaults to mhtml).
-     * 
+     *
      * @return Serialized page data.
      */
     @Experimental
     @Returns("data")
-    byte[] captureSnapshot(@Optional SnapshotType format);
+    String captureSnapshot(@Optional SnapshotType format);
 
     /**
      * Clears the overriden device metrics.
@@ -123,12 +125,12 @@ public interface Page {
 
     /**
      * Creates an isolated world for the given frame.
-     * 
+     *
      * @param frameId Id of the frame in which the isolated world should be created.
      * @param worldName An optional name which is reported in the Execution Context.
      * @param grantUniveralAccess Whether or not universal access should be granted to the isolated world. This is a powerful
      * option, use with caution.
-     * 
+     *
      * @return Execution context of the isolated world.
      */
     @Returns("executionContextId")
@@ -137,7 +139,7 @@ public interface Page {
 
     /**
      * Deletes browser cookie with given name, domain and path.
-     * 
+     *
      * @param cookieName Name of the cookie to remove.
      * @param url URL to match cooke domain and path.
      */
@@ -155,14 +157,14 @@ public interface Page {
     void enable();
 
     /**
-     * 
+     *
      * @return GetAppManifestResult
      */
     GetAppManifestResult getAppManifest();
 
     @Experimental
-    @Returns("errors")
-    List<String> getInstallabilityErrors();
+    @Returns("installabilityErrors")
+    List<InstallabilityError> getInstallabilityErrors();
 
     @Experimental
     @Returns("primaryIcon")
@@ -170,8 +172,8 @@ public interface Page {
 
     /**
      * Returns all browser cookies. Depending on the backend support, will return detailed cookie
-     * information in the `cookies` field.
-     * 
+     * information in the cookies field.
+     *
      * @return Array of cookie objects.
      */
     @Experimental
@@ -180,7 +182,7 @@ public interface Page {
 
     /**
      * Returns present frame tree structure.
-     * 
+     *
      * @return Present frame tree structure.
      */
     @Returns("frameTree")
@@ -188,14 +190,14 @@ public interface Page {
 
     /**
      * Returns metrics relating to the layouting of the page, such as viewport bounds/scale.
-     * 
+     *
      * @return GetLayoutMetricsResult
      */
     GetLayoutMetricsResult getLayoutMetrics();
 
     /**
      * Returns navigation history for the current page.
-     * 
+     *
      * @return GetNavigationHistoryResult
      */
     GetNavigationHistoryResult getNavigationHistory();
@@ -207,10 +209,10 @@ public interface Page {
 
     /**
      * Returns content of the given resource.
-     * 
+     *
      * @param frameId Frame id to get resource for.
      * @param url URL of the resource to get content for.
-     * 
+     *
      * @return GetResourceContentResult
      */
     @Experimental
@@ -218,7 +220,7 @@ public interface Page {
 
     /**
      * Returns present frame / resource tree structure.
-     * 
+     *
      * @return Present frame / resource tree structure.
      */
     @Experimental
@@ -227,7 +229,7 @@ public interface Page {
 
     /**
      * Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
-     * 
+     *
      * @param accept Whether to accept or dismiss the dialog.
      * @param promptText The text to enter into the dialog prompt before accepting. Used only if this is a prompt
      * dialog.
@@ -236,27 +238,29 @@ public interface Page {
 
     /**
      * Navigates current page to the given URL.
-     * 
+     *
      * @param url URL to navigate the page to.
      * @param referrer Referrer URL.
      * @param transitionType Intended transition type.
      * @param frameId Frame id to navigate, if not specified navigates the top frame.
-     * 
+     * @param referrerPolicy Referrer-policy used for the navigation.
+     *
      * @return NavigateResult
      */
     NavigateResult navigate(String url, @Optional String referrer,
-            @Optional TransitionType transitionType, @Optional String frameId);
+            @Optional TransitionType transitionType, @Optional String frameId,
+            @Experimental @Optional ReferrerPolicy referrerPolicy);
 
     /**
      * Navigates current page to the given history entry.
-     * 
+     *
      * @param entryId Unique id of the entry to navigate to.
      */
     void navigateToHistoryEntry(Integer entryId);
 
     /**
      * Print page as PDF.
-     * 
+     *
      * @param landscape Paper orientation. Defaults to false.
      * @param displayHeaderFooter Display header and footer. Defaults to false.
      * @param printBackground Print background graphics. Defaults to false.
@@ -273,18 +277,18 @@ public interface Page {
      * Defaults to false.
      * @param headerTemplate HTML template for the print header. Should be valid HTML markup with following
      * classes used to inject printing values into them:
-     * - `date`: formatted print date
-     * - `title`: document title
-     * - `url`: document location
-     * - `pageNumber`: current page number
-     * - `totalPages`: total pages in the document
+     * - date: formatted print date
+     * - title: document title
+     * - url: document location
+     * - pageNumber: current page number
+     * - totalPages: total pages in the document
      *
-     * For example, `<span class=title></span>` would generate span containing the title.
-     * @param footerTemplate HTML template for the print footer. Should use the same format as the `headerTemplate`.
+     * For example, <span class=title></span> would generate span containing the title.
+     * @param footerTemplate HTML template for the print footer. Should use the same format as the headerTemplate.
      * @param preferCSSPageSize Whether or not to prefer page size as defined by css. Defaults to false,
      * in which case the content will be scaled to fit the paper size.
      * @param transferMode return as stream
-     * 
+     *
      * @return PrintToPDFResult
      */
     PrintToPDFResult printToPDF(@Optional Boolean landscape, @Optional Boolean displayHeaderFooter,
@@ -297,7 +301,7 @@ public interface Page {
 
     /**
      * Reloads given page optionally ignoring the cache.
-     * 
+     *
      * @param ignoreCache If true, browser cache is ignored (as if the user pressed Shift+refresh).
      * @param scriptToEvaluateOnLoad If set, the script will be injected into all frames of the inspected page after reload.
      * Argument will be ignored if reloading dataURL origin.
@@ -306,20 +310,20 @@ public interface Page {
 
     /**
      * Deprecated, please use removeScriptToEvaluateOnNewDocument instead.
-     * 
+     *
      */
     @Experimental
     void removeScriptToEvaluateOnLoad(String identifier);
 
     /**
      * Removes given script from the list.
-     * 
+     *
      */
     void removeScriptToEvaluateOnNewDocument(String identifier);
 
     /**
      * Acknowledges that a screencast frame has been received by the frontend.
-     * 
+     *
      * @param sessionId Frame number.
      */
     @Experimental
@@ -327,13 +331,13 @@ public interface Page {
 
     /**
      * Searches for given string in resource content.
-     * 
+     *
      * @param frameId Frame id for resource to search in.
      * @param url URL of the resource to search in.
      * @param query String to search for.
      * @param caseSensitive If true, search is case sensitive.
      * @param isRegex If true, treats string parameter as regex.
-     * 
+     *
      * @return List of search matches.
      */
     @Experimental
@@ -343,7 +347,7 @@ public interface Page {
 
     /**
      * Enable Chrome's experimental ad filter on all sites.
-     * 
+     *
      * @param enabled Whether to block ads.
      */
     @Experimental
@@ -351,7 +355,7 @@ public interface Page {
 
     /**
      * Enable page Content Security Policy by-passing.
-     * 
+     *
      * @param enabled Whether to bypass page CSP.
      */
     @Experimental
@@ -361,7 +365,7 @@ public interface Page {
      * Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
      * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
      * query results).
-     * 
+     *
      * @param width Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      * @param height Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      * @param deviceScaleFactor Overriding device scale factor value. 0 disables the override.
@@ -385,7 +389,7 @@ public interface Page {
 
     /**
      * Overrides the Device Orientation.
-     * 
+     *
      * @param alpha Mock alpha
      * @param beta Mock beta
      * @param gamma Mock gamma
@@ -395,7 +399,7 @@ public interface Page {
 
     /**
      * Set generic font families.
-     * 
+     *
      * @param fontFamilies Specifies font families to set. If a font family is not specified, it won't be changed.
      */
     @Experimental
@@ -403,7 +407,7 @@ public interface Page {
 
     /**
      * Set default font sizes.
-     * 
+     *
      * @param fontSizes Specifies font sizes to set. If a font size is not specified, it won't be changed.
      */
     @Experimental
@@ -411,7 +415,7 @@ public interface Page {
 
     /**
      * Sets given markup as the document's HTML.
-     * 
+     *
      * @param frameId Frame id to set HTML for.
      * @param html HTML content to set.
      */
@@ -419,7 +423,7 @@ public interface Page {
 
     /**
      * Set the behavior when downloading a file.
-     * 
+     *
      * @param behavior Whether to allow all or deny all download requests, or use default Chrome behavior if
      * available (otherwise deny).
      * @param downloadPath The default path to save downloaded files to. This is requred if behavior is set to 'allow'
@@ -430,7 +434,7 @@ public interface Page {
     /**
      * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
      * unavailable.
-     * 
+     *
      * @param latitude Mock latitude
      * @param longitude Mock longitude
      * @param accuracy Mock accuracy
@@ -440,7 +444,7 @@ public interface Page {
 
     /**
      * Controls whether page will emit lifecycle events.
-     * 
+     *
      * @param enabled If true, starts emitting lifecycle events.
      */
     @Experimental
@@ -448,7 +452,7 @@ public interface Page {
 
     /**
      * Toggles mouse event-based touch event emulation.
-     * 
+     *
      * @param enabled Whether the touch event emulation should be enabled.
      * @param configuration Touch/gesture events configuration. Default: current platform.
      */
@@ -456,8 +460,8 @@ public interface Page {
     void setTouchEmulationEnabled(Boolean enabled, @Optional Platform configuration);
 
     /**
-     * Starts sending each frame using the `screencastFrame` event.
-     * 
+     * Starts sending each frame using the screencastFrame event.
+     *
      * @param format Image compression format.
      * @param quality Compression quality from range [0..100].
      * @param maxWidth Maximum screenshot width.
@@ -490,21 +494,21 @@ public interface Page {
      * Tries to update the web lifecycle state of the page.
      * It will transition the page to the given state according to:
      * https://github.com/WICG/web-lifecycle/
-     * 
+     *
      * @param state Target lifecycle state
      */
     @Experimental
     void setWebLifecycleState(TargetLifecycleState state);
 
     /**
-     * Stops sending each frame in the `screencastFrame`.
+     * Stops sending each frame in the screencastFrame.
      */
     @Experimental
     void stopScreencast();
 
     /**
      * Forces compilation cache to be generated for every subresource script.
-     * 
+     *
      */
     @Experimental
     void setProduceCompilationCache(Boolean enabled);
@@ -512,7 +516,7 @@ public interface Page {
     /**
      * Seeds compilation cache for given url. Compilation cache does not survive
      * cross-process navigation.
-     * 
+     *
      * @param data Base64-encoded data
      */
     @Experimental
@@ -526,7 +530,7 @@ public interface Page {
 
     /**
      * Generates a report for testing.
-     * 
+     *
      * @param message Message to be displayed in the report.
      * @param group Specifies the endpoint group to deliver the report to.
      */
@@ -542,16 +546,16 @@ public interface Page {
     /**
      * Intercept file chooser requests and transfer control to protocol clients.
      * When file chooser interception is enabled, native file chooser dialog is not shown.
-     * Instead, a protocol event `Page.fileChooserOpened` is emitted.
-     * 
+     * Instead, a protocol event Page.fileChooserOpened is emitted.
+     *
      */
     @Experimental
     void setInterceptFileChooserDialog(Boolean enabled);
 
     /**
      * Evaluates given script in every frame upon creation (before loading frame's scripts).
-     * 
-     * 
+     *
+     *
      * @return Identifier of the added script.
      */
     @Returns("identifier")
@@ -559,7 +563,7 @@ public interface Page {
 
     /**
      * Capture page screenshot.
-     * 
+     *
      * @return Base64-encoded image data.
      */
     @Returns("data")
@@ -568,18 +572,18 @@ public interface Page {
     /**
      * Returns a snapshot of the page as a string. For MHTML format, the serialization includes
      * iframes, shadow DOM, external resources, and element-inline styles.
-     * 
+     *
      * @return Serialized page data.
      */
     @Experimental
     @Returns("data")
-    byte[] captureSnapshot();
+    String captureSnapshot();
 
     /**
      * Creates an isolated world for the given frame.
-     * 
+     *
      * @param frameId Id of the frame in which the isolated world should be created.
-     * 
+     *
      * @return Execution context of the isolated world.
      */
     @Returns("executionContextId")
@@ -587,23 +591,23 @@ public interface Page {
 
     /**
      * Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
-     * 
+     *
      * @param accept Whether to accept or dismiss the dialog.
      */
     void handleJavaScriptDialog(Boolean accept);
 
     /**
      * Navigates current page to the given URL.
-     * 
+     *
      * @param url URL to navigate the page to.
-     * 
+     *
      * @return NavigateResult
      */
     NavigateResult navigate(String url);
 
     /**
      * Print page as PDF.
-     * 
+     *
      * @return PrintToPDFResult
      */
     PrintToPDFResult printToPDF();
@@ -615,11 +619,11 @@ public interface Page {
 
     /**
      * Searches for given string in resource content.
-     * 
+     *
      * @param frameId Frame id for resource to search in.
      * @param url URL of the resource to search in.
      * @param query String to search for.
-     * 
+     *
      * @return List of search matches.
      */
     @Experimental
@@ -630,7 +634,7 @@ public interface Page {
      * Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
      * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
      * query results).
-     * 
+     *
      * @param width Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      * @param height Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      * @param deviceScaleFactor Overriding device scale factor value. 0 disables the override.
@@ -643,7 +647,7 @@ public interface Page {
 
     /**
      * Set the behavior when downloading a file.
-     * 
+     *
      * @param behavior Whether to allow all or deny all download requests, or use default Chrome behavior if
      * available (otherwise deny).
      */
@@ -658,21 +662,21 @@ public interface Page {
 
     /**
      * Toggles mouse event-based touch event emulation.
-     * 
+     *
      * @param enabled Whether the touch event emulation should be enabled.
      */
     @Experimental
     void setTouchEmulationEnabled(Boolean enabled);
 
     /**
-     * Starts sending each frame using the `screencastFrame` event.
+     * Starts sending each frame using the screencastFrame event.
      */
     @Experimental
     void startScreencast();
 
     /**
      * Generates a report for testing.
-     * 
+     *
      * @param message Message to be displayed in the report.
      */
     @Experimental

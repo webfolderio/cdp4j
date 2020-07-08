@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Request pattern for interception
  */
 @Experimental
-@UseStag
 public class RequestPattern {
     private String urlPattern;
 

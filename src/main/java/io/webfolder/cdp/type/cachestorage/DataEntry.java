@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.cachestorage;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Data entry
  */
-@UseStag
 public class DataEntry {
     private String requestURL;
 

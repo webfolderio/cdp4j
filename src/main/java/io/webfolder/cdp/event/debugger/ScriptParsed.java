@@ -18,10 +18,10 @@
  */
 package io.webfolder.cdp.event.debugger;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
+import io.webfolder.cdp.type.debugger.DebugSymbols;
+import io.webfolder.cdp.type.debugger.ScriptLanguage;
 import io.webfolder.cdp.type.runtime.StackTrace;
 
 /**
@@ -31,7 +31,6 @@ import io.webfolder.cdp.type.runtime.StackTrace;
  */
 @Domain("Debugger")
 @EventName("scriptParsed")
-@UseStag
 public class ScriptParsed {
     private String scriptId;
 
@@ -62,6 +61,12 @@ public class ScriptParsed {
     private Integer length;
 
     private StackTrace stackTrace;
+
+    private Integer codeOffset;
+
+    private ScriptLanguage scriptLanguage;
+
+    private DebugSymbols debugSymbols;
 
     /**
      * Identifier of the script parsed.
@@ -192,7 +197,7 @@ public class ScriptParsed {
     /**
      * True, if this script is generated as a result of the live edit operation.
      */
-    public Boolean getIsLiveEdit() {
+    public Boolean isIsLiveEdit() {
         return isLiveEdit;
     }
 
@@ -234,7 +239,7 @@ public class ScriptParsed {
     /**
      * True, if this script is ES6 module.
      */
-    public Boolean getIsModule() {
+    public Boolean isIsModule() {
         return isModule;
     }
 
@@ -271,5 +276,47 @@ public class ScriptParsed {
      */
     public void setStackTrace(StackTrace stackTrace) {
         this.stackTrace = stackTrace;
+    }
+
+    /**
+     * If the scriptLanguage is WebAssembly, the code section offset in the module.
+     */
+    public Integer getCodeOffset() {
+        return codeOffset;
+    }
+
+    /**
+     * If the scriptLanguage is WebAssembly, the code section offset in the module.
+     */
+    public void setCodeOffset(Integer codeOffset) {
+        this.codeOffset = codeOffset;
+    }
+
+    /**
+     * The language of the script.
+     */
+    public ScriptLanguage getScriptLanguage() {
+        return scriptLanguage;
+    }
+
+    /**
+     * The language of the script.
+     */
+    public void setScriptLanguage(ScriptLanguage scriptLanguage) {
+        this.scriptLanguage = scriptLanguage;
+    }
+
+    /**
+     * If the scriptLanguage is WebASsembly, the source of debug symbols for the module.
+     */
+    public DebugSymbols getDebugSymbols() {
+        return debugSymbols;
+    }
+
+    /**
+     * If the scriptLanguage is WebASsembly, the source of debug symbols for the module.
+     */
+    public void setDebugSymbols(DebugSymbols debugSymbols) {
+        this.debugSymbols = debugSymbols;
     }
 }

@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.profiler;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Profile
  */
-@UseStag
 public class Profile {
     private List<ProfileNode> nodes;
 

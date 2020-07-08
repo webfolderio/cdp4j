@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.domdebugger;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * DOM breakpoint type
  */
-@UseStag
 public enum DOMBreakpointType {
     @SerializedName("subtree-modified")
     SubtreeModified("subtree-modified"),

@@ -32,7 +32,7 @@ import java.util.List;
 public interface Storage {
     /**
      * Clears storage for origin.
-     * 
+     *
      * @param origin Security origin.
      * @param storageTypes Comma separated list of StorageType to clear.
      */
@@ -40,9 +40,9 @@ public interface Storage {
 
     /**
      * Returns all browser cookies.
-     * 
+     *
      * @param browserContextId Browser context to use when called on the browser endpoint.
-     * 
+     *
      * @return Array of cookie objects.
      */
     @Returns("cookies")
@@ -50,7 +50,7 @@ public interface Storage {
 
     /**
      * Sets given cookies.
-     * 
+     *
      * @param cookies Cookies to be set.
      * @param browserContextId Browser context to use when called on the browser endpoint.
      */
@@ -58,51 +58,51 @@ public interface Storage {
 
     /**
      * Clears cookies.
-     * 
+     *
      * @param browserContextId Browser context to use when called on the browser endpoint.
      */
     void clearCookies(@Optional String browserContextId);
 
     /**
      * Returns usage and quota in bytes.
-     * 
+     *
      * @param origin Security origin.
-     * 
+     *
      * @return GetUsageAndQuotaResult
      */
     GetUsageAndQuotaResult getUsageAndQuota(String origin);
 
     /**
      * Registers origin to be notified when an update occurs to its cache storage list.
-     * 
+     *
      * @param origin Security origin.
      */
     void trackCacheStorageForOrigin(String origin);
 
     /**
      * Registers origin to be notified when an update occurs to its IndexedDB.
-     * 
+     *
      * @param origin Security origin.
      */
     void trackIndexedDBForOrigin(String origin);
 
     /**
      * Unregisters origin from receiving notifications for cache storage.
-     * 
+     *
      * @param origin Security origin.
      */
     void untrackCacheStorageForOrigin(String origin);
 
     /**
      * Unregisters origin from receiving notifications for IndexedDB.
-     * 
+     *
      * @param origin Security origin.
      */
     void untrackIndexedDBForOrigin(String origin);
 
     /**
      * Returns all browser cookies.
-     * 
+     *
      * @return Array of cookie objects.
      */
     @Returns("cookies")
@@ -110,7 +110,7 @@ public interface Storage {
 
     /**
      * Sets given cookies.
-     * 
+     *
      * @param cookies Cookies to be set.
      */
     void setCookies(List<CookieParam> cookies);

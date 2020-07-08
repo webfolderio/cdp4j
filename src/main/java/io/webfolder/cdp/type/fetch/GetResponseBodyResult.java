@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.fetch;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetResponseBodyResult {
     private String body;
 
@@ -32,13 +29,5 @@ public class GetResponseBodyResult {
 
     public Boolean getBase64Encoded() {
         return base64Encoded;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public void setBase64Encoded(Boolean base64Encoded) {
-        this.base64Encoded = base64Encoded;
     }
 }

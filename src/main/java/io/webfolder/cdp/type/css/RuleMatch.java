@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.css;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Match data for a CSS rule
  */
-@UseStag
 public class RuleMatch {
     private CSSRule rule;
 

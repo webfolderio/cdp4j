@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * CSS stylesheet metainformation
  */
-@UseStag
 public class CSSStyleSheetHeader {
     private String styleSheetId;
 
@@ -44,6 +41,8 @@ public class CSSStyleSheetHeader {
     private Boolean hasSourceURL;
 
     private Boolean isInline;
+
+    private Boolean isMutable;
 
     private Double startLine;
 
@@ -185,8 +184,36 @@ public class CSSStyleSheetHeader {
      * Whether this stylesheet is created for STYLE tag by parser. This flag is not set for
      * document.written STYLE tags.
      */
+    public Boolean isIsInline() {
+        return isInline;
+    }
+
+    /**
+     * Whether this stylesheet is created for STYLE tag by parser. This flag is not set for
+     * document.written STYLE tags.
+     */
     public void setIsInline(Boolean isInline) {
         this.isInline = isInline;
+    }
+
+    /**
+     * Whether this stylesheet is mutable. Inline stylesheets become mutable
+     * after they have been modified via CSSOM API.
+     * <link> element's stylesheets are never mutable. Constructed stylesheets
+     * (new CSSStyleSheet()) are mutable immediately after creation.
+     */
+    public Boolean isIsMutable() {
+        return isMutable;
+    }
+
+    /**
+     * Whether this stylesheet is mutable. Inline stylesheets become mutable
+     * after they have been modified via CSSOM API.
+     * <link> element's stylesheets are never mutable. Constructed stylesheets
+     * (new CSSStyleSheet()) are mutable immediately after creation.
+     */
+    public void setIsMutable(Boolean isMutable) {
+        this.isMutable = isMutable;
     }
 
     /**
@@ -257,21 +284,5 @@ public class CSSStyleSheetHeader {
      */
     public void setEndColumn(Double endColumn) {
         this.endColumn = endColumn;
-    }
-
-    public Boolean getDisabled() {
-        return disabled;
-    }
-
-    public Boolean getHasSourceURL() {
-        return hasSourceURL;
-    }
-
-    /**
-     * Whether this stylesheet is created for STYLE tag by parser. This flag is not set for
-     * document.written STYLE tags.
-     */
-    public Boolean getIsInline() {
-        return isInline;
     }
 }

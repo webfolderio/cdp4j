@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetResourceContentResult {
     private String content;
 
@@ -32,13 +29,5 @@ public class GetResourceContentResult {
 
     public Boolean getBase64Encoded() {
         return base64Encoded;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setBase64Encoded(Boolean base64Encoded) {
-        this.base64Encoded = base64Encoded;
     }
 }

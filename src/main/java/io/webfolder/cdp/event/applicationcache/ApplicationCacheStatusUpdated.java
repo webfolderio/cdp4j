@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.event.applicationcache;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 @Domain("ApplicationCache")
 @EventName("applicationCacheStatusUpdated")
-@UseStag
 public class ApplicationCacheStatusUpdated {
     private String frameId;
 

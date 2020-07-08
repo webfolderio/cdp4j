@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.accessibility;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * A single source for a computed AX property
  */
-@UseStag
 public class AXValueSource {
     private AXValueSourceType type;
 

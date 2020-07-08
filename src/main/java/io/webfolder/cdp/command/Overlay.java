@@ -23,6 +23,7 @@ import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.type.dom.RGBA;
 import io.webfolder.cdp.type.overlay.HighlightConfig;
+import io.webfolder.cdp.type.overlay.HingeConfig;
 import io.webfolder.cdp.type.overlay.InspectMode;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public interface Overlay {
 
     /**
      * Highlights owner element of the frame with given id.
-     * 
+     *
      * @param frameId Identifier of the frame to highlight.
      * @param contentColor The content box highlight fill color (default: transparent).
      * @param contentOutlineColor The content box highlight outline color (default: transparent).
@@ -60,7 +61,7 @@ public interface Overlay {
     /**
      * Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
      * objectId must be specified.
-     * 
+     *
      * @param highlightConfig A descriptor for the highlight appearance.
      * @param nodeId Identifier of the node to highlight.
      * @param backendNodeId Identifier of the backend node to highlight.
@@ -72,7 +73,7 @@ public interface Overlay {
 
     /**
      * Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
-     * 
+     *
      * @param quad Quad to highlight
      * @param color The highlight fill color (default: transparent).
      * @param outlineColor The highlight outline color (default: transparent).
@@ -81,7 +82,7 @@ public interface Overlay {
 
     /**
      * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
-     * 
+     *
      * @param x X coordinate
      * @param y Y coordinate
      * @param width Rectangle width
@@ -95,16 +96,16 @@ public interface Overlay {
     /**
      * Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
      * Backend then generates 'inspectNodeRequested' event upon element selection.
-     * 
+     *
      * @param mode Set an inspection mode.
-     * @param highlightConfig A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled
-     * == false`.
+     * @param highlightConfig A descriptor for the highlight appearance of hovered-over nodes. May be omitted if enabled
+     * == false.
      */
     void setInspectMode(InspectMode mode, @Optional HighlightConfig highlightConfig);
 
     /**
      * Highlights owner element of all frames detected to be ads.
-     * 
+     *
      * @param show True for showing ad highlights
      */
     void setShowAdHighlights(Boolean show);
@@ -113,56 +114,63 @@ public interface Overlay {
 
     /**
      * Requests that backend shows debug borders on layers
-     * 
+     *
      * @param show True for showing debug borders
      */
     void setShowDebugBorders(Boolean show);
 
     /**
      * Requests that backend shows the FPS counter
-     * 
+     *
      * @param show True for showing the FPS counter
      */
     void setShowFPSCounter(Boolean show);
 
     /**
      * Requests that backend shows paint rectangles
-     * 
+     *
      * @param result True for showing paint rectangles
      */
     void setShowPaintRects(Boolean result);
 
     /**
      * Requests that backend shows layout shift regions
-     * 
+     *
      * @param result True for showing layout shift regions
      */
     void setShowLayoutShiftRegions(Boolean result);
 
     /**
      * Requests that backend shows scroll bottleneck rects
-     * 
+     *
      * @param show True for showing scroll bottleneck rects
      */
     void setShowScrollBottleneckRects(Boolean show);
 
     /**
      * Requests that backend shows hit-test borders on layers
-     * 
+     *
      * @param show True for showing hit-test borders
      */
     void setShowHitTestBorders(Boolean show);
 
     /**
      * Paints viewport size upon main frame resize.
-     * 
+     *
      * @param show Whether to paint size or not.
      */
     void setShowViewportSizeOnResize(Boolean show);
 
     /**
+     * Add a dual screen device hinge
+     *
+     * @param hingeConfig hinge data, null means hideHinge
+     */
+    void setShowHinge(@Optional HingeConfig hingeConfig);
+
+    /**
      * Highlights owner element of the frame with given id.
-     * 
+     *
      * @param frameId Identifier of the frame to highlight.
      */
     void highlightFrame(String frameId);
@@ -170,21 +178,21 @@ public interface Overlay {
     /**
      * Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
      * objectId must be specified.
-     * 
+     *
      * @param highlightConfig A descriptor for the highlight appearance.
      */
     void highlightNode(HighlightConfig highlightConfig);
 
     /**
      * Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
-     * 
+     *
      * @param quad Quad to highlight
      */
     void highlightQuad(List<Double> quad);
 
     /**
      * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
-     * 
+     *
      * @param x X coordinate
      * @param y Y coordinate
      * @param width Rectangle width
@@ -195,10 +203,15 @@ public interface Overlay {
     /**
      * Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
      * Backend then generates 'inspectNodeRequested' event upon element selection.
-     * 
+     *
      * @param mode Set an inspection mode.
      */
     void setInspectMode(InspectMode mode);
 
     void setPausedInDebuggerMessage();
+
+    /**
+     * Add a dual screen device hinge
+     */
+    void setShowHinge();
 }

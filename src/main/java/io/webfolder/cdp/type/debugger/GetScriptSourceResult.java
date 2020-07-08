@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetScriptSourceResult {
     private String scriptSource;
 
@@ -32,13 +29,5 @@ public class GetScriptSourceResult {
 
     public String getBytecode() {
         return bytecode;
-    }
-
-    public void setBytecode(String bytecode) {
-        this.bytecode = bytecode;
-    }
-
-    public void setScriptSource(String scriptSource) {
-        this.scriptSource = scriptSource;
     }
 }

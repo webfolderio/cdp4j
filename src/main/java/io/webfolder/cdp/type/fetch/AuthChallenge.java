@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.type.fetch;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.constant.AuthChallengeSource;
 
@@ -27,7 +25,6 @@ import io.webfolder.cdp.type.constant.AuthChallengeSource;
  * Authorization challenge for HTTP status code 401 or 407
  */
 @Experimental
-@UseStag
 public class AuthChallenge {
     private AuthChallengeSource source;
 

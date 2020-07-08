@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.layertree;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Information about a compositing layer
  */
-@UseStag
 public class Layer {
     private String layerId;
 

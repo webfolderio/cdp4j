@@ -45,54 +45,54 @@ public interface WebAuthn {
 
     /**
      * Creates and adds a virtual authenticator.
-     * 
+     *
      */
     @Returns("authenticatorId")
     String addVirtualAuthenticator(VirtualAuthenticatorOptions options);
 
     /**
      * Removes the given authenticator.
-     * 
+     *
      */
     void removeVirtualAuthenticator(String authenticatorId);
 
     /**
      * Adds the credential to the specified authenticator.
-     * 
+     *
      */
     void addCredential(String authenticatorId, Credential credential);
 
     /**
      * Returns a single credential stored in the given virtual authenticator that
      * matches the credential ID.
-     * 
+     *
      */
     @Returns("credential")
     Credential getCredential(String authenticatorId, String credentialId);
 
     /**
      * Returns all the credentials stored in the given virtual authenticator.
-     * 
+     *
      */
     @Returns("credentials")
     List<Credential> getCredentials(String authenticatorId);
 
     /**
      * Removes a credential from the authenticator.
-     * 
+     *
      */
     void removeCredential(String authenticatorId, String credentialId);
 
     /**
      * Clears all the credentials from the specified device.
-     * 
+     *
      */
     void clearCredentials(String authenticatorId);
 
     /**
      * Sets whether User Verification succeeds or fails for an authenticator.
      * The default is true.
-     * 
+     *
      */
     void setUserVerified(String authenticatorId, Boolean isUserVerified);
 }

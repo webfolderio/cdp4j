@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.page;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Transition type
  */
-@UseStag
 public enum TransitionType {
     @SerializedName("link")
     Link("link"),

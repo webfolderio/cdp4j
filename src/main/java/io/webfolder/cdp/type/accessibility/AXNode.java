@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.accessibility;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * A node in the accessibility tree
  */
-@UseStag
 public class AXNode {
     private String nodeId;
 
@@ -90,56 +87,56 @@ public class AXNode {
     }
 
     /**
-     * This `Node`'s role, whether explicit or implicit.
+     * This Node's role, whether explicit or implicit.
      */
     public AXValue getRole() {
         return role;
     }
 
     /**
-     * This `Node`'s role, whether explicit or implicit.
+     * This Node's role, whether explicit or implicit.
      */
     public void setRole(AXValue role) {
         this.role = role;
     }
 
     /**
-     * The accessible name for this `Node`.
+     * The accessible name for this Node.
      */
     public AXValue getName() {
         return name;
     }
 
     /**
-     * The accessible name for this `Node`.
+     * The accessible name for this Node.
      */
     public void setName(AXValue name) {
         this.name = name;
     }
 
     /**
-     * The accessible description for this `Node`.
+     * The accessible description for this Node.
      */
     public AXValue getDescription() {
         return description;
     }
 
     /**
-     * The accessible description for this `Node`.
+     * The accessible description for this Node.
      */
     public void setDescription(AXValue description) {
         this.description = description;
     }
 
     /**
-     * The value for this `Node`.
+     * The value for this Node.
      */
     public AXValue getValue() {
         return value;
     }
 
     /**
-     * The value for this `Node`.
+     * The value for this Node.
      */
     public void setValue(AXValue value) {
         this.value = value;

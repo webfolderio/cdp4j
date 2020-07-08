@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.webauthn;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class Credential {
     private String credentialId;
 
@@ -40,6 +37,10 @@ public class Credential {
 
     public void setCredentialId(String credentialId) {
         this.credentialId = credentialId;
+    }
+
+    public Boolean isIsResidentCredential() {
+        return isResidentCredential;
     }
 
     public void setIsResidentCredential(Boolean isResidentCredential) {
@@ -108,9 +109,5 @@ public class Credential {
      */
     public void setSignCount(Integer signCount) {
         this.signCount = signCount;
-    }
-
-    public Boolean getIsResidentCredential() {
-        return isResidentCredential;
     }
 }

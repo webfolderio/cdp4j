@@ -53,7 +53,7 @@ public interface JavaScript {
         Integer contextId = getThis().getExecutionContextId();
         EvaluateResult result = runtime.evaluate(expression, null, null,
                                                     null, contextId, null,
-                                                    null, null, null, null, null, null, null);
+                                                    null, null, null, null, null, null, null, null);
         if (result == null) {
             return null;
         }

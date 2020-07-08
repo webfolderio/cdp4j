@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.security;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * An explanation of an factor contributing to the security state
  */
-@UseStag
 public class SecurityStateExplanation {
     private SecurityState securityState;
 

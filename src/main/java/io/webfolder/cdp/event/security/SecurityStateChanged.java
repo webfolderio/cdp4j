@@ -20,8 +20,6 @@ package io.webfolder.cdp.event.security;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.security.InsecureContentStatus;
@@ -33,7 +31,6 @@ import io.webfolder.cdp.type.security.SecurityStateExplanation;
  */
 @Domain("Security")
 @EventName("securityStateChanged")
-@UseStag
 public class SecurityStateChanged {
     private SecurityState securityState;
 
@@ -74,16 +71,16 @@ public class SecurityStateChanged {
     }
 
     /**
-     * List of explanations for the security state. If the overall security state is `insecure` or
-     * `warning`, at least one corresponding explanation should be included.
+     * List of explanations for the security state. If the overall security state is insecure or
+     * warning, at least one corresponding explanation should be included.
      */
     public List<SecurityStateExplanation> getExplanations() {
         return explanations;
     }
 
     /**
-     * List of explanations for the security state. If the overall security state is `insecure` or
-     * `warning`, at least one corresponding explanation should be included.
+     * List of explanations for the security state. If the overall security state is insecure or
+     * warning, at least one corresponding explanation should be included.
      */
     public void setExplanations(List<SecurityStateExplanation> explanations) {
         this.explanations = explanations;

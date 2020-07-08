@@ -18,11 +18,10 @@
  */
 package io.webfolder.cdp.event.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
+import io.webfolder.cdp.type.page.ClientNavigationDisposition;
 import io.webfolder.cdp.type.page.ClientNavigationReason;
 
 /**
@@ -32,13 +31,14 @@ import io.webfolder.cdp.type.page.ClientNavigationReason;
 @Experimental
 @Domain("Page")
 @EventName("frameRequestedNavigation")
-@UseStag
 public class FrameRequestedNavigation {
     private String frameId;
 
     private ClientNavigationReason reason;
 
     private String url;
+
+    private ClientNavigationDisposition disposition;
 
     /**
      * Id of the frame that is being navigated.
@@ -80,5 +80,19 @@ public class FrameRequestedNavigation {
      */
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    /**
+     * The disposition for the navigation.
+     */
+    public ClientNavigationDisposition getDisposition() {
+        return disposition;
+    }
+
+    /**
+     * The disposition for the navigation.
+     */
+    public void setDisposition(ClientNavigationDisposition disposition) {
+        this.disposition = disposition;
     }
 }

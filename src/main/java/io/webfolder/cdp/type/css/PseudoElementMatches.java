@@ -20,14 +20,11 @@ package io.webfolder.cdp.type.css;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.dom.PseudoType;
 
 /**
  * CSS rule collection for a single pseudo style
  */
-@UseStag
 public class PseudoElementMatches {
     private PseudoType pseudoType;
 

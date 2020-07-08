@@ -18,48 +18,20 @@
  */
 package io.webfolder.cdp.type.media;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
+/**
+ * Corresponds to kMediaEventTriggered
+ */
 public class PlayerEvent {
-    private PlayerEventType type;
-
     private Double timestamp;
-
-    private String name;
 
     private String value;
 
-    public PlayerEventType getType() {
-        return type;
-    }
-
-    public void setType(PlayerEventType type) {
-        this.type = type;
-    }
-
-    /**
-     * Events are timestamped relative to the start of the player creation
-     * not relative to the start of playback.
-     */
     public Double getTimestamp() {
         return timestamp;
     }
 
-    /**
-     * Events are timestamped relative to the start of the player creation
-     * not relative to the start of playback.
-     */
     public void setTimestamp(Double timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getValue() {

@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.css;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Selector list data
  */
-@UseStag
 public class SelectorList {
     private List<Value> selectors;
 

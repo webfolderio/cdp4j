@@ -18,13 +18,10 @@
  */
 package io.webfolder.cdp.type.systeminfo;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Describes a supported video decoding profile with its associated minimum and
  * maximum resolutions
  */
-@UseStag
 public class VideoDecodeAcceleratorCapability {
     private String profile;
 

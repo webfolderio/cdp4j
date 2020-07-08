@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.runtime.ExceptionDetails;
 import io.webfolder.cdp.type.runtime.RemoteObject;
 
-@UseStag
 public class EvaluateOnCallFrameResult {
     private RemoteObject result;
 
@@ -35,13 +32,5 @@ public class EvaluateOnCallFrameResult {
 
     public ExceptionDetails getExceptionDetails() {
         return exceptionDetails;
-    }
-
-    public void setResult(RemoteObject result) {
-        this.result = result;
-    }
-
-    public void setExceptionDetails(ExceptionDetails exceptionDetails) {
-        this.exceptionDetails = exceptionDetails;
     }
 }

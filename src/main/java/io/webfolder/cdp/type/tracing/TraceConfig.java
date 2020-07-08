@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.tracing;
 
 import java.util.List;
-
-import com.vimeo.stag.UseStag;
+import java.util.Map;
 
 import io.webfolder.cdp.type.constant.TraceRecordMode;
 
-@UseStag
 public class TraceConfig {
     private TraceRecordMode recordMode;
 
@@ -40,7 +38,7 @@ public class TraceConfig {
 
     private List<String> syntheticDelays;
 
-    private MemoryDumpConfig memoryDumpConfig;
+    private Map<String, Object> memoryDumpConfig;
 
     /**
      * Controls how the trace buffer stores data.
@@ -143,14 +141,14 @@ public class TraceConfig {
     /**
      * Configuration for memory dump triggers. Used only when "memory-infra" category is enabled.
      */
-    public MemoryDumpConfig getMemoryDumpConfig() {
+    public Map<String, Object> getMemoryDumpConfig() {
         return memoryDumpConfig;
     }
 
     /**
      * Configuration for memory dump triggers. Used only when "memory-infra" category is enabled.
      */
-    public void setMemoryDumpConfig(MemoryDumpConfig memoryDumpConfig) {
+    public void setMemoryDumpConfig(Map<String, Object> memoryDumpConfig) {
         this.memoryDumpConfig = memoryDumpConfig;
     }
 }

@@ -33,14 +33,14 @@ import java.util.List;
 public interface CacheStorage {
     /**
      * Deletes a cache.
-     * 
+     *
      * @param cacheId Id of cache for deletion.
      */
     void deleteCache(String cacheId);
 
     /**
      * Deletes a cache entry.
-     * 
+     *
      * @param cacheId Id of cache where the entry will be deleted.
      * @param request URL spec of the request.
      */
@@ -48,9 +48,9 @@ public interface CacheStorage {
 
     /**
      * Requests cache names.
-     * 
+     *
      * @param securityOrigin Security origin.
-     * 
+     *
      * @return Caches for the security origin.
      */
     @Returns("caches")
@@ -58,11 +58,11 @@ public interface CacheStorage {
 
     /**
      * Fetches cache entry.
-     * 
+     *
      * @param cacheId Id of cache that contains the entry.
      * @param requestURL URL spec of the request.
      * @param requestHeaders headers of the request.
-     * 
+     *
      * @return Response read from the cache.
      */
     @Returns("response")
@@ -71,12 +71,12 @@ public interface CacheStorage {
 
     /**
      * Requests data from cache.
-     * 
+     *
      * @param cacheId ID of cache to get entries from.
      * @param skipCount Number of records to skip.
      * @param pageSize Number of records to fetch.
      * @param pathFilter If present, only return the entries containing this substring in the path
-     * 
+     *
      * @return RequestEntriesResult
      */
     RequestEntriesResult requestEntries(String cacheId, @Optional Integer skipCount,
@@ -84,9 +84,9 @@ public interface CacheStorage {
 
     /**
      * Requests data from cache.
-     * 
+     *
      * @param cacheId ID of cache to get entries from.
-     * 
+     *
      * @return RequestEntriesResult
      */
     RequestEntriesResult requestEntries(String cacheId);

@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * The underlying connection technology that the browser is supposedly using
  */
-@UseStag
 public enum ConnectionType {
     @SerializedName("none")
     None("none"),

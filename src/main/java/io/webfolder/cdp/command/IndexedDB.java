@@ -33,7 +33,7 @@ import java.util.List;
 public interface IndexedDB {
     /**
      * Clears all entries from an object store.
-     * 
+     *
      * @param securityOrigin Security origin.
      * @param databaseName Database name.
      * @param objectStoreName Object store name.
@@ -42,7 +42,7 @@ public interface IndexedDB {
 
     /**
      * Deletes a database.
-     * 
+     *
      * @param securityOrigin Security origin.
      * @param databaseName Database name.
      */
@@ -50,7 +50,7 @@ public interface IndexedDB {
 
     /**
      * Delete a range of entries from an object store
-     * 
+     *
      * @param keyRange Range of entry keys to delete
      */
     void deleteObjectStoreEntries(String securityOrigin, String databaseName,
@@ -68,7 +68,7 @@ public interface IndexedDB {
 
     /**
      * Requests data from object store or index.
-     * 
+     *
      * @param securityOrigin Security origin.
      * @param databaseName Database name.
      * @param objectStoreName Object store name.
@@ -76,7 +76,7 @@ public interface IndexedDB {
      * @param skipCount Number of records to skip.
      * @param pageSize Number of records to fetch.
      * @param keyRange Key range.
-     * 
+     *
      * @return RequestDataResult
      */
     RequestDataResult requestData(String securityOrigin, String databaseName,
@@ -85,11 +85,11 @@ public interface IndexedDB {
 
     /**
      * Gets metadata of an object store
-     * 
+     *
      * @param securityOrigin Security origin.
      * @param databaseName Database name.
      * @param objectStoreName Object store name.
-     * 
+     *
      * @return GetMetadataResult
      */
     GetMetadataResult getMetadata(String securityOrigin, String databaseName,
@@ -97,10 +97,10 @@ public interface IndexedDB {
 
     /**
      * Requests database with given name in given frame.
-     * 
+     *
      * @param securityOrigin Security origin.
      * @param databaseName Database name.
-     * 
+     *
      * @return Database with an array of object stores.
      */
     @Returns("databaseWithObjectStores")
@@ -108,9 +108,9 @@ public interface IndexedDB {
 
     /**
      * Requests database names for given security origin.
-     * 
+     *
      * @param securityOrigin Security origin.
-     * 
+     *
      * @return Database names for origin.
      */
     @Returns("databaseNames")
@@ -118,14 +118,14 @@ public interface IndexedDB {
 
     /**
      * Requests data from object store or index.
-     * 
+     *
      * @param securityOrigin Security origin.
      * @param databaseName Database name.
      * @param objectStoreName Object store name.
      * @param indexName Index name, empty string for object store data requests.
      * @param skipCount Number of records to skip.
      * @param pageSize Number of records to fetch.
-     * 
+     *
      * @return RequestDataResult
      */
     RequestDataResult requestData(String securityOrigin, String databaseName,

@@ -20,9 +20,6 @@ package io.webfolder.cdp.type.indexeddb;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class RequestDataResult {
     private List<DataEntry> objectStoreDataEntries;
 
@@ -34,13 +31,5 @@ public class RequestDataResult {
 
     public Boolean getHasMore() {
         return hasMore;
-    }
-
-    public void setObjectStoreDataEntries(List<DataEntry> objectStoreDataEntries) {
-        this.objectStoreDataEntries = objectStoreDataEntries;
-    }
-
-    public void setHasMore(Boolean hasMore) {
-        this.hasMore = hasMore;
     }
 }

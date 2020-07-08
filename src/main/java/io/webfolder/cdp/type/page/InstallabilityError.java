@@ -16,31 +16,46 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.command;
+package io.webfolder.cdp.type.page;
 
-import io.webfolder.cdp.annotation.Domain;
+import java.util.List;
+
 import io.webfolder.cdp.annotation.Experimental;
-import io.webfolder.cdp.annotation.Optional;
 
 /**
- * Testing domain is a dumping ground for the capabilities requires for browser or app testing that do not fit other
- * domains
+ * The installability error
  */
 @Experimental
-@Domain("Testing")
-public interface Testing {
-    /**
-     * Generates a report for testing.
-     * 
-     * @param message Message to be displayed in the report.
-     * @param group Specifies the endpoint group to deliver the report to.
-     */
-    void generateTestReport(String message, @Optional String group);
+public class InstallabilityError {
+    private String errorId;
+
+    private List<InstallabilityErrorArgument> errorArguments;
 
     /**
-     * Generates a report for testing.
-     * 
-     * @param message Message to be displayed in the report.
+     * The error id (e.g. 'manifest-missing-suitable-icon').
      */
-    void generateTestReport(String message);
+    public String getErrorId() {
+        return errorId;
+    }
+
+    /**
+     * The error id (e.g. 'manifest-missing-suitable-icon').
+     */
+    public void setErrorId(String errorId) {
+        this.errorId = errorId;
+    }
+
+    /**
+     * The list of error arguments (e.g. {name:'minimum-icon-size-in-pixels', value:'64'}).
+     */
+    public List<InstallabilityErrorArgument> getErrorArguments() {
+        return errorArguments;
+    }
+
+    /**
+     * The list of error arguments (e.g. {name:'minimum-icon-size-in-pixels', value:'64'}).
+     */
+    public void setErrorArguments(List<InstallabilityErrorArgument> errorArguments) {
+        this.errorArguments = errorArguments;
+    }
 }

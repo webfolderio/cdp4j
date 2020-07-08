@@ -45,7 +45,11 @@ class CdpTypeAdapterFactory implements TypeAdapterFactory, AutoCloseable {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
         final Class clazz = type.getRawType();
-        final String packageName = clazz.getPackage().getName();
+        Package pkg = clazz.getPackage();
+        if (pkg == null) {
+            return null;
+        }
+        final String packageName = pkg.getName();
         if ( packageName != null &&
                 (packageName.startsWith(EVENT_PACKAGE) ||
                  packageName.startsWith(TYPE_PACKAGE)) ) {

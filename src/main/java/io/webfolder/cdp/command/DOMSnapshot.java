@@ -46,12 +46,12 @@ public interface DOMSnapshot {
      * template contents, and imported documents) in a flattened array, as well as layout and
      * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
      * flattened.
-     * 
+     *
      * @param computedStyleWhitelist Whitelist of computed styles to return.
      * @param includeEventListeners Whether or not to retrieve details of DOM listeners (default false).
      * @param includePaintOrder Whether to determine and include the paint order index of LayoutTreeNodes (default false).
      * @param includeUserAgentShadowTree Whether to include UA shadow tree in the snapshot (default false).
-     * 
+     *
      * @return GetSnapshotResult
      */
     GetSnapshotResult getSnapshot(List<String> computedStyleWhitelist,
@@ -63,11 +63,11 @@ public interface DOMSnapshot {
      * template contents, and imported documents) in a flattened array, as well as layout and
      * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
      * flattened.
-     * 
+     *
      * @param computedStyles Whitelist of computed styles to return.
      * @param includePaintOrder Whether to include layout object paint orders into the snapshot.
      * @param includeDOMRects Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot
-     * 
+     *
      * @return CaptureSnapshotResult
      */
     CaptureSnapshotResult captureSnapshot(List<String> computedStyles,
@@ -78,9 +78,9 @@ public interface DOMSnapshot {
      * template contents, and imported documents) in a flattened array, as well as layout and
      * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
      * flattened.
-     * 
+     *
      * @param computedStyleWhitelist Whitelist of computed styles to return.
-     * 
+     *
      * @return GetSnapshotResult
      */
     GetSnapshotResult getSnapshot(List<String> computedStyleWhitelist);
@@ -90,9 +90,9 @@ public interface DOMSnapshot {
      * template contents, and imported documents) in a flattened array, as well as layout and
      * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
      * flattened.
-     * 
+     *
      * @param computedStyles Whitelist of computed styles to return.
-     * 
+     *
      * @return CaptureSnapshotResult
      */
     CaptureSnapshotResult captureSnapshot(List<String> computedStyles);

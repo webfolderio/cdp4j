@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Parsed app manifest properties
  */
 @Experimental
-@UseStag
 public class AppManifestParsedProperties {
     private String scope;
 

@@ -18,10 +18,7 @@
  */
 package io.webfolder.cdp.type.network;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import com.vimeo.stag.UseStag;
 
 import io.webfolder.cdp.type.constant.ReferrerPolicy;
 import io.webfolder.cdp.type.security.MixedContentType;
@@ -29,7 +26,6 @@ import io.webfolder.cdp.type.security.MixedContentType;
 /**
  * HTTP request data
  */
-@UseStag
 public class Request {
     private String url;
 
@@ -37,7 +33,7 @@ public class Request {
 
     private String method;
 
-    private Map<String, Object> headers = new HashMap<>();
+    private Map<String, Object> headers;
 
     private String postData;
 
@@ -180,18 +176,14 @@ public class Request {
     /**
      * Whether is loaded via link preload.
      */
-    public void setIsLinkPreload(Boolean isLinkPreload) {
-        this.isLinkPreload = isLinkPreload;
-    }
-
-    public Boolean getHasPostData() {
-        return hasPostData;
+    public Boolean isIsLinkPreload() {
+        return isLinkPreload;
     }
 
     /**
      * Whether is loaded via link preload.
      */
-    public Boolean getIsLinkPreload() {
-        return isLinkPreload;
+    public void setIsLinkPreload(Boolean isLinkPreload) {
+        this.isLinkPreload = isLinkPreload;
     }
 }

@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
@@ -30,11 +28,14 @@ import io.webfolder.cdp.annotation.Experimental;
 @Experimental
 @Domain("Page")
 @EventName("downloadWillBegin")
-@UseStag
 public class DownloadWillBegin {
     private String frameId;
 
+    private String guid;
+
     private String url;
+
+    private String suggestedFilename;
 
     /**
      * Id of the frame that caused download to begin.
@@ -51,6 +52,20 @@ public class DownloadWillBegin {
     }
 
     /**
+     * Global unique identifier of the download.
+     */
+    public String getGuid() {
+        return guid;
+    }
+
+    /**
+     * Global unique identifier of the download.
+     */
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
+    /**
      * URL of the resource being downloaded.
      */
     public String getUrl() {
@@ -62,5 +77,19 @@ public class DownloadWillBegin {
      */
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    /**
+     * Suggested file name of the resource (the actual name of the file saved on disk may differ).
+     */
+    public String getSuggestedFilename() {
+        return suggestedFilename;
+    }
+
+    /**
+     * Suggested file name of the resource (the actual name of the file saved on disk may differ).
+     */
+    public void setSuggestedFilename(String suggestedFilename) {
+        this.suggestedFilename = suggestedFilename;
     }
 }

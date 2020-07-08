@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.type.animation;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.constant.AnimationType;
 
 /**
  * Animation instance
  */
-@UseStag
 public class Animation {
     private String id;
 
@@ -48,133 +45,133 @@ public class Animation {
     private String cssId;
 
     /**
-     * `Animation`'s id.
+     * Animation's id.
      */
     public String getId() {
         return id;
     }
 
     /**
-     * `Animation`'s id.
+     * Animation's id.
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * `Animation`'s name.
+     * Animation's name.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * `Animation`'s name.
+     * Animation's name.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * `Animation`'s internal paused state.
+     * Animation's internal paused state.
      */
     public Boolean isPausedState() {
         return pausedState;
     }
 
     /**
-     * `Animation`'s internal paused state.
+     * Animation's internal paused state.
      */
     public void setPausedState(Boolean pausedState) {
         this.pausedState = pausedState;
     }
 
     /**
-     * `Animation`'s play state.
+     * Animation's play state.
      */
     public String getPlayState() {
         return playState;
     }
 
     /**
-     * `Animation`'s play state.
+     * Animation's play state.
      */
     public void setPlayState(String playState) {
         this.playState = playState;
     }
 
     /**
-     * `Animation`'s playback rate.
+     * Animation's playback rate.
      */
     public Double getPlaybackRate() {
         return playbackRate;
     }
 
     /**
-     * `Animation`'s playback rate.
+     * Animation's playback rate.
      */
     public void setPlaybackRate(Double playbackRate) {
         this.playbackRate = playbackRate;
     }
 
     /**
-     * `Animation`'s start time.
+     * Animation's start time.
      */
     public Double getStartTime() {
         return startTime;
     }
 
     /**
-     * `Animation`'s start time.
+     * Animation's start time.
      */
     public void setStartTime(Double startTime) {
         this.startTime = startTime;
     }
 
     /**
-     * `Animation`'s current time.
+     * Animation's current time.
      */
     public Double getCurrentTime() {
         return currentTime;
     }
 
     /**
-     * `Animation`'s current time.
+     * Animation's current time.
      */
     public void setCurrentTime(Double currentTime) {
         this.currentTime = currentTime;
     }
 
     /**
-     * Animation type of `Animation`.
+     * Animation type of Animation.
      */
     public AnimationType getType() {
         return type;
     }
 
     /**
-     * Animation type of `Animation`.
+     * Animation type of Animation.
      */
     public void setType(AnimationType type) {
         this.type = type;
     }
 
     /**
-     * `Animation`'s source animation node.
+     * Animation's source animation node.
      */
     public AnimationEffect getSource() {
         return source;
     }
 
     /**
-     * `Animation`'s source animation node.
+     * Animation's source animation node.
      */
     public void setSource(AnimationEffect source) {
         this.source = source;
     }
 
     /**
-     * A unique ID for `Animation` representing the sources that triggered this CSS
+     * A unique ID for Animation representing the sources that triggered this CSS
      * animation/transition.
      */
     public String getCssId() {
@@ -182,7 +179,7 @@ public class Animation {
     }
 
     /**
-     * A unique ID for `Animation` representing the sources that triggered this CSS
+     * A unique ID for Animation representing the sources that triggered this CSS
      * animation/transition.
      */
     public void setCssId(String cssId) {

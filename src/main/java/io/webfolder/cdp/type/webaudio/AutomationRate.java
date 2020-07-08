@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.webaudio;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Enum of AudioParam::AutomationRate from the spec
  */
-@UseStag
 public enum AutomationRate {
     @SerializedName("a-rate")
     ARate("a-rate"),

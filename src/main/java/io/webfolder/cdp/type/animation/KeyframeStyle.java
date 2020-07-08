@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.animation;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Keyframe Style
  */
-@UseStag
 public class KeyframeStyle {
     private String offset;
 
@@ -44,14 +41,14 @@ public class KeyframeStyle {
     }
 
     /**
-     * `AnimationEffect`'s timing function.
+     * AnimationEffect's timing function.
      */
     public String getEasing() {
         return easing;
     }
 
     /**
-     * `AnimationEffect`'s timing function.
+     * AnimationEffect's timing function.
      */
     public void setEasing(String easing) {
         this.easing = easing;

@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.headlessexperimental;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class BeginFrameResult {
     private Boolean hasDamage;
 
@@ -32,13 +29,5 @@ public class BeginFrameResult {
 
     public String getScreenshotData() {
         return screenshotData;
-    }
-
-    public void setHasDamage(Boolean hasDamage) {
-        this.hasDamage = hasDamage;
-    }
-
-    public void setScreenshotData(String screenshotData) {
-        this.screenshotData = screenshotData;
     }
 }

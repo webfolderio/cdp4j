@@ -26,57 +26,57 @@ import java.util.List;
 
 public class DOMSnapshotImpl implements DOMSnapshot {
 
-    private static final Object[] EMPTY_VALUES = new Object[]{};
-    private static final String[] EMPTY_ARGS = new String[]{};
-    private final SessionInvocationHandler handler;
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
 
-    public DOMSnapshotImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public DOMSnapshotImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("DOMSnapshot", "disable", "DOMSnapshot.disable", null, void.class, null, true, false, true,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void disable() {
+		handler.invoke("DOMSnapshot", "disable", "DOMSnapshot.disable", null, void.class, null, true, false, true,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("DOMSnapshot", "enable", "DOMSnapshot.enable", null, void.class, null, true, true, false,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void enable() {
+		handler.invoke("DOMSnapshot", "enable", "DOMSnapshot.enable", null, void.class, null, true, true, false,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public GetSnapshotResult getSnapshot(List<String> computedStyleWhitelist, Boolean includeEventListeners,
-            Boolean includePaintOrder, Boolean includeUserAgentShadowTree) {
-        return (GetSnapshotResult) handler.invoke("DOMSnapshot", "getSnapshot", "DOMSnapshot.getSnapshot", null,
-                GetSnapshotResult.class, null, false, false, false,
-                new String[]{"computedStyleWhitelist", "includeEventListeners", "includePaintOrder",
-                        "includeUserAgentShadowTree"},
-                new Object[]{computedStyleWhitelist, includeEventListeners, includePaintOrder,
-                        includeUserAgentShadowTree});
-    }
+	@Override
+	public GetSnapshotResult getSnapshot(List<String> computedStyleWhitelist, Boolean includeEventListeners,
+			Boolean includePaintOrder, Boolean includeUserAgentShadowTree) {
+		return (GetSnapshotResult) handler.invoke("DOMSnapshot", "getSnapshot", "DOMSnapshot.getSnapshot", null,
+				GetSnapshotResult.class, null, false, false, false,
+				new String[]{"computedStyleWhitelist", "includeEventListeners", "includePaintOrder",
+						"includeUserAgentShadowTree"},
+				new Object[]{computedStyleWhitelist, includeEventListeners, includePaintOrder,
+						includeUserAgentShadowTree});
+	}
 
-    @Override
-    public CaptureSnapshotResult captureSnapshot(List<String> computedStyles, Boolean includePaintOrder,
-            Boolean includeDOMRects) {
-        return (CaptureSnapshotResult) handler.invoke("DOMSnapshot", "captureSnapshot", "DOMSnapshot.captureSnapshot",
-                null, CaptureSnapshotResult.class, null, false, false, false,
-                new String[]{"computedStyles", "includePaintOrder", "includeDOMRects"},
-                new Object[]{computedStyles, includePaintOrder, includeDOMRects});
-    }
+	@Override
+	public CaptureSnapshotResult captureSnapshot(List<String> computedStyles, Boolean includePaintOrder,
+			Boolean includeDOMRects) {
+		return (CaptureSnapshotResult) handler.invoke("DOMSnapshot", "captureSnapshot", "DOMSnapshot.captureSnapshot",
+				null, CaptureSnapshotResult.class, null, false, false, false,
+				new String[]{"computedStyles", "includePaintOrder", "includeDOMRects"},
+				new Object[]{computedStyles, includePaintOrder, includeDOMRects});
+	}
 
-    @Override
-    public GetSnapshotResult getSnapshot(List<String> computedStyleWhitelist) {
-        return (GetSnapshotResult) handler.invoke("DOMSnapshot", "getSnapshot", "DOMSnapshot.getSnapshot", null,
-                GetSnapshotResult.class, null, false, false, false, new String[]{"computedStyleWhitelist"},
-                new Object[]{computedStyleWhitelist});
-    }
+	@Override
+	public GetSnapshotResult getSnapshot(List<String> computedStyleWhitelist) {
+		return (GetSnapshotResult) handler.invoke("DOMSnapshot", "getSnapshot", "DOMSnapshot.getSnapshot", null,
+				GetSnapshotResult.class, null, false, false, false, new String[]{"computedStyleWhitelist"},
+				new Object[]{computedStyleWhitelist});
+	}
 
-    @Override
-    public CaptureSnapshotResult captureSnapshot(List<String> computedStyles) {
-        return (CaptureSnapshotResult) handler.invoke("DOMSnapshot", "captureSnapshot", "DOMSnapshot.captureSnapshot",
-                null, CaptureSnapshotResult.class, null, false, false, false, new String[]{"computedStyles"},
-                new Object[]{computedStyles});
-    }
+	@Override
+	public CaptureSnapshotResult captureSnapshot(List<String> computedStyles) {
+		return (CaptureSnapshotResult) handler.invoke("DOMSnapshot", "captureSnapshot", "DOMSnapshot.captureSnapshot",
+				null, CaptureSnapshotResult.class, null, false, false, false, new String[]{"computedStyles"},
+				new Object[]{computedStyles});
+	}
 }

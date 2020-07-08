@@ -48,12 +48,12 @@ public interface Keyboard extends Constant {
                     KeyDown, null, null, c,
                     null, null, null, null,
                     null, null, null, null,
-                    null, null);
+                    null, null, null);
             input.dispatchKeyEvent(
                     KeyUp, null, null, c,
                     null, null, null, null,
                     null, null, null, null,
-                    null, null);
+                    null, null, null);
         }
         return getThis();
     }
@@ -68,10 +68,10 @@ public interface Keyboard extends Constant {
         Input input = getThis().getCommand().getInput();
         input.dispatchKeyEvent(KeyDown, null, null, null,
                                 null, null, null, "Tab",
-                                TAB, TAB, null, null, null, null);
+                                TAB, TAB, null, null, null, null, null);
         input.dispatchKeyEvent(KeyUp, null, null, null,
                                 null, null, null, "Tab",
-                                TAB, TAB, null, null, null, null);
+                                TAB, TAB, null, null, null, null, null);
         return getThis();
     }
 
@@ -85,10 +85,10 @@ public interface Keyboard extends Constant {
         Input input = getThis().getCommand().getInput();
         input.dispatchKeyEvent(KeyDown, null, null, "\r",
                                 null, null, null, "Enter",
-                                ENTER, ENTER, null, null, null, null);
+                                ENTER, ENTER, null, null, null, null, null);
         input.dispatchKeyEvent(KeyUp, null, null, null,
                                 null, null, null, "Enter",
-                                ENTER, ENTER, null, null, null, null);
+                                ENTER, ENTER, null, null, null, null, null);
         return getThis();
     }
 
@@ -164,10 +164,10 @@ public interface Keyboard extends Constant {
         Input input = getThis().getCommand().getInput();
         input.dispatchKeyEvent(KeyDown, null, null, null,
                                 null, null, null, null,
-                                keyCode, keyCode, null, null, null, null);
+                                keyCode, keyCode, null, null, null, null, null);
         input.dispatchKeyEvent(KeyUp, null, null, null,
                                 null, null, null, null,
-                                keyCode, keyCode, null, null, null, null);
+                                keyCode, keyCode, null, null, null, null, null);
         return getThis();
     }
 

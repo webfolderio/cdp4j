@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * CSS property declaration data
  */
-@UseStag
 public class CSSProperty {
     private String name;
 
@@ -70,28 +67,28 @@ public class CSSProperty {
     }
 
     /**
-     * Whether the property has "!important" annotation (implies `false` if absent).
+     * Whether the property has "!important" annotation (implies false if absent).
      */
     public Boolean isImportant() {
         return important;
     }
 
     /**
-     * Whether the property has "!important" annotation (implies `false` if absent).
+     * Whether the property has "!important" annotation (implies false if absent).
      */
     public void setImportant(Boolean important) {
         this.important = important;
     }
 
     /**
-     * Whether the property is implicit (implies `false` if absent).
+     * Whether the property is implicit (implies false if absent).
      */
     public Boolean isImplicit() {
         return implicit;
     }
 
     /**
-     * Whether the property is implicit (implies `false` if absent).
+     * Whether the property is implicit (implies false if absent).
      */
     public void setImplicit(Boolean implicit) {
         this.implicit = implicit;
@@ -112,14 +109,14 @@ public class CSSProperty {
     }
 
     /**
-     * Whether the property is understood by the browser (implies `true` if absent).
+     * Whether the property is understood by the browser (implies true if absent).
      */
     public Boolean isParsedOk() {
         return parsedOk;
     }
 
     /**
-     * Whether the property is understood by the browser (implies `true` if absent).
+     * Whether the property is understood by the browser (implies true if absent).
      */
     public void setParsedOk(Boolean parsedOk) {
         this.parsedOk = parsedOk;

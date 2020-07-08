@@ -35,7 +35,7 @@ public interface HeadlessExperimental {
      * screenshot from the resulting frame. Requires that the target was created with enabled
      * BeginFrameControl. Designed for use with --run-all-compositor-stages-before-draw, see also
      * https://goo.gl/3zHXhB for more background.
-     * 
+     *
      * @param frameTimeTicks Timestamp of this BeginFrame in Renderer TimeTicks (milliseconds of uptime). If not set,
      * the current time will be used.
      * @param interval The interval between BeginFrames that is reported to the compositor, in milliseconds.
@@ -46,7 +46,7 @@ public interface HeadlessExperimental {
      * @param screenshot If set, a screenshot of the frame will be captured and returned in the response. Otherwise,
      * no screenshot will be captured. Note that capturing a screenshot can fail, for example,
      * during renderer initialization. In such a case, no screenshot data will be returned.
-     * 
+     *
      * @return BeginFrameResult
      */
     BeginFrameResult beginFrame(@Optional Double frameTimeTicks, @Optional Double interval,
@@ -67,7 +67,7 @@ public interface HeadlessExperimental {
      * screenshot from the resulting frame. Requires that the target was created with enabled
      * BeginFrameControl. Designed for use with --run-all-compositor-stages-before-draw, see also
      * https://goo.gl/3zHXhB for more background.
-     * 
+     *
      * @return BeginFrameResult
      */
     BeginFrameResult beginFrame();

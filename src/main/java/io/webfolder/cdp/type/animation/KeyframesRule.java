@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.animation;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Keyframes Rule
  */
-@UseStag
 public class KeyframesRule {
     private String name;
 

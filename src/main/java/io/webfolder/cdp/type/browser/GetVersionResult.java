@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.browser;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetVersionResult {
     private String protocolVersion;
 
@@ -50,25 +47,5 @@ public class GetVersionResult {
 
     public String getJsVersion() {
         return jsVersion;
-    }
-
-    public void setProtocolVersion(String protocolVersion) {
-        this.protocolVersion = protocolVersion;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public void setRevision(String revision) {
-        this.revision = revision;
-    }
-
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
-    }
-
-    public void setJsVersion(String jsVersion) {
-        this.jsVersion = jsVersion;
     }
 }

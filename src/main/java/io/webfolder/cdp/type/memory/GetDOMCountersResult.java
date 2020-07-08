@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.memory;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetDOMCountersResult {
     private Integer documents;
 
@@ -38,17 +35,5 @@ public class GetDOMCountersResult {
 
     public Integer getJsEventListeners() {
         return jsEventListeners;
-    }
-
-    public void setDocuments(Integer documents) {
-        this.documents = documents;
-    }
-
-    public void setNodes(Integer nodes) {
-        this.nodes = nodes;
-    }
-
-    public void setJsEventListeners(Integer jsEventListeners) {
-        this.jsEventListeners = jsEventListeners;
     }
 }

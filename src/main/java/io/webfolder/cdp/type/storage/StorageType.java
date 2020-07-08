@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.storage;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Enum of possible storage types
  */
-@UseStag
 public enum StorageType {
     @SerializedName("appcache")
     Appcache("appcache"),

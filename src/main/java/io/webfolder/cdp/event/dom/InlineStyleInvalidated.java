@@ -20,19 +20,16 @@ package io.webfolder.cdp.event.dom;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
- * Fired when `Element`'s inline style is modified via a CSS property modification
+ * Fired when Element's inline style is modified via a CSS property modification
  */
 @Experimental
 @Domain("DOM")
 @EventName("inlineStyleInvalidated")
-@UseStag
 public class InlineStyleInvalidated {
     private List<Integer> nodeIds;
 

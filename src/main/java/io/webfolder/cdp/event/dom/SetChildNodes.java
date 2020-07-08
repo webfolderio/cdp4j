@@ -20,8 +20,6 @@ package io.webfolder.cdp.event.dom;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.dom.Node;
@@ -33,7 +31,6 @@ import io.webfolder.cdp.type.dom.Node;
  */
 @Domain("DOM")
 @EventName("setChildNodes")
-@UseStag
 public class SetChildNodes {
     private Integer parentId;
 

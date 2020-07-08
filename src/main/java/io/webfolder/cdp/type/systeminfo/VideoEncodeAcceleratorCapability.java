@@ -18,13 +18,10 @@
  */
 package io.webfolder.cdp.type.systeminfo;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Describes a supported video encoding profile with its associated maximum
  * resolution and maximum framerate
  */
-@UseStag
 public class VideoEncodeAcceleratorCapability {
     private String profile;
 

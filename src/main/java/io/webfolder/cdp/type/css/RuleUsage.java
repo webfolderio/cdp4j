@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * CSS coverage information
  */
-@UseStag
 public class RuleUsage {
     private String styleSheetId;
 

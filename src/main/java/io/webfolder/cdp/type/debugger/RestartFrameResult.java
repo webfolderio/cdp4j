@@ -18,14 +18,10 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import java.util.List;
-
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.runtime.StackTrace;
 import io.webfolder.cdp.type.runtime.StackTraceId;
+import java.util.List;
 
-@UseStag
 public class RestartFrameResult {
     private List<CallFrame> callFrames;
 
@@ -43,17 +39,5 @@ public class RestartFrameResult {
 
     public StackTraceId getAsyncStackTraceId() {
         return asyncStackTraceId;
-    }
-
-    public void setCallFrames(List<CallFrame> callFrames) {
-        this.callFrames = callFrames;
-    }
-
-    public void setAsyncStackTrace(StackTrace asyncStackTrace) {
-        this.asyncStackTrace = asyncStackTrace;
-    }
-
-    public void setAsyncStackTraceId(StackTraceId asyncStackTraceId) {
-        this.asyncStackTraceId = asyncStackTraceId;
     }
 }

@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * The reason why request was blocked
  */
-@UseStag
 public enum BlockedReason {
     @SerializedName("other")
     Other("other"),
@@ -48,7 +46,22 @@ public enum BlockedReason {
     ContentType("content-type"),
 
     @SerializedName("collapsed-by-client")
-    CollapsedByClient("collapsed-by-client");
+    CollapsedByClient("collapsed-by-client"),
+
+    @SerializedName("coep-frame-resource-needs-coep-header")
+    CoepFrameResourceNeedsCoepHeader("coep-frame-resource-needs-coep-header"),
+
+    @SerializedName("coop-sandboxed-iframe-cannot-navigate-to-coop-page")
+    CoopSandboxedIframeCannotNavigateToCoopPage("coop-sandboxed-iframe-cannot-navigate-to-coop-page"),
+
+    @SerializedName("corp-not-same-origin")
+    CorpNotSameOrigin("corp-not-same-origin"),
+
+    @SerializedName("corp-not-same-origin-after-defaulted-to-same-origin-by-coep")
+    CorpNotSameOriginAfterDefaultedToSameOriginByCoep("corp-not-same-origin-after-defaulted-to-same-origin-by-coep"),
+
+    @SerializedName("corp-not-same-site")
+    CorpNotSameSite("corp-not-same-site");
 
     public final String value;
 

@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.debugger;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.constant.ScopeType;
 import io.webfolder.cdp.type.runtime.RemoteObject;
 
 /**
  * Scope description
  */
-@UseStag
 public class Scope {
     private ScopeType type;
 
@@ -53,7 +50,7 @@ public class Scope {
     }
 
     /**
-     * Object representing the scope. For `global` and `with` scopes it represents the actual
+     * Object representing the scope. For global and with scopes it represents the actual
      * object; for the rest of the scopes, it is artificial transient object enumerating scope
      * variables as its properties.
      */
@@ -62,7 +59,7 @@ public class Scope {
     }
 
     /**
-     * Object representing the scope. For `global` and `with` scopes it represents the actual
+     * Object representing the scope. For global and with scopes it represents the actual
      * object; for the rest of the scopes, it is artificial transient object enumerating scope
      * variables as its properties.
      */

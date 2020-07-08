@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.runtime;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
@@ -28,7 +26,6 @@ import io.webfolder.cdp.annotation.EventName;
  */
 @Domain("Runtime")
 @EventName("exceptionRevoked")
-@UseStag
 public class ExceptionRevoked {
     private String reason;
 
@@ -49,14 +46,14 @@ public class ExceptionRevoked {
     }
 
     /**
-     * The id of revoked exception, as reported in `exceptionThrown`.
+     * The id of revoked exception, as reported in exceptionThrown.
      */
     public Integer getExceptionId() {
         return exceptionId;
     }
 
     /**
-     * The id of revoked exception, as reported in `exceptionThrown`.
+     * The id of revoked exception, as reported in exceptionThrown.
      */
     public void setExceptionId(Integer exceptionId) {
         this.exceptionId = exceptionId;

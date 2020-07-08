@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.profiler;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Coverage data for a JavaScript function
  */
-@UseStag
 public class FunctionCoverage {
     private String functionName;
 
@@ -64,14 +61,14 @@ public class FunctionCoverage {
     /**
      * Whether coverage data for this function has block granularity.
      */
-    public void setIsBlockCoverage(Boolean isBlockCoverage) {
-        this.isBlockCoverage = isBlockCoverage;
+    public Boolean isIsBlockCoverage() {
+        return isBlockCoverage;
     }
 
     /**
      * Whether coverage data for this function has block granularity.
      */
-    public Boolean getIsBlockCoverage() {
-        return isBlockCoverage;
+    public void setIsBlockCoverage(Boolean isBlockCoverage) {
+        this.isBlockCoverage = isBlockCoverage;
     }
 }

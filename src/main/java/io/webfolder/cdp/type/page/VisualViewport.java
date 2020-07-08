@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Visual viewport position, dimensions, and scale
  */
-@UseStag
 public class VisualViewport {
     private Double offsetX;
 

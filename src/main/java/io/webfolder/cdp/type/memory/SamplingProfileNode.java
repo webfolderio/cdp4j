@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.memory;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Heap profile sample
  */
-@UseStag
 public class SamplingProfileNode {
     private Double size;
 

@@ -35,13 +35,13 @@ import java.util.List;
 public interface DOMDebugger {
     /**
      * Returns event listeners of the given object.
-     * 
+     *
      * @param objectId Identifier of the object to return listeners for.
      * @param depth The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the
      * entire subtree or provide an integer larger than 0.
      * @param pierce Whether or not iframes and shadow roots should be traversed when returning the subtree
      * (default is false). Reports listeners for all contexts if pierce is enabled.
-     * 
+     *
      * @return Array of relevant listeners.
      */
     @Returns("listeners")
@@ -49,8 +49,8 @@ public interface DOMDebugger {
             @Optional Boolean pierce);
 
     /**
-     * Removes DOM breakpoint that was set using `setDOMBreakpoint`.
-     * 
+     * Removes DOM breakpoint that was set using setDOMBreakpoint.
+     *
      * @param nodeId Identifier of the node to remove breakpoint from.
      * @param type Type of the breakpoint to remove.
      */
@@ -58,7 +58,7 @@ public interface DOMDebugger {
 
     /**
      * Removes breakpoint on particular DOM event.
-     * 
+     *
      * @param eventName Event name.
      * @param targetName EventTarget interface name.
      */
@@ -66,7 +66,7 @@ public interface DOMDebugger {
 
     /**
      * Removes breakpoint on particular native event.
-     * 
+     *
      * @param eventName Instrumentation name to stop on.
      */
     @Experimental
@@ -74,14 +74,14 @@ public interface DOMDebugger {
 
     /**
      * Removes breakpoint from XMLHttpRequest.
-     * 
+     *
      * @param url Resource URL substring.
      */
     void removeXHRBreakpoint(String url);
 
     /**
      * Sets breakpoint on particular operation with DOM.
-     * 
+     *
      * @param nodeId Identifier of the node to set breakpoint on.
      * @param type Type of the operation to stop upon.
      */
@@ -89,16 +89,16 @@ public interface DOMDebugger {
 
     /**
      * Sets breakpoint on particular DOM event.
-     * 
+     *
      * @param eventName DOM Event name to stop on (any DOM event will do).
-     * @param targetName EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on any
+     * @param targetName EventTarget interface name to stop on. If equal to "*" or not provided, will stop on any
      * EventTarget.
      */
     void setEventListenerBreakpoint(String eventName, @Experimental @Optional String targetName);
 
     /**
      * Sets breakpoint on particular native event.
-     * 
+     *
      * @param eventName Instrumentation name to stop on.
      */
     @Experimental
@@ -106,16 +106,16 @@ public interface DOMDebugger {
 
     /**
      * Sets breakpoint on XMLHttpRequest.
-     * 
+     *
      * @param url Resource URL substring. All XHRs having this substring in the URL will get stopped upon.
      */
     void setXHRBreakpoint(String url);
 
     /**
      * Returns event listeners of the given object.
-     * 
+     *
      * @param objectId Identifier of the object to return listeners for.
-     * 
+     *
      * @return Array of relevant listeners.
      */
     @Returns("listeners")
@@ -123,14 +123,14 @@ public interface DOMDebugger {
 
     /**
      * Removes breakpoint on particular DOM event.
-     * 
+     *
      * @param eventName Event name.
      */
     void removeEventListenerBreakpoint(String eventName);
 
     /**
      * Sets breakpoint on particular DOM event.
-     * 
+     *
      * @param eventName DOM Event name to stop on (any DOM event will do).
      */
     void setEventListenerBreakpoint(String eventName);

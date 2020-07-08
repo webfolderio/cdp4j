@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.security;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Details about the security state of the page certificate
  */
 @Experimental
-@UseStag
 public class CertificateSecurityState {
     private String protocol;
 

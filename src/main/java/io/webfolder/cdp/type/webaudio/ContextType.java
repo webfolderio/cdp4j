@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.webaudio;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Enum of BaseAudioContext types
  */
-@UseStag
 public enum ContextType {
     @SerializedName("realtime")
     Realtime("realtime"),

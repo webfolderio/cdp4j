@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Object private field descriptor
  */
 @Experimental
-@UseStag
 public class PrivatePropertyDescriptor {
     private String name;
 
@@ -66,7 +63,7 @@ public class PrivatePropertyDescriptor {
 
     /**
      * A function which serves as a getter for the private property,
-     * or `undefined` if there is no getter (accessor descriptors only).
+     * or undefined if there is no getter (accessor descriptors only).
      */
     public RemoteObject getGet() {
         return get;
@@ -74,7 +71,7 @@ public class PrivatePropertyDescriptor {
 
     /**
      * A function which serves as a getter for the private property,
-     * or `undefined` if there is no getter (accessor descriptors only).
+     * or undefined if there is no getter (accessor descriptors only).
      */
     public void setGet(RemoteObject get) {
         this.get = get;
@@ -82,7 +79,7 @@ public class PrivatePropertyDescriptor {
 
     /**
      * A function which serves as a setter for the private property,
-     * or `undefined` if there is no setter (accessor descriptors only).
+     * or undefined if there is no setter (accessor descriptors only).
      */
     public RemoteObject getSet() {
         return set;
@@ -90,7 +87,7 @@ public class PrivatePropertyDescriptor {
 
     /**
      * A function which serves as a setter for the private property,
-     * or `undefined` if there is no setter (accessor descriptors only).
+     * or undefined if there is no setter (accessor descriptors only).
      */
     public void setSet(RemoteObject set) {
         this.set = set;

@@ -19,9 +19,7 @@
 package io.webfolder.cdp.type.page;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
-@UseStag
 public enum ClientNavigationReason {
     @SerializedName("formSubmissionGet")
     FormSubmissionGet("formSubmissionGet"),
@@ -42,7 +40,10 @@ public enum ClientNavigationReason {
     PageBlockInterstitial("pageBlockInterstitial"),
 
     @SerializedName("reload")
-    Reload("reload");
+    Reload("reload"),
+
+    @SerializedName("anchorClick")
+    AnchorClick("anchorClick");
 
     public final String value;
 

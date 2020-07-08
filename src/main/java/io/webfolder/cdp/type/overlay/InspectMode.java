@@ -19,9 +19,7 @@
 package io.webfolder.cdp.type.overlay;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
-@UseStag
 public enum InspectMode {
     @SerializedName("searchForNode")
     SearchForNode("searchForNode"),

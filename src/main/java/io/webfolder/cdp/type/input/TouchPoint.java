@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.input;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class TouchPoint {
     private Double x;
 

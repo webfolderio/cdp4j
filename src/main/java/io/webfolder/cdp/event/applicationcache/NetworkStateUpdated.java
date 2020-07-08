@@ -18,18 +18,15 @@
  */
 package io.webfolder.cdp.event.applicationcache;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 @Domain("ApplicationCache")
 @EventName("networkStateUpdated")
-@UseStag
 public class NetworkStateUpdated {
     private Boolean isNowOnline;
 
-    public Boolean getIsNowOnline() {
+    public Boolean isIsNowOnline() {
         return isNowOnline;
     }
 

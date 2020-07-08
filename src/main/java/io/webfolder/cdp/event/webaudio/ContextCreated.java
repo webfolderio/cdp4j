@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.webaudio;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.webaudio.BaseAudioContext;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.webaudio.BaseAudioContext;
  */
 @Domain("WebAudio")
 @EventName("contextCreated")
-@UseStag
 public class ContextCreated {
     private BaseAudioContext context;
 

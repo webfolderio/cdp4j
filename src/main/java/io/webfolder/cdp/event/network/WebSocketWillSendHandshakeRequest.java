@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.network;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.network.WebSocketRequest;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.network.WebSocketRequest;
  */
 @Domain("Network")
 @EventName("webSocketWillSendHandshakeRequest")
-@UseStag
 public class WebSocketWillSendHandshakeRequest {
     private String requestId;
 

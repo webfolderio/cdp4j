@@ -18,11 +18,8 @@
  */
 package io.webfolder.cdp.event.network;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.vimeo.stag.UseStag;
 
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
@@ -39,13 +36,12 @@ import io.webfolder.cdp.type.network.BlockedCookieWithReason;
 @Experimental
 @Domain("Network")
 @EventName("requestWillBeSentExtraInfo")
-@UseStag
 public class RequestWillBeSentExtraInfo {
     private String requestId;
 
-    private List<BlockedCookieWithReason> blockedCookies;
+    private List<BlockedCookieWithReason> associatedCookies;
 
-    private Map<String, Object> headers = new HashMap<>();
+    private Map<String, Object> headers;
 
     /**
      * Request identifier. Used to match this information to an existing requestWillBeSent event.
@@ -62,19 +58,19 @@ public class RequestWillBeSentExtraInfo {
     }
 
     /**
-     * A list of cookies which will not be sent with this request along with corresponding reasons
-     * for blocking.
+     * A list of cookies potentially associated to the requested URL. This includes both cookies sent with
+     * the request and the ones not sent; the latter are distinguished by having blockedReason field set.
      */
-    public List<BlockedCookieWithReason> getBlockedCookies() {
-        return blockedCookies;
+    public List<BlockedCookieWithReason> getAssociatedCookies() {
+        return associatedCookies;
     }
 
     /**
-     * A list of cookies which will not be sent with this request along with corresponding reasons
-     * for blocking.
+     * A list of cookies potentially associated to the requested URL. This includes both cookies sent with
+     * the request and the ones not sent; the latter are distinguished by having blockedReason field set.
      */
-    public void setBlockedCookies(List<BlockedCookieWithReason> blockedCookies) {
-        this.blockedCookies = blockedCookies;
+    public void setAssociatedCookies(List<BlockedCookieWithReason> associatedCookies) {
+        this.associatedCookies = associatedCookies;
     }
 
     /**

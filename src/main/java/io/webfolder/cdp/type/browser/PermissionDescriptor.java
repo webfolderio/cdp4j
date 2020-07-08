@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.type.browser;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
@@ -29,7 +27,6 @@ import io.webfolder.cdp.annotation.Experimental;
  * io/permissions/#dictdef-permissiondescriptor
  */
 @Experimental
-@UseStag
 public class PermissionDescriptor {
     private String name;
 

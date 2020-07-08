@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.cachestorage;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class Header {
     private String name;
 

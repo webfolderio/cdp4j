@@ -16,37 +16,28 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.event.emulation;
+package io.webfolder.cdp.type.audits;
 
-import com.vimeo.stag.UseStag;
+import com.google.gson.annotations.SerializedName;
 
-import io.webfolder.cdp.annotation.Domain;
-import io.webfolder.cdp.annotation.EventName;
-import io.webfolder.cdp.annotation.Experimental;
+public enum HeavyAdReason {
+    @SerializedName("NetworkTotalLimit")
+    NetworkTotalLimit("NetworkTotalLimit"),
 
-/**
- * Notification sent after the virtual time has advanced
- */
-@Experimental
-@Domain("Emulation")
-@EventName("virtualTimeAdvanced")
-@UseStag
-public class VirtualTimeAdvanced {
-    private Double virtualTimeElapsed;
+    @SerializedName("CpuTotalLimit")
+    CpuTotalLimit("CpuTotalLimit"),
 
-    /**
-     * The amount of virtual time that has elapsed in milliseconds since virtual time was first
-     * enabled.
-     */
-    public Double getVirtualTimeElapsed() {
-        return virtualTimeElapsed;
+    @SerializedName("CpuPeakLimit")
+    CpuPeakLimit("CpuPeakLimit");
+
+    public final String value;
+
+    HeavyAdReason(String value) {
+        this.value = value;
     }
 
-    /**
-     * The amount of virtual time that has elapsed in milliseconds since virtual time was first
-     * enabled.
-     */
-    public void setVirtualTimeElapsed(Double virtualTimeElapsed) {
-        this.virtualTimeElapsed = virtualTimeElapsed;
+    @Override
+    public String toString() {
+        return value;
     }
 }

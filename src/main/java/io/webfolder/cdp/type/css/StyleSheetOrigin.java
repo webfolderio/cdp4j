@@ -19,7 +19,6 @@
 package io.webfolder.cdp.type.css;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Stylesheet type: "injected" for stylesheets injected via extension, "user-agent" for user-agent
@@ -28,7 +27,6 @@ import com.vimeo.stag.UseStag;
  * those holding the "via
  * inspector" rules), "regular" for regular stylesheets
  */
-@UseStag
 public enum StyleSheetOrigin {
     @SerializedName("injected")
     Injected("injected"),

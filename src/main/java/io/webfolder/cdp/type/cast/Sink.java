@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.cast;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class Sink {
     private String name;
 

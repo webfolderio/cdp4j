@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.event.page;
 
-import java.util.List;
-
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
+import java.util.List;
 
 /**
  * Fired when a new window is going to be opened, via window
@@ -32,7 +29,6 @@ import io.webfolder.cdp.annotation.EventName;
  */
 @Domain("Page")
 @EventName("windowOpen")
-@UseStag
 public class WindowOpen {
     private String url;
 

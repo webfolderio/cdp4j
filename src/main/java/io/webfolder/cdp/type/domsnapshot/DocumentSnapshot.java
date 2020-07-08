@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.domsnapshot;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Document snapshot
  */
-@UseStag
 public class DocumentSnapshot {
     private Integer documentURL;
 
@@ -56,14 +53,14 @@ public class DocumentSnapshot {
     private Double contentHeight;
 
     /**
-     * Document URL that `Document` or `FrameOwner` node points to.
+     * Document URL that Document or FrameOwner node points to.
      */
     public Integer getDocumentURL() {
         return documentURL;
     }
 
     /**
-     * Document URL that `Document` or `FrameOwner` node points to.
+     * Document URL that Document or FrameOwner node points to.
      */
     public void setDocumentURL(Integer documentURL) {
         this.documentURL = documentURL;
@@ -84,14 +81,14 @@ public class DocumentSnapshot {
     }
 
     /**
-     * Base URL that `Document` or `FrameOwner` node uses for URL completion.
+     * Base URL that Document or FrameOwner node uses for URL completion.
      */
     public Integer getBaseURL() {
         return baseURL;
     }
 
     /**
-     * Base URL that `Document` or `FrameOwner` node uses for URL completion.
+     * Base URL that Document or FrameOwner node uses for URL completion.
      */
     public void setBaseURL(Integer baseURL) {
         this.baseURL = baseURL;
@@ -126,28 +123,28 @@ public class DocumentSnapshot {
     }
 
     /**
-     * `DocumentType` node's publicId.
+     * DocumentType node's publicId.
      */
     public Integer getPublicId() {
         return publicId;
     }
 
     /**
-     * `DocumentType` node's publicId.
+     * DocumentType node's publicId.
      */
     public void setPublicId(Integer publicId) {
         this.publicId = publicId;
     }
 
     /**
-     * `DocumentType` node's systemId.
+     * DocumentType node's systemId.
      */
     public Integer getSystemId() {
         return systemId;
     }
 
     /**
-     * `DocumentType` node's systemId.
+     * DocumentType node's systemId.
      */
     public void setSystemId(Integer systemId) {
         this.systemId = systemId;

@@ -19,14 +19,12 @@
 package io.webfolder.cdp.type.security;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * The action to take when a certificate error occurs
  * continue will continue processing the
  * request and cancel will cancel the request
  */
-@UseStag
 public enum CertificateErrorAction {
     @SerializedName("continue")
     Continue("continue"),

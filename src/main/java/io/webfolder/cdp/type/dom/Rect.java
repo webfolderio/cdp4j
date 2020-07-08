@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.dom;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Rectangle
  */
-@UseStag
 public class Rect {
     private Double x;
 

@@ -18,17 +18,14 @@
  */
 package io.webfolder.cdp.event.dom;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
- * Mirrors `DOMNodeRemoved` event
+ * Mirrors DOMNodeRemoved event
  */
 @Domain("DOM")
 @EventName("childNodeRemoved")
-@UseStag
 public class ChildNodeRemoved {
     private Integer parentNodeId;
 

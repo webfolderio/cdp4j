@@ -16,42 +16,22 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.type.constant;
+package io.webfolder.cdp.event.audits;
 
-import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
+import io.webfolder.cdp.annotation.Domain;
+import io.webfolder.cdp.annotation.EventName;
+import io.webfolder.cdp.type.audits.InspectorIssue;
 
-@UseStag
-public enum FrameNavigationReason {
-    @SerializedName("formSubmissionGet")
-    FormSubmissionGet("formSubmissionGet"),
+@Domain("Audits")
+@EventName("issueAdded")
+public class IssueAdded {
+    private InspectorIssue issue;
 
-    @SerializedName("formSubmissionPost")
-    FormSubmissionPost("formSubmissionPost"),
-
-    @SerializedName("httpHeaderRefresh")
-    HttpHeaderRefresh("httpHeaderRefresh"),
-
-    @SerializedName("scriptInitiated")
-    ScriptInitiated("scriptInitiated"),
-
-    @SerializedName("metaTagRefresh")
-    MetaTagRefresh("metaTagRefresh"),
-
-    @SerializedName("pageBlockInterstitial")
-    PageBlockInterstitial("pageBlockInterstitial"),
-
-    @SerializedName("reload")
-    Reload("reload");
-
-    public final String value;
-
-    FrameNavigationReason(String value) {
-        this.value = value;
+    public InspectorIssue getIssue() {
+        return issue;
     }
 
-    @Override
-    public String toString() {
-        return value;
+    public void setIssue(InspectorIssue issue) {
+        this.issue = issue;
     }
 }

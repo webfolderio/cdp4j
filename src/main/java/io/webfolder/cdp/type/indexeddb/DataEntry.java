@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.type.indexeddb;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.runtime.RemoteObject;
 
 /**
  * Data entry
  */
-@UseStag
 public class DataEntry {
     private RemoteObject key;
 

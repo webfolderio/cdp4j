@@ -20,9 +20,6 @@ package io.webfolder.cdp.type.backgroundservice;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class BackgroundServiceEvent {
     private Double timestamp;
 

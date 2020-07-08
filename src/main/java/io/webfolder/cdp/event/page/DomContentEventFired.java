@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.event.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 @Domain("Page")
 @EventName("domContentEventFired")
-@UseStag
 public class DomContentEventFired {
     private Double timestamp;
 

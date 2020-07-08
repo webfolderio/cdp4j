@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.heapprofiler;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.runtime.CallFrame;
 
 /**
  * Sampling Heap Profile node
  * Holds callsite information, allocation statistics and child nodes
  */
-@UseStag
 public class SamplingHeapProfileNode {
     private CallFrame callFrame;
 

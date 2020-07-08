@@ -26,6 +26,7 @@ import io.webfolder.cdp.type.profiler.CounterInfo;
 import io.webfolder.cdp.type.profiler.Profile;
 import io.webfolder.cdp.type.profiler.ScriptCoverage;
 import io.webfolder.cdp.type.profiler.ScriptTypeProfile;
+import io.webfolder.cdp.type.profiler.TakePreciseCoverageResult;
 import java.util.List;
 
 @Domain("Profiler")
@@ -37,7 +38,7 @@ public interface Profiler {
     /**
      * Collect coverage data for the current isolate. The coverage data may be incomplete due to
      * garbage collection.
-     * 
+     *
      * @return Coverage data for the current isolate.
      */
     @Returns("result")
@@ -45,7 +46,7 @@ public interface Profiler {
 
     /**
      * Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
-     * 
+     *
      * @param interval New sampling interval in microseconds.
      */
     void setSamplingInterval(Integer interval);
@@ -56,11 +57,16 @@ public interface Profiler {
      * Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code
      * coverage may be incomplete. Enabling prevents running optimized code and resets execution
      * counters.
-     * 
+     *
      * @param callCount Collect accurate call counts beyond simple 'covered' or 'not covered'.
      * @param detailed Collect block-based coverage.
+     * @param allowTriggeredUpdates Allow the backend to send updates on its own initiative
+     *
+     * @return Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
      */
-    void startPreciseCoverage(@Optional Boolean callCount, @Optional Boolean detailed);
+    @Returns("timestamp")
+    Double startPreciseCoverage(@Optional Boolean callCount, @Optional Boolean detailed,
+            @Optional Boolean allowTriggeredUpdates);
 
     /**
      * Enable type profile.
@@ -86,15 +92,14 @@ public interface Profiler {
     /**
      * Collect coverage data for the current isolate, and resets execution counters. Precise code
      * coverage needs to have started.
-     * 
-     * @return Coverage data for the current isolate.
+     *
+     * @return TakePreciseCoverageResult
      */
-    @Returns("result")
-    List<ScriptCoverage> takePreciseCoverage();
+    TakePreciseCoverageResult takePreciseCoverage();
 
     /**
      * Collect type profile.
-     * 
+     *
      * @return Type profile for all scripts since startTypeProfile() was turned on.
      */
     @Experimental
@@ -115,7 +120,7 @@ public interface Profiler {
 
     /**
      * Retrieve run time call stats.
-     * 
+     *
      * @return Collected counter information.
      */
     @Experimental
@@ -126,6 +131,9 @@ public interface Profiler {
      * Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code
      * coverage may be incomplete. Enabling prevents running optimized code and resets execution
      * counters.
+     *
+     * @return Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
      */
-    void startPreciseCoverage();
+    @Returns("timestamp")
+    Double startPreciseCoverage();
 }

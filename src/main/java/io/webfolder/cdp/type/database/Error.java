@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.database;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Database error
  */
-@UseStag
 public class Error {
     private String message;
 

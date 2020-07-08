@@ -33,14 +33,14 @@ import java.util.List;
 public interface SystemInfo {
     /**
      * Returns information about the system.
-     * 
+     *
      * @return GetInfoResult
      */
     GetInfoResult getInfo();
 
     /**
      * Returns information about all running processes.
-     * 
+     *
      * @return An array of process info blocks.
      */
     @Returns("processInfo")

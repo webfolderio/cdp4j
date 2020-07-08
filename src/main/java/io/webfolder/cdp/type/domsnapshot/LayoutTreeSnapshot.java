@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.domsnapshot;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Table of details of an element in the DOM tree with a LayoutObject
  */
-@UseStag
 public class LayoutTreeSnapshot {
     private List<Integer> nodeIndex;
 
@@ -44,14 +41,14 @@ public class LayoutTreeSnapshot {
     private List<Double> clientRects;
 
     /**
-     * Index of the corresponding node in the `NodeTreeSnapshot` array returned by `captureSnapshot`.
+     * Index of the corresponding node in the NodeTreeSnapshot array returned by captureSnapshot.
      */
     public List<Integer> getNodeIndex() {
         return nodeIndex;
     }
 
     /**
-     * Index of the corresponding node in the `NodeTreeSnapshot` array returned by `captureSnapshot`.
+     * Index of the corresponding node in the NodeTreeSnapshot array returned by captureSnapshot.
      */
     public void setNodeIndex(List<Integer> nodeIndex) {
         this.nodeIndex = nodeIndex;

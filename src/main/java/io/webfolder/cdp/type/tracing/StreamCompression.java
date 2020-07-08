@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.tracing;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Compression type to use for traces returned via streams
  */
-@UseStag
 public enum StreamCompression {
     @SerializedName("none")
     None("none"),

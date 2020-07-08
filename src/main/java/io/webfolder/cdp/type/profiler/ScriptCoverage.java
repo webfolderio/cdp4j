@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.profiler;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Coverage data for a JavaScript script
  */
-@UseStag
 public class ScriptCoverage {
     private String scriptId;
 

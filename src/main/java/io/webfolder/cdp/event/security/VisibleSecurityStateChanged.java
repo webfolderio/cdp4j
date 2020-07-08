@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.security;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
@@ -31,7 +29,6 @@ import io.webfolder.cdp.type.security.VisibleSecurityState;
 @Experimental
 @Domain("Security")
 @EventName("visibleSecurityStateChanged")
-@UseStag
 public class VisibleSecurityStateChanged {
     private VisibleSecurityState visibleSecurityState;
 

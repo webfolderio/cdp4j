@@ -39,7 +39,7 @@ public interface Tracing {
 
     /**
      * Gets supported tracing categories.
-     * 
+     *
      * @return A list of supported tracing categories.
      */
     @Returns("categories")
@@ -47,32 +47,32 @@ public interface Tracing {
 
     /**
      * Record a clock sync marker in the trace.
-     * 
+     *
      * @param syncId The ID of this clock sync marker
      */
     void recordClockSyncMarker(String syncId);
 
     /**
      * Request a global memory dump.
-     * 
+     *
      * @param deterministic Enables more deterministic results by forcing garbage collection
-     * 
+     *
      * @return RequestMemoryDumpResult
      */
     RequestMemoryDumpResult requestMemoryDump(@Optional Boolean deterministic);
 
     /**
      * Start trace events collection.
-     * 
+     *
      * @param categories Category/tag filter
      * @param options Tracing options
      * @param bufferUsageReportingInterval If set, the agent will issue bufferUsage events at this interval, specified in milliseconds
      * @param transferMode Whether to report trace events as series of dataCollected events or to save trace to a
-     * stream (defaults to `ReportEvents`).
-     * @param streamFormat Trace data format to use. This only applies when using `ReturnAsStream`
-     * transfer mode (defaults to `json`).
-     * @param streamCompression Compression format to use. This only applies when using `ReturnAsStream`
-     * transfer mode (defaults to `none`)
+     * stream (defaults to ReportEvents).
+     * @param streamFormat Trace data format to use. This only applies when using ReturnAsStream
+     * transfer mode (defaults to json).
+     * @param streamCompression Compression format to use. This only applies when using ReturnAsStream
+     * transfer mode (defaults to none)
      */
     void start(@Optional String categories, @Optional String options,
             @Optional Double bufferUsageReportingInterval, @Optional TransferMode transferMode,
@@ -81,7 +81,7 @@ public interface Tracing {
 
     /**
      * Request a global memory dump.
-     * 
+     *
      * @return RequestMemoryDumpResult
      */
     RequestMemoryDumpResult requestMemoryDump();

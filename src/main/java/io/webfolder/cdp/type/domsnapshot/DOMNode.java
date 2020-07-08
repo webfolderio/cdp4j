@@ -20,8 +20,6 @@ package io.webfolder.cdp.type.domsnapshot;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.dom.PseudoType;
 import io.webfolder.cdp.type.dom.ShadowRootType;
 import io.webfolder.cdp.type.domdebugger.EventListener;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.domdebugger.EventListener;
 /**
  * A Node in the DOM tree
  */
-@UseStag
 public class DOMNode {
     private Integer nodeType;
 
@@ -88,42 +85,42 @@ public class DOMNode {
     private Double scrollOffsetY;
 
     /**
-     * `Node`'s nodeType.
+     * Node's nodeType.
      */
     public Integer getNodeType() {
         return nodeType;
     }
 
     /**
-     * `Node`'s nodeType.
+     * Node's nodeType.
      */
     public void setNodeType(Integer nodeType) {
         this.nodeType = nodeType;
     }
 
     /**
-     * `Node`'s nodeName.
+     * Node's nodeName.
      */
     public String getNodeName() {
         return nodeName;
     }
 
     /**
-     * `Node`'s nodeName.
+     * Node's nodeName.
      */
     public void setNodeName(String nodeName) {
         this.nodeName = nodeName;
     }
 
     /**
-     * `Node`'s nodeValue.
+     * Node's nodeValue.
      */
     public String getNodeValue() {
         return nodeValue;
     }
 
     /**
-     * `Node`'s nodeValue.
+     * Node's nodeValue.
      */
     public void setNodeValue(String nodeValue) {
         this.nodeValue = nodeValue;
@@ -186,21 +183,21 @@ public class DOMNode {
     }
 
     /**
-     * `Node`'s id, corresponds to DOM.Node.backendNodeId.
+     * Node's id, corresponds to DOM.Node.backendNodeId.
      */
     public Integer getBackendNodeId() {
         return backendNodeId;
     }
 
     /**
-     * `Node`'s id, corresponds to DOM.Node.backendNodeId.
+     * Node's id, corresponds to DOM.Node.backendNodeId.
      */
     public void setBackendNodeId(Integer backendNodeId) {
         this.backendNodeId = backendNodeId;
     }
 
     /**
-     * The indexes of the node's child nodes in the `domNodes` array returned by `getSnapshot`, if
+     * The indexes of the node's child nodes in the domNodes array returned by getSnapshot, if
      * any.
      */
     public List<Integer> getChildNodeIndexes() {
@@ -208,7 +205,7 @@ public class DOMNode {
     }
 
     /**
-     * The indexes of the node's child nodes in the `domNodes` array returned by `getSnapshot`, if
+     * The indexes of the node's child nodes in the domNodes array returned by getSnapshot, if
      * any.
      */
     public void setChildNodeIndexes(List<Integer> childNodeIndexes) {
@@ -216,74 +213,74 @@ public class DOMNode {
     }
 
     /**
-     * Attributes of an `Element` node.
+     * Attributes of an Element node.
      */
     public List<NameValue> getAttributes() {
         return attributes;
     }
 
     /**
-     * Attributes of an `Element` node.
+     * Attributes of an Element node.
      */
     public void setAttributes(List<NameValue> attributes) {
         this.attributes = attributes;
     }
 
     /**
-     * Indexes of pseudo elements associated with this node in the `domNodes` array returned by
-     * `getSnapshot`, if any.
+     * Indexes of pseudo elements associated with this node in the domNodes array returned by
+     * getSnapshot, if any.
      */
     public List<Integer> getPseudoElementIndexes() {
         return pseudoElementIndexes;
     }
 
     /**
-     * Indexes of pseudo elements associated with this node in the `domNodes` array returned by
-     * `getSnapshot`, if any.
+     * Indexes of pseudo elements associated with this node in the domNodes array returned by
+     * getSnapshot, if any.
      */
     public void setPseudoElementIndexes(List<Integer> pseudoElementIndexes) {
         this.pseudoElementIndexes = pseudoElementIndexes;
     }
 
     /**
-     * The index of the node's related layout tree node in the `layoutTreeNodes` array returned by
-     * `getSnapshot`, if any.
+     * The index of the node's related layout tree node in the layoutTreeNodes array returned by
+     * getSnapshot, if any.
      */
     public Integer getLayoutNodeIndex() {
         return layoutNodeIndex;
     }
 
     /**
-     * The index of the node's related layout tree node in the `layoutTreeNodes` array returned by
-     * `getSnapshot`, if any.
+     * The index of the node's related layout tree node in the layoutTreeNodes array returned by
+     * getSnapshot, if any.
      */
     public void setLayoutNodeIndex(Integer layoutNodeIndex) {
         this.layoutNodeIndex = layoutNodeIndex;
     }
 
     /**
-     * Document URL that `Document` or `FrameOwner` node points to.
+     * Document URL that Document or FrameOwner node points to.
      */
     public String getDocumentURL() {
         return documentURL;
     }
 
     /**
-     * Document URL that `Document` or `FrameOwner` node points to.
+     * Document URL that Document or FrameOwner node points to.
      */
     public void setDocumentURL(String documentURL) {
         this.documentURL = documentURL;
     }
 
     /**
-     * Base URL that `Document` or `FrameOwner` node uses for URL completion.
+     * Base URL that Document or FrameOwner node uses for URL completion.
      */
     public String getBaseURL() {
         return baseURL;
     }
 
     /**
-     * Base URL that `Document` or `FrameOwner` node uses for URL completion.
+     * Base URL that Document or FrameOwner node uses for URL completion.
      */
     public void setBaseURL(String baseURL) {
         this.baseURL = baseURL;
@@ -318,28 +315,28 @@ public class DOMNode {
     }
 
     /**
-     * `DocumentType` node's publicId.
+     * DocumentType node's publicId.
      */
     public String getPublicId() {
         return publicId;
     }
 
     /**
-     * `DocumentType` node's publicId.
+     * DocumentType node's publicId.
      */
     public void setPublicId(String publicId) {
         this.publicId = publicId;
     }
 
     /**
-     * `DocumentType` node's systemId.
+     * DocumentType node's systemId.
      */
     public String getSystemId() {
         return systemId;
     }
 
     /**
-     * `DocumentType` node's systemId.
+     * DocumentType node's systemId.
      */
     public void setSystemId(String systemId) {
         this.systemId = systemId;
@@ -360,16 +357,16 @@ public class DOMNode {
     }
 
     /**
-     * The index of a frame owner element's content document in the `domNodes` array returned by
-     * `getSnapshot`, if any.
+     * The index of a frame owner element's content document in the domNodes array returned by
+     * getSnapshot, if any.
      */
     public Integer getContentDocumentIndex() {
         return contentDocumentIndex;
     }
 
     /**
-     * The index of a frame owner element's content document in the `domNodes` array returned by
-     * `getSnapshot`, if any.
+     * The index of a frame owner element's content document in the domNodes array returned by
+     * getSnapshot, if any.
      */
     public void setContentDocumentIndex(Integer contentDocumentIndex) {
         this.contentDocumentIndex = contentDocumentIndex;
@@ -401,6 +398,15 @@ public class DOMNode {
      */
     public void setShadowRootType(ShadowRootType shadowRootType) {
         this.shadowRootType = shadowRootType;
+    }
+
+    /**
+     * Whether this DOM node responds to mouse clicks. This includes nodes that have had click
+     * event listeners attached via JavaScript as well as anchor tags that naturally navigate when
+     * clicked.
+     */
+    public Boolean isIsClickable() {
+        return isClickable;
     }
 
     /**
@@ -474,22 +480,5 @@ public class DOMNode {
 
     public void setScrollOffsetY(Double scrollOffsetY) {
         this.scrollOffsetY = scrollOffsetY;
-    }
-
-    public Boolean getInputChecked() {
-        return inputChecked;
-    }
-
-    public Boolean getOptionSelected() {
-        return optionSelected;
-    }
-
-    /**
-     * Whether this DOM node responds to mouse clicks. This includes nodes that have had click
-     * event listeners attached via JavaScript as well as anchor tags that naturally navigate when
-     * clicked.
-     */
-    public Boolean getIsClickable() {
-        return isClickable;
     }
 }

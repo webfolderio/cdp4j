@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.indexeddb;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Key range
  */
-@UseStag
 public class KeyRange {
     private Key lower;
 

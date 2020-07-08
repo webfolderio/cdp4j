@@ -29,7 +29,7 @@ import java.util.List;
 public interface Schema {
     /**
      * Returns supported domains.
-     * 
+     *
      * @return List of supported domains.
      */
     @Returns("domains")

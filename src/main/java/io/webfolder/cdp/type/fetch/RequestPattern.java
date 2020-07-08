@@ -18,13 +18,10 @@
  */
 package io.webfolder.cdp.type.fetch;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.network.ResourceType;
 
 @Experimental
-@UseStag
 public class RequestPattern {
     private String urlPattern;
 

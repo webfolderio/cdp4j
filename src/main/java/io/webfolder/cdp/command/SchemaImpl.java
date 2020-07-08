@@ -27,19 +27,19 @@ import io.webfolder.cdp.type.schema.Domain;
 
 public class SchemaImpl implements Schema {
 
-    private static final Object[] EMPTY_VALUES = new Object[]{};
-    private static final String[] EMPTY_ARGS = new String[]{};
-    private final SessionInvocationHandler handler;
-    private static final TypeToken<List<Domain>> TT_LIST_DOMAIN = new TypeToken<List<Domain>>() { };
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
+	private static final TypeToken<List<Domain>> GET_DOMAINS = new TypeToken<List<Domain>>() { };
 
-    public SchemaImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public SchemaImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<Domain> getDomains() {
-        return (List<Domain>) handler.invoke("Schema", "getDomains", "Schema.getDomains",
-                "domains", List.class, TT_LIST_DOMAIN.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<Domain> getDomains() {
+		return (List<Domain>) handler.invoke("Schema", "getDomains", "Schema.getDomains",
+				"domains", List.class, GET_DOMAINS.getType(), false, false, false, EMPTY_ARGS, EMPTY_VALUES);
+	}
 }

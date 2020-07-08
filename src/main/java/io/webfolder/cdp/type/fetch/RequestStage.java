@@ -19,7 +19,6 @@
 package io.webfolder.cdp.type.fetch;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Stages of the request to handle
@@ -28,7 +27,6 @@ import com.vimeo.stag.UseStag;
  * Response will intercept after the response is received (but before response
  * body is received
  */
-@UseStag
 public enum RequestStage {
     @SerializedName("Request")
     Request("Request"),

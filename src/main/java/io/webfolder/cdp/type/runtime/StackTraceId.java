@@ -18,20 +18,17 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
- * If `debuggerId` is set stack trace comes from another debugger and can be resolved there
+ * If debuggerId is set stack trace comes from another debugger and can be resolved there
  * This
  * allows to track cross-debugger calls
- * See `Runtime
- * StackTrace` and `Debugger
- * paused` for usages
+ * See Runtime
+ * StackTrace and Debugger
+ * paused for usages
  */
 @Experimental
-@UseStag
 public class StackTraceId {
     private String id;
 

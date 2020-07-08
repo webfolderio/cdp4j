@@ -23,6 +23,7 @@ import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.annotation.Returns;
 import io.webfolder.cdp.type.dom.Rect;
+import io.webfolder.cdp.type.layertree.CompositingReasonsResult;
 import io.webfolder.cdp.type.layertree.PictureTile;
 import java.util.List;
 
@@ -31,13 +32,12 @@ import java.util.List;
 public interface LayerTree {
     /**
      * Provides the reasons why the given layer was composited.
-     * 
+     *
      * @param layerId The id of the layer for which we want to get the reasons it was composited.
-     * 
-     * @return A list of strings specifying reasons for the given layer to become composited.
+     *
+     * @return CompositingReasonsResult
      */
-    @Returns("compositingReasons")
-    List<String> compositingReasons(String layerId);
+    CompositingReasonsResult compositingReasons(String layerId);
 
     /**
      * Disables compositing tree inspection.
@@ -51,9 +51,9 @@ public interface LayerTree {
 
     /**
      * Returns the snapshot identifier.
-     * 
+     *
      * @param tiles An array of tiles composing the snapshot.
-     * 
+     *
      * @return The id of the snapshot.
      */
     @Returns("snapshotId")
@@ -61,9 +61,9 @@ public interface LayerTree {
 
     /**
      * Returns the layer snapshot identifier.
-     * 
+     *
      * @param layerId The id of the layer.
-     * 
+     *
      * @return The id of the layer snapshot.
      */
     @Returns("snapshotId")
@@ -75,19 +75,19 @@ public interface LayerTree {
 
     /**
      * Releases layer snapshot captured by the back-end.
-     * 
+     *
      * @param snapshotId The id of the layer snapshot.
      */
     void releaseSnapshot(String snapshotId);
 
     /**
      * Replays the layer snapshot and returns the resulting bitmap.
-     * 
+     *
      * @param snapshotId The id of the layer snapshot.
      * @param fromStep The first step to replay from (replay from the very start if not specified).
      * @param toStep The last step to replay to (replay till the end if not specified).
      * @param scale The scale to apply while replaying (defaults to 1).
-     * 
+     *
      * @return A data: URL for resulting image.
      */
     @Returns("dataURL")
@@ -99,9 +99,9 @@ public interface LayerTree {
 
     /**
      * Replays the layer snapshot and returns the resulting bitmap.
-     * 
+     *
      * @param snapshotId The id of the layer snapshot.
-     * 
+     *
      * @return A data: URL for resulting image.
      */
     @Returns("dataURL")

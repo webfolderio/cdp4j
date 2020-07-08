@@ -13,3 +13,5 @@
 /src/main/resources/META-INF/quack.dll
 /src/test/resources/quickjs/qunit/qunit-2.9.3.js
 /src/test/resources/quickjs/qunit/qunit.d.ts
+/src/main/java/io/webfolder/cdp/CommandGenerator.java.2
+/src/test/java/io/webfolder/cdp/sample/Generator.java.2

@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.animation;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * AnimationEffect instance
  */
-@UseStag
 public class AnimationEffect {
     private Double delay;
 
@@ -46,140 +43,140 @@ public class AnimationEffect {
     private String easing;
 
     /**
-     * `AnimationEffect`'s delay.
+     * AnimationEffect's delay.
      */
     public Double getDelay() {
         return delay;
     }
 
     /**
-     * `AnimationEffect`'s delay.
+     * AnimationEffect's delay.
      */
     public void setDelay(Double delay) {
         this.delay = delay;
     }
 
     /**
-     * `AnimationEffect`'s end delay.
+     * AnimationEffect's end delay.
      */
     public Double getEndDelay() {
         return endDelay;
     }
 
     /**
-     * `AnimationEffect`'s end delay.
+     * AnimationEffect's end delay.
      */
     public void setEndDelay(Double endDelay) {
         this.endDelay = endDelay;
     }
 
     /**
-     * `AnimationEffect`'s iteration start.
+     * AnimationEffect's iteration start.
      */
     public Double getIterationStart() {
         return iterationStart;
     }
 
     /**
-     * `AnimationEffect`'s iteration start.
+     * AnimationEffect's iteration start.
      */
     public void setIterationStart(Double iterationStart) {
         this.iterationStart = iterationStart;
     }
 
     /**
-     * `AnimationEffect`'s iterations.
+     * AnimationEffect's iterations.
      */
     public Double getIterations() {
         return iterations;
     }
 
     /**
-     * `AnimationEffect`'s iterations.
+     * AnimationEffect's iterations.
      */
     public void setIterations(Double iterations) {
         this.iterations = iterations;
     }
 
     /**
-     * `AnimationEffect`'s iteration duration.
+     * AnimationEffect's iteration duration.
      */
     public Double getDuration() {
         return duration;
     }
 
     /**
-     * `AnimationEffect`'s iteration duration.
+     * AnimationEffect's iteration duration.
      */
     public void setDuration(Double duration) {
         this.duration = duration;
     }
 
     /**
-     * `AnimationEffect`'s playback direction.
+     * AnimationEffect's playback direction.
      */
     public String getDirection() {
         return direction;
     }
 
     /**
-     * `AnimationEffect`'s playback direction.
+     * AnimationEffect's playback direction.
      */
     public void setDirection(String direction) {
         this.direction = direction;
     }
 
     /**
-     * `AnimationEffect`'s fill mode.
+     * AnimationEffect's fill mode.
      */
     public String getFill() {
         return fill;
     }
 
     /**
-     * `AnimationEffect`'s fill mode.
+     * AnimationEffect's fill mode.
      */
     public void setFill(String fill) {
         this.fill = fill;
     }
 
     /**
-     * `AnimationEffect`'s target node.
+     * AnimationEffect's target node.
      */
     public Integer getBackendNodeId() {
         return backendNodeId;
     }
 
     /**
-     * `AnimationEffect`'s target node.
+     * AnimationEffect's target node.
      */
     public void setBackendNodeId(Integer backendNodeId) {
         this.backendNodeId = backendNodeId;
     }
 
     /**
-     * `AnimationEffect`'s keyframes.
+     * AnimationEffect's keyframes.
      */
     public KeyframesRule getKeyframesRule() {
         return keyframesRule;
     }
 
     /**
-     * `AnimationEffect`'s keyframes.
+     * AnimationEffect's keyframes.
      */
     public void setKeyframesRule(KeyframesRule keyframesRule) {
         this.keyframesRule = keyframesRule;
     }
 
     /**
-     * `AnimationEffect`'s timing function.
+     * AnimationEffect's timing function.
      */
     public String getEasing() {
         return easing;
     }
 
     /**
-     * `AnimationEffect`'s timing function.
+     * AnimationEffect's timing function.
      */
     public void setEasing(String easing) {
         this.easing = easing;

@@ -45,11 +45,11 @@ import java.util.List;
 public interface Runtime {
     /**
      * Add handler to promise with given promise object id.
-     * 
+     *
      * @param promiseObjectId Identifier of the promise.
      * @param returnByValue Whether the result is expected to be a JSON object that should be sent by value.
      * @param generatePreview Whether preview should be generated for the result.
-     * 
+     *
      * @return AwaitPromiseResult
      */
     AwaitPromiseResult awaitPromise(String promiseObjectId, @Optional Boolean returnByValue,
@@ -58,24 +58,24 @@ public interface Runtime {
     /**
      * Calls function with given declaration on the given object. Object group of the result is
      * inherited from the target object.
-     * 
+     *
      * @param functionDeclaration Declaration of the function to call.
      * @param objectId Identifier of the object to call function on. Either objectId or executionContextId should
      * be specified.
      * @param arguments Call arguments. All call arguments must belong to the same JavaScript world as the target
      * object.
      * @param silent In silent mode exceptions thrown during evaluation are not reported and do not pause
-     * execution. Overrides `setPauseOnException` state.
+     * execution. Overrides setPauseOnException state.
      * @param returnByValue Whether the result is expected to be a JSON object which should be sent by value.
      * @param generatePreview Whether preview should be generated for the result.
      * @param userGesture Whether execution should be treated as initiated by user in the UI.
-     * @param awaitPromise Whether execution should `await` for resulting value and return once awaited promise is
+     * @param awaitPromise Whether execution should await for resulting value and return once awaited promise is
      * resolved.
      * @param executionContextId Specifies execution context which global object will be used to call function on. Either
      * executionContextId or objectId should be specified.
      * @param objectGroup Symbolic group name that can be used to release multiple objects. If objectGroup is not
      * specified and objectId is, objectGroup will be inherited from object.
-     * 
+     *
      * @return CallFunctionOnResult
      */
     CallFunctionOnResult callFunctionOn(String functionDeclaration, @Optional String objectId,
@@ -86,13 +86,13 @@ public interface Runtime {
 
     /**
      * Compiles expression.
-     * 
+     *
      * @param expression Expression to compile.
      * @param sourceURL Source url to be set for the script.
      * @param persistScript Specifies whether the compiled script should be persisted.
      * @param executionContextId Specifies in which execution context to perform script run. If the parameter is omitted the
      * evaluation will be performed in the context of the inspected page.
-     * 
+     *
      * @return CompileScriptResult
      */
     CompileScriptResult compileScript(String expression, String sourceURL, Boolean persistScript,
@@ -109,7 +109,7 @@ public interface Runtime {
     void discardConsoleEntries();
 
     /**
-     * Enables reporting of execution contexts creation by means of `executionContextCreated` event.
+     * Enables reporting of execution contexts creation by means of executionContextCreated event.
      * When the reporting gets enabled the event will be sent immediately for each existing execution
      * context.
      */
@@ -117,25 +117,31 @@ public interface Runtime {
 
     /**
      * Evaluates expression on global object.
-     * 
+     *
      * @param expression Expression to evaluate.
      * @param objectGroup Symbolic group name that can be used to release multiple objects.
      * @param includeCommandLineAPI Determines whether Command Line API should be available during the evaluation.
      * @param silent In silent mode exceptions thrown during evaluation are not reported and do not pause
-     * execution. Overrides `setPauseOnException` state.
+     * execution. Overrides setPauseOnException state.
      * @param contextId Specifies in which execution context to perform evaluation. If the parameter is omitted the
      * evaluation will be performed in the context of the inspected page.
      * @param returnByValue Whether the result is expected to be a JSON object that should be sent by value.
      * @param generatePreview Whether preview should be generated for the result.
      * @param userGesture Whether execution should be treated as initiated by user in the UI.
-     * @param awaitPromise Whether execution should `await` for resulting value and return once awaited promise is
+     * @param awaitPromise Whether execution should await for resulting value and return once awaited promise is
      * resolved.
      * @param throwOnSideEffect Whether to throw an exception if side effect cannot be ruled out during evaluation.
-     * This implies `disableBreaks` below.
+     * This implies disableBreaks below.
      * @param timeout Terminate execution after timing out (number of milliseconds).
      * @param disableBreaks Disable breakpoints during execution.
-     * @param replMode Reserved flag for future REPL mode support. Setting this flag has currently no effect.
-     * 
+     * @param replMode Setting this flag to true enables let re-declaration and top-level await.
+     * Note that let variables can only be re-declared if they originate from
+     * replMode themselves.
+     * @param allowUnsafeEvalBlockedByCSP The Content Security Policy (CSP) for the target might block 'unsafe-eval'
+     * which includes eval(), Function(), setTimeout() and setInterval()
+     * when called with non-callable arguments. This flag bypasses CSP for this
+     * evaluation and allows unsafe-eval. Defaults to true.
+     *
      * @return EvaluateResult
      */
     EvaluateResult evaluate(String expression, @Optional String objectGroup,
@@ -144,11 +150,12 @@ public interface Runtime {
             @Experimental @Optional Boolean generatePreview, @Optional Boolean userGesture,
             @Optional Boolean awaitPromise, @Experimental @Optional Boolean throwOnSideEffect,
             @Experimental @Optional Double timeout, @Experimental @Optional Boolean disableBreaks,
-            @Experimental @Optional Boolean replMode);
+            @Experimental @Optional Boolean replMode,
+            @Experimental @Optional Boolean allowUnsafeEvalBlockedByCSP);
 
     /**
      * Returns the isolate id.
-     * 
+     *
      * @return The isolate id.
      */
     @Experimental
@@ -158,7 +165,7 @@ public interface Runtime {
     /**
      * Returns the JavaScript heap usage.
      * It is the total usage of the corresponding isolate not scoped to a particular Runtime.
-     * 
+     *
      * @return GetHeapUsageResult
      */
     @Experimental
@@ -167,14 +174,14 @@ public interface Runtime {
     /**
      * Returns properties of a given object. Object group of the result is inherited from the target
      * object.
-     * 
+     *
      * @param objectId Identifier of the object to return properties for.
      * @param ownProperties If true, returns properties belonging only to the element itself, not to its prototype
      * chain.
      * @param accessorPropertiesOnly If true, returns accessor properties (with getter/setter) only; internal properties are not
      * returned either.
      * @param generatePreview Whether preview should be generated for the results.
-     * 
+     *
      * @return GetPropertiesResult
      */
     GetPropertiesResult getProperties(String objectId, @Optional Boolean ownProperties,
@@ -183,7 +190,7 @@ public interface Runtime {
 
     /**
      * Returns all let, const and class variables from global scope.
-     * 
+     *
      * @param executionContextId Specifies in which execution context to lookup global scope variables.
      */
     @Returns("names")
@@ -194,14 +201,14 @@ public interface Runtime {
 
     /**
      * Releases remote object with given id.
-     * 
+     *
      * @param objectId Identifier of the object to release.
      */
     void releaseObject(String objectId);
 
     /**
      * Releases all remote objects that belong to a given group.
-     * 
+     *
      * @param objectGroup Symbolic object group name.
      */
     void releaseObjectGroup(String objectGroup);
@@ -213,19 +220,19 @@ public interface Runtime {
 
     /**
      * Runs script with given id in a given context.
-     * 
+     *
      * @param scriptId Id of the script to run.
      * @param executionContextId Specifies in which execution context to perform script run. If the parameter is omitted the
      * evaluation will be performed in the context of the inspected page.
      * @param objectGroup Symbolic group name that can be used to release multiple objects.
      * @param silent In silent mode exceptions thrown during evaluation are not reported and do not pause
-     * execution. Overrides `setPauseOnException` state.
+     * execution. Overrides setPauseOnException state.
      * @param includeCommandLineAPI Determines whether Command Line API should be available during the evaluation.
      * @param returnByValue Whether the result is expected to be a JSON object which should be sent by value.
      * @param generatePreview Whether preview should be generated for the result.
-     * @param awaitPromise Whether execution should `await` for resulting value and return once awaited promise is
+     * @param awaitPromise Whether execution should await for resulting value and return once awaited promise is
      * resolved.
-     * 
+     *
      * @return RunScriptResult
      */
     RunScriptResult runScript(String scriptId, @Optional Integer executionContextId,
@@ -235,8 +242,8 @@ public interface Runtime {
 
     /**
      * Enables or disables async call stacks tracking.
-     * 
-     * @param maxDepth Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
+     *
+     * @param maxDepth Maximum depth of async call stacks. Setting to 0 will effectively disable collecting async
      * call stacks (default).
      */
     void setAsyncCallStackDepth(Integer maxDepth);
@@ -263,7 +270,7 @@ public interface Runtime {
      * Binding function takes exactly one argument, this argument should be string,
      * in case of any other input, function throws an exception.
      * Each binding function call produces Runtime.bindingCalled notification.
-     * 
+     *
      */
     @Experimental
     void addBinding(String name, @Optional Integer executionContextId);
@@ -271,16 +278,16 @@ public interface Runtime {
     /**
      * This method does not remove binding function from global object but
      * unsubscribes current runtime agent from Runtime.bindingCalled notifications.
-     * 
+     *
      */
     @Experimental
     void removeBinding(String name);
 
     /**
      * Add handler to promise with given promise object id.
-     * 
+     *
      * @param promiseObjectId Identifier of the promise.
-     * 
+     *
      * @return AwaitPromiseResult
      */
     AwaitPromiseResult awaitPromise(String promiseObjectId);
@@ -288,29 +295,29 @@ public interface Runtime {
     /**
      * Calls function with given declaration on the given object. Object group of the result is
      * inherited from the target object.
-     * 
+     *
      * @param functionDeclaration Declaration of the function to call.
-     * 
+     *
      * @return CallFunctionOnResult
      */
     CallFunctionOnResult callFunctionOn(String functionDeclaration);
 
     /**
      * Compiles expression.
-     * 
+     *
      * @param expression Expression to compile.
      * @param sourceURL Source url to be set for the script.
      * @param persistScript Specifies whether the compiled script should be persisted.
-     * 
+     *
      * @return CompileScriptResult
      */
     CompileScriptResult compileScript(String expression, String sourceURL, Boolean persistScript);
 
     /**
      * Evaluates expression on global object.
-     * 
+     *
      * @param expression Expression to evaluate.
-     * 
+     *
      * @return EvaluateResult
      */
     EvaluateResult evaluate(String expression);
@@ -318,9 +325,9 @@ public interface Runtime {
     /**
      * Returns properties of a given object. Object group of the result is inherited from the target
      * object.
-     * 
+     *
      * @param objectId Identifier of the object to return properties for.
-     * 
+     *
      * @return GetPropertiesResult
      */
     GetPropertiesResult getProperties(String objectId);
@@ -336,9 +343,9 @@ public interface Runtime {
 
     /**
      * Runs script with given id in a given context.
-     * 
+     *
      * @param scriptId Id of the script to run.
-     * 
+     *
      * @return RunScriptResult
      */
     RunScriptResult runScript(String scriptId);
@@ -352,7 +359,7 @@ public interface Runtime {
      * Binding function takes exactly one argument, this argument should be string,
      * in case of any other input, function throws an exception.
      * Each binding function call produces Runtime.bindingCalled notification.
-     * 
+     *
      */
     @Experimental
     void addBinding(String name);

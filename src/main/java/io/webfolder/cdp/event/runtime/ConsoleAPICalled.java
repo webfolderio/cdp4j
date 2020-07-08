@@ -20,8 +20,6 @@ package io.webfolder.cdp.event.runtime;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.constant.ConsoleApiCallType;
@@ -33,7 +31,6 @@ import io.webfolder.cdp.type.runtime.StackTrace;
  */
 @Domain("Runtime")
 @EventName("consoleAPICalled")
-@UseStag
 public class ConsoleAPICalled {
     private ConsoleApiCallType type;
 
@@ -105,8 +102,8 @@ public class ConsoleAPICalled {
 
     /**
      * Stack trace captured when the call was made. The async stack chain is automatically reported for
-     * the following call types: `assert`, `error`, `trace`, `warning`. For other types the async call
-     * chain can be retrieved using `Debugger.getStackTrace` and `stackTrace.parentId` field.
+     * the following call types: assert, error, trace, warning. For other types the async call
+     * chain can be retrieved using Debugger.getStackTrace and stackTrace.parentId field.
      */
     public StackTrace getStackTrace() {
         return stackTrace;
@@ -114,8 +111,8 @@ public class ConsoleAPICalled {
 
     /**
      * Stack trace captured when the call was made. The async stack chain is automatically reported for
-     * the following call types: `assert`, `error`, `trace`, `warning`. For other types the async call
-     * chain can be retrieved using `Debugger.getStackTrace` and `stackTrace.parentId` field.
+     * the following call types: assert, error, trace, warning. For other types the async call
+     * chain can be retrieved using Debugger.getStackTrace and stackTrace.parentId field.
      */
     public void setStackTrace(StackTrace stackTrace) {
         this.stackTrace = stackTrace;

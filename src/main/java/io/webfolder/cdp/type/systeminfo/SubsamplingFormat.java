@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.systeminfo;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * YUV subsampling type of the pixels of a given image
  */
-@UseStag
 public enum SubsamplingFormat {
     @SerializedName("yuv420")
     Yuv420("yuv420"),

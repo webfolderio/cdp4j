@@ -20,15 +20,19 @@ package io.webfolder.cdp.type.network;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Information about a signed exchange signature
+ * https://wicg
+ * github
+ * io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl
+ * html#rfc
+ * section
+ * 3
+ * 1
  */
 @Experimental
-@UseStag
 public class SignedExchangeSignature {
     private String label;
 

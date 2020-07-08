@@ -16,11 +16,9 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.event.performance;
+    package io.webfolder.cdp.event.performance;
 
 import java.util.List;
-
-import com.vimeo.stag.UseStag;
 
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
@@ -31,7 +29,6 @@ import io.webfolder.cdp.type.performance.Metric;
  */
 @Domain("Performance")
 @EventName("metrics")
-@UseStag
 public class Metrics {
     private List<Metric> metrics;
 

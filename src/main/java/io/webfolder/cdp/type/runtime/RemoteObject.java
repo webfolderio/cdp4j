@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.constant.ObjectSubtypeHint;
 import io.webfolder.cdp.type.constant.ObjectType;
 
 /**
  * Mirror object referencing original JavaScript object
  */
-@UseStag
 public class RemoteObject {
     private ObjectType type;
 
@@ -61,28 +58,28 @@ public class RemoteObject {
     }
 
     /**
-     * Object subtype hint. Specified for `object` type values only.
+     * Object subtype hint. Specified for object or wasm type values only.
      */
     public ObjectSubtypeHint getSubtype() {
         return subtype;
     }
 
     /**
-     * Object subtype hint. Specified for `object` type values only.
+     * Object subtype hint. Specified for object or wasm type values only.
      */
     public void setSubtype(ObjectSubtypeHint subtype) {
         this.subtype = subtype;
     }
 
     /**
-     * Object class (constructor) name. Specified for `object` type values only.
+     * Object class (constructor) name. Specified for object type values only.
      */
     public String getClassName() {
         return className;
     }
 
     /**
-     * Object class (constructor) name. Specified for `object` type values only.
+     * Object class (constructor) name. Specified for object type values only.
      */
     public void setClassName(String className) {
         this.className = className;
@@ -103,7 +100,7 @@ public class RemoteObject {
     }
 
     /**
-     * Primitive value which can not be JSON-stringified does not have `value`, but gets this
+     * Primitive value which can not be JSON-stringified does not have value, but gets this
      * property.
      */
     public String getUnserializableValue() {
@@ -111,7 +108,7 @@ public class RemoteObject {
     }
 
     /**
-     * Primitive value which can not be JSON-stringified does not have `value`, but gets this
+     * Primitive value which can not be JSON-stringified does not have value, but gets this
      * property.
      */
     public void setUnserializableValue(String unserializableValue) {
@@ -147,14 +144,14 @@ public class RemoteObject {
     }
 
     /**
-     * Preview containing abbreviated property values. Specified for `object` type values only.
+     * Preview containing abbreviated property values. Specified for object type values only.
      */
     public ObjectPreview getPreview() {
         return preview;
     }
 
     /**
-     * Preview containing abbreviated property values. Specified for `object` type values only.
+     * Preview containing abbreviated property values. Specified for object type values only.
      */
     public void setPreview(ObjectPreview preview) {
         this.preview = preview;

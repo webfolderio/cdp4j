@@ -38,7 +38,7 @@ public interface Console {
 
     /**
      * Enables console domain, sends the messages collected so far to the client by means of the
-     * `messageAdded` notification.
+     * messageAdded notification.
      */
     void enable();
 }

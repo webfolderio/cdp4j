@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.event.domstorage;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.domstorage.StorageId;
 
 @Domain("DOMStorage")
 @EventName("domStorageItemAdded")
-@UseStag
 public class DomStorageItemAdded {
     private StorageId storageId;
 

@@ -20,8 +20,6 @@ package io.webfolder.cdp.event.media;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.media.PlayerProperty;
@@ -33,7 +31,6 @@ import io.webfolder.cdp.type.media.PlayerProperty;
  */
 @Domain("Media")
 @EventName("playerPropertiesChanged")
-@UseStag
 public class PlayerPropertiesChanged {
     private String playerId;
 

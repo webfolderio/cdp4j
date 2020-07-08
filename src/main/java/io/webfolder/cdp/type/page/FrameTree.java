@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.page;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Information about the Frame hierarchy
  */
-@UseStag
 public class FrameTree {
     private Frame frame;
 

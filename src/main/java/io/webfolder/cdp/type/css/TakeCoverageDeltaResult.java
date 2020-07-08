@@ -16,21 +16,20 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.event.headlessexperimental;
+package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
+import java.util.List;
 
-import io.webfolder.cdp.annotation.Domain;
-import io.webfolder.cdp.annotation.EventName;
+public class TakeCoverageDeltaResult {
+    private List<RuleUsage> coverage;
 
-/**
- * Issued when the main frame has first submitted a frame to the browser
- * May only be fired while a
- * BeginFrame is in flight
- * Before this event, screenshotting requests may fail
- */
-@Domain("HeadlessExperimental")
-@EventName("mainFrameReadyForScreenshots")
-@UseStag
-public class MainFrameReadyForScreenshots {
+    private Double timestamp;
+
+    public List<RuleUsage> getCoverage() {
+        return coverage;
+    }
+
+    public Double getTimestamp() {
+        return timestamp;
+    }
 }

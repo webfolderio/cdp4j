@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.domsnapshot;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * A name/value pair
  */
-@UseStag
 public class NameValue {
     private String name;
 

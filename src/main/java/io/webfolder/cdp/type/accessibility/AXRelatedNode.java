@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.accessibility;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class AXRelatedNode {
     private Integer backendDOMNodeId;
 

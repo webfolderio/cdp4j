@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.webaudio;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Protocol object for BaseAudioContext
  */
-@UseStag
 public class BaseAudioContext {
     private String contextId;
 

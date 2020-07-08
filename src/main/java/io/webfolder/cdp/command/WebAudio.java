@@ -44,7 +44,7 @@ public interface WebAudio {
 
     /**
      * Fetch the realtime data from the registered contexts.
-     * 
+     *
      */
     @Returns("realtimeData")
     ContextRealtimeData getRealtimeData(String contextId);

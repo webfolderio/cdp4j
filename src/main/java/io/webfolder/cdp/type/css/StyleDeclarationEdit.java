@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.css;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * A descriptor of operation to mutate style declaration text
  */
-@UseStag
 public class StyleDeclarationEdit {
     private String styleSheetId;
 

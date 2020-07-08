@@ -16,11 +16,28 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.webfolder.cdp.type.tracing;
+package io.webfolder.cdp.type.audits;
 
-import com.vimeo.stag.UseStag;
+import com.google.gson.annotations.SerializedName;
 
-@UseStag
-public class MemoryDumpConfig {
+public enum MixedContentResolutionStatus {
+    @SerializedName("MixedContentBlocked")
+    MixedContentBlocked("MixedContentBlocked"),
 
+    @SerializedName("MixedContentAutomaticallyUpgraded")
+    MixedContentAutomaticallyUpgraded("MixedContentAutomaticallyUpgraded"),
+
+    @SerializedName("MixedContentWarning")
+    MixedContentWarning("MixedContentWarning");
+
+    public final String value;
+
+    MixedContentResolutionStatus(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

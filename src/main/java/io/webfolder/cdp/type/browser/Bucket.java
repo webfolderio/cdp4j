@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.browser;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Chrome histogram bucket
  */
 @Experimental
-@UseStag
 public class Bucket {
     private Integer low;
 

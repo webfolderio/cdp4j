@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.webaudio;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Fields in AudioContext that change in real-time
  */
-@UseStag
 public class ContextRealtimeData {
     private Double currentTime;
 

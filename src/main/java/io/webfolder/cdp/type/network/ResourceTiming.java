@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Timing information for the request
  */
-@UseStag
 public class ResourceTiming {
     private Double requestTime;
 
@@ -46,6 +43,10 @@ public class ResourceTiming {
     private Double workerStart;
 
     private Double workerReady;
+
+    private Double workerFetchStart;
+
+    private Double workerRespondWithSettled;
 
     private Double sendStart;
 
@@ -211,6 +212,34 @@ public class ResourceTiming {
      */
     public void setWorkerReady(Double workerReady) {
         this.workerReady = workerReady;
+    }
+
+    /**
+     * Started fetch event.
+     */
+    public Double getWorkerFetchStart() {
+        return workerFetchStart;
+    }
+
+    /**
+     * Started fetch event.
+     */
+    public void setWorkerFetchStart(Double workerFetchStart) {
+        this.workerFetchStart = workerFetchStart;
+    }
+
+    /**
+     * Settled fetch event respondWith promise.
+     */
+    public Double getWorkerRespondWithSettled() {
+        return workerRespondWithSettled;
+    }
+
+    /**
+     * Settled fetch event respondWith promise.
+     */
+    public void setWorkerRespondWithSettled(Double workerRespondWithSettled) {
+        this.workerRespondWithSettled = workerRespondWithSettled;
     }
 
     /**

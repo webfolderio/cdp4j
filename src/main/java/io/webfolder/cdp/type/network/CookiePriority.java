@@ -19,7 +19,6 @@
 package io.webfolder.cdp.type.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Represents the cookie's 'Priority' status:
@@ -27,7 +26,6 @@ import com.vimeo.stag.UseStag;
  * ietf
  * org/html/draft-west-cookie-priority-00
  */
-@UseStag
 public enum CookiePriority {
     @SerializedName("Low")
     Low("Low"),

@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Represents function call argument
- * Either remote object id `objectId`, primitive `value`,
+ * Either remote object id objectId, primitive value,
  * unserializable primitive value or neither of (for undefined) them should be specified
  */
-@UseStag
 public class CallArgument {
     private Object value;
 

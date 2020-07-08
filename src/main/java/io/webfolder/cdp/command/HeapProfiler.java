@@ -31,7 +31,7 @@ public interface HeapProfiler {
     /**
      * Enables console to refer to the node with given id via  (see Command Line API for more details
      *  functions).
-     * 
+     *
      * @param heapObjectId Heap snapshot object id to be accessible by means of x command line API.
      */
     void addInspectedHeapObject(String heapObjectId);

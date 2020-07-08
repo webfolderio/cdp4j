@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.security;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Security state information about the page
  */
 @Experimental
-@UseStag
 public class VisibleSecurityState {
     private SecurityState securityState;
 

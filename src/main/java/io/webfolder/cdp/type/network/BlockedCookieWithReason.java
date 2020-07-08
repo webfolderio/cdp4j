@@ -18,33 +18,28 @@
  */
 package io.webfolder.cdp.type.network;
 
-import java.util.List;
-
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * A cookie with was not sent with a request with the corresponding reason
  */
 @Experimental
-@UseStag
 public class BlockedCookieWithReason {
-    private List<BlockedReason> blockedReasons;
+    private CookieBlockedReason blockedReasons;
 
     private Cookie cookie;
 
     /**
      * The reason(s) the cookie was blocked.
      */
-    public List<BlockedReason> getBlockedReasons() {
+    public CookieBlockedReason getBlockedReasons() {
         return blockedReasons;
     }
 
     /**
      * The reason(s) the cookie was blocked.
      */
-    public void setBlockedReasons(List<BlockedReason> blockedReasons) {
+    public void setBlockedReasons(CookieBlockedReason blockedReasons) {
         this.blockedReasons = blockedReasons;
     }
 

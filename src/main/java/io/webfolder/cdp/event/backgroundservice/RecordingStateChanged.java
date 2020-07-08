@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.backgroundservice;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.backgroundservice.ServiceName;
@@ -29,13 +27,12 @@ import io.webfolder.cdp.type.backgroundservice.ServiceName;
  */
 @Domain("BackgroundService")
 @EventName("recordingStateChanged")
-@UseStag
 public class RecordingStateChanged {
     private Boolean isRecording;
 
     private ServiceName service;
 
-    public Boolean getIsRecording() {
+    public Boolean isIsRecording() {
         return isRecording;
     }
 

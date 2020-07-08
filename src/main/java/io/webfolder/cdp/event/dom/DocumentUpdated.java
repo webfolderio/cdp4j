@@ -18,17 +18,14 @@
  */
 package io.webfolder.cdp.event.dom;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
- * Fired when `Document` has been totally updated
+ * Fired when Document has been totally updated
  * Node ids are no longer valid
  */
 @Domain("DOM")
 @EventName("documentUpdated")
-@UseStag
 public class DocumentUpdated {
 }

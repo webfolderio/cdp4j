@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.webaudio;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Protocol object for AudioNode
  */
-@UseStag
 public class AudioNode {
     private String nodeId;
 

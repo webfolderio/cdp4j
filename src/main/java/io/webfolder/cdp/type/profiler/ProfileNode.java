@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.profiler;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.runtime.CallFrame;
 
 /**
  * Profile node
  * Holds callsite information, execution statistics and child nodes
  */
-@UseStag
 public class ProfileNode {
     private Integer id;
 

@@ -26,50 +26,50 @@ import com.google.gson.reflect.TypeToken;
 
 public class DOMStorageImpl implements DOMStorage {
 
-    private static final Object[] EMPTY_VALUES = new Object[]{};
-    private static final String[] EMPTY_ARGS = new String[]{};
-    private final SessionInvocationHandler handler;
-    private static final TypeToken<List<String>> TT_LIST_STRING = new TypeToken<List<String>>() { };
+	private static final Object[] EMPTY_VALUES = new Object[]{};
+	private static final String[] EMPTY_ARGS = new String[]{};
+	private final SessionInvocationHandler handler;
+	private static final TypeToken<List<String>> GET_DO_MSTORAGE_ITEMS = new TypeToken<List<String>>() { };
 
-    public DOMStorageImpl(SessionInvocationHandler handler) {
-        this.handler = handler;
-    }
+	public DOMStorageImpl(SessionInvocationHandler handler) {
+		this.handler = handler;
+	}
 
-    @Override
-    public void clear(StorageId storageId) {
-        handler.invoke("DOMStorage", "clear", "DOMStorage.clear", null, void.class, null, true, false, false,
-                new String[]{"storageId"}, new Object[]{storageId});
-    }
+	@Override
+	public void clear(StorageId storageId) {
+		handler.invoke("DOMStorage", "clear", "DOMStorage.clear", null, void.class, null, true, false, false,
+				new String[]{"storageId"}, new Object[]{storageId});
+	}
 
-    @Override
-    public void disable() {
-        handler.invoke("DOMStorage", "disable", "DOMStorage.disable", null, void.class, null, true, false, true,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void disable() {
+		handler.invoke("DOMStorage", "disable", "DOMStorage.disable", null, void.class, null, true, false, true,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    public void enable() {
-        handler.invoke("DOMStorage", "enable", "DOMStorage.enable", null, void.class, null, true, true, false,
-                EMPTY_ARGS, EMPTY_VALUES);
-    }
+	@Override
+	public void enable() {
+		handler.invoke("DOMStorage", "enable", "DOMStorage.enable", null, void.class, null, true, true, false,
+				EMPTY_ARGS, EMPTY_VALUES);
+	}
 
-    @Override
-    @java.lang.SuppressWarnings("unchecked")
-    public List<String> getDOMStorageItems(StorageId storageId) {
-        return (List<String>) handler.invoke("DOMStorage", "getDOMStorageItems", "DOMStorage.getDOMStorageItems",
-                "entries", List.class, TT_LIST_STRING.getType(), false, false, false, new String[]{"storageId"},
-                new Object[]{storageId});
-    }
+	@Override
+	@java.lang.SuppressWarnings("unchecked")
+	public List<String> getDOMStorageItems(StorageId storageId) {
+		return (List<String>) handler.invoke("DOMStorage", "getDOMStorageItems", "DOMStorage.getDOMStorageItems",
+				"entries", List.class, GET_DO_MSTORAGE_ITEMS.getType(), false, false, false, new String[]{"storageId"},
+				new Object[]{storageId});
+	}
 
-    @Override
-    public void removeDOMStorageItem(StorageId storageId, String key) {
-        handler.invoke("DOMStorage", "removeDOMStorageItem", "DOMStorage.removeDOMStorageItem", null, void.class, null,
-                true, false, false, new String[]{"storageId", "key"}, new Object[]{storageId, key});
-    }
+	@Override
+	public void removeDOMStorageItem(StorageId storageId, String key) {
+		handler.invoke("DOMStorage", "removeDOMStorageItem", "DOMStorage.removeDOMStorageItem", null, void.class, null,
+				true, false, false, new String[]{"storageId", "key"}, new Object[]{storageId, key});
+	}
 
-    @Override
-    public void setDOMStorageItem(StorageId storageId, String key, String value) {
-        handler.invoke("DOMStorage", "setDOMStorageItem", "DOMStorage.setDOMStorageItem", null, void.class, null, true,
-                false, false, new String[]{"storageId", "key", "value"}, new Object[]{storageId, key, value});
-    }
+	@Override
+	public void setDOMStorageItem(StorageId storageId, String key, String value) {
+		handler.invoke("DOMStorage", "setDOMStorageItem", "DOMStorage.setDOMStorageItem", null, void.class, null, true,
+				false, false, new String[]{"storageId", "key", "value"}, new Object[]{storageId, key, value});
+	}
 }

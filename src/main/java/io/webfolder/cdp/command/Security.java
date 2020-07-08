@@ -39,7 +39,7 @@ public interface Security {
 
     /**
      * Enable/disable whether all certificate errors should be ignored.
-     * 
+     *
      * @param ignore If true, all certificate errors will be ignored.
      */
     @Experimental
@@ -47,7 +47,7 @@ public interface Security {
 
     /**
      * Handles a certificate error that fired a certificateError event.
-     * 
+     *
      * @param eventId The ID of the event.
      * @param action The action to take on the certificate error.
      */
@@ -55,8 +55,8 @@ public interface Security {
 
     /**
      * Enable/disable overriding certificate errors. If enabled, all certificate error events need to
-     * be handled by the DevTools client and should be answered with `handleCertificateError` commands.
-     * 
+     * be handled by the DevTools client and should be answered with handleCertificateError commands.
+     *
      * @param override If true, certificate errors will be overridden.
      */
     void setOverrideCertificateErrors(Boolean override);

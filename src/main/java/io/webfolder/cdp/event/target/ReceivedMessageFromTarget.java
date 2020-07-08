@@ -1,17 +1,14 @@
 package io.webfolder.cdp.event.target;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
  * Notifies about a new protocol message received from the session (as reported in
- * `attachedToTarget` event)
+ * attachedToTarget event)
  */
 @Domain("Target")
 @EventName("receivedMessageFromTarget")
-@UseStag
 public class ReceivedMessageFromTarget {
     private String sessionId;
 

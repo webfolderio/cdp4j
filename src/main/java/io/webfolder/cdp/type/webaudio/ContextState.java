@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.webaudio;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Enum of AudioContextState from the spec
  */
-@UseStag
 public enum ContextState {
     @SerializedName("suspended")
     Suspended("suspended"),

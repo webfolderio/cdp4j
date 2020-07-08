@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.network;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.network.BlockedReason;
@@ -30,7 +28,6 @@ import io.webfolder.cdp.type.network.ResourceType;
  */
 @Domain("Network")
 @EventName("loadingFailed")
-@UseStag
 public class LoadingFailed {
     private String requestId;
 

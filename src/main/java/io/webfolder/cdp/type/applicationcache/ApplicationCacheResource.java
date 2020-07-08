@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.applicationcache;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Detailed application cache resource information
  */
-@UseStag
 public class ApplicationCacheResource {
     private String url;
 

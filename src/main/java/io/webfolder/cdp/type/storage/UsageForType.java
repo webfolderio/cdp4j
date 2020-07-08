@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.storage;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Usage for a storage type
  */
-@UseStag
 public class UsageForType {
     private StorageType storageType;
 

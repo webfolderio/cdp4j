@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.profiler;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Coverage data for a source range
  */
-@UseStag
 public class CoverageRange {
     private Integer startOffset;
 

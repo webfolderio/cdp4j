@@ -18,19 +18,16 @@
  */
 package io.webfolder.cdp.event.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
- * Fired when the page with currently enabled screencast was shown or hidden `
+ * Fired when the page with currently enabled screencast was shown or hidden 
  */
 @Experimental
 @Domain("Page")
 @EventName("screencastVisibilityChanged")
-@UseStag
 public class ScreencastVisibilityChanged {
     private Boolean visible;
 

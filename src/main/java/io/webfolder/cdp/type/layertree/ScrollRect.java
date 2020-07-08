@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.layertree;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.constant.RepaintReason;
 import io.webfolder.cdp.type.dom.Rect;
 
 /**
  * Rectangle where scrolling happens on the main thread
  */
-@UseStag
 public class ScrollRect {
     private Rect rect;
 

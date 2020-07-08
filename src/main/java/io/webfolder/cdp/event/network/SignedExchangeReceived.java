@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.network;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
@@ -31,7 +29,6 @@ import io.webfolder.cdp.type.network.SignedExchangeInfo;
 @Experimental
 @Domain("Network")
 @EventName("signedExchangeReceived")
-@UseStag
 public class SignedExchangeReceived {
     private String requestId;
 

@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.type.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.network.ResourceType;
 
@@ -27,7 +25,6 @@ import io.webfolder.cdp.type.network.ResourceType;
  * Information about the Resource on the page
  */
 @Experimental
-@UseStag
 public class FrameResource {
     private String url;
 

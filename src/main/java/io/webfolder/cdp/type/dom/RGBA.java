@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.dom;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * A structure holding an RGBA color
  */
-@UseStag
 public class RGBA {
     private Integer r;
 

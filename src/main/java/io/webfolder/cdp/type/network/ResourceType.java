@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Resource type as it was perceived by the rendering engine
  */
-@UseStag
 public enum ResourceType {
     @SerializedName("Document")
     Document("Document"),

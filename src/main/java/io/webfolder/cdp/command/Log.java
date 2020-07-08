@@ -39,13 +39,13 @@ public interface Log {
 
     /**
      * Enables log domain, sends the entries collected so far to the client by means of the
-     * `entryAdded` notification.
+     * entryAdded notification.
      */
     void enable();
 
     /**
      * start violation reporting.
-     * 
+     *
      * @param config Configuration for violations.
      */
     void startViolationsReport(List<ViolationSetting> config);

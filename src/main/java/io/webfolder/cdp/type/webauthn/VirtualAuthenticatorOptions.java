@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.webauthn;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class VirtualAuthenticatorOptions {
     private AuthenticatorProtocol protocol;
 
@@ -98,23 +95,15 @@ public class VirtualAuthenticatorOptions {
      * Sets whether User Verification succeeds or fails for an authenticator.
      * Defaults to false.
      */
+    public Boolean isIsUserVerified() {
+        return isUserVerified;
+    }
+
+    /**
+     * Sets whether User Verification succeeds or fails for an authenticator.
+     * Defaults to false.
+     */
     public void setIsUserVerified(Boolean isUserVerified) {
         this.isUserVerified = isUserVerified;
-    }
-
-    public Boolean getHasResidentKey() {
-        return hasResidentKey;
-    }
-
-    public Boolean getHasUserVerification() {
-        return hasUserVerification;
-    }
-
-    public Boolean getAutomaticPresenceSimulation() {
-        return automaticPresenceSimulation;
-    }
-
-    public Boolean getIsUserVerified() {
-        return isUserVerified;
     }
 }

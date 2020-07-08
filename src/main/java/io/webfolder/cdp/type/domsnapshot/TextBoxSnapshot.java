@@ -20,14 +20,11 @@ package io.webfolder.cdp.type.domsnapshot;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Table of details of the post layout rendered text positions
  * The exact layout should not be regarded as
  * stable and may change between versions
  */
-@UseStag
 public class TextBoxSnapshot {
     private List<Integer> layoutIndex;
 

@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.network;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Information about a signed exchange response
  */
 @Experimental
-@UseStag
 public class SignedExchangeInfo {
     private Response outerResponse;
 

@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.webaudio;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.webaudio.AudioParam;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.webaudio.AudioParam;
  */
 @Domain("WebAudio")
 @EventName("audioParamCreated")
-@UseStag
 public class AudioParamCreated {
     private AudioParam param;
 

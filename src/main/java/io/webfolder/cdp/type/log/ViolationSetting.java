@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.type.log;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.constant.ViolationType;
 
 /**
  * Violation configuration setting
  */
-@UseStag
 public class ViolationSetting {
     private ViolationType name;
 

@@ -34,9 +34,9 @@ public interface ApplicationCache {
 
     /**
      * Returns relevant application cache data for the document in given frame.
-     * 
+     *
      * @param frameId Identifier of the frame containing document whose application cache is retrieved.
-     * 
+     *
      * @return Relevant application cache data for the document in given frame.
      */
     @Returns("applicationCache")
@@ -46,7 +46,7 @@ public interface ApplicationCache {
     /**
      * Returns array of frame identifiers with manifest urls for each frame containing a document
      * associated with some application cache.
-     * 
+     *
      * @return Array of frame identifiers with manifest urls for each frame containing a document
      * associated with some application cache.
      */
@@ -55,9 +55,9 @@ public interface ApplicationCache {
 
     /**
      * Returns manifest URL for document in the given frame.
-     * 
+     *
      * @param frameId Identifier of the frame containing document whose manifest is retrieved.
-     * 
+     *
      * @return Manifest URL for document in the given frame.
      */
     @Returns("manifestURL")

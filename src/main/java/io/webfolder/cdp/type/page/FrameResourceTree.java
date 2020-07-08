@@ -20,15 +20,12 @@ package io.webfolder.cdp.type.page;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Information about the Frame hierarchy along with their cached resources
  */
 @Experimental
-@UseStag
 public class FrameResourceTree {
     private Frame frame;
 

@@ -19,7 +19,6 @@
 package io.webfolder.cdp.type.tracing;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Data format of a trace
@@ -27,7 +26,6 @@ import com.vimeo.stag.UseStag;
  * protocol buffer format
  * Note that the JSON format will be deprecated soon
  */
-@UseStag
 public enum StreamFormat {
     @SerializedName("json")
     Json("json"),

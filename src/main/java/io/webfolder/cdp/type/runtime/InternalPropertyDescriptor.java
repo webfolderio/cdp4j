@@ -18,13 +18,10 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Object internal property descriptor
  * This property isn't normally visible in JavaScript code
  */
-@UseStag
 public class InternalPropertyDescriptor {
     private String name;
 

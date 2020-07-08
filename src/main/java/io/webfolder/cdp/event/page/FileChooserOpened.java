@@ -18,19 +18,16 @@
  */
 package io.webfolder.cdp.event.page;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.constant.FileChooserInputMode;
 
 /**
- * Emitted only when `page
- * interceptFileChooser` is enabled
+ * Emitted only when page
+ * interceptFileChooser is enabled
  */
 @Domain("Page")
 @EventName("fileChooserOpened")
-@UseStag
 public class FileChooserOpened {
     private String frameId;
 

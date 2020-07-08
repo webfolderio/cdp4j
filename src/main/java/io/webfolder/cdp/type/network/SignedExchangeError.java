@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.network;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Information about a signed exchange response
  */
 @Experimental
-@UseStag
 public class SignedExchangeError {
     private String message;
 

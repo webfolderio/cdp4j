@@ -1,7 +1,5 @@
 package io.webfolder.cdp.event.target;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.target.TargetInfo;
@@ -11,7 +9,6 @@ import io.webfolder.cdp.type.target.TargetInfo;
  */
 @Domain("Target")
 @EventName("targetCreated")
-@UseStag
 public class TargetCreated {
     private TargetInfo targetInfo;
 

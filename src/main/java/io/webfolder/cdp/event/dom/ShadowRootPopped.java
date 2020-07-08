@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.dom;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.annotation.Experimental;
@@ -30,7 +28,6 @@ import io.webfolder.cdp.annotation.Experimental;
 @Experimental
 @Domain("DOM")
 @EventName("shadowRootPopped")
-@UseStag
 public class ShadowRootPopped {
     private Integer hostId;
 

@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.type.runtime;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.type.constant.ObjectSubtypeHint;
 import io.webfolder.cdp.type.constant.PropertyPreviewType;
 
 @Experimental
-@UseStag
 public class PropertyPreview {
     private String name;
 
@@ -94,14 +91,14 @@ public class PropertyPreview {
     }
 
     /**
-     * Object subtype hint. Specified for `object` type values only.
+     * Object subtype hint. Specified for object type values only.
      */
     public ObjectSubtypeHint getSubtype() {
         return subtype;
     }
 
     /**
-     * Object subtype hint. Specified for `object` type values only.
+     * Object subtype hint. Specified for object type values only.
      */
     public void setSubtype(ObjectSubtypeHint subtype) {
         this.subtype = subtype;

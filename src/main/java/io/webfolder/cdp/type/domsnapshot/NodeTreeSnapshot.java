@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.domsnapshot;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Table containing nodes
  */
-@UseStag
 public class NodeTreeSnapshot {
     private List<Integer> parentIndex;
 
@@ -35,7 +32,7 @@ public class NodeTreeSnapshot {
 
     private List<Integer> nodeValue;
 
-    private List<Integer> backendNodeId;
+    private List<String> backendNodeId;
 
     private RareStringData textValue;
 
@@ -70,58 +67,58 @@ public class NodeTreeSnapshot {
     }
 
     /**
-     * `Node`'s nodeType.
+     * Node's nodeType.
      */
     public List<Integer> getNodeType() {
         return nodeType;
     }
 
     /**
-     * `Node`'s nodeType.
+     * Node's nodeType.
      */
     public void setNodeType(List<Integer> nodeType) {
         this.nodeType = nodeType;
     }
 
     /**
-     * `Node`'s nodeName.
+     * Node's nodeName.
      */
     public List<Integer> getNodeName() {
         return nodeName;
     }
 
     /**
-     * `Node`'s nodeName.
+     * Node's nodeName.
      */
     public void setNodeName(List<Integer> nodeName) {
         this.nodeName = nodeName;
     }
 
     /**
-     * `Node`'s nodeValue.
+     * Node's nodeValue.
      */
     public List<Integer> getNodeValue() {
         return nodeValue;
     }
 
     /**
-     * `Node`'s nodeValue.
+     * Node's nodeValue.
      */
     public void setNodeValue(List<Integer> nodeValue) {
         this.nodeValue = nodeValue;
     }
 
     /**
-     * `Node`'s id, corresponds to DOM.Node.backendNodeId.
+     * Node's id, corresponds to DOM.Node.backendNodeId.
      */
-    public List<Integer> getBackendNodeId() {
+    public List<String> getBackendNodeId() {
         return backendNodeId;
     }
 
     /**
-     * `Node`'s id, corresponds to DOM.Node.backendNodeId.
+     * Node's id, corresponds to DOM.Node.backendNodeId.
      */
-    public void setBackendNodeId(List<Integer> backendNodeId) {
+    public void setBackendNodeId(List<String> backendNodeId) {
         this.backendNodeId = backendNodeId;
     }
 

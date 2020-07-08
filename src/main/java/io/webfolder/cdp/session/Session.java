@@ -143,8 +143,6 @@ import io.webfolder.cdp.command.SystemInfo;
 import io.webfolder.cdp.command.SystemInfoImpl;
 import io.webfolder.cdp.command.Target;
 import io.webfolder.cdp.command.TargetImpl;
-import io.webfolder.cdp.command.Testing;
-import io.webfolder.cdp.command.TestingImpl;
 import io.webfolder.cdp.command.Tethering;
 import io.webfolder.cdp.command.TetheringImpl;
 import io.webfolder.cdp.command.Tracing;
@@ -893,8 +891,6 @@ public class Session implements AutoCloseable,
             instance = (T) new SystemInfoImpl(invocationHandler);
         } else if (klass.equals(Target.class)) {
             instance = (T) new TargetImpl(invocationHandler);
-        } else if (klass.equals(Testing.class)) {
-            instance = (T) new TestingImpl(invocationHandler);
         } else if (klass.equals(Tethering.class)) {
             instance = (T) new TetheringImpl(invocationHandler);
         } else if (klass.equals(Tracing.class)) {

@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.runtime;
 
 import java.util.Map;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Description of an isolated world
  */
-@UseStag
 public class ExecutionContextDescription {
     private Integer id;
 

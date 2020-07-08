@@ -20,12 +20,9 @@ package io.webfolder.cdp.type.applicationcache;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * Detailed application cache information
  */
-@UseStag
 public class ApplicationCache {
     private String manifestURL;
 

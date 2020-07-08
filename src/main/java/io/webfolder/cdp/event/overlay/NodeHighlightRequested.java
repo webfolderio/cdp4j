@@ -18,18 +18,15 @@
  */
 package io.webfolder.cdp.event.overlay;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 /**
  * Fired when the node should be highlighted
- * This happens after call to `setInspectMode`
+ * This happens after call to setInspectMode
  */
 @Domain("Overlay")
 @EventName("nodeHighlightRequested")
-@UseStag
 public class NodeHighlightRequested {
     private Integer nodeId;
 

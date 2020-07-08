@@ -38,7 +38,7 @@ public interface Database {
     void enable();
 
     /**
-     * 
+     *
      * @return ExecuteSQLResult
      */
     ExecuteSQLResult executeSQL(String databaseId, String query);

@@ -18,9 +18,6 @@
  */
 package io.webfolder.cdp.type.dom;
 
-import com.vimeo.stag.UseStag;
-
-@UseStag
 public class GetFrameOwnerResult {
     private Integer backendNodeId;
 
@@ -32,13 +29,5 @@ public class GetFrameOwnerResult {
 
     public Integer getNodeId() {
         return nodeId;
-    }
-
-    public void setBackendNodeId(Integer backendNodeId) {
-        this.backendNodeId = backendNodeId;
-    }
-
-    public void setNodeId(Integer nodeId) {
-        this.nodeId = nodeId;
     }
 }

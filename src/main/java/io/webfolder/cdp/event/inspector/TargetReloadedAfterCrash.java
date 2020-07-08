@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.inspector;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
@@ -28,6 +26,5 @@ import io.webfolder.cdp.annotation.EventName;
  */
 @Domain("Inspector")
 @EventName("targetReloadedAfterCrash")
-@UseStag
 public class TargetReloadedAfterCrash {
 }

@@ -20,8 +20,6 @@ package io.webfolder.cdp.type.log;
 
 import java.util.List;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.type.constant.LogEntrySeverity;
 import io.webfolder.cdp.type.constant.LogEntrySource;
 import io.webfolder.cdp.type.runtime.RemoteObject;
@@ -30,7 +28,6 @@ import io.webfolder.cdp.type.runtime.StackTrace;
 /**
  * Log entry
  */
-@UseStag
 public class LogEntry {
     private LogEntrySource source;
 

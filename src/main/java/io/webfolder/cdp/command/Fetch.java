@@ -43,7 +43,7 @@ public interface Fetch {
     /**
      * Enables issuing of requestPaused events. A request will be paused until client
      * calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
-     * 
+     *
      * @param patterns If specified, only requests matching any of these patterns will produce
      * fetchRequested event and will be paused until clients response. If not set,
      * all requests will be affected.
@@ -54,7 +54,7 @@ public interface Fetch {
 
     /**
      * Causes the request to fail with specified reason.
-     * 
+     *
      * @param requestId An id the client received in requestPaused event.
      * @param errorReason Causes the request to fail with the given reason.
      */
@@ -62,7 +62,7 @@ public interface Fetch {
 
     /**
      * Provides response to the request.
-     * 
+     *
      * @param requestId An id the client received in requestPaused event.
      * @param responseCode An HTTP response code.
      * @param responseHeaders Response headers.
@@ -80,19 +80,19 @@ public interface Fetch {
 
     /**
      * Continues the request, optionally modifying some of its parameters.
-     * 
+     *
      * @param requestId An id the client received in requestPaused event.
      * @param url If set, the request url will be modified in a way that's not observable by page.
      * @param method If set, the request method is overridden.
      * @param postData If set, overrides the post data in the request.
-     * @param headers If set, overrides the request headrts.
+     * @param headers If set, overrides the request headers.
      */
     void continueRequest(String requestId, @Optional String url, @Optional String method,
             @Optional String postData, @Optional List<HeaderEntry> headers);
 
     /**
      * Continues a request supplying authChallengeResponse following authRequired event.
-     * 
+     *
      * @param requestId An id the client received in authRequired event.
      * @param authChallengeResponse Response to  with an authChallenge.
      */
@@ -105,9 +105,9 @@ public interface Fetch {
      * takeResponseBodyForInterceptionAsStream. Calling other methods that
      * affect the request or disabling fetch domain before body is received
      * results in an undefined behavior.
-     * 
+     *
      * @param requestId Identifier for the intercepted request to get body for.
-     * 
+     *
      * @return GetResponseBodyResult
      */
     GetResponseBodyResult getResponseBody(String requestId);
@@ -123,7 +123,7 @@ public interface Fetch {
      * This method is mutually exclusive with getResponseBody.
      * Calling other methods that affect the request or disabling fetch
      * domain before body is received results in an undefined behavior.
-     * 
+     *
      */
     @Returns("stream")
     String takeResponseBodyAsStream(String requestId);
@@ -136,7 +136,7 @@ public interface Fetch {
 
     /**
      * Provides response to the request.
-     * 
+     *
      * @param requestId An id the client received in requestPaused event.
      * @param responseCode An HTTP response code.
      */
@@ -144,7 +144,7 @@ public interface Fetch {
 
     /**
      * Continues the request, optionally modifying some of its parameters.
-     * 
+     *
      * @param requestId An id the client received in requestPaused event.
      */
     void continueRequest(String requestId);

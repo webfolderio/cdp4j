@@ -18,12 +18,9 @@
  */
 package io.webfolder.cdp.type.backgroundservice;
 
-import com.vimeo.stag.UseStag;
-
 /**
  * A key-value pair for additional event information to pass along
  */
-@UseStag
 public class EventMetadata {
     private String key;
 

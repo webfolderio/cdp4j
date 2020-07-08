@@ -19,9 +19,7 @@
 package io.webfolder.cdp.type.security;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
-@UseStag
 public enum SafetyTipStatus {
     @SerializedName("badReputation")
     BadReputation("badReputation"),

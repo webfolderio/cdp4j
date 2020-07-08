@@ -18,14 +18,11 @@
  */
 package io.webfolder.cdp.event.tracing;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 
 @Domain("Tracing")
 @EventName("bufferUsage")
-@UseStag
 public class BufferUsage {
     private Double percentFull;
 

@@ -18,15 +18,12 @@
  */
 package io.webfolder.cdp.type.browser;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Experimental;
 
 /**
  * Browser window bounds information
  */
 @Experimental
-@UseStag
 public class Bounds {
     private Integer left;
 

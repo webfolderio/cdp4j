@@ -19,12 +19,10 @@
 package io.webfolder.cdp.type.memory;
 
 import com.google.gson.annotations.SerializedName;
-import com.vimeo.stag.UseStag;
 
 /**
  * Memory pressure level
  */
-@UseStag
 public enum PressureLevel {
     @SerializedName("moderate")
     Moderate("moderate"),

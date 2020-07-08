@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.log;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.log.LogEntry;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.log.LogEntry;
  */
 @Domain("Log")
 @EventName("entryAdded")
-@UseStag
 public class EntryAdded {
     private LogEntry entry;
 

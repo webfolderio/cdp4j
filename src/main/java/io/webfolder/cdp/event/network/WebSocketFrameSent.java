@@ -18,8 +18,6 @@
  */
 package io.webfolder.cdp.event.network;
 
-import com.vimeo.stag.UseStag;
-
 import io.webfolder.cdp.annotation.Domain;
 import io.webfolder.cdp.annotation.EventName;
 import io.webfolder.cdp.type.network.WebSocketFrame;
@@ -29,7 +27,6 @@ import io.webfolder.cdp.type.network.WebSocketFrame;
  */
 @Domain("Network")
 @EventName("webSocketFrameSent")
-@UseStag
 public class WebSocketFrameSent {
     private String requestId;
 
