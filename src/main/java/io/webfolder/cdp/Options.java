@@ -33,6 +33,8 @@ import java.util.concurrent.ExecutorService;
 
 import io.webfolder.cdp.logger.CdpConsoleLogggerLevel;
 import io.webfolder.cdp.logger.CdpLoggerType;
+import io.webfolder.cdp.process.AdaptiveProcessManager;
+import io.webfolder.cdp.process.ProcessManager;
 import io.webfolder.cdp.session.WaitingStrategy;
 
 public class Options {
@@ -72,6 +74,8 @@ public class Options {
     private String browserExecutablePath;
 
     private Browser browser;
+
+    private ProcessManager processManager;
 
     private Options() {
         // no op
@@ -183,6 +187,9 @@ public class Options {
             if (options.browser == null) {
                 options.browser = Any;
             }
+            if (options.processManager == null && ProcessExecutor.LibUv.equals(options.processExecutor)) {
+                options.processManager = new AdaptiveProcessManager();
+            }
             return options;
         }
 
@@ -250,5 +257,9 @@ public class Options {
 
     public Browser browser() {
         return browser;
+    }
+
+    public ProcessManager processManager() {
+        return processManager;
     }
 }
