@@ -102,14 +102,14 @@ WebSocket Protocol
 DevTools Protocol uses WebSocket protocol to automate Chromium based browser. We supports the following Java WebSocket libraries.
 
 * [Jre WebSocket Library](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/JreWebSocketConnection.java) (requires Java 11+).
-* [Jetty](https://github.com/webfolderio/cdp4j/blob/master/src/main/jetty/io/webfolder/cdp/channel/JettyWebSocketFactory.java)
-* [Undertow](https://github.com/webfolderio/cdp4j/blob/master/src/main/undertow/io/webfolder/cdp/channel/UndertowWebSocketFactory.java)
-* [Vertx](https://github.com/webfolderio/cdp4j/blob/master/src/main/vertx/io/webfolder/cdp/channel/VertxWebSocketFactory.java)
-* [Tyrus](https://github.com/webfolderio/cdp4j/blob/master/src/main/jsr356/io/webfolder/cdp/channel/StandardWebSocketFactory.java)
-* [TooTallNateWebSocket](https://github.com/webfolderio/cdp4j/blob/master/src/main/totall/io/webfolder/cdp/channel/TooTallNateWebSocketFactory.java)
-* [Tomcat](https://github.com/webfolderio/cdp4j/blob/master/src/main/jsr356/io/webfolder/cdp/channel/StandardWebSocketFactory.java)
-* [Netty](https://github.com/webfolderio/cdp4j/blob/master/src/main/asynchttpclient/io/webfolder/cdp/channel/AsyncWebSocketFactory.java)
-* [NvWebSocket](https://github.com/webfolderio/cdp4j/blob/master/src/main/nvwebsocket/io/webfolder/cdp/channel/NvWebSocketFactory.java)
+* [Jetty](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/JettyWebSocketConnection.java)
+* [Undertow](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/UndertowWebSocketConnection.java)
+* [Vertx](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/VertxWebSocketConnection.java)
+* [Tyrus](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/TyrusWebSocketConnection.java)
+* [TooTallNateWebSocket](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/TooTallNateWebSocketConnection.java)
+* [Tomcat](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/TomcatWebSocketConnection.java)
+* [Netty](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/NettyWebSocketConnection.java)
+* [NvWebSocket](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/NvWebSocketConnection.java)
 
 __Note:__ Please let us know if your preferred WebSocket library is not listed.
 
