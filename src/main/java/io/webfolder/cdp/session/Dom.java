@@ -19,7 +19,6 @@
 package io.webfolder.cdp.session;
 
 import static io.webfolder.cdp.session.Option.TYPE_TOKEN;
-import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
@@ -890,43 +889,23 @@ public interface Dom {
         return getThis().getCommand().getDOM().getOuterHTML(nodeId, null, null);
     }
 
+    /**
+     * Scrolls the the given node into view if not already visible.
+     */
     default void scrollIntoViewIfNeeded(String selector) {
         scrollIntoViewIfNeeded(selector, Constant.EMPTY_ARGS);
     }
 
+    /**
+     * Scrolls the the given node into view if not already visible.
+     */
     default void scrollIntoViewIfNeeded(String selector, Object... args) {
-        String objectId = getThis().getObjectId(selector, args);
-        String fn = "function() {" +
-                    "    var scrollIfNeeded = async function(element) {" +
-                    "        const visibleRatio = await new Promise(resolve => {" +
-                    "            const observer = new IntersectionObserver(entries => {" +
-                    "                resolve(entries[0].intersectionRatio);" +
-                    "                observer.disconnect();" +
-                    "            });" +
-                    "            observer.observe(element);" +
-                    "        });" +
-                    "        if (visibleRatio !== 1.0) element.scrollIntoView({" +
-                    "            block: 'center'," +
-                    "            inline: 'center'," +
-                    "            behavior: 'instant'" +
-                    "        });" +
-                    "        return false;" +
-                    "    };" +
-                    "    return scrollIfNeeded(this);" +
-                    "}";
-        CallFunctionOnResult obj = getThis()
-                                    .getCommand()
-                                    .getRuntime()
-                                    .callFunctionOn(fn, objectId, null,
-                                                        FALSE, FALSE, FALSE,
-                                                        FALSE, TRUE, null,
-                                                        null);
-        if ( obj != null && obj.getResult() != null ) {
-            getThis().releaseObject(obj.getResult().getObjectId());
-        }
-        if ( objectId != null ) {
-            getThis().releaseObject(objectId);
-        }
+        Integer contextId = getThis().getExecutionContextId();
+        Integer nodeId = getThis().getNodeId(contextId, selector, args);
+        getThis()
+            .getCommand()
+            .getDOM()
+            .scrollIntoViewIfNeeded(nodeId, null, null, null);
     }
 
     default Point getClickablePoint(String selector) {
