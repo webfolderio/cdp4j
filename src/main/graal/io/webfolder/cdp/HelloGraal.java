@@ -18,7 +18,7 @@
  */
 package io.webfolder.cdp;
 
-import static io.webfolder.cdp.CustomTypeAdapter.Generated;
+import static io.webfolder.cdp.ProcessExecutor.LibUv;
 import static io.webfolder.cdp.logger.CdpLoggerType.Console;
 
 import java.io.IOException;
@@ -28,11 +28,12 @@ import io.webfolder.cdp.session.SessionFactory;
 
 public class HelloGraal {
 
+	// before compile execute main method using native-image-agent
+	// -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image/io.webfolder/cdp4j
     public static void main(String[] args) throws IOException, InterruptedException {
         Options options = Options.builder()
-                                 .useCustomTypeAdapter(Generated)
+        						 .processExecutor(LibUv)
                                  .loggerType(Console)
-                                 .processManager(new DefaultProcessManager())
                              .build();
 
         Launcher launcher = new Launcher(options);
