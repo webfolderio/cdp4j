@@ -18,7 +18,7 @@
  */
 package io.webfolder.cdp;
 
-import static io.webfolder.cdp.ProcessExecutor.LibUv;
+import static io.webfolder.cdp.ConnectionMode.Pipe;
 import static io.webfolder.cdp.logger.CdpLoggerType.Console;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class HelloGraal {
     // -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image/io.webfolder/cdp4j
     public static void main(String[] args) throws IOException, InterruptedException {
         Options options = Options.builder()
-                                 .processExecutor(LibUv)
+                                 .connectionMode(Pipe)
                                  .loggerType(Console)
                              .build();
 

@@ -63,7 +63,7 @@ public class DefaultProcessManager implements ProcessManager {
                                 ph.destroyForcibly();
                             }
                         } catch (Exception ignored) {
-                            
+                            // no op
                         }
                     });
                 }

@@ -22,9 +22,6 @@ import static java.io.File.pathSeparator;
 import static java.lang.System.getProperty;
 import static java.util.Locale.ENGLISH;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import io.webfolder.cdp.exception.CdpException;
 
 public class AdaptiveProcessManager implements ProcessManager {
@@ -57,18 +54,7 @@ public class AdaptiveProcessManager implements ProcessManager {
                 throw new CdpException(OS + " is not supported by AdaptiveProcessManager");
             }            
         } else {
-            try {
-                Class<?> klass = getClass()
-                                    .getClassLoader()
-                                    .loadClass("io.webfolder.cdp.process.DefaultProcessManager");
-                Constructor<?> constructor = klass.getConstructor();
-                return (ProcessManager) constructor.newInstance();
-            } catch (ClassNotFoundException   |
-                     InstantiationException   | IllegalAccessException |
-                     NoSuchMethodException    | SecurityException      |
-                     IllegalArgumentException | InvocationTargetException e) {
-               throw new CdpException(e);
-           }
+            return new DefaultProcessManager();
         }
     }
 
