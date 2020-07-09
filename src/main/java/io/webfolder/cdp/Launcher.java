@@ -18,7 +18,7 @@
  */
 package io.webfolder.cdp;
 
-import static io.webfolder.cdp.ProcessExecutor.LibUv;
+import static io.webfolder.cdp.RemoteConnection.Pipe;
 import static io.webfolder.cdp.process.WfExecLauncher.launchWithWfExec;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
@@ -44,7 +44,7 @@ import java.util.Scanner;
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
 import io.webfolder.cdp.channel.JreWebSocketFactory;
-import io.webfolder.cdp.channel.LibUvChannelFactory;
+import io.webfolder.cdp.channel.PipeChannelFactory;
 import io.webfolder.cdp.channel.WebSocketConnection;
 import io.webfolder.cdp.exception.CdpException;
 import io.webfolder.cdp.process.CdpProcess;
@@ -73,8 +73,8 @@ public class Launcher {
     }
 
     public Launcher(Options options) {
-        this(options, LibUv.equals(options.processExecutor()) ?
-                                    new LibUvChannelFactory() :
+        this(options, Pipe.equals(options.processExecutor()) ?
+                                    new PipeChannelFactory() :
                                     new JreWebSocketFactory());
     }
 
@@ -241,11 +241,11 @@ public class Launcher {
 
         SessionFactory factory = null;
         switch (options.processExecutor()) {
-            case LibUv:
+            case Pipe:
                 arguments.add("--remote-debugging-pipe");
                 factory = launchWithLibUv(arguments);
             break;
-            case ProcessBuilder:
+            case WebSocket:
                 arguments.add("--remote-debugging-port=0");
                 if (WINDOWS && ! (options.processManager() instanceof DefaultProcessManager) ) {
                     factory = launchWithWfExec(options, channelFactory, arguments);
@@ -282,7 +282,7 @@ public class Launcher {
     }
 
     private SessionFactory launchWithLibUv(List<String> arguments) {
-        LibUvChannelFactory libUvChannelFactory = (LibUvChannelFactory) channelFactory;
+        PipeChannelFactory libUvChannelFactory = (PipeChannelFactory) channelFactory;
         Path chromePath = get(arguments.get(0));
         libUvChannelFactory.spawn(chromePath, arguments);
         SessionFactory factory = new SessionFactory(options,
@@ -332,10 +332,10 @@ public class Launcher {
     }
 
     public boolean kill() {
-        ProcessExecutor executor = options.processExecutor();
+        RemoteConnection executor = options.processExecutor();
         switch (executor) {
-            case LibUv:
-                return ((LibUvChannelFactory) channelFactory).kill();
+            case Pipe:
+                return ((PipeChannelFactory) channelFactory).kill();
             default:
                 return options.processManager().kill();
         }

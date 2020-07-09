@@ -37,7 +37,7 @@ import io.webfolder.cdp.logger.CdpLogger;
 
 public final class MessageHandler {
 
-    private final Map<String, Events> events = listEvents();
+    private static final Map<String, Events> EVENTS = listEvents();
 
     private final Gson gson;
 
@@ -62,7 +62,6 @@ public final class MessageHandler {
         this.log                    = log; 
     }
 
-    @SuppressWarnings("resource")
     public void process(final String content)  {
         Runnable runnable = () -> {
             log.debug("<-- {}", content);
@@ -106,7 +105,7 @@ public final class MessageHandler {
                     return;
                 }
                 String eventName = method.getAsString();
-                Events event = events.get(eventName);
+                Events event = EVENTS.get(eventName);
                 if (event == null) {
                     return;
                 }
@@ -132,7 +131,7 @@ public final class MessageHandler {
         workerThreadPool.execute(runnable);
     }
 
-    Map<String, Events> listEvents() {
+    private static Map<String, Events> listEvents() {
         Events[] values = Events.values();
         Map<String, Events> map = new HashMap<>(values.length);
         for (Events next : values) {

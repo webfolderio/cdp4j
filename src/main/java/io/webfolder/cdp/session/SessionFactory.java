@@ -18,7 +18,7 @@
  */
 package io.webfolder.cdp.session;
 
-import static io.webfolder.cdp.ProcessExecutor.LibUv;
+import static io.webfolder.cdp.RemoteConnection.Pipe;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextCreated;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextDestroyed;
 import static java.lang.Boolean.TRUE;
@@ -40,7 +40,7 @@ import io.webfolder.cdp.Options;
 import io.webfolder.cdp.channel.Channel;
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
-import io.webfolder.cdp.channel.LibUvChannelFactory;
+import io.webfolder.cdp.channel.PipeChannelFactory;
 import io.webfolder.cdp.command.Target;
 import io.webfolder.cdp.event.runtime.ExecutionContextCreated;
 import io.webfolder.cdp.event.runtime.ExecutionContextDestroyed;
@@ -319,11 +319,11 @@ public class SessionFactory implements AutoCloseable {
     @Override
     public void close() {
         if (closed.compareAndSet(false, true)) {
-            boolean libuv = LibUv == options.processExecutor();
+            boolean libuv = Pipe == options.processExecutor();
             if (libuv && channel.isOpen()) {
                 Thread thread = new Thread(() -> {
                     try {
-                        ((LibUvChannelFactory) channel).kill();
+                        ((PipeChannelFactory) channel).kill();
                     } catch (Throwable t) {
                         // ignore
                     }

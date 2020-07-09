@@ -45,8 +45,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.oracle.libuv.ContextProvider;
 import com.oracle.libuv.DefaultHandleFactory;
-import com.oracle.libuv.IdleCallback;
-import com.oracle.libuv.IdleHandle;
 import com.oracle.libuv.LoopHandle;
 import com.oracle.libuv.PipeHandle;
 import com.oracle.libuv.ProcessCloseCallback;
@@ -55,16 +53,18 @@ import com.oracle.libuv.ProcessHandle;
 import com.oracle.libuv.ProcessHandle.ProcessFlags;
 import com.oracle.libuv.StdioOptions;
 import com.oracle.libuv.StreamReadCallback;
+import com.oracle.libuv.TimerCallback;
+import com.oracle.libuv.TimerHandle;
 
 import io.webfolder.cdp.exception.CdpException;
 import io.webfolder.cdp.session.MessageHandler;
 import io.webfolder.cdp.session.SessionFactory;
 
-public class LibUvChannelFactory implements
+public class PipeChannelFactory implements
                                     StreamReadCallback,
                                     ContextProvider,
                                     Runnable,
-                                    IdleCallback,
+                                    TimerCallback,
                                     ChannelFactory,
                                     Channel,
                                     Connection,
@@ -84,20 +84,22 @@ public class LibUvChannelFactory implements
     // inherit the environment from the parent process
     private static final String[]  DEFAULT_ENV          = null;
 
-    private static final AtomicInteger THREAD_COUNTER = new AtomicInteger(0);
+    private static final AtomicInteger THREAD_COUNTER   = new AtomicInteger(0);
+
+    private static final long INTERVAL                  = 1; // ms
 
     private final DefaultHandleFactory handleFactory;
 
     private final Queue<Runnable> queue = new ConcurrentLinkedQueue<>();
 
     private PipeHandle outPipe;
-    
+
     private PipeHandle inPipe;
-    
+
     private byte[] remaining;
-    
-    private IdleHandle idleHandle;
-    
+
+    private TimerHandle timerHandle;
+
     private MessageHandler handler;
 
     private ProcessHandle process;
@@ -117,7 +119,7 @@ public class LibUvChannelFactory implements
         disableStdioInheritance();
     }
 
-    public LibUvChannelFactory() {
+    public PipeChannelFactory() {
         loop = new LoopHandle();
         handleFactory = new DefaultHandleFactory(loop);
         Thread thread = new Thread(this);
@@ -131,7 +133,7 @@ public class LibUvChannelFactory implements
             outPipe = handleFactory.newPipeHandle(false);
             inPipe = handleFactory.newPipeHandle(false);
 
-            inPipe.setReadCallback(LibUvChannelFactory.this);
+            inPipe.setReadCallback(PipeChannelFactory.this);
 
             boolean inheritStdioFd = "true".equals(System.getProperty("cdp4j.libuv.inherit.stdio.fd", "false"));
  
@@ -227,9 +229,9 @@ public class LibUvChannelFactory implements
 
     @Override
     public void run() {
-        idleHandle = handleFactory.newIdleHandle();
-        idleHandle.setIdleCallback(this);
-        idleHandle.start();
+        timerHandle = handleFactory.newTimerHandle();
+        timerHandle.setTimerFiredCallback(this);
+        timerHandle.start(INTERVAL, INTERVAL);
         try {
             setLoopState(State.running);
             loop.run();
@@ -244,9 +246,9 @@ public class LibUvChannelFactory implements
     }
 
     @Override
-    public void onIdle(int status) throws Exception {
-        Runnable runnable = queue.poll();
-        if (runnable != null) {
+    public void onTimer(int status) throws Exception {
+        Runnable runnable = null;
+        while ( ( runnable = queue.poll() ) != null) {
             runnable.run();
         }
     }
@@ -334,8 +336,8 @@ public class LibUvChannelFactory implements
             setProcessState(State.closing);
             process.kill(SIGTERM);
             process.close();
-            idleHandle.stop();
-            idleHandle.close();
+            timerHandle.stop();
+            timerHandle.close();
         }
     }
 

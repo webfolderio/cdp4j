@@ -18,16 +18,13 @@
  */
 package io.webfolder.cdp;
 
-/**
- * Process executor type
- */
-public enum ProcessExecutor {
+public enum RemoteConnection {
     /**
-     * Use {@link DefaultProcessManager} to launch Chrome browser.
+     * Use WebSocket connection.
      */
-    ProcessBuilder,
+    WebSocket,
     /**
-     * Use {@link LibUvChannelFactory} to launch Chrome browser.
+     * Use Pipe connection.
      */
-    LibUv
+    Pipe
 }

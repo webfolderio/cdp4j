@@ -19,7 +19,7 @@
 package io.webfolder.cdp;
 
 import static io.webfolder.cdp.Browser.Any;
-import static io.webfolder.cdp.ProcessExecutor.ProcessBuilder;
+import static io.webfolder.cdp.RemoteConnection.WebSocket;
 import static io.webfolder.cdp.logger.CdpLoggerType.Null;
 import static io.webfolder.cdp.session.WaitingStrategy.Semaphore;
 import static java.lang.Boolean.TRUE;
@@ -69,7 +69,7 @@ public class Options {
 
     private WaitingStrategy waitingStrategy;
 
-    private ProcessExecutor processExecutor;
+    private RemoteConnection remoteConnection;
 
     private String browserExecutablePath;
 
@@ -143,8 +143,8 @@ public class Options {
             return this;
         }
 
-        public Builder processExecutor(ProcessExecutor processExecutor) {
-            options.processExecutor = processExecutor;
+        public Builder processExecutor(RemoteConnection processExecutor) {
+            options.remoteConnection = processExecutor;
             return this;
         }
 
@@ -181,13 +181,14 @@ public class Options {
             if (options.waitingStrategy == null) {
                 options.waitingStrategy = Semaphore;
             }
-            if (options.processExecutor == null) {
-                options.processExecutor = ProcessBuilder;
+            if (options.remoteConnection == null) {
+                options.remoteConnection = WebSocket;
             }
             if (options.browser == null) {
                 options.browser = Any;
             }
-            if (options.processManager == null && ProcessExecutor.LibUv.equals(options.processExecutor)) {
+            if (options.processManager == null &&
+                    ! RemoteConnection.Pipe.equals(options.remoteConnection) ) {
                 options.processManager = new AdaptiveProcessManager();
             }
             return options;
@@ -247,8 +248,8 @@ public class Options {
         return waitingStrategy;
     }
 
-    public ProcessExecutor processExecutor() {
-        return processExecutor;
+    public RemoteConnection processExecutor() {
+        return remoteConnection;
     }
 
     public String browserExecutablePath() {
