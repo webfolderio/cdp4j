@@ -81,7 +81,7 @@
             <index>true</index>
             <manifestEntries>
               <Implementation-Title>cdp4j</Implementation-Title>
-              <Implementation-Version>4.0.2-SNAPSHOT</Implementation-Version>
+              <Implementation-Version>${project.version}</Implementation-Version>
               <Automatic-Module-Name>io.webfolder.cdp4j</Automatic-Module-Name>
             </manifestEntries>
           </archive>

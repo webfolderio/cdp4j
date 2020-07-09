@@ -41,7 +41,7 @@ public class WfProcessManager implements ProcessManager {
 
     @Override
     public boolean kill() {
-        if ( process == null ) {
+        if (process == null) {
             return false;
         }
         if (running.compareAndSet(true, false)) {

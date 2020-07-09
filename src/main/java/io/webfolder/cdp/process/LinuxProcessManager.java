@@ -55,6 +55,9 @@ public class LinuxProcessManager implements ProcessManager {
 
     @Override
     public boolean kill() {
+        if (process == null) {
+            return false;
+        }
         ProcessBuilder builder = new ProcessBuilder("strings",
                                                     "-a",
                                                     "/proc/" + pid + "/cmdline");

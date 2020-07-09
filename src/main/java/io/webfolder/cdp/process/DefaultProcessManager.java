@@ -44,6 +44,9 @@ public class DefaultProcessManager implements ProcessManager {
 
     @Override
     public boolean kill() {
+        if (pid <= 0) {
+            return false;
+        }
         Optional<ProcessHandle> process = of(pid);
         if (process.isPresent()) {
             ProcessHandle handle = process.get();

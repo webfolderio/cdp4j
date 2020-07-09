@@ -56,6 +56,9 @@ public class MacOsProcessManager implements ProcessManager {
 
     @Override
     public boolean kill() {
+        if (process == null) {
+            return false;
+        }
         ProcessBuilder builder = new ProcessBuilder("ps", "auxww");
         boolean found = false;
         try {

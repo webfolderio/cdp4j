@@ -37,6 +37,9 @@ public class TaskKillProcessManager implements ProcessManager {
 
     @Override
     public boolean kill() {
+        if (process == null) {
+            return false;
+        }
         Field handleField;
         try {
             handleField = process.getProcess()
