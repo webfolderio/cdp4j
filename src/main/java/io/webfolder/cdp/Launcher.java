@@ -92,11 +92,15 @@ public class Launcher {
                 String executable = findChromeWinPath();
                 if (executable == null) {
                     throw new CdpException("Chromium/Chrome browser not found");
+                } else {
+                    return executable;
                 }
             } else if (OSX) {
                 String executable = findChromeOsxPath();
                 if (executable == null) {
                     throw new CdpException("Chromium/Chrome browser not found");
+                } else {
+                    return executable;
                 }
             }
             return "google-chrome";
