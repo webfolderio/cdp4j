@@ -18,7 +18,7 @@
  */
 package io.webfolder.cdp.session;
 
-import static io.webfolder.cdp.RemoteConnection.Pipe;
+import static io.webfolder.cdp.ConnectionMode.Pipe;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextCreated;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextDestroyed;
 import static java.lang.Boolean.TRUE;
@@ -319,7 +319,7 @@ public class SessionFactory implements AutoCloseable {
     @Override
     public void close() {
         if (closed.compareAndSet(false, true)) {
-            boolean libuv = Pipe == options.processExecutor();
+            boolean libuv = Pipe == options.connectionMode();
             if (libuv && channel.isOpen()) {
                 Thread thread = new Thread(() -> {
                     try {

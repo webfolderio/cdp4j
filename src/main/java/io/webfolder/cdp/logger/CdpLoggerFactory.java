@@ -73,7 +73,8 @@ public class CdpLoggerFactory implements LoggerFactory {
     public static CdpLoggerType getDefaultLoggerType() {
         CdpLoggerType cdpLoggerType = Console;
         try {
-            CdpLoggerFactory.class.getClassLoader().loadClass("org.slf4j.Logger");
+            CdpLoggerFactory.class.getClassLoader()
+                        .loadClass("org.slf4j.Logger");
             cdpLoggerType = Slf4j;
         } catch (ClassNotFoundException e) {
             // ignore
@@ -84,15 +85,17 @@ public class CdpLoggerFactory implements LoggerFactory {
     public CdpLogger getSlf4jLogger() {
         Class<?> klass;
         try {
-            klass = CdpLoggerFactory.class.getClassLoader().loadClass("io.webfolder.cdp.logger.CdpSlf4jLogger");
+            klass = getClass()
+                        .getClassLoader()
+                        .loadClass("io.webfolder.cdp.logger.CdpSlf4jLogger");
             Constructor<?> constructor = klass.getConstructor();
             Object instance = constructor.newInstance();
             return (CdpLogger) instance;
-        } catch (ClassNotFoundException |
-                 NoSuchMethodException |
-                 SecurityException |
-                 InstantiationException |
-                 IllegalAccessException |
+        } catch (ClassNotFoundException   |
+                 NoSuchMethodException    |
+                 SecurityException        |
+                 InstantiationException   |
+                 IllegalAccessException   |
                  IllegalArgumentException |
                  InvocationTargetException e) {
             throw new CdpException(e);
@@ -102,15 +105,17 @@ public class CdpLoggerFactory implements LoggerFactory {
     public CdpLogger getLog4jLogger() {
         Class<?> klass;
         try {
-            klass = CdpLoggerFactory.class.getClassLoader().loadClass("io.webfolder.cdp.logger.CdpLog4jLogger");
+            klass = getClass()
+                        .getClassLoader()
+                        .loadClass("io.webfolder.cdp.logger.CdpLog4jLogger");
             Constructor<?> constructor = klass.getConstructor();
             Object instance = constructor.newInstance();
             return (CdpLogger) instance;
-        } catch (ClassNotFoundException |
-                 NoSuchMethodException |
-                 SecurityException |
-                 InstantiationException |
-                 IllegalAccessException |
+        } catch (ClassNotFoundException   |
+                 NoSuchMethodException    |
+                 SecurityException        |
+                 InstantiationException   |
+                 IllegalAccessException   |
                  IllegalArgumentException |
                  InvocationTargetException e) {
             throw new CdpException(e);

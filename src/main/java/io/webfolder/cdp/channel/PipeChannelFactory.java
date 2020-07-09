@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.channel;
 
+import static java.nio.ByteBuffer.wrap;
 import static com.oracle.libuv.LibUV.disableStdioInheritance;
 import static com.oracle.libuv.LibUV.loadJni;
 import static com.oracle.libuv.ProcessHandle.ProcessFlags.NONE;
@@ -71,22 +72,22 @@ public class PipeChannelFactory implements
                                     ProcessExitCallback,
                                     ProcessCloseCallback {
 
-    private static final char    MESSAGE_SEPERATOR      = '\0';
+    private static final char MESSAGE_SEPERATOR       = '\0';
 
-    private static final String  MESSAGE_SEPERATOR_STR  = "\0";
+    private static final ByteBuffer  EOL              = wrap("\0".getBytes(UTF_8));
 
-    private static final String  OS_NAME                = getProperty("os.name").toLowerCase(ENGLISH);
+    private static final String  OS_NAME              = getProperty("os.name").toLowerCase(ENGLISH);
 
-    private static final boolean WINDOWS                = OS_NAME.startsWith("windows");
+    private static final boolean WINDOWS              = OS_NAME.startsWith("windows");
 
-    private static final int     SIGTERM                = 15;
+    private static final int     SIGTERM              = 15;
 
     // inherit the environment from the parent process
-    private static final String[]  DEFAULT_ENV          = null;
+    private static final String[]  DEFAULT_ENV        = null;
 
-    private static final AtomicInteger THREAD_COUNTER   = new AtomicInteger(0);
+    private static final AtomicInteger THREAD_COUNTER = new AtomicInteger(0);
 
-    private static final long INTERVAL                  = 1; // ms
+    private static final long INTERVAL                = 1; // ms
 
     private final DefaultHandleFactory handleFactory;
 
@@ -282,7 +283,7 @@ public class PipeChannelFactory implements
     public void sendText(String message) {
         submit(() -> {
             outPipe.write(message);
-            outPipe.write(MESSAGE_SEPERATOR_STR);
+            outPipe.write(EOL, 0, 1);
         });
     }
 

@@ -18,7 +18,7 @@
  */
 package io.webfolder.cdp;
 
-import static io.webfolder.cdp.RemoteConnection.Pipe;
+import static io.webfolder.cdp.ConnectionMode.Pipe;
 import static io.webfolder.cdp.process.WfExecLauncher.launchWithWfExec;
 import static java.lang.Long.toHexString;
 import static java.lang.Runtime.getRuntime;
@@ -73,7 +73,7 @@ public class Launcher {
     }
 
     public Launcher(Options options) {
-        this(options, Pipe.equals(options.processExecutor()) ?
+        this(options, Pipe.equals(options.connectionMode()) ?
                                     new PipeChannelFactory() :
                                     new JreWebSocketFactory());
     }
@@ -240,7 +240,7 @@ public class Launcher {
         }
 
         SessionFactory factory = null;
-        switch (options.processExecutor()) {
+        switch (options.connectionMode()) {
             case Pipe:
                 arguments.add("--remote-debugging-pipe");
                 factory = launchWithLibUv(arguments);
@@ -333,7 +333,7 @@ public class Launcher {
     }
 
     public boolean kill() {
-        RemoteConnection executor = options.processExecutor();
+        ConnectionMode executor = options.connectionMode();
         switch (executor) {
             case Pipe:
                 return ((PipeChannelFactory) channelFactory).kill();

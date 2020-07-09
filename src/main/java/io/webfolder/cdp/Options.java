@@ -19,7 +19,7 @@
 package io.webfolder.cdp;
 
 import static io.webfolder.cdp.Browser.Any;
-import static io.webfolder.cdp.RemoteConnection.WebSocket;
+import static io.webfolder.cdp.ConnectionMode.WebSocket;
 import static io.webfolder.cdp.logger.CdpLoggerType.Null;
 import static io.webfolder.cdp.session.WaitingStrategy.Semaphore;
 import static java.lang.Boolean.TRUE;
@@ -69,7 +69,7 @@ public class Options {
 
     private WaitingStrategy waitingStrategy;
 
-    private RemoteConnection remoteConnection;
+    private ConnectionMode connectionMode;
 
     private String browserExecutablePath;
 
@@ -143,8 +143,8 @@ public class Options {
             return this;
         }
 
-        public Builder processExecutor(RemoteConnection processExecutor) {
-            options.remoteConnection = processExecutor;
+        public Builder connectionMode(ConnectionMode connectionMode) {
+            options.connectionMode = connectionMode;
             return this;
         }
 
@@ -181,14 +181,14 @@ public class Options {
             if (options.waitingStrategy == null) {
                 options.waitingStrategy = Semaphore;
             }
-            if (options.remoteConnection == null) {
-                options.remoteConnection = WebSocket;
+            if (options.connectionMode == null) {
+                options.connectionMode = WebSocket;
             }
             if (options.browser == null) {
                 options.browser = Any;
             }
             if (options.processManager == null &&
-                    WebSocket.equals(options.remoteConnection)) {
+                    WebSocket.equals(options.connectionMode)) {
                 options.processManager = new AdaptiveProcessManager();
             }
             return options;
@@ -253,8 +253,8 @@ public class Options {
         return waitingStrategy;
     }
 
-    public RemoteConnection processExecutor() {
-        return remoteConnection;
+    public ConnectionMode connectionMode() {
+        return connectionMode;
     }
 
     public String browserExecutablePath() {

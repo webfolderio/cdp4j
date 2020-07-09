@@ -18,13 +18,15 @@
  */
 package io.webfolder.cdp;
 
-public enum RemoteConnection {
+public enum ConnectionMode {
     /**
-     * Use WebSocket connection.
+     * Connects to the browser over a pipe.
      */
     WebSocket,
     /**
-     * Use Pipe connection.
+     * Connects to the browser over a pipe.
+     * 
+     * Requires libuv-java dependency.
      */
     Pipe
 }
