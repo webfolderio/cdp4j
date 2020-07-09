@@ -134,6 +134,9 @@ public class Options {
         }
 
         public Builder browserExecutablePath(String browserExecutablePath) {
+            if (browserExecutablePath == null || browserExecutablePath.trim().isEmpty()) {
+                throw new IllegalArgumentException();
+            }
             options.browserExecutablePath = browserExecutablePath;
             return this;
         }

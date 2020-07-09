@@ -89,9 +89,15 @@ public class Launcher {
             return executablePath;
         } else {
             if (WINDOWS) {
-                return findChromeWinPath();
+                String executable = findChromeWinPath();
+                if (executable == null) {
+                    throw new CdpException("Chromium/Chrome browser not found");
+                }
             } else if (OSX) {
-                return findChromeOsxPath();
+                String executable = findChromeOsxPath();
+                if (executable == null) {
+                    throw new CdpException("Chromium/Chrome browser not found");
+                }
             }
             return "google-chrome";
         }
@@ -150,7 +156,7 @@ public class Launcher {
                 suffixes = asList("\\Google\\Chrome SxS\\Application\\chrome.exe");
             break;
             case ChromeDev:
-                suffixes = asList("\\\\Google\\\\Chrome Dev\\\\Application\\\\chrome.exe");
+                suffixes = asList("\\Google\\Chrome Dev\\Application\\chrome.exe");
             break;
             case MicrosoftEdge:
                 suffixes = asList("\\Microsoft\\Edge\\Application\\msedge.exe");
