@@ -34,7 +34,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapterFactory;
 
 import io.webfolder.cdp.Options;
 import io.webfolder.cdp.channel.Channel;
@@ -75,8 +74,6 @@ public class SessionFactory implements AutoCloseable {
 
     private AtomicBoolean closed = new AtomicBoolean(false);
 
-    private TypeAdapterFactory typeAdapterFactory;
-
     public SessionFactory(Options options, ChannelFactory channelFactory, Connection connection) {
         this(options, channelFactory, connection, true);
     }
@@ -84,10 +81,8 @@ public class SessionFactory implements AutoCloseable {
     public SessionFactory(Options options, ChannelFactory channelFactory, Connection connection, boolean init) {
         this.options            = options;
         this.loggerFactory      = createLoggerFactory(options.loggerType());
-        this.typeAdapterFactory = new CdpTypeAdapterFactory();
         GsonBuilder builder     = new GsonBuilder().disableHtmlEscaping();
-        this.gson               = builder.registerTypeAdapterFactory(typeAdapterFactory)
-                                         .create();
+        this.gson               = builder.create();
         MessageHandler handler = new MessageHandler(gson, this,
                                                     options.workerThreadPool(), options.eventHandlerThreadPool(),
                                                     loggerFactory.getLogger("cdp4j.ws.response", options.consoleLoggerLevel()));
@@ -360,13 +355,6 @@ public class SessionFactory implements AutoCloseable {
                     if ( ! eps.isShutdown() ) {
                         eps.shutdownNow();
                     }
-                }
-            }
-            if ( typeAdapterFactory instanceof AutoCloseable ) {
-                try {
-                    ((AutoCloseable) typeAdapterFactory).close();
-                } catch (Exception e) {
-                    // ignore
                 }
             }
             browserSession = null;
