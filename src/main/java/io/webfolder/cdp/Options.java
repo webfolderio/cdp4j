@@ -188,7 +188,7 @@ public class Options {
                 options.browser = Any;
             }
             if (options.processManager == null &&
-                    ! RemoteConnection.Pipe.equals(options.remoteConnection) ) {
+                    WebSocket.equals(options.remoteConnection)) {
                 options.processManager = new AdaptiveProcessManager();
             }
             return options;
@@ -196,6 +196,11 @@ public class Options {
 
         public Builder waitingStrategy(WaitingStrategy waitingStrategy) {
             options.waitingStrategy = waitingStrategy;
+            return this;
+        }
+
+        public Builder processManager(ProcessManager processManager) {
+            options.processManager = processManager;
             return this;
         }
     }

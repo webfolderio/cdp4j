@@ -62,6 +62,7 @@ public final class MessageHandler {
         this.log                    = log; 
     }
 
+    @SuppressWarnings("resource")
     public void process(final String content)  {
         Runnable runnable = () -> {
             log.debug("<-- {}", content);

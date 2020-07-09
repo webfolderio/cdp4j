@@ -45,24 +45,10 @@ public class AdaptiveProcessManager implements ProcessManager {
         processManager = init();
     }
 
-    private ProcessManager init() {
-        if (WINDOWS) {
-            return new WfProcessManager();
-        } else {
-            if ( ! JAVA_8 ) {
-                // Java > 8
-                try {
-                    Class<?> klass = getClass()
-                                        .getClassLoader()
-                                        .loadClass("io.webfolder.cdp.process.DefaultProcessManager");
-                    Constructor<?> constructor = klass.getConstructor();
-                    return (ProcessManager) constructor.newInstance();
-                } catch (ClassNotFoundException   |
-                         InstantiationException   | IllegalAccessException |
-                         NoSuchMethodException    | SecurityException      |
-                         IllegalArgumentException | InvocationTargetException e) {
-                   throw new CdpException(e);
-               }
+    protected ProcessManager init() {
+        if ( JAVA_8 ) {
+            if (WINDOWS) {
+                return new TaskKillProcessManager();
             } else if (LINUX) {
                 return new LinuxProcessManager();
             } else if (MAC) {
@@ -70,6 +56,19 @@ public class AdaptiveProcessManager implements ProcessManager {
             } else {
                 throw new CdpException(OS + " is not supported by AdaptiveProcessManager");
             }            
+        } else {
+            try {
+                Class<?> klass = getClass()
+                                    .getClassLoader()
+                                    .loadClass("io.webfolder.cdp.process.DefaultProcessManager");
+                Constructor<?> constructor = klass.getConstructor();
+                return (ProcessManager) constructor.newInstance();
+            } catch (ClassNotFoundException   |
+                     InstantiationException   | IllegalAccessException |
+                     NoSuchMethodException    | SecurityException      |
+                     IllegalArgumentException | InvocationTargetException e) {
+               throw new CdpException(e);
+           }
         }
     }
 

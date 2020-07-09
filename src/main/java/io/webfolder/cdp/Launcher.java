@@ -48,7 +48,7 @@ import io.webfolder.cdp.channel.PipeChannelFactory;
 import io.webfolder.cdp.channel.WebSocketConnection;
 import io.webfolder.cdp.exception.CdpException;
 import io.webfolder.cdp.process.CdpProcess;
-import io.webfolder.cdp.process.DefaultProcessManager;
+import io.webfolder.cdp.process.WfProcessManager;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class Launcher {
@@ -247,7 +247,8 @@ public class Launcher {
             break;
             case WebSocket:
                 arguments.add("--remote-debugging-port=0");
-                if (WINDOWS && ! (options.processManager() instanceof DefaultProcessManager) ) {
+                if (WINDOWS && ( options.processManager() != null &&
+                                 WfProcessManager.class.equals(options.processManager().getClass()) ) ) {
                     factory = launchWithWfExec(options, channelFactory, arguments);
                 } else {
                     factory = launchWithProcessBuilder(arguments);
