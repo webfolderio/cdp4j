@@ -20,7 +20,7 @@ package io.webfolder.cdp;
 
 public enum ConnectionMode {
     /**
-     * Connects to the browser over a pipe.
+     * Connects to the browser over a WebSocket.
      */
     WebSocket,
     /**
