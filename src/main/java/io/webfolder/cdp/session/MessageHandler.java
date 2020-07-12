@@ -62,7 +62,6 @@ public final class MessageHandler {
         this.log                    = log; 
     }
 
-    @SuppressWarnings("resource")
     public void process(final String content)  {
         Runnable runnable = () -> {
             log.debug("<-- {}", content);
@@ -91,7 +90,7 @@ public final class MessageHandler {
                     context.setData(json);
                     context.release();
                 } else {
-                    int code = (int) error.getAsJsonPrimitive("code").getAsDouble();
+                    int code = error.getAsJsonPrimitive("code").getAsInt();
                     String message = error.getAsJsonPrimitive("message").getAsString();
                     JsonElement messageData = error.get("data");
                     context.setError(new CommandException(code, message +
