@@ -77,6 +77,7 @@ public final class MessageHandler {
                 int valId = parseInt(id);
                 JsonElement sid = object.get("sessionId");
                 String sessionId = sid == null ? null : sid.getAsString();
+                @SuppressWarnings("resource")
                 Session session = sessionId == null ? factory.getBrowserSession() : factory.getSession(sessionId);
                 if (session == null) {
                     return;
@@ -113,6 +114,7 @@ public final class MessageHandler {
                 Object value = gson.fromJson(params, event.klass);
                 JsonElement sid = object.get("sessionId");
                 String sessionId = sid == null ? null : sid.getAsString();
+                @SuppressWarnings("resource")
                 Session session = sessionId == null ? factory.getBrowserSession() : factory.getSession(sessionId);
                 if (session == null) {
                     return;
