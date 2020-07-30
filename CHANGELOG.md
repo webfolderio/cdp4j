@@ -5,6 +5,10 @@ cdp4j Release Notes
 
 * Add libuv support
 
+* Updated devtools protocol to r784747
+
+* Introduced JavaScript/[QuickJS](https://bellard.org/quickjs/) support
+
 ### 4.2.2 - February 17, 2020
 
 * __Fixed__ - Revert read timeout exception to previous logic (v3.x)
