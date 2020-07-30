@@ -3,7 +3,7 @@ cdp4j Release Notes
 
 ### 5.0.0 - September, 2020 **not released yet**
 
-* Add libuv support
+* Added libuv support
 
 * Updated devtools protocol to r784747
 
