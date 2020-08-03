@@ -9,7 +9,8 @@ cdp4j Release Notes
 
 * Introduced JavaScript/[QuickJS](https://bellard.org/quickjs/) support. Example: [bing.js](https://github.com/webfolderio/cdp4j/blob/master/src/test/resources/quickjs/sample/bing.js), [TestQuickJs.java](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/test/TestQuickJs.java)
 
-* Added [Playwright](https://playwright.dev/#version=v1.2.1&path=docs%2Fselectors.md) selector engine. Example: [PlaywrightSelector.java](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/PlaywrightSelector.java)
+* Added [Playwright](https://playwright.dev/#version=v1.2.1&path=docs%2Fselectors.md) selector engine. Playwright supports multiple selector engines (css, text, xpath and Shadow DOM) used to query elements in the web page.
+Example: [PlaywrightSelector.java](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/PlaywrightSelector.java)
 
 ### 4.2.2 - February 17, 2020
 
