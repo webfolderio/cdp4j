@@ -61,6 +61,7 @@ import com.google.gson.Gson;
 
 import io.webfolder.cdp.JsFunction;
 import io.webfolder.cdp.Options;
+import io.webfolder.cdp.SelectorEngine;
 import io.webfolder.cdp.annotation.Experimental;
 import io.webfolder.cdp.annotation.Optional;
 import io.webfolder.cdp.channel.Channel;
@@ -218,6 +219,8 @@ public class Session implements AutoCloseable,
 
     private final Map<Integer, Context> contexts;
 
+    private final SelectorEngine selectorEngine;
+
     private static final ThreadLocal<Boolean> ENABLE_ENTRY_EXIT_LOG = 
                                                     withInitial(() -> { return TRUE; });
 
@@ -253,6 +256,7 @@ public class Session implements AutoCloseable,
         this.gson             = gson;
         this.jsFunctions      = new ConcurrentHashMap<>();
         this.command          = new Command(this);
+        this.selectorEngine   = options.selectorEngine();
     }
 
     /**
@@ -972,7 +976,6 @@ public class Session implements AutoCloseable,
             builder.append(jsMethod.toString());
         }
         Page page = getCommand().getPage();
-        page.enable();
         page.addScriptToEvaluateOnNewDocument(builder.toString());
         Object instance = newProxyInstance(getClass().getClassLoader(),
                                             new Class<?>[] { klass },
@@ -1038,6 +1041,9 @@ public class Session implements AutoCloseable,
         this.executionContextId = executionContextId;
     }
 
+    public SelectorEngine getSelectorEngine() {
+        return selectorEngine;
+    }
     @Override
     public String toString() {
         return "Session [sessionId=" + sessionId + "]";

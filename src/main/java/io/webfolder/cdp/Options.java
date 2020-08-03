@@ -20,6 +20,7 @@ package io.webfolder.cdp;
 
 import static io.webfolder.cdp.Browser.Any;
 import static io.webfolder.cdp.ConnectionMode.WebSocket;
+import static io.webfolder.cdp.SelectorEngine.Native;
 import static io.webfolder.cdp.logger.CdpLoggerType.Null;
 import static io.webfolder.cdp.session.WaitingStrategy.Semaphore;
 import static java.lang.Boolean.TRUE;
@@ -76,6 +77,8 @@ public class Options {
     private Browser browser;
 
     private ProcessManager processManager;
+
+    private SelectorEngine selectorEngine;
 
     private Options() {
         // no op
@@ -156,6 +159,11 @@ public class Options {
             return this;
         }
 
+        public Builder selectorEngine(SelectorEngine selectorEngine) {
+            options.selectorEngine = selectorEngine;
+            return this;
+        }
+
         public Options build() {
             if (options.loggerType == null) {
                 options.loggerType = Null;
@@ -193,6 +201,9 @@ public class Options {
             if (options.processManager == null &&
                     WebSocket.equals(options.connectionMode)) {
                 options.processManager = new AdaptiveProcessManager();
+            }
+            if (options.selectorEngine == null) {
+                options.selectorEngine = Native;
             }
             return options;
         }
@@ -270,5 +281,9 @@ public class Options {
 
     public ProcessManager processManager() {
         return processManager;
+    }
+
+    public SelectorEngine selectorEngine() {
+        return selectorEngine;
     }
 }

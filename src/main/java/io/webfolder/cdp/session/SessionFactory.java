@@ -19,11 +19,17 @@
 package io.webfolder.cdp.session;
 
 import static io.webfolder.cdp.ConnectionMode.Pipe;
+import static io.webfolder.cdp.SelectorEngine.Playwright;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextCreated;
 import static io.webfolder.cdp.event.Events.RuntimeExecutionContextDestroyed;
 import static java.lang.Boolean.TRUE;
 import static java.util.Locale.ENGLISH;
+import static java.util.stream.Collectors.joining;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,6 +46,7 @@ import io.webfolder.cdp.channel.Channel;
 import io.webfolder.cdp.channel.ChannelFactory;
 import io.webfolder.cdp.channel.Connection;
 import io.webfolder.cdp.channel.PipeChannelFactory;
+import io.webfolder.cdp.command.Page;
 import io.webfolder.cdp.command.Target;
 import io.webfolder.cdp.event.runtime.ExecutionContextCreated;
 import io.webfolder.cdp.event.runtime.ExecutionContextDestroyed;
@@ -73,6 +80,18 @@ public class SessionFactory implements AutoCloseable {
     private volatile int majorVersion;
 
     private AtomicBoolean closed = new AtomicBoolean(false);
+
+    private static String playwrightEngine;
+    
+    static {
+        try (InputStream is = SessionFactory.class.getResourceAsStream("/cdp4j-playwright-engine.min.js");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            playwrightEngine = reader.lines()
+                                     .collect(joining("\r\n"));
+        } catch (IOException e) {
+            throw new CdpException(e);
+        }
+    }
 
     public SessionFactory(Options options, ChannelFactory channelFactory, Connection connection) {
         this(options, channelFactory, connection, true);
@@ -241,10 +260,15 @@ public class SessionFactory implements AutoCloseable {
         });
 
         Command command = session.getCommand();
+        Page page = command.getPage();
 
-        command.getPage().enable();
-        command.getPage().setLifecycleEventsEnabled(true);
+        page.enable();
+        page.setLifecycleEventsEnabled(true);
  
+        if (Playwright.equals(options.selectorEngine())) {
+            page.addScriptToEvaluateOnNewDocument(playwrightEngine);
+        }
+
         return session;
     }
 

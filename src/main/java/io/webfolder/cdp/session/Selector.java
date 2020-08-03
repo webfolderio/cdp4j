@@ -18,6 +18,7 @@
  */
 package io.webfolder.cdp.session;
 
+import static io.webfolder.cdp.SelectorEngine.Playwright;
 import static io.webfolder.cdp.session.Constant.DOM_PROPERTIES;
 import static io.webfolder.cdp.session.Constant.EMPTY_ARGS;
 import static io.webfolder.cdp.session.Constant.EMPTY_NODE_ID;
@@ -370,15 +371,15 @@ public interface Selector {
                 final Object ...args) {
         final DOM     dom    = getThis().getCommand().getDOM();
         final boolean xpath  = isXPath(selector);
-        if (xpath) {
-            RemoteObject docObjectId = null;
-            if (contextId == null) {
-                Node document = dom.getDocument();
-                if (document == null) {
-                    return null;
-                }
-                docObjectId = dom.resolveNode(document.getNodeId(), null, null, getThis().getExecutionContextId());
+        if (xpath || Playwright.equals(getThis().getSelectorEngine())) {
+
+            Node document = dom.getDocument();
+            if (document == null) {
+                return null;
             }
+
+            RemoteObject docObjectId = dom.resolveNode(document.getNodeId(), null,
+                                                       null, contextId == null ? getThis().getExecutionContextId() : contextId);
 
             List<CallArgument> arguments = new ArrayList<>(2);
 
@@ -390,8 +391,9 @@ public interface Selector {
             argExpression.setValue(format(selector, args));
             arguments.add(argExpression);
 
-            Runtime  runtime = getThis().getCommand().getRuntime();
-            String func = "function(doc, expression) { return doc.evaluate(expression, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue; }";
+            Runtime runtime = getThis().getCommand().getRuntime();
+            String func = xpath ? "function(doc, expression) { return doc.evaluate(expression, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue; }"
+                                : "function(doc, expression) { return cdp4j.querySelector(doc, expression); }";
 
             CallFunctionOnResult result = runtime.callFunctionOn(func, docObjectId != null ? docObjectId.getObjectId() : null,
                                                                 arguments, FALSE,
@@ -466,7 +468,7 @@ public interface Selector {
         Integer nodeId = EMPTY_NODE_ID;
         DOM dom = getThis().getCommand().getDOM();
         final boolean xpath = isXPath(selector);
-        if (xpath) {
+        if (xpath || Playwright.equals(getThis().getSelectorEngine())) {
             String objectId = getThis().getObjectId(context, format(selector, args));
             if ( objectId != null ) {
                 nodeId = dom.requestNode(objectId);

@@ -900,8 +900,7 @@ public interface Dom {
      * Scrolls the the given node into view if not already visible.
      */
     default void scrollIntoViewIfNeeded(String selector, Object... args) {
-        Integer contextId = getThis().getExecutionContextId();
-        Integer nodeId = getThis().getNodeId(contextId, selector, args);
+        Integer nodeId = getThis().getNodeId(null, selector, args);
         getThis()
             .getCommand()
             .getDOM()
