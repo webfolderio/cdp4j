@@ -59,10 +59,14 @@ public class JsLauncher implements QuackObject, ILauncher {
         if ( launcher != null ) {
             SessionFactory sessionFactory = launcher.launch();
             if ( sessionFactory != null ) {
-                jsSessionFactory = new JsSessionFactory(sessionFactory);
+                jsSessionFactory = create(sessionFactory);
             }
         }
         return jsSessionFactory;
+    }
+
+    protected JsSessionFactory create(SessionFactory sessionFactory) {
+        return new JsSessionFactory(sessionFactory);
     }
 
     @Override

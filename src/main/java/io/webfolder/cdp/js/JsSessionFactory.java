@@ -32,10 +32,28 @@ public class JsSessionFactory implements ISessionFactory {
     @Override
     public ISession create() {
         Session session = sessionFactory.create();
-        ISession jsSession = null;
-        if ( session != null ) {
-            jsSession = new JsSession(session);
+        if (session == null) {
+            return null;
         }
+        ISession jsSession = create(session);
         return jsSession;
+    }
+
+    @Override
+    public ISession createPrivate() {
+        String context = sessionFactory.createBrowserContext();
+        if (context == null) {
+            return null;
+        }
+        Session session = sessionFactory.create(context);
+        if (session == null) {
+            return null;
+        }
+        ISession jsSession = create(session);
+        return jsSession;
+    }
+
+    protected ISession create(Session session) {
+        return new JsSession(session);
     }
 }

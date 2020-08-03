@@ -21,6 +21,8 @@ package io.webfolder.cdp.js;
 import com.koushikdutta.quack.JavaScriptObject;
 import com.koushikdutta.quack.QuackJsonObject;
 
+import io.webfolder.cdp.session.Session;
+
 public interface ISession {
 
     // ------------------------------------------------------------------------
@@ -162,4 +164,6 @@ public interface ISession {
     void scrollIntoViewIfNeeded(String selector);
 
     QuackJsonObject getClickablePoint(String selector);
+
+    Session getCdpSession();
 }

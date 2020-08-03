@@ -376,4 +376,9 @@ public class JsSession implements ISession {
         String json = gson.toJson(value);
         return new QuackJsonObject(json);
     }
+
+    @Override
+    public Session getCdpSession() {
+        return session;
+    }
 }

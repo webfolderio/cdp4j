@@ -21,4 +21,6 @@ package io.webfolder.cdp.js;
 public interface ISessionFactory {
 
     ISession create();
+
+    ISession createPrivate();
 }

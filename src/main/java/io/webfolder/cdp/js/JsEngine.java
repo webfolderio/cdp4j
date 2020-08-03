@@ -48,7 +48,7 @@ public class JsEngine implements AutoCloseable {
     private static final String OS_NAME = getProperty("os.name")
                                           .toLowerCase(ENGLISH);
 
-    protected static final boolean WINDOWS = OS_NAME.startsWith("windows");
+    private static final boolean WINDOWS = OS_NAME.startsWith("windows");
 
     private static final String boostrapJs;
 
@@ -79,11 +79,32 @@ public class JsEngine implements AutoCloseable {
 
     protected void init(JavaScriptObject global) {
         if (executor != null) {
-            global.set("Timer", new JsTimer(executor));
+            ITimer timer = createTimer(executor);
+            if (timer != null) {
+                global.set("Timer", timer);
+            }
         }
-        global.set("console", new JsConsole(System.out, System.err));
-        global.set("Launcher", new JsLauncher());
+        IConsole console = createConsole();
+        if (console != null) {
+            global.set("console", console);
+        }
+        ILauncher launcher = createLauncher();
+        if (launcher != null) {
+            global.set("Launcher", launcher);
+        }
         context.evaluate(boostrapJs);
+    }
+
+    protected ITimer createTimer(ScheduledExecutorService worker) {
+        return new JsTimer(worker);
+    }
+
+    protected IConsole createConsole() {
+        return new JsConsole(System.out, System.err);
+    }
+
+    protected ILauncher createLauncher() {
+        return new JsLauncher();
     }
 
     public void evaluateModule(Path script) {
@@ -119,6 +140,18 @@ public class JsEngine implements AutoCloseable {
     public void close() {
         if ( context != null ) {
             context.close();
+        }
+    }
+
+    public void execute(String script) {
+        execute(script, null);
+    }
+
+    public void execute(String script, String fileName) {
+        try {
+            context.evaluate(script, fileName == null ? "?" : fileName);
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 }
