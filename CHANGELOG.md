@@ -7,7 +7,7 @@ cdp4j Release Notes
 
 * Updated devtools protocol to r784747
 
-* Introduced JavaScript/[QuickJS](https://bellard.org/quickjs/) support
+* Introduced JavaScript/[QuickJS](https://bellard.org/quickjs/) support. Example: [bing.js](https://github.com/webfolderio/cdp4j/blob/master/src/test/resources/quickjs/sample/bing.js), [TestQuickJs.java](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/test/TestQuickJs.java)
 
 * Added [Playwright](https://playwright.dev/#version=v1.2.1&path=docs%2Fselectors.md) selector engine. Example: [PlaywrightSelector.java](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/PlaywrightSelector.java)
 
