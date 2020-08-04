@@ -1,7 +1,9 @@
 cdp4j - Web automation libray for Java
 ======================================
 
-**IMPORTANT** : Master branch is undergoing incompatible changes for cdp4j 5.x. To track cdp4j 4.x, follow the 4.x branch.
+# IMPORTANT
+
+Our product will be no longer hosted on GitHub.
 
 cdp4j is Java library with a clear and concise API to automate Chrome/Chromium based browser. It use Google Chrome DevTools Protocol to automate Chrome/Chromium based browsers.
 
@@ -53,9 +55,7 @@ This library is suitable for use in production systems. Our library is used by m
 
 Download
 --------
-[cdp4j-4.2.2.jar](https://github.com/webfolderio/cdp4j/releases/download/4.2.2/cdp4j-4.2.2.jar)
-
-[cdp4j-4.2.2-sources.jar](https://github.com/webfolderio/cdp4j/releases/download/4.2.2/cdp4j-4.2.2-sources.jar)
+Please contact us to download trial version.
 
 Supported Platforms
 -------------------
@@ -101,15 +101,15 @@ WebSocket Protocol
 ------------------
 DevTools Protocol uses WebSocket protocol to automate Chromium based browser. We supports the following Java WebSocket libraries.
 
-* [Jre WebSocket Library](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/JreWebSocketConnection.java) (requires Java 11+).
-* [Jetty](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/JettyWebSocketConnection.java)
-* [Undertow](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/UndertowWebSocketConnection.java)
-* [Vertx](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/VertxWebSocketConnection.java)
-* [Tyrus](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/TyrusWebSocketConnection.java)
-* [TooTallNateWebSocket](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/TooTallNateWebSocketConnection.java)
-* [Tomcat](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/TomcatWebSocketConnection.java)
-* [Netty](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/NettyWebSocketConnection.java)
-* [NvWebSocket](https://github.com/webfolderio/cdp4j/blob/master/src/main/sample-ext/io/webfolder/cdp/sample/NvWebSocketConnection.java)
+* Jre WebSocket Library (requires Java 11+).
+* Jetty]
+* Undertow
+* Vertx
+* Tyrus
+* TooTallNateWebSocket
+* Tomcat
+* Netty
+* NvWebSocket
 
 __Note:__ Please let us know if your preferred WebSocket library is not listed.
 
