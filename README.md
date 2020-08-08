@@ -51,7 +51,20 @@ This library is suitable for use in production systems. Our library is used by m
 
 Download
 --------
-Please contact us to download trial version.
+[cdp4j-4.2.2.jar](https://github.com/webfolderio/cdp4j/releases/download/4.2.2/cdp4j-4.2.2.jar)
+
+Maven Integration
+-----------------
+Install artifacts for Windows:
+```sh
+mvn deploy:deploy-file -DgroupId=io.webfolder -DartifactId=cdp4j -Dversion=4.2.2 -Dfile=cdp4j-4.2.2.jar -Dpackaging=jar -Durl=file://%USERPROFILE%\.m2\repository
+```
+
+Install artifacts for Nix:
+
+```sh
+mvn deploy:deploy-file -DgroupId=io.webfolder -DartifactId=cdp4j -Dversion=4.2.2 -Dfile=cdp4j-java-4.2.2.jar -Dpackaging=jar -Durl=file://$HOME/.m2/repository
+```
 
 Supported Platforms
 -------------------
