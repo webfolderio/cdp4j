@@ -18,7 +18,6 @@
  */
 package io.webfolder.cdp.sample;
 
-
 import static io.webfolder.cdp.event.Events.NetworkLoadingFinished;
 import static io.webfolder.cdp.event.Events.NetworkResponseReceived;
 
