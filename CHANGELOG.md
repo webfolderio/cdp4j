@@ -12,6 +12,7 @@ cdp4j Release Notes
 * Added [Playwright](https://playwright.dev/#version=v1.2.1&path=docs%2Fselectors.md) selector engine. Playwright supports multiple selector engines (css, text, xpath and Shadow DOM) used to query elements in the web page.
 Example: [PlaywrightSelector.java](https://github.com/webfolderio/cdp4j/blob/master/src/test/java/io/webfolder/cdp/sample/PlaywrightSelector.java)
 
+* Record video (requires ffmpeg binary)
 ### 4.2.2 - February 17, 2020
 
 * __Fixed__ - Revert read timeout exception to previous logic (v3.x)
