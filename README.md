@@ -1,4 +1,4 @@
-cdp4j - Web automation libray for Java
+cdp4j - Browser automation libray for Java
 ======================================
 
 cdp4j is Java library with a clear and concise API to automate Chrome/Chromium based browser. It use Google Chrome DevTools Protocol to automate Chrome/Chromium based browsers.
