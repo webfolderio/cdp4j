@@ -111,7 +111,7 @@ WebSocket Protocol
 DevTools Protocol uses WebSocket protocol to automate Chromium based browser. We supports the following Java WebSocket libraries.
 
 * Jre WebSocket Library (requires Java 11+).
-* Jetty]
+* Jetty
 * Undertow
 * Vertx
 * Tyrus
