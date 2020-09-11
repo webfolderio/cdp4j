@@ -41,7 +41,7 @@ Main Features
 Supported Java Versions
 -----------------------
 
-Oracle/OpenJDK, GraalVM & Substrate VM.
+Oracle/OpenJDK, GraalVM Native Image.
 
 Both the JRE and the JDK are suitable for use with this library.
 
@@ -134,7 +134,7 @@ Design Principles
 * Support only Chrome/Chromium based browsers.
 * Supports full capabilities of the Chrome DevTools Protocol.
 * Keep the API simple.
-* Support GraalVM & Substrate VM.
+* Support GraalVM Native Image.
 
 How it is tested
 ----------------
