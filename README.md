@@ -1,3 +1,5 @@
+**Important Announcement:** New versions is not released to GitHub and not publicly available. Please contact us to download new cdp4j versions.
+
 cdp4j - Browser automation libray for Java
 ======================================
 
