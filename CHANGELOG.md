@@ -1,6 +1,10 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
+### 6.0.0 - ?
+
+* Add project Loom support (cd4pj will be fiber ready library)
+
 ### 5.0.0 - September, 11 2020
 
 * Added libuv support
