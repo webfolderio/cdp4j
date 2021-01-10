@@ -1,12 +1,18 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
-### 6.0.0 - March, 21 2021
+### 6.0.0 - March 21, 2021
 
 * Add project Loom support (cd4pj will be fiber ready library)
 * Use jackson instead of gson
+* Update devtools protocol to latest
 
-### 5.0.0 - September, 11 2020
+### 5.1.0 - January 15, 2020
+
+* Fixed "Target.closeTarget Specified target doesn't support closing" error. Check if browser session is already closed before closing it.
+* Connect existing devtools server [new feature]
+
+### 5.0.0 - September 11, 2020
 
 * Added libuv support
 
