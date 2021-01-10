@@ -1,9 +1,10 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
-### 6.0.0 - ?
+### 6.0.0 - March, 21 2021
 
 * Add project Loom support (cd4pj will be fiber ready library)
+* Use jackson instead of gson
 
 ### 5.0.0 - September, 11 2020
 
