@@ -11,6 +11,8 @@ cdp4j Release Notes
 
 * Fixed "Target.closeTarget Specified target doesn't support closing" error. Check if browser session is already closed before closing it.
 * Connect existing devtools server [new feature]
+* Added JUL (Java Logging) support
+* Added DevToolsConnection and DevToolsProfileConnection examples
 
 ### 5.0.0 - September 11, 2020
 
