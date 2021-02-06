@@ -1,11 +1,30 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
-### 6.0.0 - March 21, 2021
+### 5.3.0 - March 21, 2021
 
-* Add project Loom support (cd4pj will be fiber ready library)
 * Use jackson instead of gson
-* Update devtools protocol to latest
+
+### 5.2.0 - February 15, 2021
+
+* :new: Added CloseListener feature to Session and SessionFactory classes.
+* :new: Added UserProfileDirectoryCleaner which clears the user profile directory when browser is terminated.
+* :new: Dispose the Session and remove it from SessionFactory when the target (window/tab) crashed.
+* :new: Launcher.kill() method closes the SessionFactory.
+* Update wf-exec library to version 1.1.0
+
+List of contributions by Pascal B., Thank you.
+
+* Removed wait for termination for ps process in LinuxProcessManager & MacOsProcessManager.kill() - since it will never terminate before reading starts.
+* Allow override of launchWithProcessBuilder
+* Remove context from HashMap once consumed to avoid Memory Leak
+* Enable runtime domain during connect after attaching the eventListeners Otherwise we might miss existing runtime execution contexts.
+* :new: Support connecting sessions (and removing them) without issuing page commands This is required to connect to non-page sessions to call commands like session.getCommand().getRuntime().runIfWaitingForDebugger()
+* :new: Allow synchronous message handler
+* :new: Make SessionFactory.getSessions available on public API
+* :new: Make SessionFactory.getBrowserSession available on public API
+* :new: Added option to create session for already attached target. This is required to properly use Target.setAutoAttach
+* :new: Added missing Strings list to CaptureSnapshotResult
 
 ### 5.1.0 - January 15, 2021
 

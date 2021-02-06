@@ -51,23 +51,6 @@ Stability
 ---------
 This library is suitable for use in production systems. Our library is used by many well known enterprise customers.
 
-Download
---------
-[cdp4j-4.2.2.jar](https://github.com/webfolderio/cdp4j/releases/download/4.2.2/cdp4j-4.2.2.jar)
-
-Maven Integration
------------------
-Install artifacts for Windows:
-```sh
-mvn deploy:deploy-file -DgroupId=io.webfolder -DartifactId=cdp4j -Dversion=4.2.2 -Dfile=cdp4j-4.2.2.jar -Dpackaging=jar -Durl=file://%USERPROFILE%\.m2\repository
-```
-
-Install artifacts for Nix:
-
-```sh
-mvn deploy:deploy-file -DgroupId=io.webfolder -DartifactId=cdp4j -Dversion=4.2.2 -Dfile=cdp4j-java-4.2.2.jar -Dpackaging=jar -Durl=file://$HOME/.m2/repository
-```
-
 Supported Platforms
 -------------------
 cdp4j has been tested under Windows 10 and Ubuntu, but should work on any platform where a Java 8+/Graal VM/Substrate VM & Chrome/Chromium/Microsoft Edge available.
@@ -104,7 +87,7 @@ JavaDoc
 
 Logging
 -------
-slf4j 1.x, log4j 1.x and custom Console logger is supported.
+slf4j 1.x, log4j 1.x, JUL and custom Console logger is supported.
 
 __Note:__ Please let us know if your preferred logging library is not listed.
 
