@@ -5,10 +5,13 @@ cdp4j is Java library with a clear and concise API to automate Chrome/Chromium b
 
 What can you do with cdp4j?
 ---------------------------
-* Automatically fill-out forms. You can easily download and upload of text, images, handle PDF files, or take screenshots.
-* Import or export data to and from web applications.
-* Extract Any Kind of Data from the Web.
-* Automate Web Upload/Download.
+Most things that you can do manually in the browser can be done using cdp4j. Here are a few examples to get you started:
+
+* Generate screenshots and PDFs of pages.
+* Crawl a Single-Page Application and generate pre-rendered content (Server-Side Rendering).
+* Automate form submission, UI testing, keyboard input, etc.
+* Create an up-to-date, automated testing environment.
+* Run your tests directly in the latest version of Chromium using the latest JavaScript and browser features.
 
 Main Features
 -------------
