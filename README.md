@@ -1,7 +1,5 @@
-**Important Announcement:** New versions is not released to GitHub and not publicly available. Please contact us to download new cdp4j versions.
-
 cdp4j - Browser automation libray for Java
-======================================
+==========================================
 
 cdp4j is Java library with a clear and concise API to automate Chrome/Chromium based browser. It use Google Chrome DevTools Protocol to automate Chrome/Chromium based browsers.
 
@@ -127,10 +125,3 @@ Support & Bug Report
 --------------------
 Please report your bugs and new features by e-mail ([support@webfolder.io](mailto:support@webfolder.io)). github issues is only used by cdp4j developers.
 
-License
--------
-cdp4j is a proprietary software which means that you or your company needs [commercial license](https://webfolder.io/license.html) to use cdp4j.
-
-Trial
------
-You are free to use this library for only __development purpose__. It's not require to [buy](https://webfolder.io/buy.html) commercial for trial usage. Production systems requires commercial license without any exception.
