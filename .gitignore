@@ -1,8 +1,6 @@
 /dependency-reduced-pom.xml
 /.settings
 /target
-/.classpath
-/.project
 /src/test/java/io/webfolder/cdp/sample/Generator.java
 /.idea
 /*.iml
