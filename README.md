@@ -63,22 +63,6 @@ Headless Mode
 -------------
 cdp4j can be run in "headless" mode using with `Options.headless(boolean)` option.
 
-### Install Chrome on Debian/Ubuntu
-
-```bash
-# https://askubuntu.com/questions/79280/how-to-install-chrome-browser-properly-via-command-line
-sudo apt-get install libxss1 libappindicator1 libappindicator3-1 libindicator7
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome*.deb # Might show "errors", fixed by next line
-sudo apt-get install -f
-```
-
-### Install Chrome on RHEL/CentOS/Fedora
-```bash
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-sudo yum install google-chrome-stable_current_*.rpm
-```
-
 JavaDoc
 -------
 [cdp4j api](https://webfolder.io/cdp4j/javadoc/index.html)
@@ -107,7 +91,7 @@ __Note:__ Please let us know if your preferred WebSocket library is not listed.
 
 Examples
 -------
-We provide many [examples](https://github.com/webfolderio/cdp4j/tree/master/src/test/java/io/webfolder/cdp/sample) to show how to use cdp4j library. It's highly recommended to run these examples before starting to use cdp4j.
+We provide many [examples](https://github.com/webfolderio/cdp4j/tree/master/src/io/webfolder/cdp/sample) to show how to use cdp4j library. It's highly recommended to run these examples before starting to use cdp4j.
 
 Design Principles
 -----------------
