@@ -1,10 +1,6 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
-### 5.3.0 - March 21, 2021
-
-* Use jackson instead of gson
-
 ### 5.2.0 - February 15, 2021
 
 * :new: Added CloseListener feature to Session and SessionFactory classes.
