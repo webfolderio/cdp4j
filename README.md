@@ -42,11 +42,9 @@ Main Features
 Supported Java Versions
 -----------------------
 
-Oracle/OpenJDK, GraalVM Native Image.
+Oracle/OpenJDK 8+, GraalVM & native-image.
 
 Both the JRE and the JDK are suitable for use with this library.
-
-__Note__: We only support LTS versions (8 & 11).
 
 Stability
 ---------
