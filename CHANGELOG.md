@@ -7,6 +7,7 @@ cdp4j Release Notes
 * :new: Added UserProfileDirectoryCleaner which clears the user profile directory when browser is terminated.
 * :new: Dispose the Session and remove it from SessionFactory when the target (window/tab) crashed.
 * :new: Launcher.kill() method closes the SessionFactory.
+* :new: Use nv-websocket-client as a default WebSocket library if the Java version is equal to 8.
 * Update wf-exec library to version 1.1.0
 
 List of contributions by Pascal B., Thank you.
