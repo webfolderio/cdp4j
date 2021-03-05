@@ -1,6 +1,11 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
+### 5.2.1 - March 5, 2021
+
+* :new: Added iframe supports (Thanks to AYCD for sponsorship)
+* Fixed NoSuchMethodException while using log4j
+ 
 ### 5.2.0 - February 15, 2021
 
 * :new: Added CloseListener feature to Session and SessionFactory classes.
