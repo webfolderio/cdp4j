@@ -1,6 +1,14 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
+### 5.3.0 - March 15, 2021 (not released yet)
+
+* :new: Added Jackson support. It's highly recommend to use Jackson Instead of GSON to decrease the memory usage & cpu usage). Thanks to Pascal B. for early testing.
+* :new: Added JUnit 5 support
+* :new: Added log4j2 support.
+* Fixed log4j Reflection bug, Thanks to Niranjan R. for the fix.
+* Improved performance of Vertx, Undertow and nv-websocket & Jetty. These performance improvements require Jackson.
+
 ### 5.2.1 - March 5, 2021
 
 * :new: Added iframe supports (Thanks to AYCD for sponsorship)
