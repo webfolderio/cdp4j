@@ -1,10 +1,10 @@
 cdp4j Release Notes
 -------------------------------------------------------------------------------
 
-### 5.3.0 - March 15, 2021 (not released yet)
+### 5.3.0 - March 15, 2021
 
 * :new: Added Jackson support. It's highly recommend to use Jackson Instead of GSON to decrease the memory usage & cpu usage). Thanks to Pascal B. for early testing.
-* :new: Added JUnit 5 support
+* :new: Added JUnit 5 support (Experimental feature).
 * :new: Added log4j2 support.
 * :new: Updated the devtools protocol to r860858 (Mar 9, 2021).
 * Fixed log4j Reflection bug, Thanks to Niranjan R. for the fix.
