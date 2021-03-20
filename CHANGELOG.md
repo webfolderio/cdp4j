@@ -6,6 +6,7 @@ cdp4j Release Notes
 * Remove libuv-java support
 * Add project loom support ([virtual threads](https://blogs.oracle.com/javamagazine/going-inside-javas-project-loom-and-virtual-threads))
 * Add spring support ([WebSocketClient](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/socket/client/WebSocketClient.html))
+* Update Playwright [selectors](https://playwright.dev/docs/selectors) to 1.9.2
 
 ### 5.3.0 - March 15, 2021
 
