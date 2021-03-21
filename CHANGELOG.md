@@ -7,7 +7,8 @@ cdp4j Release Notes
 * Add project loom support ([virtual threads](https://blogs.oracle.com/javamagazine/going-inside-javas-project-loom-and-virtual-threads))
 * Add spring support ([WebSocketClient](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/socket/client/WebSocketClient.html))
 * Update Playwright [selectors](https://playwright.dev/docs/selectors) to 1.9.2
-* Remove TaskKillProcessManager.java (Child processes still runs after the parent dies if chrome is executed with headless mode. This problem does not exist for headful mode.) 
+* Remove TaskKillProcessManager.java (Child processes still runs after the parent dies if chrome is executed with headless mode. This problem does not exist for headful mode.)
+* Add a new Launcher class that will support POSIX spawn.
 
 ### 5.3.0 - March 15, 2021
 
