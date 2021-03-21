@@ -28,6 +28,7 @@ Main Features
 * Invoke JavaScript function
 * Invoke Java function from Browser (JavaScript)
 * Supports native CSS selector engine
+* iframe support
 * Supports XPath queries
 * Incognito Browsing (private tab)
 * Full page screen capture
@@ -35,7 +36,8 @@ Main Features
 * Auto-Wait for DOM change completion
 * Trigger Mouse events (click etc...)
 * Send keys (text, tab, enter etc...)
-* Redirect log entries (javascript, network, storage etc...) from browser to slf4j, log4j or console logger.
+* playwright [selectors](https://playwright.dev/docs/selectors)
+* Redirect log entries (javascript, network, storage etc...) from browser to slf4j, log4j, jul, log4j2 or console logger.
 * Intercept Network traffic (request & response)
 * Upload file programmatically without third party solutions (does not requires AWT Robot etc...)
 * get & set Element properties
@@ -59,7 +61,7 @@ This library is suitable for use in production systems. Our library is used by m
 
 Supported Platforms
 -------------------
-cdp4j has been tested under Windows 10 and Ubuntu, but should work on any platform where a Java 8+/Graal VM/Substrate VM & Chrome/Chromium/Microsoft Edge available.
+cdp4j has been tested under Windows 10 and Ubuntu, but should work on any platform where a Java 8+/Graal VM native-image & Chrome/Chromium/Microsoft Edge available.
 
 __Note__: Although we do not execute test suites on Mac, many customers run cdp4j without any problem. Please do not hesitate to report bugs related with Mac.
 
