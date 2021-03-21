@@ -94,6 +94,13 @@ Examples
 -------
 We provide many [examples](https://github.com/webfolderio/cdp4j/tree/master/src/io/webfolder/cdp/sample) to show how to use cdp4j library. It's highly recommended to run these examples before starting to use cdp4j.
 
+How to run examples?
+--------------------
+1. Download the [archive](https://github.com/webfolderio/cdp4j/archive/refs/heads/master.zip) file.
+2. Extract the archive file.
+3. Launch the Eclipsle and import the project (File -> Import > Existing Projects into Workspace)
+4. Launch the Intellij and [import the Eclipse project](https://www.jetbrains.com/help/idea/import-project-from-eclipse-page-1.html)
+
 Design Principles
 -----------------
 * Avoid external dependencies as much as possible.
