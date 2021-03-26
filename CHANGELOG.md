@@ -22,7 +22,7 @@ cdp4j Release Notes
   JRE WebSocket throws IllegalStateException("Send pending") exception. This simple lock mechanism helps us to send WebSocket messages one by one in order.
 * Fixed, commandTypeReferences must cleared by SessionFactory.close()
 
-**cdp4j 5.3.1 is a bug-fix release, with no new features with respect to cdp4j 5.3.1.**
+**cdp4j 5.3.1 is a bug-fix release, with no new features with respect to cdp4j 5.3.0.**
 
 ### 5.2.1 - March 5, 2021
 
