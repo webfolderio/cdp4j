@@ -10,14 +10,19 @@ cdp4j Release Notes
 * Remove TaskKillProcessManager.java (Child processes still runs after the parent dies if chrome is executed with headless mode. This problem does not exist for headful mode.)
 * Add a new Launcher class that will support POSIX spawn.
 
-### 5.3.0 - March 15, 2021
+### 5.3.1 - March 26, 2021
 
-* :new: Added Jackson support. It's highly recommend to use Jackson Instead of GSON to decrease the memory usage & cpu usage). Thanks to Pascal B. for early testing.
-* :new: Added JUnit 5 support (Experimental feature).
-* :new: Added log4j2 support.
-* :new: Updated the devtools protocol to r860858 (Mar 9, 2021).
-* Fixed log4j Reflection bug, Thanks to Niranjan R. for the fix.
-* Improved performance of Vertx, Undertow and nv-websocket & Jetty. These performance improvements require Jackson.
+* Pass all environment variables to WfExecLauncher otherwise, Chrome fails to get TEMP variable.
+* Improved SessionFactory.close(), getPage().close() method closes target internally, no need to invoke getTarget().close()
+* Fixed race condition while using blank pages. Do not reuse the blank page if the headless mode is enabled or chrome started externally
+  If more than one clients try to reuse the same blank page, unexpected race conditions might occur.
+* Double check if session disposed. On under heavy load concurrent usage cdp4j throws "Session was disposed" exception.
+* Improved navigateAndWait, tried to get frame Id from different ways.
+* Fixed concurrency bug for JreWebSocketChannel. If multiple threads try to send websocket message
+  JRE WebSocket throws IllegalStateException("Send pending") exception. This simple lock mechanism helps us to send WebSocket messages one by one in order.
+* Fixed, commandTypeReferences must cleared by SessionFactory.close()
+
+**cdp4j 5.3.1 is a bug-fix release, with no new features with respect to cdp4j 5.3.1.**
 
 ### 5.2.1 - March 5, 2021
 
